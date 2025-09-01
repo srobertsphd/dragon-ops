@@ -1,0 +1,12 @@
+PaymentMethodID,PaymentMethod,Credit Card?
+1,Other,False
+2,Cash,False
+3,Check,False
+4,Life,False
+5,Work,False
+6,Board Elect,False
+7,Partial Payment,False
+8,Venmo,False
+9,PayPal,False
+10,Zelle,False
+11,Work,False

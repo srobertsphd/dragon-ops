@@ -1,101 +1,89 @@
+import uuid
 from django.db import models
-from django.core.validators import RegexValidator
 from django.utils import timezone
-from decimal import Decimal
 
 
 class MemberType(models.Model):
-    """Different types of membership (Regular, Honorary, Life, etc.)"""
+    """Different types of membership with dues and coverage periods"""
 
-    name = models.CharField(max_length=50, unique=True)
+    member_type_id = models.IntegerField(primary_key=True)  # From CSV: MemberTypeID
+    name = models.CharField(max_length=50, unique=True)  # From CSV: MemberType
+    monthly_dues = models.DecimalField(
+        max_digits=8, decimal_places=2
+    )  # From CSV: Member Dues
+    coverage_months = models.DecimalField(
+        max_digits=5, decimal_places=1
+    )  # From CSV: NumMonths
     description = models.TextField(blank=True)
-    monthly_dues = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
-    annual_dues = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
     is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["name"]
+        db_table = "members_membertype"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} (${self.monthly_dues}/month)"
 
 
 class PaymentMethod(models.Model):
-    """Payment methods (Cash, Check, Credit Card, etc.)"""
+    """Payment methods with credit card designation"""
 
-    name = models.CharField(max_length=50, unique=True)
-    description = models.TextField(blank=True)
+    payment_method_id = models.IntegerField(
+        primary_key=True
+    )  # From CSV: PaymentMethodID
+    name = models.CharField(max_length=50, unique=True)  # From CSV: PaymentMethod
+    is_credit_card = models.BooleanField(default=False)  # From CSV: Credit Card?
     is_active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["name"]
+        db_table = "members_paymentmethod"
 
     def __str__(self):
         return self.name
 
 
 class Member(models.Model):
-    """Main member information"""
+    """Main member information with dual key system"""
 
-    # Member identification
-    member_id = models.CharField(
-        max_length=20, unique=True, help_text="Unique member ID number"
-    )
+    # Dual Key System (Setup Instructions)
+    member_uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)  # PERMANENT ID
+    member_id = models.IntegerField(
+        null=True, blank=True, unique=True
+    )  # RECYCLABLE (1-1000)
+    preferred_member_id = models.IntegerField()  # For reinstatement
 
-    # Personal information
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField(blank=True, null=True)
+    # Basic Information (CSV: members.csv)
+    first_name = models.CharField(max_length=50)  # "First Name"
+    last_name = models.CharField(max_length=50)  # "Last Name"
+    email = models.EmailField(blank=True)  # "E Mail"
 
-    # Contact information
-    home_phone = models.CharField(
+    # Membership Information
+    member_type = models.ForeignKey(MemberType, on_delete=models.PROTECT)
+    status = models.CharField(
         max_length=20,
-        blank=True,
-        validators=[
-            RegexValidator(
-                regex=r"^\+?1?\d{9,15}$",
-                message="Phone number must be entered in format: '+999999999'. Up to 15 digits allowed.",
-            )
+        choices=[
+            ("active", "Active"),
+            ("inactive", "Inactive"),
+            ("deceased", "Deceased"),
         ],
+        default="active",
     )
-    work_phone = models.CharField(max_length=20, blank=True)
-    mobile_phone = models.CharField(max_length=20, blank=True)
-    fax_number = models.CharField(max_length=20, blank=True)
-    extension = models.CharField(max_length=10, blank=True)
+    expiration_date = models.DateField()  # Current membership expires
 
-    # Home address
-    home_address = models.CharField(max_length=200, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    state = models.CharField(max_length=50, blank=True)
-    zip_code = models.CharField(max_length=20, blank=True)
-    country = models.CharField(max_length=100, default="USA")
+    # Important Dates (CSV: members.csv)
+    milestone_date = models.DateField(
+        null=True, blank=True
+    )  # "Milestone" - Sobriety date
+    date_joined = models.DateField()  # "Date Joined" - Club membership start
+    date_inactivated = models.DateField(null=True, blank=True)
 
-    # Work information
-    company_name = models.CharField(max_length=200, blank=True)
-    work_title = models.CharField(max_length=100, blank=True)
-    work_address = models.CharField(max_length=200, blank=True)
-    work_city = models.CharField(max_length=100, blank=True)
-    work_state = models.CharField(max_length=50, blank=True)
-    work_zip_code = models.CharField(max_length=20, blank=True)
-    work_country = models.CharField(max_length=100, blank=True)
-
-    # Membership information
-    member_type = models.ForeignKey(
-        MemberType, on_delete=models.PROTECT, help_text="Type of membership"
-    )
-    date_joined = models.DateField(help_text="Date member joined the club")
-    expires = models.DateField(
-        blank=True, null=True, help_text="Membership expiration date"
-    )
-    milestone = models.DateField(
-        blank=True, null=True, help_text="Important milestone date"
-    )
-
-    # Status
-    is_active = models.BooleanField(default=True)
-    is_deceased = models.BooleanField(default=False)
-    notes = models.TextField(blank=True, help_text="Additional notes about the member")
+    # Contact Information (CSV: members.csv)
+    home_address = models.TextField(blank=True)  # "Home Address"
+    home_country = models.CharField(
+        max_length=50, blank=True, default="US"
+    )  # "Home Country"
+    home_phone = models.CharField(max_length=20, blank=True)  # "Home Phone"
 
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
@@ -103,93 +91,55 @@ class Member(models.Model):
 
     class Meta:
         ordering = ["last_name", "first_name"]
+        db_table = "members_member"
         indexes = [
             models.Index(fields=["member_id"]),
             models.Index(fields=["last_name", "first_name"]),
-            models.Index(fields=["member_type"]),
-            models.Index(fields=["is_active"]),
+            models.Index(fields=["status"]),
+            models.Index(fields=["expiration_date"]),
         ]
 
     def __str__(self):
-        return f"{self.member_id} - {self.first_name} {self.last_name}"
+        display_id = self.member_id if self.member_id else "No ID"
+        return f"#{display_id} - {self.first_name} {self.last_name}"
 
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
-    @property
-    def full_address(self):
-        parts = [self.home_address, self.city, self.state, self.zip_code]
-        return ", ".join([part for part in parts if part])
-
     def is_membership_expired(self):
         """Check if membership has expired"""
-        if not self.expires:
-            return False
-        return self.expires < timezone.now().date()
+        return self.expiration_date < timezone.now().date()
 
 
 class Payment(models.Model):
-    """Payment records for member dues"""
+    """Payment records linked to members via UUID"""
 
+    payment_id = models.IntegerField(primary_key=True)  # From CSV: Payment ID
+
+    # Relationships (CRITICAL: UUID not member_id!)
     member = models.ForeignKey(
-        Member, on_delete=models.CASCADE, related_name="payments"
+        Member, on_delete=models.PROTECT, related_name="payments"
     )
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.PROTECT)
 
-    # Payment details
-    amount = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Payment amount"
-    )
-    payment_date = models.DateField(help_text="Date payment was received")
-    period_start = models.DateField(
-        blank=True, null=True, help_text="Start date of the period this payment covers"
-    )
-    period_end = models.DateField(
-        blank=True, null=True, help_text="End date of the period this payment covers"
-    )
+    # Payment Details (CSV: payments.csv)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # "Amount"
+    date = models.DateField()  # "Date"
+    receipt_number = models.CharField(max_length=50, blank=True)  # "Reciept No."
 
-    # Payment tracking
-    check_number = models.CharField(max_length=50, blank=True)
-    transaction_id = models.CharField(max_length=100, blank=True)
-    notes = models.TextField(blank=True)
-
-    # Metadata
+    # Audit Fields
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.CharField(
-        max_length=100, blank=True
-    )  # Who recorded the payment
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-payment_date", "-created_at"]
+        ordering = ["-date", "-created_at"]
+        db_table = "members_payment"
         indexes = [
-            models.Index(fields=["member", "payment_date"]),
-            models.Index(fields=["payment_date"]),
+            models.Index(fields=["member", "date"]),
+            models.Index(fields=["date"]),
             models.Index(fields=["amount"]),
         ]
 
     def __str__(self):
-        return f"{self.member.full_name} - ${self.amount} on {self.payment_date}"
-
-
-class Friend(models.Model):
-    """Friend/Associate members or connections"""
-
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="friends")
-    friend_name = models.CharField(max_length=200)
-    relationship = models.CharField(
-        max_length=100,
-        blank=True,
-        help_text="Relationship to member (spouse, friend, sponsor, etc.)",
-    )
-    phone = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(blank=True)
-    notes = models.TextField(blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["friend_name"]
-
-    def __str__(self):
-        return f"{self.friend_name} (friend of {self.member.full_name})"
+        return f"{self.member.full_name} - ${self.amount} on {self.date}"
