@@ -1,0 +1,70 @@
+# Alano Club Project Context
+
+## Project Overview
+This is a Django web application for Alano Club member management, replacing their existing desktop application with a web-based interface accessible from any device.
+
+## Technology Stack
+- **Framework**: Django 4.2+
+- **Database**: PostgreSQL via Supabase
+- **Package Manager**: UV (not pip)
+- **Virtual Environment**: `.venv` 
+- **Testing**: pytest (implementing)
+- **Deployment**: Render (planned)
+
+## Critical Setup Requirements
+
+### Virtual Environment
+**ALWAYS activate the virtual environment before any Python operations:**
+```bash
+source .venv/bin/activate
+```
+
+### Package Management
+**Use UV for all package operations:**
+```bash
+# Install packages
+uv pip install -r requirements.txt
+
+# Add new packages
+uv pip install package-name
+```
+
+### Database Connection
+- **Database**: Supabase PostgreSQL
+- **Configuration**: Via `.env` file with `DATABASE_URL`
+- **Connection**: Uses `dj-database-url` for Django integration
+
+## Development Workflow Preferences
+
+### Communication Style
+1. **Always explain before executing** - Print out what you're going to do before doing it
+2. **Show commands before running** - Display the exact command that will be executed
+3. **Step-by-step approach** - Break complex tasks into simple, manageable steps
+4. **Keep it simple** - Prefer straightforward solutions over complex ones
+
+### Testing Approach
+- **Framework**: pytest with pytest-django
+- **Philosophy**: Build tests as we develop features
+- **Coverage**: Use pytest-cov for test coverage tracking
+
+## Key Project Files
+- `manage.py` - Django management commands
+- `.env` - Environment variables (DATABASE_URL, SECRET_KEY)
+- `requirements.txt` - Python dependencies
+- `members/` - Main app for member management
+- `data/` - Excel/CSV data files for import
+
+## Data Context
+The project involves importing existing member data from Excel files:
+- Member records (~325)
+- Payment history (~1,337 records)
+- Member types and payment methods
+- Historical data and relationships
+
+## Example Workflow
+When implementing new features:
+1. Explain what we're building
+2. Show the command to be executed
+3. Execute step by step
+4. Test the implementation
+5. Verify everything works before moving to next step
