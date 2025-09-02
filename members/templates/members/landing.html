@@ -1,0 +1,96 @@
+{% extends 'members/base.html' %}
+
+{% block title %}ALANO CLUB - Member Management System{% endblock %}
+
+{% block content %}
+<div class="welcome-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="welcome-title">ALANO-CLUB Member Data</h1>
+            <p class="welcome-subtitle">Professional Member Management System</p>
+            
+            <div class="row mt-5">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-search me-2"></i>
+                                Member Search
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Search for members by name or ID number. View detailed member information and payment history.</p>
+                            <a href="{% url 'members:search' %}" class="btn btn-primary">
+                                <i class="bi bi-search me-1"></i>
+                                Search Members
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-gear me-2"></i>
+                                Administration
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Access the Django admin interface for complete member and payment management.</p>
+                            <a href="/admin/" target="_blank" class="btn btn-outline-primary">
+                                <i class="bi bi-gear me-1"></i>
+                                Open Admin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-info-circle me-2"></i>
+                                System Features
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <h6 class="text-primary-custom">
+                                        <i class="bi bi-people me-1"></i>
+                                        Member Management
+                                    </h6>
+                                    <small class="text-muted">
+                                        Track member information, status, and membership types with automatic ID recycling system.
+                                    </small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <h6 class="text-primary-custom">
+                                        <i class="bi bi-credit-card me-1"></i>
+                                        Payment Tracking
+                                    </h6>
+                                    <small class="text-muted">
+                                        Complete payment history with automatic expiration date management.
+                                    </small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <h6 class="text-primary-custom">
+                                        <i class="bi bi-shield-check me-1"></i>
+                                        Data Security
+                                    </h6>
+                                    <small class="text-muted">
+                                        Secure PostgreSQL database with comprehensive backup and audit capabilities.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

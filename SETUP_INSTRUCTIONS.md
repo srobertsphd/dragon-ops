@@ -388,6 +388,148 @@ When payments are entered:
 14. **Implement member reinstatement logic** (ID recycling system)
 15. **Add payment processing workflows** (Automatic expiration date updates)
 
+## 15. Web Interface Implementation
+
+### **Overview**
+Custom web interface for member management with professional UI and search capabilities.
+
+### **Application Structure**
+
+#### **A. Page Navigation**
+```
+ALANO CLUB - Member Management System
+├── Home (Landing Page)                    # Welcome page with system overview
+├── Member Search                          # Search & view member details  
+├── Reports                               # Placeholder - Future implementation
+├── Admin                                 # Placeholder - Future implementation
+├── Add Member                            # Placeholder - Future implementation
+└── Add Payment                           # Placeholder - Future implementation
+```
+
+#### **B. Landing Page (`/`)**
+- **Purpose**: Welcome page and system overview
+- **Content**: "ALANO-CLUB Member data" title
+- **Design**: Clean, professional layout with navigation
+
+#### **C. Member Search Page (`/members/search/`)**
+- **Purpose**: Search and display member information
+- **Features**:
+  - Simple search by name (first/last) using Django's icontains
+  - Exact search by member ID (1-1000)
+  - Form-based search with results displayed on same page
+  - Clean, simple interface without JavaScript complexity
+
+#### **D. Member Detail Page (`/members/<uuid>/`)**
+- **Purpose**: Display complete member information and payment history
+- **Member Info Section**:
+  - Member ID, name, email, phone, address
+  - Status (Active/Inactive/Deceased) with color coding
+  - Member type and monthly dues
+  - Expiration date, join date, inactivation date
+  - Milestone date (sobriety date - optional)
+- **Payment History Section**:
+  - All payments in reverse chronological order
+  - Receipt number, amount, date, payment method
+  - Date range filtering with calendar dropdowns
+  - Read-only display (no editing functionality)
+
+### **Technical Implementation**
+
+#### **A. Database Requirements**
+```python
+# Simple Django ORM queries - no special extensions needed
+# Name search: Member.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+# ID search: Member.objects.filter(member_id=member_id)
+```
+
+#### **B. Frontend Stack**
+- **Framework**: Bootstrap 5.3 for responsive design
+- **Colors**: Django admin blue theme (#417690, #79aec8, #205067)
+- **Approach**: Simple Django forms and templates (no JavaScript)
+- **Layout**: Sidebar navigation with main content area
+
+#### **C. URL Endpoints**
+```python
+# Main pages
+/                                         # Landing page
+/search/                                 # Member search page
+/<uuid>/                                 # Member detail page
+```
+
+#### **D. File Structure**
+```
+members/
+├── templates/members/
+│   ├── base.html                        # Base template with sidebar
+│   ├── landing.html                     # Landing page
+│   ├── search.html                      # Search page
+│   └── member_detail.html               # Member detail page
+├── static/members/
+│   └── css/style.css                    # Custom styling
+├── views.py                             # Updated with web views
+└── urls.py                              # URL routing
+```
+
+#### **E. UI Components**
+- **Search Interface**: Simple Bootstrap form with submit button
+- **Tables**: Responsive, striped tables with hover effects
+- **Status Badges**: Color-coded member status indicators
+- **Date Pickers**: Calendar widgets for payment filtering
+- **Sidebar Navigation**: Fixed sidebar with page selection
+
+#### **F. Performance Optimizations**
+- Database query optimization with `select_related()` and `prefetch_related()`
+- Pagination for large payment histories
+- Simple, fast Django ORM queries
+
+### **Design Specifications**
+
+#### **A. Color Scheme (Django Admin)**
+```css
+Primary Blue: #417690      /* Main navigation, headers */
+Light Blue: #79aec8        /* Hover states, accents */
+Dark Blue: #205067         /* Text, borders */
+Success Green: #28a745     /* Active status */
+Warning Orange: #ffc107    /* Pending states */
+Danger Red: #dc3545        /* Inactive/deceased status */
+```
+
+#### **B. Layout Structure**
+```
+┌─────────────────────────────────────────────┐
+│ Header: "ALANO CLUB - Member Management"    │
+├───────────┬─────────────────────────────────┤
+│ Sidebar   │ Main Content Area               │
+│ ├─Home    │ ┌─────────────────────────────┐ │
+│ ├─Search  │ │ Page Content                │ │
+│ ├─Reports │ │                             │ │
+│ ├─Admin   │ │                             │ │
+│ ├─Add Mbr │ │                             │ │
+│ └─Add Pay │ │                             │ │
+│           │ └─────────────────────────────┘ │
+└───────────┴─────────────────────────────────┘
+```
+
+### **Implementation Status**
+- ✅ **Completed**: Web interface implementation
+- ✅ **Completed**: Simple Django form-based search
+- ✅ **Completed**: Frontend templates and styling (Bootstrap 5.3 + Django admin colors)
+- ✅ **Completed**: Member detail pages with payment history
+
+### **Setup Commands**
+```bash
+# Run the web application
+python manage.py runserver 8001
+
+# No additional setup required - uses standard Django ORM
+```
+
+### **Web Interface URLs**
+- **Home**: http://localhost:8001/
+- **Member Search**: http://localhost:8001/search/
+- **Admin**: http://localhost:8001/admin/
+
+
 ## Support
 
 The Django Admin interface provides:

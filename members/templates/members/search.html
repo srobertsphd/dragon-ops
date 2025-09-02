@@ -1,0 +1,109 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Member Search - ALANO CLUB{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header text-center bg-primary text-white">
+                    <h1 class="mb-0">
+                        <i class="bi bi-search me-2"></i>
+                        Member Search
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <!-- Search Form -->
+                    <form method="get" class="mb-4">
+                        <div class="input-group input-group-lg">
+                            <input type="text" 
+                                   name="q" 
+                                   class="form-control" 
+                                   placeholder="Enter member name or ID..."
+                                   value="{{ query }}"
+                                   autofocus>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-search me-1"></i>
+                                Search
+                            </button>
+                        </div>
+                        <small class="form-text text-muted mt-2">
+                            Search by first name, last name, or member ID number
+                        </small>
+                    </form>
+
+                    {% if query %}
+                        <hr>
+                        <h5>Search Results for "{{ query }}"</h5>
+                        
+                        {% if members %}
+                            <div class="list-group">
+                                {% for member in members %}
+                                <a href="{% url 'members:member_detail' member.member_uuid %}" 
+                                   class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">
+                                                {{ member.full_name }}
+                                                {% if member.member_id %}
+                                                    <span class="badge bg-secondary ms-2">#{{ member.member_id }}</span>
+                                                {% endif %}
+                                            </h6>
+                                            <small class="text-muted">
+                                                {% if member.member_type %}{{ member.member_type.name }}{% endif %}
+                                                {% if member.email %} • {{ member.email }}{% endif %}
+                                            </small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge badge-status status-{{ member.status|lower }}">
+                                                {{ member.get_status_display }}
+                                            </span>
+                                            <div>
+                                                <small class="text-muted">
+                                                    Expires: {{ member.expiration_date|date:"M j, Y" }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="mt-3 text-center">
+                                <small class="text-muted">
+                                    Found {{ members.count }} member{{ members.count|pluralize }}
+                                </small>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="bi bi-search text-muted" style="font-size: 3rem;"></i>
+                                <h5 class="text-muted mt-3">No members found</h5>
+                                <p class="text-muted">
+                                    Try searching for a different name or member ID.
+                                </p>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <!-- Quick Stats -->
+                        <div class="row text-center mt-4">
+                            <div class="col-md-4">
+                                <h3 class="text-primary">{{ active_members_count }}</h3>
+                                <small class="text-muted">Active Members</small>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="text-success">{{ total_payments_count }}</h3>
+                                <small class="text-muted">Total Payments</small>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="text-info">{{ available_ids_count }}</h3>
+                                <small class="text-muted">Available IDs</small>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
