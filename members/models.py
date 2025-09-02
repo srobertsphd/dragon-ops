@@ -111,6 +111,23 @@ class Member(models.Model):
         """Check if membership has expired"""
         return self.expiration_date < timezone.now().date()
 
+    @classmethod
+    def get_next_available_member_id(cls):
+        """Get the next available member ID (1-1000)"""
+        # Get all active member IDs
+        active_ids = set(
+            cls.objects.filter(status="active", member_id__isnull=False).values_list(
+                "member_id", flat=True
+            )
+        )
+
+        # Find first available ID in range 1-1000
+        for id_num in range(1, 1001):
+            if id_num not in active_ids:
+                return id_num
+
+        return None  # No IDs available
+
 
 class Payment(models.Model):
     """Payment records linked to members via UUID"""
