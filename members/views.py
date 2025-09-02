@@ -67,8 +67,8 @@ def search_view(request):
 
     # Perform search if query provided (takes precedence over browse)
     elif query:
-        # Try to search by member ID first
         try:
+            # Try to parse as member ID
             member_id = int(query)
             members = base_queryset.filter(member_id=member_id)
         except ValueError:
@@ -91,10 +91,8 @@ def search_view(request):
 
 
 def member_detail_view(request, member_uuid):
-    """Display detailed member information and payment history"""
-    member = get_object_or_404(
-        Member.objects.select_related("member_type"), member_uuid=member_uuid
-    )
+    """Member detail page with payment history and optional date filtering"""
+    member = get_object_or_404(Member, member_uuid=member_uuid)
 
     # Get payment history with optional date filtering
     payments_queryset = (
