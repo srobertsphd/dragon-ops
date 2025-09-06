@@ -82,6 +82,64 @@
 
 *Note: Life membership duration is 300 months (25 years)*
 
+## Member Payments Data Processing
+
+### Data Source
+- **File**: `data/new_data/2025_09_02_Member Payments.xlsx`
+- **Read using**: pandas `read_excel()`
+
+### Data Transformations
+
+1. **Column Removal**: Dropped 25 unnecessary columns including:
+   - **Credit card data**: `Credit Card #`, `Cardholder Name`, `Card Exp. Date`
+   - **Work-related fields**: `Company`, `Title`, `Work Address`, `Work City`, `Work State`, `Area Code`, `Zip Code`, `Work County`, `Work Phone`, `Extension`
+   - **System fields**: `Selected`, `Barcode ID`, `SRVTypID`, `MailerID`, `SerialNum`, `Payment ID`, `Member ID.1`
+   - **Other fields**: `Send to Work?`, `Fax`, `Due Amount`, `Payment Method`, `Home Country`
+
+2. **Column Renaming**: Applied code-friendly column names using snake_case:
+   - `Member ID` → `member_id`
+   - `First Name` → `first_name`
+   - `Last Name` → `last_name`
+   - `Member Type` → `member_type`
+   - `Home Address` → `home_address`
+   - `Home City` → `home_city`
+   - `Home State` → `home_state`
+   - `Home Zip` → `home_zip`
+   - `Home Phone` → `home_phone`
+   - `E Mail Name` → `email`
+   - `Date Joined` → `date_joined`
+   - `Milestone` → `milestone_date`
+   - `Expires` → `expiration_date`
+   - `Date` → `payment_date`
+   - `Payments.PaymentMethodID` → `payment_method`
+   - `Reciept No.` → `receipt_number`
+   - `Amount` → `payment_amount`
+   - `Mobile` → `mobile_phone`
+
+3. **Date Conversion**: Converted date columns to datetime format using `pd.to_datetime()` with `errors='coerce'`:
+   - `date_joined`, `milestone_date`, `expiration_date`, `payment_date`
+
+4. **Member Validation**: Verified all payment records correspond to existing members in the members dataset
+
+5. **Data Quality Cleaning**:
+   - **Dropped missing payment methods**: Removed 1 record with null `payment_method`
+   - **Dropped missing payment amounts**: Removed 2 records with null `payment_amount`
+   - **Mobile phone retention**: Kept `mobile_phone` column (6 records) for future merging with member structure
+
+### Current Payments Dataset State (After Cleaning)
+- **Total Records**: 722 payment entries (cleaned from original 725)
+- **Total Columns**: 18
+- **Records Removed**: 3 total (1 missing payment method + 2 missing payment amounts)
+- **Data Completeness**: All payment records now have complete `payment_method` and `payment_amount` data
+- **Data Types**: 4 datetime64[ns], 2 float64, 1 int64, 11 object
+- **Key Fields**:
+  - `member_id`: 722 non-null (100%)
+  - `payment_amount`: 722 non-null (100%)
+  - `payment_date`: ~720 non-null (~99.7%)
+  - `payment_method`: 722 non-null (100%)
+  - `receipt_number`: ~720 non-null (~99.7%)
+  - `mobile_phone`: 6 non-null (0.8%)
+
 ### Notes
 - Datetime format preserved for PostgreSQL compatibility
 - Date formatting will be handled at the PostgreSQL display layer
