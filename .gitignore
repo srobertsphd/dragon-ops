@@ -5,10 +5,12 @@ build/
 dist/
 wheels/
 *.egg-info
+.pytest_cache/
 
 # Virtual environments
 .venv
 .env
+
 
 # Data files (optional - uncomment to ignore data)
 # data/csv_data/

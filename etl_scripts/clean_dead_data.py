@@ -256,4 +256,4 @@ dead_df.home_zip.value_counts(dropna=False)
 
 # save the cleaned data
 ################################################################
-dead_df.to_csv("../data/2025_09_02/csv_data/current_dead.csv", index=False)
+dead_df.to_csv("../data/2025_09_02/cleaned/current_dead.csv", index=False)

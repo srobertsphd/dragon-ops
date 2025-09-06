@@ -156,7 +156,7 @@ check_phone_format(members_df["home_phone"])
 # Save the cleaned data
 ################################################################
 
-members_df.to_csv("../data/2025_09_02/csv_data/current_members.csv", index=False)
+members_df.to_csv("../data/2025_09_02/cleaned/current_members.csv", index=False)
 
 ################################################################
 # Show some useful info about the data

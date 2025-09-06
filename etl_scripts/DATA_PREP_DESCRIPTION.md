@@ -3,7 +3,7 @@
 ## Members Data Processing
 
 ### Data Source
-- **File**: `data/2025_09_02/excel_files/2025_09_02_Members-Data.xlsx`
+- **File**: `data/2025_09_02/original/2025_09_02_Members-Data.xlsx`
 - **Read using**: pandas `read_excel()`
 
 ### Data Transformations
@@ -85,7 +85,7 @@
 ## Member Payments Data Processing
 
 ### Data Source
-- **File**: `data/2025_09_02/excel_files/2025_09_02_Member Payments.xlsx`
+- **File**: `data/2025_09_02/original/2025_09_02_Member Payments.xlsx`
 - **Read using**: pandas `read_excel()`
 
 ### Data Transformations
@@ -143,7 +143,7 @@
 ## Dead Members Data Processing
 
 ### Data Source
-- **File**: `data/2025_09_02/excel_files/2025_08_26_Dead.xlsx`
+- **File**: `data/2025_09_02/original/2025_08_26_Dead.xlsx`
 - **Read using**: pandas `read_excel()`
 
 ### Data Transformations
