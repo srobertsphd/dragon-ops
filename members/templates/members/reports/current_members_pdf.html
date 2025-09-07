@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Current Members Report</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.5in;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 10px;
+            }
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 9px;
+            line-height: 1.1;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .date {
+            text-align: right;
+            margin-bottom: 15px;
+            font-size: 8px;
+        }
+        
+        .member-block {
+            page-break-inside: avoid;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .member-block:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .member-info-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+        
+        .member-name {
+            font-weight: bold;
+            width: 120px;
+            margin-right: 10px;
+        }
+        
+        .member-id {
+            width: 40px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        
+        .member-type {
+            width: 80px;
+            margin-right: 10px;
+        }
+        
+        .member-dates {
+            flex: 1;
+            font-size: 8px;
+        }
+        
+        .payments-section {
+            margin-left: 130px;
+            margin-top: 2px;
+        }
+        
+        .payment-header {
+            font-weight: bold;
+            font-size: 7px;
+            color: #666;
+            display: flex;
+            margin-bottom: 1px;
+        }
+        
+        .payment-header span {
+            margin-right: 15px;
+        }
+        
+        .payment-entry {
+            display: flex;
+            font-size: 8px;
+            margin-bottom: 1px;
+        }
+        
+        .payment-entry span {
+            margin-right: 15px;
+        }
+        
+        .receipt-col {
+            width: 60px;
+        }
+        
+        .amount-col {
+            width: 60px;
+        }
+        
+        .date-col {
+            width: 60px;
+        }
+        
+        .section-header {
+            font-size: 11px;
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            padding: 3px 0;
+            border-bottom: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        ALANO CLUB - CURRENT MEMBERS REPORT
+    </div>
+    
+    <div class="date">
+        Report Generated: {{ report_date|date:"F j, Y" }}
+    </div>
+
+    <!-- Regular Members Section -->
+    {% if regular_members %}
+    <div class="section-header">REGULAR MEMBERS ({{ total_regular }})</div>
+    
+    {% for member_data in regular_members %}
+    <div class="member-block">
+        <div class="member-info-line">
+            <div class="member-name">{{ member_data.member.last_name }}, {{ member_data.member.first_name }}</div>
+            <div class="member-id">{{ member_data.member.member_id|default:"" }}</div>
+            <div class="member-type">{{ member_data.member.member_type.member_type|default:"—" }}</div>
+            <div class="member-dates">{{ member_data.member.date_joined|date:"n/j/Y" }}</div>
+            <div class="member-dates">{{ member_data.member.expiration_date|date:"n/j/Y" }}</div>
+        </div>
+        
+        {% if member_data.payments %}
+        <div class="payments-section">
+            <div class="payment-header">
+                <span class="receipt-col">Receipt</span>
+                <span class="amount-col">Amount Paid</span>
+                <span class="date-col">Date Paid</span>
+            </div>
+            {% for payment in member_data.payments %}
+            <div class="payment-entry">
+                <span class="receipt-col">{{ payment.receipt_number|default:"—" }}</span>
+                <span class="amount-col">${{ payment.amount }}</span>
+                <span class="date-col">{{ payment.date|date:"n/j/Y" }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Life Members Section -->
+    {% if life_members %}
+    <div class="section-header" style="margin-top: 30px;">LIFE MEMBERS ({{ total_life }})</div>
+    
+    {% for member_data in life_members %}
+    <div class="member-block" style="background-color: #f0f8f0;">
+        <div class="member-info-line">
+            <div class="member-name">{{ member_data.member.last_name }}, {{ member_data.member.first_name }}</div>
+            <div class="member-id">{{ member_data.member.member_id|default:"" }}</div>
+            <div class="member-type">{{ member_data.member.member_type.member_type|default:"—" }}</div>
+            <div class="member-dates">{{ member_data.member.date_joined|date:"n/j/Y" }}</div>
+            <div class="member-dates">{{ member_data.member.expiration_date|date:"n/j/Y" }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    
+    <div style="margin-top: 30px; text-align: center; font-size: 9px; color: #666;">
+        Total Active Members: {{ total_members }} ({{ total_regular }} Regular + {{ total_life }} Life)
+    </div>
+</body>
+</html>
