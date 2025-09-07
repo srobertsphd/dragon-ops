@@ -5,22 +5,22 @@
 {% block content %}
 <div class="welcome-container">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <h1 class="welcome-title">ALANO-CLUB Member Data</h1>
             <p class="welcome-subtitle">Professional Member Management System</p>
             
             <div class="row mt-5">
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 d-flex flex-column">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
+                            <h5 class="card-title mb-0" style="min-height: 2.5rem; display: flex; align-items: center;">
                                 <i class="bi bi-search me-2"></i>
                                 Member Search
                             </h5>
                         </div>
-                        <div class="card-body">
-                            <p class="card-text">Search for members by name or ID number. View detailed member information and payment history.</p>
-                            <a href="{% url 'members:search' %}" class="btn btn-primary">
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text flex-grow-1">Search for members by name or ID number. View detailed member information and payment history.</p>
+                            <a href="{% url 'members:search' %}" class="btn btn-primary mt-auto">
                                 <i class="bi bi-search me-1"></i>
                                 Search Members
                             </a>
@@ -28,19 +28,37 @@
                     </div>
                 </div>
                 
-                <div class="col-md-6 mb-4">
-                    <div class="card h-100">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 d-flex flex-column">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-gear me-2"></i>
-                                Administration
+                            <h5 class="card-title mb-0" style="min-height: 2.5rem; display: flex; align-items: center;">
+                                <i class="bi bi-person-plus me-2"></i>
+                                Add Member
                             </h5>
                         </div>
-                        <div class="card-body">
-                            <p class="card-text">Access the Django admin interface for complete member and payment management.</p>
-                            <a href="/admin/" target="_blank" class="btn btn-outline-primary">
-                                <i class="bi bi-gear me-1"></i>
-                                Open Admin
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text flex-grow-1">Register new members with complete contact information and membership details.</p>
+                            <a href="{% url 'members:add_member' %}" class="btn btn-success mt-auto">
+                                <i class="bi bi-person-plus me-1"></i>
+                                Add Member
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 d-flex flex-column">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0" style="min-height: 2.5rem; display: flex; align-items: center;">
+                                <i class="bi bi-cash-coin me-2"></i>
+                                Add Payment
+                            </h5>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text flex-grow-1">Record member payments and automatically update membership expiration dates.</p>
+                            <a href="{% url 'members:add_payment' %}" class="btn btn-warning mt-auto">
+                                <i class="bi bi-cash-coin me-1"></i>
+                                Add Payment
                             </a>
                         </div>
                     </div>

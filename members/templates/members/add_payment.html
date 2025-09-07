@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <!-- Progress Indicator -->
             <div class="card mb-4">
                 <div class="card-body">
@@ -292,7 +292,7 @@
 
                         <!-- Payment Summary -->
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-12 col-lg-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
                                         <h6 class="mb-0">Member & Payment Details</h6>
@@ -317,7 +317,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-12 col-lg-6 mb-3">
                                 <div class="card">
                                     <div class="card-header">
                                         <h6 class="mb-0">Membership Update</h6>
@@ -342,28 +342,63 @@
 
 
                         <!-- Confirmation Buttons -->
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="?step=form&member={{ member.member_uuid }}" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left me-1"></i>
-                                Back to Edit
-                            </a>
-                            <div>
-                                <form method="post" action="?step=process" style="display: inline;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="confirm" value="no">
-                                    <button type="submit" class="btn btn-outline-danger me-2">
-                                        <i class="bi bi-x-circle me-1"></i>
-                                        Cancel
-                                    </button>
-                                </form>
-                                <form method="post" action="?step=process" style="display: inline;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="confirm" value="yes">
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="bi bi-check-circle me-1"></i>
-                                        Confirm & Process Payment
-                                    </button>
-                                </form>
+                        <div class="mt-4">
+                            <!-- Mobile: Stack buttons vertically -->
+                            <div class="d-block d-md-none">
+                                <div class="d-grid gap-2">
+                                    <form method="post" action="?step=process">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="confirm" value="yes">
+                                        <button type="submit" class="btn btn-success btn-lg">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Confirm & Process Payment
+                                        </button>
+                                    </form>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <a href="?step=form&member={{ member.member_uuid }}" class="btn btn-outline-secondary w-100">
+                                                <i class="bi bi-arrow-left me-1"></i>
+                                                Back to Edit
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <form method="post" action="?step=process">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="confirm" value="no">
+                                                <button type="submit" class="btn btn-outline-danger w-100">
+                                                    <i class="bi bi-x-circle me-1"></i>
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Desktop: Horizontal layout -->
+                            <div class="d-none d-md-flex justify-content-between">
+                                <a href="?step=form&member={{ member.member_uuid }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Back to Edit
+                                </a>
+                                <div>
+                                    <form method="post" action="?step=process" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="confirm" value="no">
+                                        <button type="submit" class="btn btn-outline-danger me-2">
+                                            <i class="bi bi-x-circle me-1"></i>
+                                            Cancel
+                                        </button>
+                                    </form>
+                                    <form method="post" action="?step=process" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="confirm" value="yes">
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Confirm & Process Payment
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     {% endif %}

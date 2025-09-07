@@ -166,6 +166,16 @@
         </div>
     </div>
 
+    <!-- Add Payment Button -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'members:add_payment' %}?member={{ member.member_uuid }}" class="btn btn-success btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>
+                Add Payment for {{ member.full_name }}
+            </a>
+        </div>
+    </div>
+
     <!-- Payment History -->
     <div class="row">
         <div class="col-12">

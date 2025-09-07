@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, date
 from decimal import Decimal
 import calendar
@@ -36,11 +37,13 @@ def add_months_to_date(date, months):
     return date.replace(year=year, month=month, day=last_day)
 
 
+@staff_member_required
 def landing_view(request):
     """Landing page with system overview"""
     return render(request, "members/landing.html")
 
 
+@staff_member_required
 def search_view(request):
     """Simple member search page with alphabet browsing and status filtering"""
     query = request.GET.get("q", "").strip()
@@ -120,6 +123,7 @@ def search_view(request):
     return render(request, "members/search.html", context)
 
 
+@staff_member_required
 def member_detail_view(request, member_uuid):
     """Member detail page with payment history and optional date filtering"""
     member = get_object_or_404(Member, member_uuid=member_uuid)
@@ -165,12 +169,23 @@ def member_detail_view(request, member_uuid):
     return render(request, "members/member_detail.html", context)
 
 
+@staff_member_required
 def add_payment_view(request):
     """Payment entry workflow with member search, form, and confirmation"""
 
     # Get workflow step
     step = request.GET.get("step", "search")
     member_uuid = request.GET.get("member", "")
+
+    # If member UUID is provided, skip search and go to form
+    if member_uuid and step == "search":
+        try:
+            member = get_object_or_404(Member, member_uuid=member_uuid)
+            # Redirect to form step with the member
+            return redirect(f"{request.path}?step=form&member={member_uuid}")
+        except:  # noqa: E722
+            # If invalid UUID, continue with search
+            pass
 
     if step == "search":
         # Step 1: Member Search
@@ -398,6 +413,7 @@ def add_payment_view(request):
         return redirect("members:add_payment")
 
 
+@staff_member_required
 def add_member_view(request):
     """Add new member workflow with form, validation, and confirmation"""
 
