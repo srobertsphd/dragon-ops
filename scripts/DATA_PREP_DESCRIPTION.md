@@ -4,6 +4,7 @@
 
 ### Data Source
 - **File**: `data/2025_09_02/original/2025_09_02_Members-Data.xlsx`
+- **Python Script**: `etl_scripts/clean_member_data.py`
 - **Read using**: pandas `read_excel()`
 
 ### Data Transformations
@@ -86,6 +87,7 @@
 
 ### Data Source
 - **File**: `data/2025_09_02/original/2025_09_02_Member Payments.xlsx`
+- **Python Scripts:** `etl_scripts/clean_member_payments.py`
 - **Read using**: pandas `read_excel()`
 
 ### Data Transformations
@@ -144,6 +146,7 @@
 
 ### Data Source
 - **File**: `data/2025_09_02/original/2025_08_26_Dead.xlsx`
+- **Python Scripts:** `etl_scripts/clean_dead_data.py`
 - **Read using**: pandas `read_excel()`
 
 ### Data Transformations
