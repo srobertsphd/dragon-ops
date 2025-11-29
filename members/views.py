@@ -6,36 +6,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
 from datetime import datetime, date
 from decimal import Decimal
-import calendar
 
 from .models import Member, Payment, PaymentMethod, MemberType
-
-
-def ensure_end_of_month(date):
-    """Force date to be the last day of its month"""
-    last_day = calendar.monthrange(date.year, date.month)[1]
-    return date.replace(day=last_day)
-
-
-def add_months_to_date(date, months):
-    """Add months to a date and return the last day of the resulting month
-
-    Examples:
-    - Current expiration: Mar 15, 2025 + 1 month = Mar 31, 2025
-    - Current expiration: Jan 31, 2025 + 1 month = Feb 28, 2025 (or Feb 29 in leap year)
-    - Current expiration: Dec 15, 2024 + 2 months = Feb 29, 2025
-
-    This ensures all memberships expire at the end of the month regardless of payment date.
-    """
-    # Calculate the target year and month
-    month = date.month - 1 + months
-    year = date.year + month // 12
-    month = month % 12 + 1
-
-    # Get the last day of the target month
-    last_day = calendar.monthrange(year, month)[1]
-
-    return date.replace(year=year, month=month, day=last_day)
+from .utils import ensure_end_of_month, add_months_to_date
 
 
 @staff_member_required
@@ -472,7 +445,7 @@ def current_members_report_view(request):
 def generate_members_pdf(request, context):
     """Generate PDF version of current members report"""
     try:
-        from weasyprint import HTML, CSS
+        from weasyprint import HTML
         from django.template.loader import render_to_string
 
         # Render HTML template

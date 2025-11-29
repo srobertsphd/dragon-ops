@@ -11,7 +11,7 @@ the refactored version works identically.
 
 import pytest
 from datetime import date
-from members.views import ensure_end_of_month, add_months_to_date
+from members.utils import ensure_end_of_month, add_months_to_date
 
 
 @pytest.mark.unit
