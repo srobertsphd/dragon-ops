@@ -8,13 +8,27 @@ A Django-based web application for managing club members, payments, and organiza
 alano-club/
 ├── alano_club_site/          # Django project settings
 ├── members/                  # Main Django app
-├── data/                     # Data files and utilities
-│   ├── xlsx_data/           # Original Excel files
-│   ├── csv_data/            # Converted CSV files
-│   └── convert_xlsx_to_csv.py  # Data conversion utility
+│   └── management/
+│       └── commands/         # Django management commands for data import
+├── data/                     # Data files
+│   └── 2025_09_02/
+│       ├── original/         # Original Excel files
+│       └── cleaned/          # Cleaned CSV files ready for import
+├── scripts/                  # ETL scripts for data processing
+│   ├── clean_member_data.py
+│   ├── clean_dead_data.py
+│   ├── clean_member_payments.py
+│   └── DATA_PREP_DESCRIPTION.md
+├── docs/                     # Project documentation
+│   ├── SETUP_INSTRUCTIONS.md
+│   ├── IMPORT_INSTRUCTIONS.md
+│   └── ...
+├── tests/                    # Test files
+├── logs/                     # Import logs and reports
 ├── manage.py                 # Django management script
-├── requirements.txt          # Python dependencies
-└── SETUP_INSTRUCTIONS.md     # Detailed setup guide
+├── pyproject.toml            # Python project configuration
+├── pytest.ini               # Pytest configuration
+└── README.md                 # This file
 ```
 
 ## Features
@@ -28,30 +42,58 @@ alano-club/
 
 ## Quick Start
 
-1. **Activate virtual environment:**
+1. **Install UV** (if not already installed):
+   
+   **macOS and Linux:**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+   
+   After installation, restart your terminal or run:
+   ```bash
+   source $HOME/.cargo/env
+   ```
+   
+   For alternative installation methods, see the [UV installation guide](https://docs.astral.sh/uv/getting-started/installation/).
+
+2. **Create virtual environment:**
+   ```bash
+   uv venv
+   ```
+
+3. **Activate virtual environment:**
    ```bash
    source .venv/bin/activate
    ```
 
-2. **Install dependencies:**
+4. **Install dependencies:**
    ```bash
    uv sync
    ```
 
-3. **Run development server:**
+5. **Run development server:**
    ```bash
    python manage.py runserver 8001
    ```
 
-4. **Access admin interface:**
+6. **Access admin interface:**
    - URL: http://127.0.0.1:8001/admin/
-   - Login with your admin credentials
+   - Login with your admin credentials (currently: alanoclub/alanoclub)
 
 ## Data Management
 
-**Convert Excel files to CSV:**
+**Data Cleaning and Transformation:**
+
+The ETL scripts for cleaning and transforming data are located in the `scripts/` directory. See [`scripts/DATA_PREP_DESCRIPTION.md`](scripts/DATA_PREP_DESCRIPTION.md) for detailed information about the transformation scripts and data processing steps.
+
+**Note:** The scripts are currently configured to process data from `data/2025_09_02/original/` (September 2, 2025). The cleaned output files are saved to `data/2025_09_02/cleaned/`.
+
+**Run the transformation scripts:**
 ```bash
-python data/convert_xlsx_to_csv.py
+# From the project root directory
+python scripts/clean_member_data.py
+python scripts/clean_dead_data.py
+python scripts/clean_member_payments.py
 ```
 
 **Current data:**
