@@ -178,14 +178,73 @@ members/
 ### Phase 2: Code Organization (Before Adding New Features)
 
 **Step 5: Split Views into Separate Files** ⏱️ ~30 minutes ⏳ **NEXT STEP**
+
+This step will be done incrementally, moving one group of views at a time and testing after each move.
+
+**Sub-step 5.1: Setup and Move Search Views** ⏱️ ~5 minutes
 - Create `members/views/` directory
-- Create `members/views/__init__.py` that imports all views
-- Move views to separate files:
-  - `search.py` → `landing_view`, `search_view`
-  - `members.py` → `member_detail_view`, `add_member_view`
-  - `payments.py` → `add_payment_view`
-  - `reports.py` → `current_members_report_view`
-- Update `members/views/__init__.py` to import from all modules
+- Create `members/views/__init__.py` (start with search imports)
+- Create `members/views/search.py` with:
+  - `landing_view()` (lines 14-17)
+  - `search_view()` (lines 20-97)
+  - All necessary imports (Django imports, models, etc.)
+- Update `members/views/__init__.py` to import from `search.py`:
+  ```python
+  from .search import landing_view, search_view
+  ```
+- Update `members/views.py` to import from `views.search` (temporary bridge):
+  ```python
+  from .views.search import landing_view, search_view
+  ```
+- **Test**: Verify `/` (landing) and `/search/` URLs work
+- **Test**: Run `tests/test_views.py` to verify views still accessible
+
+**Sub-step 5.2: Move Member Views** ⏱️ ~5 minutes
+- Create `members/views/members.py` with:
+  - `member_detail_view()` (lines 100-143)
+  - `add_member_view()` (lines 426-579)
+  - All necessary imports
+- Update `members/views/__init__.py` to also import from `members.py`:
+  ```python
+  from .search import landing_view, search_view
+  from .members import member_detail_view, add_member_view
+  ```
+- Update `members/views.py` to import from `views.members` (temporary bridge)
+- **Test**: Verify `/<uuid>/` (member detail) and `/add/` (add member) URLs work
+
+**Sub-step 5.3: Move Payment Views** ⏱️ ~5 minutes
+- Create `members/views/payments.py` with:
+  - `add_payment_view()` (lines 146-366)
+  - All necessary imports
+- Update `members/views/__init__.py` to also import from `payments.py`:
+  ```python
+  from .search import landing_view, search_view
+  from .members import member_detail_view, add_member_view
+  from .payments import add_payment_view
+  ```
+- Update `members/views.py` to import from `views.payments` (temporary bridge)
+- **Test**: Verify `/payments/add/` URL works
+
+**Sub-step 5.4: Move Report Views** ⏱️ ~5 minutes
+- Create `members/views/reports.py` with:
+  - `current_members_report_view()` (lines 369-423)
+  - Import `generate_members_pdf` from `members.reports.pdf` (already extracted)
+  - All necessary imports
+- Update `members/views/__init__.py` to also import from `reports.py`:
+  ```python
+  from .search import landing_view, search_view
+  from .members import member_detail_view, add_member_view
+  from .payments import add_payment_view
+  from .reports import current_members_report_view
+  ```
+- Update `members/views.py` to import from `views.reports` (temporary bridge)
+- **Test**: Verify `/reports/current-members/` URL works
+
+**Sub-step 5.5: Final Cleanup** ⏱️ ~5 minutes
+- Verify `members/urls.py` imports work (should work via `__init__.py`)
+- Remove temporary bridge imports from `members/views.py`
+- Optionally: Archive or delete old `members/views.py` (or keep as backup)
+- **Test**: Run all tests (`uv run pytest tests/ -v`)
 - **Test**: Verify all URLs still work:
   - `/` (landing)
   - `/search/`
@@ -193,7 +252,6 @@ members/
   - `/add/` (add member)
   - `/payments/add/` (add payment)
   - `/reports/current-members/`
-- **Test**: Run all existing tests to ensure nothing broke
 
 ### Phase 3: Add New Feature (After Refactoring and Organization)
 
