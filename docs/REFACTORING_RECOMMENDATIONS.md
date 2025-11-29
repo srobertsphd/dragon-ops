@@ -1,10 +1,13 @@
 # Views Refactoring Recommendations
 
-**Created:** November 29, 2025 14:38:19 EST
+**Created:** November 29, 2025 14:38:19 EST  
+**Updated:** November 29, 2025 - Reordered steps: Split views (Step 5) before adding new feature (Step 6)
 
 ## Overview
 
 The `members/views.py` file is currently 706 lines long and contains mixed concerns: utility functions, business logic, and view logic all in one file. This document outlines recommendations for refactoring to improve maintainability, testability, and code organization.
+
+**Note:** The implementation order has been updated to split views (Step 5) before adding new features (Step 6). This ensures the codebase is well-organized before adding new functionality.
 
 ## Current Issues
 
@@ -141,19 +144,19 @@ members/
 
 ### Phase 1: Foundation (Before Adding New Features)
 
-**Step 1: Extract Utility Functions** ⏱️ ~5 minutes
+**Step 1: Extract Utility Functions** ⏱️ ~5 minutes ✅ **COMPLETED**
 - Create `members/utils.py`
 - Move `ensure_end_of_month()` and `add_months_to_date()`
 - Update imports in `views.py`
 - **Test**: Verify date calculations still work
 
-**Step 2: Extract PDF Generation** ⏱️ ~10 minutes
+**Step 2: Extract PDF Generation** ⏱️ ~10 minutes ✅ **COMPLETED**
 - Create `members/reports/pdf.py`
 - Move `generate_members_pdf()` function
 - Update `current_members_report_view()` to import from new location
 - **Test**: Generate PDF report, verify HTML version still works
 
-**Step 3: Extract Payment Service** ⏱️ ~30 minutes ⚠️ **CRITICAL FOR NEW FEATURE**
+**Step 3: Extract Payment Service** ⏱️ ~30 minutes ✅ **COMPLETED**
 - Create `members/services.py`
 - Create `PaymentService` class with:
   - `calculate_expiration(member, amount)` method
@@ -163,7 +166,7 @@ members/
 - **Test**: Verify expiration dates calculate correctly
 - **Test**: Verify inactive members get reactivated
 
-**Step 4: Extract Member Service** ⏱️ ~20 minutes
+**Step 4: Extract Member Service** ⏱️ ~20 minutes ✅ **COMPLETED**
 - Add `MemberService` class to `members/services.py`
 - Add `get_suggested_ids(count=5)` method
 - Add `create_member(member_data)` method
@@ -172,19 +175,9 @@ members/
 - **Test**: Verify member IDs are suggested correctly
 - **Test**: Verify member creation with correct expiration date
 
-### Phase 2: Add New Feature (After Refactoring)
+### Phase 2: Code Organization (Before Adding New Features)
 
-**Step 5: Add Payment to Member Creation** ⏱️ ~30-45 minutes
-- Add optional payment step to `add_member_view` workflow
-- Use `PaymentService.process_payment()` - **No code duplication!**
-- Use `PaymentService.calculate_expiration()` - **Reusable!**
-- **Test**: Add member with payment end-to-end
-- **Test**: Verify payment is created correctly
-- **Test**: Verify member expiration is updated correctly
-
-### Phase 3: Final Organization (Optional, Can Do Anytime)
-
-**Step 6: Split Views into Separate Files** ⏱️ ~30 minutes
+**Step 5: Split Views into Separate Files** ⏱️ ~30 minutes ⏳ **NEXT STEP**
 - Create `members/views/` directory
 - Create `members/views/__init__.py` that imports all views
 - Move views to separate files:
@@ -200,6 +193,17 @@ members/
   - `/add/` (add member)
   - `/payments/add/` (add payment)
   - `/reports/current-members/`
+- **Test**: Run all existing tests to ensure nothing broke
+
+### Phase 3: Add New Feature (After Refactoring and Organization)
+
+**Step 6: Add Payment to Member Creation** ⏱️ ~30-45 minutes
+- Add optional payment step to `add_member_view` workflow
+- Use `PaymentService.process_payment()` - **No code duplication!**
+- Use `PaymentService.calculate_expiration()` - **Reusable!**
+- **Test**: Add member with payment end-to-end
+- **Test**: Verify payment is created correctly
+- **Test**: Verify member expiration is updated correctly
 
 ---
 
@@ -470,12 +474,7 @@ After each step, test the following:
 - ✅ Verify member creation with correct expiration date
 - ✅ Check validation still works
 
-### Step 5 (New Feature):
-- ✅ Add member with payment end-to-end
-- ✅ Verify payment is created correctly
-- ✅ Verify member expiration is updated correctly
-
-### Step 6 (Split Views):
+### Step 5 (Split Views):
 - ✅ Test every URL:
   - `/` (landing)
   - `/search/`
@@ -484,6 +483,11 @@ After each step, test the following:
   - `/payments/add/` (add payment)
   - `/reports/current-members/`
 - ✅ Verify all functionality works identically
+
+### Step 6 (New Feature):
+- ✅ Add member with payment end-to-end
+- ✅ Verify payment is created correctly
+- ✅ Verify member expiration is updated correctly
 
 ---
 
