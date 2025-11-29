@@ -86,7 +86,7 @@ alano-club/
 
 The ETL scripts for cleaning and transforming data are located in the `scripts/` directory. See [`scripts/DATA_PREP_DESCRIPTION.md`](scripts/DATA_PREP_DESCRIPTION.md) for detailed information about the transformation scripts and data processing steps.
 
-**Note:** The scripts are currently configured to process data from `data/2025_09_02/original/` (September 2, 2025). The cleaned output files are saved to `data/2025_09_02/cleaned/`.
+**Note:** The scripts are currently configured to process `Excel` data from `data/2025_09_02/original/` (September 2, 2025). The cleaned output files are saved to `data/2025_09_02/cleaned/` in `.csv` format.
 
 **Run the transformation scripts:**
 ```bash
