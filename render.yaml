@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: alano-club
+    env: python
+    plan: starter
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput
+    startCommand: gunicorn alano_club_site.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.4
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        sync: false  # Set this manually in Render dashboard to your Supabase URL
+      - key: ALLOWED_HOSTS
+        value: alano-club.onrender.com
+    healthCheckPath: /healthz/
+
