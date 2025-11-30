@@ -131,6 +131,11 @@ def add_member_view(request):
                     current_month_end, member_type.num_months
                 )
 
+                # Check for duplicate members
+                duplicate_members = MemberService.check_duplicate_members(
+                    first_name, last_name, email, home_phone
+                )
+
                 # Store in session for final processing
                 request.session["member_data"] = {
                     "first_name": first_name,
@@ -163,6 +168,7 @@ def add_member_view(request):
                     "home_zip": home_zip,
                     "home_phone": home_phone,
                     "initial_expiration": initial_expiration,
+                    "duplicate_members": duplicate_members,
                 }
                 return render(request, "members/add_member.html", context)
 

@@ -230,6 +230,36 @@
                             Please review the member details below and confirm to create the new member.
                         </div>
                         
+                        {% if duplicate_members %}
+                        <div class="alert alert-warning" role="alert">
+                            <h5><i class="bi bi-exclamation-triangle me-2"></i>Potential Duplicate Member Found</h5>
+                            <p>The following existing member(s) match the information provided:</p>
+                            <ul>
+                                {% for match in duplicate_members %}
+                                <li>
+                                    <strong>{{ match.member.full_name }}</strong> 
+                                    ({{ match.member.member_id|default:"No ID" }}) - 
+                                    Status: {{ match.member.status|title }}
+                                    <br>
+                                    <small class="text-muted">
+                                        Matched by: {{ match.match_reason|title }} 
+                                        ({{ match.match_text }})
+                                    </small>
+                                    <br>
+                                    <a href="{% url 'members:member_detail' match.member.member_uuid %}" 
+                                       class="btn btn-sm btn-outline-primary mt-1" 
+                                       target="_blank">
+                                        View Member
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <p class="mb-0">
+                                <strong>Consider reactivating this member instead of creating a new one.</strong>
+                            </p>
+                        </div>
+                        {% endif %}
+                        
                         <div class="row">
                             <!-- Member Details -->
                             <div class="col-md-6">

@@ -4,6 +4,7 @@ Tests for Member Service (Step 4: Extract Member Service)
 Tests the MemberService class methods:
 - get_suggested_ids()
 - create_member()
+- check_duplicate_members()
 """
 
 import pytest
@@ -223,3 +224,280 @@ class TestMemberServiceCreateMember:
         assert isinstance(member, Member)
         assert hasattr(member, "member_uuid")
         assert hasattr(member, "full_name")
+
+
+@pytest.mark.django_db
+@pytest.mark.unit
+class TestMemberServiceCheckDuplicateMembers:
+    """Test MemberService.check_duplicate_members() method"""
+
+    @pytest.fixture
+    def member_type(self, db):
+        """Create a test member type"""
+        return MemberType.objects.create(
+            member_type="Regular",
+            member_dues=30.00,
+            num_months=1,
+        )
+
+    def test_check_duplicate_members_name_match(self, db, member_type):
+        """Test that name matching works (case-insensitive)"""
+        # Create an existing member
+        existing_member = Member.objects.create(
+            first_name="John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        # Check for duplicate with exact match
+        matches = MemberService.check_duplicate_members("John", "Doe", "", "")
+
+        assert len(matches) == 1
+        assert matches[0]["member"] == existing_member
+        assert matches[0]["match_reason"] == "name"
+        assert matches[0]["match_text"] == "John Doe"
+
+        # Check for duplicate with different case (case-insensitive)
+        matches_case = MemberService.check_duplicate_members("JOHN", "DOE", "", "")
+
+        assert len(matches_case) == 1
+        assert matches_case[0]["member"] == existing_member
+
+    def test_check_duplicate_members_phone_match(self, db, member_type):
+        """Test that phone matching works (if phone provided)"""
+        # Create an existing member with phone
+        existing_member = Member.objects.create(
+            first_name="Jane",
+            last_name="Smith",
+            email="jane@example.com",
+            home_phone="555-1234",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        # Check for duplicate by phone
+        matches = MemberService.check_duplicate_members(
+            "Different", "Name", "", "555-1234"
+        )
+
+        assert len(matches) == 1
+        assert matches[0]["member"] == existing_member
+        assert matches[0]["match_reason"] == "phone"
+        assert matches[0]["match_text"] == "555-1234"
+
+    def test_check_duplicate_members_email_match(self, db, member_type):
+        """Test that email matching works (case-insensitive, if email provided)"""
+        # Create an existing member with email
+        existing_member = Member.objects.create(
+            first_name="Bob",
+            last_name="Johnson",
+            email="bob.johnson@example.com",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        # Check for duplicate by email (exact match)
+        matches = MemberService.check_duplicate_members(
+            "Different", "Name", "bob.johnson@example.com", ""
+        )
+
+        assert len(matches) == 1
+        assert matches[0]["member"] == existing_member
+        assert matches[0]["match_reason"] == "email"
+        assert matches[0]["match_text"] == "bob.johnson@example.com"
+
+        # Check for duplicate by email (different case - case-insensitive)
+        matches_case = MemberService.check_duplicate_members(
+            "Different", "Name", "BOB.JOHNSON@EXAMPLE.COM", ""
+        )
+
+        assert len(matches_case) == 1
+        assert matches_case[0]["member"] == existing_member
+
+    def test_check_duplicate_members_multiple_matches_same_member(
+        self, db, member_type
+    ):
+        """Test that same member matched by multiple criteria appears only once"""
+        # Create an existing member matching name, phone, and email
+        existing_member = Member.objects.create(
+            first_name="Alice",
+            last_name="Williams",
+            email="alice.williams@example.com",
+            home_phone="555-9999",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        # Check for duplicate - should match by name, phone, and email
+        matches = MemberService.check_duplicate_members(
+            "Alice", "Williams", "alice.williams@example.com", "555-9999"
+        )
+
+        # Should only appear once (matched by name first)
+        assert len(matches) == 1
+        assert matches[0]["member"] == existing_member
+        assert matches[0]["match_reason"] == "name"
+
+    def test_check_duplicate_members_empty_phone_email(self, db, member_type):
+        """Test that empty phone/email fields don't cause errors"""
+        # Create an existing member
+        Member.objects.create(
+            first_name="Test",
+            last_name="Member",
+            email="test@example.com",
+            home_phone="555-0000",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        # Check with empty phone and email - should not match
+        matches = MemberService.check_duplicate_members("Different", "Name", "", "")
+
+        assert len(matches) == 0
+
+        # Check with empty phone but matching email
+        matches_email = MemberService.check_duplicate_members(
+            "Different", "Name", "test@example.com", ""
+        )
+
+        assert len(matches_email) == 1
+
+    def test_check_duplicate_members_no_matches(self, db, member_type):
+        """Test that no matches returns empty list"""
+        # Create an existing member
+        Member.objects.create(
+            first_name="Existing",
+            last_name="Member",
+            email="existing@example.com",
+            home_phone="555-1111",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        # Check for completely different member
+        matches = MemberService.check_duplicate_members(
+            "New", "Member", "new@example.com", "555-2222"
+        )
+
+        assert isinstance(matches, list)
+        assert len(matches) == 0
+
+    def test_check_duplicate_members_multiple_different_members(self, db, member_type):
+        """Test that multiple different members matching are all returned"""
+        # Create multiple existing members with same name
+        member1 = Member.objects.create(
+            first_name="John",
+            last_name="Doe",
+            email="john1@example.com",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        member2 = Member.objects.create(
+            first_name="John",
+            last_name="Doe",
+            email="john2@example.com",
+            member_type=member_type,
+            status="inactive",
+            expiration_date=date(2024, 12, 31),
+            date_joined=date(2019, 1, 1),
+        )
+
+        # Check for duplicate by name - should find both
+        matches = MemberService.check_duplicate_members("John", "Doe", "", "")
+
+        assert len(matches) == 2
+        member_pks = [m["member"].pk for m in matches]
+        assert member1.pk in member_pks
+        assert member2.pk in member_pks
+        # Both should be matched by name
+        assert all(m["match_reason"] == "name" for m in matches)
+
+    def test_check_duplicate_members_all_statuses(self, db, member_type):
+        """Test that duplicate check works for all member statuses"""
+        # Create members with different statuses
+        active_member = Member.objects.create(
+            first_name="Status",
+            last_name="Test",
+            email="active@example.com",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        inactive_member = Member.objects.create(
+            first_name="Status",
+            last_name="Test",
+            email="inactive@example.com",
+            member_type=member_type,
+            status="inactive",
+            expiration_date=date(2024, 12, 31),
+            date_joined=date(2019, 1, 1),
+        )
+
+        deceased_member = Member.objects.create(
+            first_name="Status",
+            last_name="Test",
+            email="deceased@example.com",
+            member_type=member_type,
+            status="deceased",
+            expiration_date=date(2023, 12, 31),
+            date_joined=date(2018, 1, 1),
+        )
+
+        # Check for duplicates - should find all three
+        matches = MemberService.check_duplicate_members("Status", "Test", "", "")
+
+        assert len(matches) == 3
+        member_pks = [m["member"].pk for m in matches]
+        assert active_member.pk in member_pks
+        assert inactive_member.pk in member_pks
+        assert deceased_member.pk in member_pks
+
+    def test_check_duplicate_members_return_format(self, db, member_type):
+        """Test that return value has correct format"""
+        # Create an existing member
+        existing_member = Member.objects.create(
+            first_name="Format",
+            last_name="Test",
+            email="format@example.com",
+            home_phone="555-8888",
+            member_type=member_type,
+            status="active",
+            expiration_date=date(2025, 12, 31),
+            date_joined=date(2020, 1, 1),
+        )
+
+        matches = MemberService.check_duplicate_members(
+            "Format", "Test", "format@example.com", "555-8888"
+        )
+
+        assert isinstance(matches, list)
+        assert len(matches) == 1
+
+        match = matches[0]
+        assert isinstance(match, dict)
+        assert "member" in match
+        assert "match_reason" in match
+        assert "match_text" in match
+        assert isinstance(match["member"], Member)
+        assert isinstance(match["match_reason"], str)
+        assert isinstance(match["match_text"], str)
+        assert match["member"] == existing_member

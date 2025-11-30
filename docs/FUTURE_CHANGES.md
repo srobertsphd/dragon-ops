@@ -238,10 +238,11 @@ Ensure hidden fields (`override-expiration-hidden-mobile` and `override-expirati
 
 ### Change #002: Duplicate Member Detection During Creation
 
-**Status:** Planned  
+**Status:** ✅ Completed  
 **Priority:** High  
 **Estimated Effort:** 1-2 hours  
-**Created:** December 2025
+**Created:** December 2025  
+**Completed:** November 29, 2025 at 07:03 PM
 
 #### Description
 
@@ -425,6 +426,34 @@ context = {
 - ✅ Improves data quality
 - ✅ Reduces manual cleanup needed
 - ✅ Better user experience (suggests reactivation)
+
+#### Implementation Summary
+
+**Completed Steps:**
+1. ✅ Added `check_duplicate_members()` static method to `MemberService` class
+2. ✅ Updated `add_member_view()` to call duplicate check in "confirm" step
+3. ✅ Updated `add_member.html` template to display warning banner when duplicates found
+4. ✅ Added comprehensive test suite (9 test cases, all passing)
+
+**Key Changes:**
+- `members/services.py`: Added `check_duplicate_members()` method with name, phone, and email matching
+- `members/views/members.py`: Added duplicate check call and included results in context
+- `members/templates/members/add_member.html`: Added warning banner with matching member details and links
+- `tests/test_member_service.py`: Added `TestMemberServiceCheckDuplicateMembers` class with 9 test methods
+
+**Features Implemented:**
+- Name matching: Case-insensitive first + last name combination
+- Phone matching: Exact match on `home_phone` field (if provided)
+- Email matching: Case-insensitive email matching (if provided)
+- Duplicate prevention: Avoids duplicate entries in results (checks by `member.pk`)
+- Warning display: Shows matching members with full details, status, and view links
+- All statuses: Checks active, inactive, and deceased members
+- Non-blocking: Warning only, does not prevent member creation
+
+**Testing:**
+- ✅ All 9 unit tests passing
+- ✅ Manual testing confirmed by user
+- ✅ Edge cases tested (empty fields, multiple matches, case sensitivity, all statuses)
 
 #### Notes
 

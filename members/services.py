@@ -150,3 +150,54 @@ class MemberService:
         )
 
         return member
+
+    @staticmethod
+    def check_duplicate_members(first_name, last_name, email, phone):
+        """
+        Check for existing members matching name, phone, or email.
+
+        Args:
+            first_name: First name to check
+            last_name: Last name to check
+            email: Email to check (can be empty)
+            phone: Phone number to check (can be empty, database field is home_phone)
+
+        Returns:
+            List of dicts with keys: 'member', 'match_reason', 'match_text'
+        """
+        matches = []
+
+        # Check name combination (case-insensitive)
+        name_matches = Member.objects.filter(
+            first_name__iexact=first_name, last_name__iexact=last_name
+        )
+        for member in name_matches:
+            matches.append(
+                {
+                    "member": member,
+                    "match_reason": "name",
+                    "match_text": f"{first_name} {last_name}",
+                }
+            )
+
+        # Check phone (if provided) - database field is home_phone
+        if phone:
+            phone_matches = Member.objects.filter(home_phone=phone)
+            for member in phone_matches:
+                # Avoid duplicates if already matched by name
+                if not any(m["member"].pk == member.pk for m in matches):
+                    matches.append(
+                        {"member": member, "match_reason": "phone", "match_text": phone}
+                    )
+
+        # Check email (if provided)
+        if email:
+            email_matches = Member.objects.filter(email__iexact=email)
+            for member in email_matches:
+                # Avoid duplicates if already matched by name/phone
+                if not any(m["member"].pk == member.pk for m in matches):
+                    matches.append(
+                        {"member": member, "match_reason": "email", "match_text": email}
+                    )
+
+        return matches
