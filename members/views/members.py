@@ -3,10 +3,11 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, date
+from decimal import Decimal
 
-from ..models import Member, MemberType
-from ..utils import ensure_end_of_month, add_months_to_date
-from ..services import MemberService
+from ..models import Member, MemberType, PaymentMethod
+from ..utils import ensure_end_of_month
+from ..services import MemberService, PaymentService
 
 
 @staff_member_required
@@ -67,12 +68,16 @@ def add_member_view(request):
         # Get next available member ID and suggestions using MemberService
         next_member_id, suggested_ids = MemberService.get_suggested_ids(count=5)
 
+        # Check if member_data exists in session (user went back from later steps)
+        member_data = request.session.get("member_data", {})
+
         context = {
             "step": "form",
             "member_types": member_types,
             "today": date.today(),
             "next_member_id": next_member_id,
             "suggested_ids": suggested_ids,
+            "member_data": member_data,  # Pass session data to pre-populate form
         }
         return render(request, "members/add_member.html", context)
 
@@ -124,13 +129,6 @@ def add_member_view(request):
                 ).date()
                 date_joined_obj = datetime.strptime(date_joined, "%Y-%m-%d").date()
 
-                # Calculate initial expiration date (end of current month + member type months)
-                today = date.today()
-                current_month_end = ensure_end_of_month(today)
-                initial_expiration = add_months_to_date(
-                    current_month_end, member_type.num_months
-                )
-
                 # Check for duplicate members
                 duplicate_members = MemberService.check_duplicate_members(
                     first_name, last_name, email, home_phone
@@ -150,7 +148,6 @@ def add_member_view(request):
                     "home_state": home_state,
                     "home_zip": home_zip,
                     "home_phone": home_phone,
-                    "initial_expiration": initial_expiration.isoformat(),
                 }
 
                 context = {
@@ -167,7 +164,6 @@ def add_member_view(request):
                     "home_state": home_state,
                     "home_zip": home_zip,
                     "home_phone": home_phone,
-                    "initial_expiration": initial_expiration,
                     "duplicate_members": duplicate_members,
                 }
                 return render(request, "members/add_member.html", context)
@@ -179,34 +175,166 @@ def add_member_view(request):
             messages.error(request, "Invalid request.")
             return redirect("members:add_member")
 
+    elif step == "payment":
+        # Step 3: Payment Form (for new member)
+        member_data = request.session.get("member_data")
+        if not member_data:
+            messages.error(request, "Member session expired. Please try again.")
+            return redirect("members:add_member")
+
+        if request.method == "GET":
+            # Show payment form
+            try:
+                member_type = get_object_or_404(
+                    MemberType, pk=member_data["member_type_id"]
+                )
+                payment_methods = PaymentMethod.objects.all().order_by("payment_method")
+
+                # Calculate suggested payment amount
+                suggested_amount = (
+                    PaymentService.calculate_suggested_payment_for_new_member(
+                        member_type
+                    )
+                )
+
+                context = {
+                    "step": "payment",
+                    "member_type": member_type,
+                    "payment_methods": payment_methods,
+                    "suggested_amount": suggested_amount,
+                    "today": date.today(),
+                }
+                return render(request, "members/add_member.html", context)
+
+            except (MemberType.DoesNotExist, KeyError) as e:
+                messages.error(request, f"Invalid member data: {e}")
+                return redirect("members:add_member")
+
+        elif request.method == "POST":
+            # Handle payment form submission
+            try:
+                # Get payment form data
+                amount = request.POST.get("amount")
+                payment_date = request.POST.get("payment_date")
+                payment_method_id = request.POST.get("payment_method")
+                receipt_number = request.POST.get("receipt_number", "").strip()
+
+                # Validate payment fields
+                if not amount:
+                    raise ValueError("Payment amount is required")
+                if not payment_date:
+                    raise ValueError("Payment date is required")
+                if not payment_method_id:
+                    raise ValueError("Payment method is required")
+                if not receipt_number:
+                    raise ValueError("Receipt number is required")
+
+                # Get member_type from session
+                member_type = get_object_or_404(
+                    MemberType, pk=member_data["member_type_id"]
+                )
+
+                # Parse and validate
+                amount = Decimal(amount)
+                payment_date_obj = datetime.strptime(payment_date, "%Y-%m-%d").date()
+                payment_method = get_object_or_404(PaymentMethod, pk=payment_method_id)
+
+                # Check for override expiration (from month/year dropdowns via JavaScript)
+                override_expiration = request.POST.get("override_expiration")
+
+                # Calculate expiration date using PaymentService
+                override_expiration_date = None
+                if override_expiration:
+                    override_expiration_date = datetime.strptime(
+                        override_expiration, "%Y-%m-%d"
+                    ).date()
+                    override_expiration_date = ensure_end_of_month(
+                        override_expiration_date
+                    )
+
+                new_expiration = PaymentService.calculate_expiration_for_new_member(
+                    member_type, amount, payment_date_obj, override_expiration_date
+                )
+
+                # Store payment_data in session
+                request.session["payment_data"] = {
+                    "amount": str(amount),
+                    "payment_date": payment_date_obj.isoformat(),
+                    "payment_method_id": payment_method_id,
+                    "receipt_number": receipt_number,
+                    "new_expiration": new_expiration.isoformat(),
+                }
+
+                # Show payment confirmation
+                context = {
+                    "step": "payment_confirm",
+                    "amount": amount,
+                    "payment_date": payment_date_obj,
+                    "payment_method": payment_method,
+                    "receipt_number": receipt_number,
+                    "new_expiration": new_expiration,
+                }
+                return render(request, "members/add_member.html", context)
+
+            except (
+                ValueError,
+                PaymentMethod.DoesNotExist,
+                MemberType.DoesNotExist,
+            ) as e:
+                messages.error(request, f"Invalid payment data: {e}")
+                # Redirect back to payment form
+                return redirect("members:add_member?step=payment")
+        else:
+            messages.error(request, "Invalid request.")
+            return redirect("members:add_member")
+
     elif step == "process":
-        # Step 3: Final Processing
+        # Step 4: Final Processing - Create member and payment
         if request.method == "POST" and request.POST.get("confirm") == "yes":
             member_data = request.session.get("member_data")
+            payment_data = request.session.get("payment_data")
+
             if not member_data:
                 messages.error(request, "Member session expired. Please try again.")
                 return redirect("members:add_member")
 
+            if not payment_data:
+                messages.error(request, "Payment session expired. Please try again.")
+                return redirect("members:add_member")
+
             try:
+                # Add expiration date from payment_data to member_data
+                # (create_member expects "initial_expiration" in member_data)
+                member_data["initial_expiration"] = payment_data["new_expiration"]
+
                 # Create member using MemberService
                 member = MemberService.create_member(member_data)
 
-                # Clear session data
+                # Create payment record linked to new member using PaymentService
+                payment, was_inactive = PaymentService.process_payment(
+                    member, payment_data
+                )
+
+                # Clear both session data entries
                 if "member_data" in request.session:
                     del request.session["member_data"]
+                if "payment_data" in request.session:
+                    del request.session["payment_data"]
 
                 # Create success message
-                success_msg = f"Member {member.full_name} (#{member.member_id}) successfully created. Membership expires {member.expiration_date.strftime('%B %d, %Y')}."
+                success_msg = f"Member {member.full_name} (#{member.member_id}) successfully created with initial payment of ${payment.amount}. Membership expires {member.expiration_date.strftime('%B %d, %Y')}."
                 messages.success(request, success_msg)
                 return redirect("members:search")
 
             except Exception as e:
-                messages.error(request, f"Error creating member: {e}")
+                messages.error(request, f"Error creating member and payment: {e}")
                 return redirect("members:add_member")
         else:
             # User cancelled or invalid request
             if "member_data" in request.session:
                 del request.session["member_data"]
+            if "payment_data" in request.session:
+                del request.session["payment_data"]
             messages.info(request, "Member creation cancelled.")
             return redirect("members:add_member")
 

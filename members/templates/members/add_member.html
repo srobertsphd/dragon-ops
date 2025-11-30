@@ -50,7 +50,7 @@
                                                    class="form-control" 
                                                    id="member_id" 
                                                    name="member_id" 
-                                                   value="{{ next_member_id }}"
+                                                   value="{% if member_data.member_id %}{{ member_data.member_id }}{% else %}{{ next_member_id }}{% endif %}"
                                                    required>
                                             <select class="form-select" id="member_id_suggestions" style="max-width: 140px;">
                                                 <option value="">Quick Select</option>
@@ -72,6 +72,7 @@
                                                class="form-control" 
                                                id="first_name" 
                                                name="first_name" 
+                                               value="{{ member_data.first_name|default:'' }}"
                                                required
                                                placeholder="Enter first name">
                                     </div>
@@ -83,6 +84,7 @@
                                                class="form-control" 
                                                id="last_name" 
                                                name="last_name" 
+                                               value="{{ member_data.last_name|default:'' }}"
                                                required
                                                placeholder="Enter last name">
                                     </div>
@@ -96,7 +98,7 @@
                                         <select class="form-select" id="member_type" name="member_type" required>
                                             <option value="">Select member type...</option>
                                             {% for member_type in member_types %}
-                                            <option value="{{ member_type.pk }}">{{ member_type.member_type }}</option>
+                                            <option value="{{ member_type.pk }}" {% if member_data.member_type_id == member_type.pk|stringformat:"s" %}selected{% endif %}>{{ member_type.member_type }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -108,6 +110,7 @@
                                                class="form-control" 
                                                id="email" 
                                                name="email" 
+                                               value="{{ member_data.email|default:'' }}"
                                                placeholder="Enter email address">
                                     </div>
                                 </div>
@@ -121,6 +124,7 @@
                                                class="form-control" 
                                                id="milestone_date" 
                                                name="milestone_date" 
+                                               value="{{ member_data.milestone_date|default:'' }}"
                                                required>
                                         <small class="form-text text-muted">Sobriety date or other significant milestone</small>
                                     </div>
@@ -132,7 +136,7 @@
                                                class="form-control" 
                                                id="date_joined" 
                                                name="date_joined" 
-                                               value="{{ today|date:'Y-m-d' }}"
+                                               value="{% if member_data.date_joined %}{{ member_data.date_joined }}{% else %}{{ today|date:'Y-m-d' }}{% endif %}"
                                                required>
                                         <small class="form-text text-muted">Date joined the organization</small>
                                     </div>
@@ -156,7 +160,7 @@
                                                   id="home_address" 
                                                   name="home_address" 
                                                   rows="2"
-                                                  placeholder="Enter street address"></textarea>
+                                                  placeholder="Enter street address">{{ member_data.home_address|default:'' }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -169,6 +173,7 @@
                                                class="form-control" 
                                                id="home_city" 
                                                name="home_city" 
+                                               value="{{ member_data.home_city|default:'' }}"
                                                placeholder="Enter city">
                                     </div>
                                 </div>
@@ -180,6 +185,7 @@
                                                id="home_state" 
                                                name="home_state" 
                                                maxlength="2"
+                                               value="{{ member_data.home_state|default:'' }}"
                                                placeholder="Enter state code (e.g., CA, NY)">
                                         <small class="form-text text-muted">2-letter state code</small>
                                     </div>
@@ -192,6 +198,7 @@
                                                id="home_zip" 
                                                name="home_zip" 
                                                maxlength="10"
+                                               value="{{ member_data.home_zip|default:'' }}"
                                                placeholder="12345 or 12345-6789">
                                     </div>
                                 </div>
@@ -205,6 +212,7 @@
                                                class="form-control" 
                                                id="home_phone" 
                                                name="home_phone" 
+                                               value="{{ member_data.home_phone|default:'' }}"
                                                placeholder="(555) 123-4567">
                                     </div>
                                 </div>
@@ -227,7 +235,7 @@
                     {% elif step == 'confirm' %}
                         <div class="alert alert-info">
                             <i class="bi bi-info-circle me-2"></i>
-                            Please review the member details below and confirm to create the new member.
+                            Please review the member details below and proceed to payment to complete member creation.
                         </div>
                         
                         {% if duplicate_members %}
@@ -278,9 +286,6 @@
                                             <dt class="col-sm-5">Member Type:</dt>
                                             <dd class="col-sm-7">{{ member_type.member_type }}</dd>
                                             
-                                            <dt class="col-sm-5">Email:</dt>
-                                            <dd class="col-sm-7">{{ email|default:"Not provided" }}</dd>
-                                            
                                             <dt class="col-sm-5">Milestone Date:</dt>
                                             <dd class="col-sm-7">{{ milestone_date|date:"F j, Y" }}</dd>
                                             
@@ -291,16 +296,16 @@
                                 </div>
                             </div>
                             
-                            <!-- Membership & Contact -->
+                            <!-- Contact -->
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h6 class="mb-0">Membership & Contact</h6>
+                                        <h6 class="mb-0">Contact</h6>
                                     </div>
                                     <div class="card-body">
                                         <dl class="row mb-0">
-                                            <dt class="col-sm-5">Initial Expiration:</dt>
-                                            <dd class="col-sm-7"><strong class="text-success">{{ initial_expiration|date:"F j, Y" }}</strong></dd>
+                                            <dt class="col-sm-5">Email:</dt>
+                                            <dd class="col-sm-7">{{ email|default:"Not provided" }}</dd>
                                             
                                             <dt class="col-sm-5">Address:</dt>
                                             <dd class="col-sm-7">
@@ -335,12 +340,220 @@
                                         Cancel
                                     </button>
                                 </form>
+                                <a href="?step=payment" class="btn btn-success">
+                                    <i class="bi bi-arrow-right me-1"></i>
+                                    Proceed to Payment
+                                </a>
+                            </div>
+                        </div>
+                    
+                    <!-- Step 3: Payment Form -->
+                    {% elif step == 'payment' %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Enter payment information for the new member. Expiration date will be calculated based on payment amount.
+                        </div>
+                        
+                        <!-- Member Type Info -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Member Type</h6>
+                                        <p class="mb-0">{{ member_type.member_type }}</p>
+                                        <p class="mb-0">Monthly Dues: <strong>${{ member_type.member_dues }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Membership Expiration</h6>
+                                        <p class="mb-0">New Expiration: <span class="text-success" id="new-expiration-preview">Calculating...</span></p>
+                                        <small class="text-muted">Based on payment amount</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Form -->
+                        <form method="post" action="?step=payment">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label">Payment Amount * <small class="text-muted">(Suggested: ${{ suggested_amount }})</small></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" 
+                                                   class="form-control" 
+                                                   id="amount" 
+                                                   name="amount" 
+                                                   step="any" 
+                                                   min="0.01" 
+                                                   value="{{ suggested_amount }}" 
+                                                   data-monthly-dues="{{ member_type.member_dues }}"
+                                                   data-start-date="{{ today|date:'Y-m-d' }}"
+                                                   required>
+                                            <button class="btn btn-outline-secondary" type="button" id="amount-minus">
+                                                <i class="bi bi-dash"></i>
+                                            </button>
+                                            <button class="btn btn-outline-secondary" type="button" id="amount-plus">
+                                                <i class="bi bi-plus"></i>
+                                            </button>
+                                        </div>
+                                        <small class="form-text text-muted">Use +/- buttons for monthly increments. Custom amounts allowed.</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="payment_date" class="form-label">Payment Date *</label>
+                                        <input type="date" 
+                                               class="form-control" 
+                                               id="payment_date" 
+                                               name="payment_date" 
+                                               value="{{ today|date:'Y-m-d' }}" 
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="payment_method" class="form-label">Payment Method *</label>
+                                        <select class="form-select" id="payment_method" name="payment_method" required>
+                                            <option value="">Select payment method...</option>
+                                            {% for method in payment_methods %}
+                                            <option value="{{ method.pk }}">{{ method.payment_method }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="receipt_number" class="form-label">Receipt Number *</label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="receipt_number" 
+                                               name="receipt_number" 
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Override Expiration Date -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Override Expiration Date (Optional)</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-3">By default, expiration is calculated from payment amount. You can override it here.</p>
+                                    <div class="row g-2">
+                                        <div class="col-md-3">
+                                            <label for="override-month-select" class="form-label">Month</label>
+                                            <select class="form-select" id="override-month-select" name="override_month">
+                                                <!-- Options will be populated by JavaScript -->
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="override-year-select" class="form-label">Year</label>
+                                            <select class="form-select" id="override-year-select" name="override_year">
+                                                <!-- Options will be populated by JavaScript -->
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">&nbsp;</label>
+                                            <div>
+                                                <small class="form-text text-muted d-block">All dates are automatically set to the last day of the selected month</small>
+                                                <small class="form-text text-info d-block mt-1" id="override-preview">Calculated expiration will be used</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="override-expiration-hidden" name="override_expiration">
+                                </div>
+                            </div>
+                            
+                            <!-- Form Buttons -->
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="?step=confirm" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Back to Review
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Continue to Confirmation
+                                    <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </form>
+                    
+                    <!-- Step 4: Payment Confirmation -->
+                    {% elif step == 'payment_confirm' %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Please review the payment details below and confirm to create the member with initial payment.
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Payment Details</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="row mb-0">
+                                            <dt class="col-sm-5">Amount:</dt>
+                                            <dd class="col-sm-7"><strong class="text-success">${{ amount }}</strong></dd>
+                                            
+                                            <dt class="col-sm-5">Date:</dt>
+                                            <dd class="col-sm-7">{{ payment_date|date:"F j, Y" }}</dd>
+                                            
+                                            <dt class="col-sm-5">Method:</dt>
+                                            <dd class="col-sm-7">{{ payment_method.payment_method }}</dd>
+                                            
+                                            <dt class="col-sm-5">Receipt:</dt>
+                                            <dd class="col-sm-7">{{ receipt_number }}</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Membership Expiration</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <dl class="row mb-0">
+                                            <dt class="col-sm-5">Expires:</dt>
+                                            <dd class="col-sm-7"><strong class="text-success">{{ new_expiration|date:"F j, Y" }}</strong></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Confirmation Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="?step=payment" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Back to Edit
+                            </a>
+                            <div>
+                                <form method="post" action="?step=process" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="confirm" value="no">
+                                    <button type="submit" class="btn btn-outline-danger me-2">
+                                        <i class="bi bi-x-circle me-1"></i>
+                                        Cancel
+                                    </button>
+                                </form>
                                 <form method="post" action="?step=process" style="display: inline;">
                                     {% csrf_token %}
                                     <input type="hidden" name="confirm" value="yes">
                                     <button type="submit" class="btn btn-success">
                                         <i class="bi bi-check-circle me-1"></i>
-                                        Create Member
+                                        Create Member & Process Payment
                                     </button>
                                 </form>
                             </div>
@@ -399,6 +612,240 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+    }
+    
+    // Payment form - expiration calculation for new members
+    // Track if user has manually changed override dropdowns (shared across scopes)
+    let overrideManuallyChanged = false;
+    
+    // Shared functions for payment form
+    function getEndOfMonth(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const lastDay = new Date(year, month + 1, 0).getDate();
+        return new Date(year, month, lastDay);
+    }
+    
+    function addMonthsToDate(date, months) {
+        let month = date.getMonth() + months;
+        let year = date.getFullYear() + Math.floor(month / 12);
+        month = month % 12;
+        const lastDay = new Date(year, month + 1, 0).getDate();
+        return new Date(year, month, lastDay);
+    }
+    
+    function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
+    
+    // Function to calculate expiration from payment amount (for new members)
+    function calculateNewMemberExpiration(paymentAmount, monthlyDues, startDateStr) {
+        if (!startDateStr || monthlyDues === 0) {
+            // Default to end of current month if no data
+            const today = new Date();
+            return getEndOfMonth(today);
+        }
+        
+        const startDate = new Date(startDateStr + 'T00:00:00');
+        const currentMonthEnd = getEndOfMonth(startDate);
+        
+        if (paymentAmount < monthlyDues) {
+            // Less than one month - still give them until end of current month
+            return currentMonthEnd;
+        }
+        
+        const monthsPaid = Math.floor(paymentAmount / monthlyDues);
+        return addMonthsToDate(currentMonthEnd, monthsPaid);
+    }
+    
+    const amountInput = document.getElementById('amount');
+    const plusButton = document.getElementById('amount-plus');
+    const minusButton = document.getElementById('amount-minus');
+    const newExpirationPreview = document.getElementById('new-expiration-preview');
+    
+    if (amountInput && newExpirationPreview) {
+        const monthlyDues = parseFloat(amountInput.dataset.monthlyDues) || 0;
+        const startDateStr = amountInput.dataset.startDate;
+        
+        // Function to update expiration preview and override dropdowns
+        function updateExpirationPreview() {
+            const paymentAmount = parseFloat(amountInput.value) || 0;
+            const calculatedExpiration = calculateNewMemberExpiration(paymentAmount, monthlyDues, startDateStr);
+            newExpirationPreview.textContent = formatDate(calculatedExpiration);
+            
+            // Auto-update override dropdowns to match calculated expiration
+            // Only update if user hasn't manually changed them
+            const monthSelect = document.getElementById('override-month-select');
+            const yearSelect = document.getElementById('override-year-select');
+            
+            if (monthSelect && yearSelect && calculatedExpiration && !overrideManuallyChanged) {
+                const calcMonth = calculatedExpiration.getMonth() + 1; // JavaScript months are 0-indexed
+                const calcYear = calculatedExpiration.getFullYear();
+                
+                monthSelect.value = calcMonth;
+                yearSelect.value = calcYear;
+                
+                // Trigger update of override preview
+                setTimeout(function() {
+                    if (typeof window.updateOverridePreview === 'function') {
+                        window.updateOverridePreview();
+                    }
+                }, 0);
+            }
+        }
+        
+        // Plus button - add one month's dues
+        if (plusButton) {
+            plusButton.addEventListener('click', function() {
+                const currentAmount = parseFloat(amountInput.value) || 0;
+                const newAmount = currentAmount + monthlyDues;
+                amountInput.value = newAmount.toFixed(2);
+                updateExpirationPreview();
+            });
+        }
+        
+        // Minus button - subtract one month's dues (minimum 0.01)
+        if (minusButton) {
+            minusButton.addEventListener('click', function() {
+                const currentAmount = parseFloat(amountInput.value) || 0;
+                const newAmount = Math.max(0.01, currentAmount - monthlyDues);
+                amountInput.value = newAmount.toFixed(2);
+                updateExpirationPreview();
+            });
+        }
+        
+        // Update expiration when amount is manually changed
+        amountInput.addEventListener('input', updateExpirationPreview);
+        amountInput.addEventListener('change', updateExpirationPreview);
+        
+        // Initial calculation
+        updateExpirationPreview();
+    }
+    
+    // Override expiration date dropdowns (month/year)
+    const monthSelect = document.getElementById('override-month-select');
+    const yearSelect = document.getElementById('override-year-select');
+    const overrideHidden = document.getElementById('override-expiration-hidden');
+    const overridePreview = document.getElementById('override-preview');
+    
+    if (monthSelect && yearSelect && overrideHidden) {
+        const today = new Date();
+        const currentMonth = today.getMonth() + 1; // 1-12
+        const currentYear = today.getFullYear();
+        
+        // Month names with last day indicators
+        const monthData = [
+            {name: 'January', value: 1, lastDay: 31},
+            {name: 'February', value: 2, lastDay: '28/29'},
+            {name: 'March', value: 3, lastDay: 31},
+            {name: 'April', value: 4, lastDay: 30},
+            {name: 'May', value: 5, lastDay: 31},
+            {name: 'June', value: 6, lastDay: 30},
+            {name: 'July', value: 7, lastDay: 31},
+            {name: 'August', value: 8, lastDay: 31},
+            {name: 'September', value: 9, lastDay: 30},
+            {name: 'October', value: 10, lastDay: 31},
+            {name: 'November', value: 11, lastDay: 30},
+            {name: 'December', value: 12, lastDay: 31}
+        ];
+        
+        // Populate month dropdown
+        monthData.forEach(month => {
+            const option = document.createElement('option');
+            option.value = month.value;
+            option.textContent = `${month.name} (${month.lastDay})`;
+            monthSelect.appendChild(option);
+        });
+        
+        // Populate year dropdown (current year through 4 years forward)
+        for (let year = currentYear; year <= currentYear + 4; year++) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+        
+        // Function to calculate end of month date from month/year
+        function calculateOverrideDate() {
+            const selectedMonth = parseInt(monthSelect.value);
+            const selectedYear = parseInt(yearSelect.value);
+            
+            if (!selectedMonth || !selectedYear) {
+                return null;
+            }
+            
+            // Get last day of selected month
+            const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
+            const endOfMonthDate = new Date(selectedYear, selectedMonth - 1, lastDay);
+            
+            return endOfMonthDate;
+        }
+        
+        // Function to update override preview and hidden field
+        // Make it accessible globally for updateExpirationPreview
+        window.updateOverridePreview = function() {
+            const amountInputEl = document.getElementById('amount');
+            let calculatedExpiration = null;
+            
+            if (amountInputEl) {
+                const monthlyDues = parseFloat(amountInputEl.dataset.monthlyDues) || 0;
+                const startDateStr = amountInputEl.dataset.startDate;
+                const paymentAmount = parseFloat(amountInputEl.value) || 0;
+                calculatedExpiration = calculateNewMemberExpiration(paymentAmount, monthlyDues, startDateStr);
+            }
+            
+            const overrideDate = calculateOverrideDate();
+            
+            if (overrideDate && overridePreview) {
+                // Validate: can't be in the past (allow current month)
+                const today = new Date();
+                const currentMonthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                
+                if (overrideDate < currentMonthEnd) {
+                    // Reset to calculated expiration
+                    if (calculatedExpiration) {
+                        const calcMonth = calculatedExpiration.getMonth() + 1;
+                        const calcYear = calculatedExpiration.getFullYear();
+                        monthSelect.value = calcMonth;
+                        yearSelect.value = calcYear;
+                        const validOverride = calculateOverrideDate();
+                        overrideHidden.value = validOverride ? validOverride.toISOString().split('T')[0] : '';
+                        overridePreview.textContent = `Override: ${formatDate(validOverride)}`;
+                    } else {
+                        overrideHidden.value = '';
+                        overridePreview.textContent = 'Calculated expiration will be used';
+                    }
+                } else {
+                    overrideHidden.value = overrideDate.toISOString().split('T')[0];
+                    overridePreview.textContent = `Override: ${formatDate(overrideDate)}`;
+                }
+            } else {
+                overrideHidden.value = calculatedExpiration ? calculatedExpiration.toISOString().split('T')[0] : '';
+                if (overridePreview) {
+                    overridePreview.textContent = 'Calculated expiration will be used';
+                }
+            }
+        };
+        
+        // Track manual changes to override dropdowns
+        monthSelect.addEventListener('change', function() {
+            overrideManuallyChanged = true;
+            window.updateOverridePreview();
+        });
+        yearSelect.addEventListener('change', function() {
+            overrideManuallyChanged = true;
+            window.updateOverridePreview();
+        });
+        
+        // Update when amount changes
+        if (amountInput) {
+            amountInput.addEventListener('input', updateOverridePreview);
+            amountInput.addEventListener('change', updateOverridePreview);
+        }
+        
+        // Initialize override preview
+        updateOverridePreview();
     }
 });
 </script>

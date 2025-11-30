@@ -6,9 +6,9 @@ for member and payment operations, separating concerns from views.
 """
 
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime, date
 from .models import Member, MemberType, Payment, PaymentMethod
-from .utils import add_months_to_date
+from .utils import add_months_to_date, ensure_end_of_month
 
 
 class PaymentService:
@@ -36,6 +36,79 @@ class PaymentService:
             return add_months_to_date(member.expiration_date, total_months_to_add)
         else:
             return add_months_to_date(member.expiration_date, 1)
+
+    @staticmethod
+    def calculate_suggested_payment_for_new_member(member_type, start_date=None):
+        """
+        Calculate suggested payment amount for new member to get to end of next month.
+
+        This calculates the payment needed to cover:
+        - Remainder of current month (partial)
+        - Plus full next month
+        - To reach the end of the next month
+
+        Args:
+            member_type: MemberType instance
+            start_date: Starting date (defaults to today)
+
+        Returns:
+            Decimal: Suggested payment amount
+        """
+        if start_date is None:
+            start_date = date.today()
+
+        if member_type and member_type.member_dues > 0:
+            # Calculate payment for 1 month (to get to end of next month)
+            # This covers remainder of current month + full next month
+            return Decimal(str(member_type.member_dues))
+        else:
+            # Default to 1 month payment if no dues specified
+            return Decimal("0.00")
+
+    @staticmethod
+    def calculate_expiration_for_new_member(
+        member_type, payment_amount, start_date=None, override_expiration=None
+    ):
+        """
+        Calculate expiration date for a new member based on payment amount.
+
+        Rules:
+        - Always rounds up to at least the end of the current month (never less)
+        - Calculates months paid based on payment_amount / monthly_dues
+        - Result is always the last day of a month (current or future)
+        - Supports override_expiration parameter
+
+        Args:
+            member_type: MemberType instance
+            payment_amount: Decimal payment amount
+            start_date: Starting date for calculation (defaults to today)
+            override_expiration: Optional date to override calculation
+
+        Returns:
+            date: New expiration date (always end of month)
+        """
+        if override_expiration:
+            return ensure_end_of_month(override_expiration)
+
+        if start_date is None:
+            start_date = date.today()
+
+        # Ensure start_date is end of current month
+        current_month_end = ensure_end_of_month(start_date)
+
+        if member_type and member_type.member_dues > 0:
+            months_paid = float(payment_amount) / float(member_type.member_dues)
+            total_months_to_add = int(months_paid)
+
+            # If payment is less than 1 month, still give them until end of current month
+            if total_months_to_add == 0:
+                return current_month_end
+
+            # Calculate expiration from end of current month
+            return add_months_to_date(current_month_end, total_months_to_add)
+        else:
+            # Default to end of current month if no dues specified
+            return current_month_end
 
     @staticmethod
     def process_payment(member, payment_data):

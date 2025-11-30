@@ -4,6 +4,8 @@ Tests for Payment Service (Step 3: Extract Payment Service)
 Tests the PaymentService class methods:
 - calculate_expiration()
 - process_payment()
+- calculate_suggested_payment_for_new_member()
+- calculate_expiration_for_new_member()
 """
 
 import pytest
@@ -356,3 +358,125 @@ class TestPaymentServiceProcessPayment:
             assert active_member.expiration_date == override_expiration, (
                 f"Failed for {description}: expected {override_expiration}, got {active_member.expiration_date}"
             )
+
+
+@pytest.mark.django_db
+@pytest.mark.unit
+class TestPaymentServiceNewMemberMethods:
+    """Test PaymentService methods for new member creation (Change #003)"""
+
+    @pytest.fixture
+    def member_type(self, db):
+        """Create a test member type"""
+        return MemberType.objects.create(
+            member_type="Regular",
+            member_dues=Decimal("30.00"),
+            num_months=1,
+        )
+
+    def test_calculate_suggested_payment_for_new_member(self, member_type):
+        """Test that suggested payment returns monthly dues"""
+        suggested = PaymentService.calculate_suggested_payment_for_new_member(
+            member_type
+        )
+        assert suggested == Decimal("30.00")
+        assert isinstance(suggested, Decimal)
+
+    def test_calculate_suggested_payment_no_dues(self, db):
+        """Test suggested payment when member type has no dues"""
+        member_type = MemberType.objects.create(
+            member_type="Free",
+            member_dues=Decimal("0.00"),
+            num_months=1,
+        )
+        suggested = PaymentService.calculate_suggested_payment_for_new_member(
+            member_type
+        )
+        assert suggested == Decimal("0.00")
+
+    def test_calculate_expiration_for_new_member_one_month(self, member_type):
+        """Test expiration calculation for new member with 1 month payment"""
+        payment_amount = Decimal("30.00")
+        start_date = date(2025, 11, 15)  # November 15, 2025
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount, start_date
+        )
+
+        # Should be end of December 2025 (end of current month + 1 month)
+        assert expiration == date(2025, 12, 31)
+        assert expiration.day == 31  # Always end of month
+
+    def test_calculate_expiration_for_new_member_multiple_months(self, member_type):
+        """Test expiration calculation for new member with multiple months payment"""
+        payment_amount = Decimal("90.00")  # 3 months
+        start_date = date(2025, 11, 20)
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount, start_date
+        )
+
+        # Should be end of February 2026 (end of Nov + 3 months)
+        assert expiration == date(2026, 2, 28)
+        assert expiration.day == 28  # End of February
+
+    def test_calculate_expiration_for_new_member_partial_month(self, member_type):
+        """Test that partial month payment still gives end of current month"""
+        payment_amount = Decimal("15.00")  # Less than one month
+        start_date = date(2025, 11, 10)
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount, start_date
+        )
+
+        # Should be end of current month (November 30)
+        assert expiration == date(2025, 11, 30)
+
+    def test_calculate_expiration_for_new_member_with_override(self, member_type):
+        """Test that override expiration is used when provided"""
+        payment_amount = Decimal("30.00")
+        start_date = date(2025, 11, 15)
+        override_expiration = date(2026, 6, 30)
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount, start_date, override_expiration
+        )
+
+        assert expiration == override_expiration
+
+    def test_calculate_expiration_for_new_member_defaults_to_today(self, member_type):
+        """Test that start_date defaults to today if not provided"""
+        payment_amount = Decimal("30.00")
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount
+        )
+
+        # Should be end of month (at least current month)
+        assert expiration.day >= 28  # End of month
+        assert expiration.month >= date.today().month
+
+    def test_calculate_expiration_for_new_member_always_end_of_month(self, member_type):
+        """Test that expiration is always end of month"""
+        payment_amount = Decimal("60.00")  # 2 months
+        start_date = date(2025, 1, 15)  # January 15
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount, start_date
+        )
+
+        # Should be end of March (end of Jan + 2 months)
+        assert expiration == date(2025, 3, 31)
+        assert expiration.day == 31  # Last day of March
+
+    def test_calculate_expiration_for_new_member_leap_year(self, member_type):
+        """Test expiration calculation with leap year February"""
+        payment_amount = Decimal("30.00")  # 1 month
+        start_date = date(2024, 1, 15)  # January 15, 2024 (leap year)
+
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            member_type, payment_amount, start_date
+        )
+
+        # Should be end of February 2024 (leap year)
+        assert expiration == date(2024, 2, 29)  # Leap year February

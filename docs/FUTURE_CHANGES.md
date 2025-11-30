@@ -465,6 +465,242 @@ context = {
 
 ---
 
+### Change #003: New Member Creation with Initial Payment
+
+**Status:** Planned  
+**Priority:** High  
+**Estimated Effort:** 4-6 hours  
+**Created:** November 29, 2025
+
+#### Description
+
+Currently, when creating a new member, the system automatically calculates and displays an expiration date on the confirmation page before the member has made any payment. This change will modify the workflow so that:
+
+1. New members must provide an initial payment before their membership expiration date is set
+2. The confirmation page will not show an expiration date (since no payment has been made yet)
+3. After confirmation, users will proceed to a payment form to collect the initial payment
+4. The expiration date will be calculated from today's date based on the payment amount
+5. Member and payment will be created together in a single atomic operation
+
+This ensures that every new member has an accompanying initial payment and that expiration dates are based on actual payments rather than assumptions.
+
+#### Current Implementation
+
+**Location:** `members/views/members.py` - `add_member_view()`
+
+**Current Workflow:**
+1. **Form step**: User enters member information
+2. **Confirm step**: 
+   - Shows member information
+   - Calculates and displays expiration date automatically (end of current month + member type months)
+   - Shows "Create Member" button
+   - Displays "Membership & Contact" card with expiration date
+3. **Process step**: Creates member immediately with calculated expiration date
+
+**Current Behavior:**
+- Expiration date is calculated before any payment is received
+- Member is created without an initial payment record
+- No payment collection step in member creation workflow
+
+**Current Code:**
+```python
+# Lines 127-132 in members/views/members.py
+# Calculate initial expiration date (end of current month + member type months)
+today = date.today()
+current_month_end = ensure_end_of_month(today)
+initial_expiration = add_months_to_date(
+    current_month_end, member_type.num_months
+)
+```
+
+#### Proposed Implementation
+
+**New Workflow:**
+1. **Form step**: User enters member information (unchanged)
+2. **Confirm step**: 
+   - Shows member information (Name, Member ID, Member Type, Email, Milestone Date, Date Joined)
+   - Shows contact information (Address, Phone, Email if provided)
+   - **NO expiration date displayed** (member hasn't paid yet)
+   - Shows "Proceed to Payment" button (instead of "Create Member")
+   - Duplicate member detection still runs (as implemented in Change #002)
+3. **Payment step** (NEW): 
+   - Collect payment information (amount, payment date, payment method, receipt number)
+   - Calculate expiration date from today's date based on payment amount
+   - Payment covers remainder of current month + next month(s) to reach end-of-month date
+   - Similar to existing payment form but adapted for new members
+4. **Process step**: 
+   - Calculate expiration date from payment amount (starting from today)
+   - Create member with calculated expiration date
+   - Create payment record linked to new member
+   - Both operations happen atomically
+
+**Key Changes:**
+- Remove expiration date calculation from confirm step
+- Split confirmation page into "Member Information" and "Contact" cards (remove "Membership & Contact")
+- Add new "payment" step to `add_member_view()`
+- Add new method to `PaymentService` for calculating expiration for new members (from today, not existing expiration)
+- Modify process step to create member first, then payment (required by database ForeignKey constraint)
+
+#### Implementation Steps
+
+**Step 1: Add New Method to PaymentService (`members/services.py`)**
+
+Add method to calculate expiration for new members (starts from today, not existing member expiration):
+
+```python
+@staticmethod
+def calculate_expiration_for_new_member(member_type, payment_amount, start_date=None, override_expiration=None):
+    """
+    Calculate expiration date for a new member (starts from today, not existing expiration).
+    
+    Args:
+        member_type: MemberType instance
+        payment_amount: Decimal payment amount
+        start_date: Starting date for calculation (defaults to today)
+        override_expiration: Optional date to override calculation
+    
+    Returns:
+        date: New expiration date (end of month)
+    """
+    if override_expiration:
+        return ensure_end_of_month(override_expiration)
+    
+    if start_date is None:
+        start_date = date.today()
+    
+    # Ensure start_date is end of month
+    start_date = ensure_end_of_month(start_date)
+    
+    if member_type and member_type.member_dues > 0:
+        months_paid = float(payment_amount) / float(member_type.member_dues)
+        total_months_to_add = int(months_paid)
+        return add_months_to_date(start_date, total_months_to_add)
+    else:
+        return add_months_to_date(start_date, 1)
+```
+
+**Step 2: Update add_member_view() - Remove Expiration from Confirm Step**
+
+**Location:** `members/views/members.py` - "confirm" step (around lines 127-132)
+
+**Changes:**
+- Remove expiration date calculation from confirm step
+- Remove `initial_expiration` from context
+- Keep duplicate member check (already implemented)
+
+**Step 3: Update add_member_view() - Add Payment Step**
+
+**Location:** `members/views/members.py` - Add new `elif step == "payment"` handler
+
+**New Step Flow:**
+- Validate member_data exists in session
+- Get payment form data (amount, payment_date, payment_method, receipt_number)
+- Validate payment data
+- Calculate expiration date using `PaymentService.calculate_expiration_for_new_member()`
+- Store payment_data in session
+- Render payment confirmation page
+
+**Step 4: Update add_member_view() - Modify Process Step**
+
+**Location:** `members/views/members.py` - "process" step (around lines 182-211)
+
+**Changes:**
+- Get both `member_data` and `payment_data` from session
+- Calculate expiration date from payment (using new method)
+- Create member with calculated expiration date
+- Create payment record linked to new member
+- Clear both session data entries
+- Redirect to member detail page or search page
+
+**Step 5: Update Template - Modify Confirmation Page**
+
+**Location:** `members/templates/members/add_member.html` - Confirmation step (around lines 226-321)
+
+**Changes:**
+- Remove "Initial Expiration" field from display
+- Split "Membership & Contact" card into:
+  - "Member Information" card (left): Name, Member ID, Member Type, Email, Milestone Date, Date Joined
+  - "Contact" card (right): Address, Phone, Email (if provided)
+- Change button from "Create Member" to "Proceed to Payment"
+- Update button action to go to `?step=payment`
+
+**Step 6: Update Template - Add Payment Form Page**
+
+**Location:** `members/templates/members/add_member.html` - Add new payment step section
+
+**New Template Section:**
+- Payment form similar to existing payment form
+- Fields: Amount, Payment Date, Payment Method, Receipt Number
+- Show calculated expiration date preview (based on payment amount)
+- JavaScript to calculate expiration date dynamically
+- "Back to Review" and "Confirm Payment" buttons
+
+**Step 7: Update MemberService.create_member() (if needed)**
+
+**Location:** `members/services.py` - `create_member()` method
+
+**Check if modification needed:**
+- Ensure method accepts expiration_date from payment calculation
+- May need to modify to not calculate expiration internally
+
+#### Dependencies
+
+- ✅ Change #002 (Duplicate Member Detection) - Completed
+- ✅ PaymentService exists - Completed
+- ✅ MemberService.create_member() exists - Completed
+- ✅ Payment model has ForeignKey to Member - Completed
+- ✅ PaymentService.process_payment() exists - Completed
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Create new member and verify no expiration date on confirmation page
+   - Verify "Proceed to Payment" button appears instead of "Create Member"
+   - Complete payment flow for new member
+   - Verify expiration date is calculated from today's date
+   - Verify member and payment are both created successfully
+   - Verify expiration date matches payment amount calculation
+   - Test with different payment amounts
+   - Test with different member types
+   - Verify duplicate detection still works on confirmation page
+
+2. **Edge Cases:**
+   - Payment amount less than monthly dues (partial month)
+   - Payment amount covering multiple months
+   - Payment on last day of month
+   - Payment at month boundaries
+   - Empty payment fields
+   - Invalid payment data
+   - Session expiration during payment step
+
+3. **Automated Testing:**
+   - Add test cases to `tests/test_payment_service.py` for `calculate_expiration_for_new_member()`
+   - Test expiration calculation from today's date
+   - Test with different payment amounts
+   - Test with different member types
+   - Add integration test for full new member + payment workflow
+   - Test atomicity (member and payment created together)
+
+#### Benefits
+
+- ✅ Ensures every new member has an initial payment record
+- ✅ Expiration dates are based on actual payments, not assumptions
+- ✅ More accurate membership tracking
+- ✅ Better audit trail (payment history starts from member creation)
+- ✅ Consistent workflow (all members have payment records)
+- ✅ Prevents creating members without payments
+
+#### Notes
+
+- **Database Constraint**: Payment model has ForeignKey to Member, so member MUST be created before payment. This is why we create member first, then payment in the process step.
+- **Expiration Calculation**: For new members, expiration is calculated from today's date (end of current month) forward, not from an existing member's expiration date.
+- **Session Management**: Both `member_data` and `payment_data` are stored in session and cleared together after successful creation.
+- **Atomic Operation**: Member and payment creation should happen together - if payment creation fails, member creation should be rolled back (consider using database transactions).
+- **Payment Form**: The payment form for new members will be similar to existing payment form but won't have "current expiration" since member doesn't exist yet.
+- **Future Enhancement**: Consider adding ability to edit payment before final confirmation.
+
+---
+
 ## Template for New Changes
 
 ### Change #XXX: [Title]
