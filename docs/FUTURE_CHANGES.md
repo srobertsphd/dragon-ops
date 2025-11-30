@@ -1266,6 +1266,191 @@ elif query:
 
 ---
 
+### Change #006: Reports Landing Page & Recent Payments Report
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 3-4 hours  
+**Created:** November 29, 2025
+
+#### Description
+
+Add a reports landing page with two banner links: one for the existing Current Members Report and another for a new Recent Payments Report. The Recent Payments Report will display all payments from the last year in reverse chronological order (latest first) with the ability to download as CSV. This provides easy access to payment history and enables data export for accounting/analysis purposes.
+
+#### Current Implementation
+
+**Location:** `members/templates/members/base.html` (sidebar), `members/views/reports.py`, `members/urls.py`
+
+**Current Behavior:**
+- Sidebar "Reports" link goes directly to `/reports/current-members/`
+- Only one report available: Current Members Report (with PDF download)
+- No way to view recent payments across all members
+- No CSV export functionality for payments
+
+**Current Code:**
+```html
+<!-- Sidebar link in base.html -->
+<a href="{% url 'members:current_members_report' %}">
+    Reports
+</a>
+```
+
+#### Proposed Implementation
+
+**New Features:**
+1. **Reports Landing Page:**
+   - Two banner cards/links:
+     - "Current Members Report" → links to existing current members report
+     - "Recent Payments Report" → links to new recent payments report
+   - Clean, visual interface for selecting reports
+
+2. **Recent Payments Report:**
+   - Display all payments from last year (365 days)
+   - Columns: Date, Last Name, First Name, Member ID, Payment Amount, Receipt Number
+   - Ordered by date descending (most recent first)
+   - HTML view for preview
+   - CSV download button (similar to PDF download in current members report)
+
+3. **CSV Export:**
+   - Downloadable CSV file with all payment data
+   - Filename format: `recent_payments_YYYY_MM_DD.csv`
+   - Columns: Date, Last Name, First Name, Member ID, Payment Amount, Receipt Number
+   - Proper CSV formatting with headers
+
+**Key Changes:**
+- Create reports landing page view and template
+- Create recent payments report view
+- Create CSV export function
+- Update sidebar to link to landing page instead of direct report
+- Add new URL routes for landing page and recent payments report
+
+#### Implementation Steps
+
+**Step 1: Create Reports Landing Page View (`members/views/reports.py`)**
+
+- Add `reports_landing_view(request)` function
+- Render landing page template with two banner cards
+- Each card links to respective report
+- Use `@staff_member_required` decorator
+
+**Step 2: Create Recent Payments Report View (`members/views/reports.py`)**
+
+- Add `recent_payments_report_view(request)` function
+- Query payments from last year: `Payment.objects.filter(date__gte=one_year_ago)`
+- Order by `-date` (reverse chronological, latest first)
+- Use `select_related('member', 'payment_method')` for efficiency
+- Handle CSV export: if `?format=csv`, call CSV generation function
+- Otherwise render HTML template
+- Pass payments queryset, report_date, and start_date to template
+
+**Step 3: Create CSV Export Function (`members/reports/csv.py` - new file)**
+
+- Create `generate_payments_csv(payments_queryset)` function
+- Use Python's built-in `csv` module (no external library needed)
+- Create `HttpResponse` with `content_type='text/csv'`
+- Set Content-Disposition header for download filename
+- Write CSV headers: Date, Last Name, First Name, Member ID, Payment Amount, Receipt Number
+- Iterate through payments queryset and write rows
+- Handle empty/null values gracefully (member_id, receipt_number)
+
+**Step 4: Create Reports Landing Template (`members/templates/members/reports/landing.html` - new file)**
+
+- Create landing page with two banner cards
+- Each card contains:
+  - Icon (Bootstrap Icons)
+  - Title
+  - Brief description
+  - "View Report" button/link
+- Style consistently with existing Bootstrap cards
+- Two-column layout (col-md-6 each) for responsive design
+
+**Step 5: Create Recent Payments HTML Template (`members/templates/members/reports/recent_payments.html` - new file)**
+
+- Display payments in a table
+- Table columns: Date, Member Name (Last, First), Member ID, Amount, Receipt Number
+- Add "Download CSV" button in card header (similar to current members report PDF button)
+- Show date range: "Payments from [start_date] to [report_date]"
+- Show total count of payments
+- Style consistently with `current_members.html` template
+- Handle empty result set gracefully
+
+**Step 6: Update URL Configuration (`members/urls.py`)**
+
+- Add URL for reports landing page: `path("reports/", views.reports_landing_view, name="reports_landing")`
+- Add URL for recent payments report: `path("reports/recent-payments/", views.recent_payments_report_view, name="recent_payments_report")`
+- Keep existing current members report URL unchanged
+
+**Step 7: Update Sidebar Navigation (`members/templates/members/base.html`)**
+
+- Change Reports link from `current_members_report` to `reports_landing`
+- Update active state check if needed (should still work with `'reports' in request.path`)
+
+**Step 8: Update Views Init File (`members/views/__init__.py`)**
+
+- Export new view functions: `reports_landing_view`, `recent_payments_report_view`
+- Add to `__all__` list if present
+
+#### Dependencies
+
+- ✅ Payment model exists - Completed
+- ✅ Member model exists - Completed
+- ✅ Current members report exists - Completed
+- ✅ Django's built-in `csv` module - Available (standard library)
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Navigate to reports landing page and verify two banner cards appear
+   - Click "Current Members Report" and verify it works as before
+   - Click "Recent Payments Report" and verify payments display correctly
+   - Verify payments are ordered by date descending (latest first)
+   - Verify only payments from last year are shown
+   - Click "Download CSV" and verify CSV file downloads
+   - Open CSV file and verify:
+     - Headers are correct
+     - Data matches HTML view
+     - Date format is correct (YYYY-MM-DD)
+     - Empty member_id and receipt_number are handled correctly
+   - Test with no payments in date range (empty result set)
+   - Test with payments exactly at 365-day boundary
+
+2. **Edge Cases:**
+   - No payments in last year (empty result set)
+   - Payments exactly 365 days ago (should appear)
+   - Payments 366 days ago (should not appear)
+   - Members with no member_id (should show empty string in CSV)
+   - Payments with no receipt_number (should show empty string in CSV)
+   - Large number of payments (performance testing)
+
+3. **Automated Testing:**
+   - Add test cases for reports landing page view
+   - Add test cases for recent payments report view
+   - Add test cases for CSV export function
+   - Test date filtering logic
+   - Test CSV formatting and headers
+   - Test empty result sets
+
+#### Benefits
+
+- ✅ Centralized reports access point (landing page)
+- ✅ Easy access to payment history across all members
+- ✅ CSV export enables data analysis and accounting workflows
+- ✅ Consistent user experience with existing reports
+- ✅ Reverse chronological order helps identify recent activity
+- ✅ One-year window provides comprehensive payment history
+
+#### Notes
+
+- **CSV Library**: Uses Python's built-in `csv` module (standard library, no installation needed)
+- **Date Range**: Fixed at 365 days (1 year) - could be made configurable in future
+- **Performance**: Uses `select_related()` to minimize database queries
+- **File Naming**: CSV filename includes date for easy identification
+- **Future Enhancement**: Could add date range selector (e.g., last 30 days, 6 months, 1 year)
+- **Future Enhancement**: Could add filtering by payment method, member status, or amount range
+- **Future Enhancement**: Could add PDF export similar to current members report
+
+---
+
 ## Template for New Changes
 
 ### Change #XXX: [Title]

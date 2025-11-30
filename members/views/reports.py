@@ -1,9 +1,15 @@
 from django.shortcuts import render
 from django.db.models import Prefetch
 from django.contrib.admin.views.decorators import staff_member_required
-from datetime import date
+from datetime import date, timedelta
 
 from ..models import Member, Payment
+
+
+@staff_member_required
+def reports_landing_view(request):
+    """Reports landing page with links to available reports"""
+    return render(request, "members/reports/landing.html")
 
 
 @staff_member_required
@@ -61,3 +67,27 @@ def current_members_report_view(request):
 
     # Otherwise return HTML version for preview
     return render(request, "members/reports/current_members.html", context)
+
+
+@staff_member_required
+def recent_payments_report_view(request):
+    """Recent payments report (last year) with CSV export"""
+    one_year_ago = date.today() - timedelta(days=365)
+
+    payments = (
+        Payment.objects.filter(date__gte=one_year_ago)
+        .select_related("member", "payment_method")
+        .order_by("-date")
+    )
+
+    if request.GET.get("format") == "csv":
+        from ..reports.csv import generate_payments_csv
+
+        return generate_payments_csv(payments)
+
+    context = {
+        "payments": payments,
+        "report_date": date.today(),
+        "start_date": one_year_ago,
+    }
+    return render(request, "members/reports/recent_payments.html", context)
