@@ -1,0 +1,6256 @@
+SUCCESS LOG - IMPORT_PAYMENTS
+Timestamp: 2025-12-06_15-55-04
+CSV File: data/2025_12_06/cleaned/current_payments.csv
+================================================================================
+
+SUCCESS #1
+File: current_payments.csv
+Row: 2
+Result: Created payment: $300.0 on 2025-05-24 for John Mack
+Created: John Mack - $300.0 on 2025-05-24
+------------------------------
+
+SUCCESS #2
+File: current_payments.csv
+Row: 3
+Result: Created payment: $2000.0 on 2023-10-15 for Audrey Garcia
+Created: Audrey Garcia - $2000.0 on 2023-10-15
+------------------------------
+
+SUCCESS #3
+File: current_payments.csv
+Row: 4
+Result: Created payment: $40.0 on 2025-06-02 for Curtis Hicks
+Created: Curtis Hicks - $40.0 on 2025-06-02
+------------------------------
+
+SUCCESS #4
+File: current_payments.csv
+Row: 5
+Result: Created payment: $40.0 on 2025-05-05 for Curtis Hicks
+Created: Curtis Hicks - $40.0 on 2025-05-05
+------------------------------
+
+SUCCESS #5
+File: current_payments.csv
+Row: 6
+Result: Created payment: $100.0 on 2025-11-21 for Curtis Hicks
+Created: Curtis Hicks - $100.0 on 2025-11-21
+------------------------------
+
+SUCCESS #6
+File: current_payments.csv
+Row: 7
+Result: Created payment: $40.0 on 2025-08-26 for Curtis Hicks
+Created: Curtis Hicks - $40.0 on 2025-08-26
+------------------------------
+
+SUCCESS #7
+File: current_payments.csv
+Row: 8
+Result: Created payment: $100.0 on 2015-03-03 for Garry Belcher
+Created: Garry Belcher - $100.0 on 2015-03-03
+------------------------------
+
+SUCCESS #8
+File: current_payments.csv
+Row: 9
+Result: Created payment: $200.0 on 2015-09-04 for Garry Belcher
+Created: Garry Belcher - $200.0 on 2015-09-04
+------------------------------
+
+SUCCESS #9
+File: current_payments.csv
+Row: 10
+Result: Created payment: $1000.0 on 2016-01-04 for Garry Belcher
+Created: Garry Belcher - $1000.0 on 2016-01-04
+------------------------------
+
+SUCCESS #10
+File: current_payments.csv
+Row: 11
+Result: Created payment: $200.0 on 1984-12-20 for Kent Goetz
+Created: Kent Goetz - $200.0 on 1984-12-20
+------------------------------
+
+SUCCESS #11
+File: current_payments.csv
+Row: 12
+Result: Created payment: $200.0 on 2025-09-08 for Kent Goetz
+Created: Kent Goetz - $200.0 on 2025-09-08
+------------------------------
+
+SUCCESS #12
+File: current_payments.csv
+Row: 13
+Result: Created payment: $500.0 on 2024-12-22 for Lee Campbell
+Created: Lee Campbell - $500.0 on 2024-12-22
+------------------------------
+
+SUCCESS #13
+File: current_payments.csv
+Row: 14
+Result: Created payment: $20.0 on 2025-04-25 for Ellie Sundland
+Created: Ellie Sundland - $20.0 on 2025-04-25
+------------------------------
+
+SUCCESS #14
+File: current_payments.csv
+Row: 15
+Result: Created payment: $20.0 on 2025-07-20 for Ellie Sundland
+Created: Ellie Sundland - $20.0 on 2025-07-20
+------------------------------
+
+SUCCESS #15
+File: current_payments.csv
+Row: 16
+Result: Created payment: $20.0 on 2025-08-13 for Ellie Sundland
+Created: Ellie Sundland - $20.0 on 2025-08-13
+------------------------------
+
+SUCCESS #16
+File: current_payments.csv
+Row: 17
+Result: Created payment: $40.0 on 2025-08-27 for Ellie Sundland
+Created: Ellie Sundland - $40.0 on 2025-08-27
+------------------------------
+
+SUCCESS #17
+File: current_payments.csv
+Row: 18
+Result: Created payment: $100.0 on 2025-03-13 for Art Villarreal
+Created: Art Villarreal - $100.0 on 2025-03-13
+------------------------------
+
+SUCCESS #18
+File: current_payments.csv
+Row: 19
+Result: Created payment: $100.0 on 2024-08-01 for Art Villarreal
+Created: Art Villarreal - $100.0 on 2024-08-01
+------------------------------
+
+SUCCESS #19
+File: current_payments.csv
+Row: 20
+Result: Created payment: $20.0 on 2025-10-17 for Olivia Lerma
+Created: Olivia Lerma - $20.0 on 2025-10-17
+------------------------------
+
+SUCCESS #20
+File: current_payments.csv
+Row: 21
+Result: Created payment: $20.0 on 2025-11-20 for Olivia Lerma
+Created: Olivia Lerma - $20.0 on 2025-11-20
+------------------------------
+
+SUCCESS #21
+File: current_payments.csv
+Row: 22
+Result: Created payment: $300.0 on 2024-06-27 for Ruben Cordova
+Created: Ruben Cordova - $300.0 on 2024-06-27
+------------------------------
+
+SUCCESS #22
+File: current_payments.csv
+Row: 23
+Result: Created payment: $30.0 on 2023-10-09 for Ruben Cordova
+Created: Ruben Cordova - $30.0 on 2023-10-09
+------------------------------
+
+SUCCESS #23
+File: current_payments.csv
+Row: 24
+Result: Created payment: $150.0 on 2023-10-20 for Ruben Cordova
+Created: Ruben Cordova - $150.0 on 2023-10-20
+------------------------------
+
+SUCCESS #24
+File: current_payments.csv
+Row: 25
+Result: Created payment: $400.0 on 2025-09-26 for Ruben Cordova
+Created: Ruben Cordova - $400.0 on 2025-09-26
+------------------------------
+
+SUCCESS #25
+File: current_payments.csv
+Row: 26
+Result: Created payment: $100.0 on 2025-03-15 for Katryna Williams
+Created: Katryna Williams - $100.0 on 2025-03-15
+------------------------------
+
+SUCCESS #26
+File: current_payments.csv
+Row: 27
+Result: Created payment: $20.0 on 2025-03-08 for Don Mcdonald
+Created: Don Mcdonald - $20.0 on 2025-03-08
+------------------------------
+
+SUCCESS #27
+File: current_payments.csv
+Row: 28
+Result: Created payment: $60.0 on 2025-03-27 for Don Mcdonald
+Created: Don Mcdonald - $60.0 on 2025-03-27
+------------------------------
+
+SUCCESS #28
+File: current_payments.csv
+Row: 29
+Result: Created payment: $20.0 on 2025-07-06 for Don Mcdonald
+Created: Don Mcdonald - $20.0 on 2025-07-06
+------------------------------
+
+SUCCESS #29
+File: current_payments.csv
+Row: 30
+Result: Created payment: $20.0 on 2025-08-04 for Don Mcdonald
+Created: Don Mcdonald - $20.0 on 2025-08-04
+------------------------------
+
+SUCCESS #30
+File: current_payments.csv
+Row: 31
+Result: Created payment: $20.0 on 2025-11-05 for Don Mcdonald
+Created: Don Mcdonald - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #31
+File: current_payments.csv
+Row: 32
+Result: Created payment: $20.0 on 2025-09-07 for Don Mcdonald
+Created: Don Mcdonald - $20.0 on 2025-09-07
+------------------------------
+
+SUCCESS #32
+File: current_payments.csv
+Row: 33
+Result: Created payment: $20.0 on 2025-10-14 for Don Mcdonald
+Created: Don Mcdonald - $20.0 on 2025-10-14
+------------------------------
+
+SUCCESS #33
+File: current_payments.csv
+Row: 34
+Result: Created payment: $20.0 on 2025-11-30 for Joe Valencia
+Created: Joe Valencia - $20.0 on 2025-11-30
+------------------------------
+
+SUCCESS #34
+File: current_payments.csv
+Row: 35
+Result: Created payment: $20.0 on 2025-07-04 for Joe Valencia
+Created: Joe Valencia - $20.0 on 2025-07-04
+------------------------------
+
+SUCCESS #35
+File: current_payments.csv
+Row: 36
+Result: Created payment: $20.0 on 2025-06-23 for Joe Valencia
+Created: Joe Valencia - $20.0 on 2025-06-23
+------------------------------
+
+SUCCESS #36
+File: current_payments.csv
+Row: 37
+Result: Created payment: $20.0 on 2025-08-04 for Joe Valencia
+Created: Joe Valencia - $20.0 on 2025-08-04
+------------------------------
+
+SUCCESS #37
+File: current_payments.csv
+Row: 38
+Result: Created payment: $20.0 on 2025-10-01 for Joe Valencia
+Created: Joe Valencia - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #38
+File: current_payments.csv
+Row: 39
+Result: Created payment: $100.0 on 2024-01-30 for John Oda
+Created: John Oda - $100.0 on 2024-01-30
+------------------------------
+
+SUCCESS #39
+File: current_payments.csv
+Row: 40
+Result: Created payment: $75.0 on 2023-07-19 for John Oda
+Created: John Oda - $75.0 on 2023-07-19
+------------------------------
+
+SUCCESS #40
+File: current_payments.csv
+Row: 41
+Result: Created payment: $200.0 on 2024-07-30 for John Oda
+Created: John Oda - $200.0 on 2024-07-30
+------------------------------
+
+SUCCESS #41
+File: current_payments.csv
+Row: 42
+Result: Created payment: $200.0 on 2025-10-03 for John Oda
+Created: John Oda - $200.0 on 2025-10-03
+------------------------------
+
+SUCCESS #42
+File: current_payments.csv
+Row: 43
+Result: Created payment: $200.0 on 2024-06-08 for Tom Hernandez
+Created: Tom Hernandez - $200.0 on 2024-06-08
+------------------------------
+
+SUCCESS #43
+File: current_payments.csv
+Row: 44
+Result: Created payment: $150.0 on 2023-06-17 for Tom Hernandez
+Created: Tom Hernandez - $150.0 on 2023-06-17
+------------------------------
+
+SUCCESS #44
+File: current_payments.csv
+Row: 45
+Result: Created payment: $200.0 on 2025-08-02 for Tom Hernandez
+Created: Tom Hernandez - $200.0 on 2025-08-02
+------------------------------
+
+SUCCESS #45
+File: current_payments.csv
+Row: 46
+Result: Created payment: $20.0 on 2025-11-02 for April Smith
+Created: April Smith - $20.0 on 2025-11-02
+------------------------------
+
+SUCCESS #46
+File: current_payments.csv
+Row: 47
+Result: Created payment: $20.0 on 2025-08-16 for April Smith
+Created: April Smith - $20.0 on 2025-08-16
+------------------------------
+
+SUCCESS #47
+File: current_payments.csv
+Row: 48
+Result: Created payment: $20.0 on 2025-09-07 for April Smith
+Created: April Smith - $20.0 on 2025-09-07
+------------------------------
+
+SUCCESS #48
+File: current_payments.csv
+Row: 49
+Result: Created payment: $150.0 on 2022-03-02 for Gene Feliciano
+Created: Gene Feliciano - $150.0 on 2022-03-02
+------------------------------
+
+SUCCESS #49
+File: current_payments.csv
+Row: 50
+Result: Created payment: $150.0 on 2023-05-28 for Gene Feliciano
+Created: Gene Feliciano - $150.0 on 2023-05-28
+------------------------------
+
+SUCCESS #50
+File: current_payments.csv
+Row: 51
+Result: Created payment: $200.0 on 2024-07-04 for Gene Feliciano
+Created: Gene Feliciano - $200.0 on 2024-07-04
+------------------------------
+
+SUCCESS #51
+File: current_payments.csv
+Row: 52
+Result: Created payment: $200.0 on 2025-08-01 for Gene Feliciano
+Created: Gene Feliciano - $200.0 on 2025-08-01
+------------------------------
+
+SUCCESS #52
+File: current_payments.csv
+Row: 53
+Result: Created payment: $100.0 on 2025-03-31 for David Kendrix
+Created: David Kendrix - $100.0 on 2025-03-31
+------------------------------
+
+SUCCESS #53
+File: current_payments.csv
+Row: 54
+Result: Created payment: $100.0 on 2024-03-28 for David Kendrix
+Created: David Kendrix - $100.0 on 2024-03-28
+------------------------------
+
+SUCCESS #54
+File: current_payments.csv
+Row: 55
+Result: Created payment: $100.0 on 2024-09-28 for David Kendrix
+Created: David Kendrix - $100.0 on 2024-09-28
+------------------------------
+
+SUCCESS #55
+File: current_payments.csv
+Row: 56
+Result: Created payment: $100.0 on 2025-10-17 for David Kendrix
+Created: David Kendrix - $100.0 on 2025-10-17
+------------------------------
+
+SUCCESS #56
+File: current_payments.csv
+Row: 57
+Result: Created payment: $20.0 on 2024-07-02 for Brian Madden
+Created: Brian Madden - $20.0 on 2024-07-02
+------------------------------
+
+SUCCESS #57
+File: current_payments.csv
+Row: 58
+Result: Created payment: $20.0 on 2024-08-02 for Brian Madden
+Created: Brian Madden - $20.0 on 2024-08-02
+------------------------------
+
+SUCCESS #58
+File: current_payments.csv
+Row: 59
+Result: Created payment: $20.0 on 2024-09-01 for Brian Madden
+Created: Brian Madden - $20.0 on 2024-09-01
+------------------------------
+
+SUCCESS #59
+File: current_payments.csv
+Row: 60
+Result: Created payment: $200.0 on 2024-08-03 for Brian Madden
+Created: Brian Madden - $200.0 on 2024-08-03
+------------------------------
+
+SUCCESS #60
+File: current_payments.csv
+Row: 61
+Result: Created payment: $310.91 on 2023-07-20 for Terry Estioko
+Created: Terry Estioko - $310.91 on 2023-07-20
+------------------------------
+
+SUCCESS #61
+File: current_payments.csv
+Row: 62
+Result: Created payment: $100.0 on 2025-03-16 for Dawn Batees-Kite
+Created: Dawn Batees-Kite - $100.0 on 2025-03-16
+------------------------------
+
+SUCCESS #62
+File: current_payments.csv
+Row: 63
+Result: Created payment: $20.0 on 2024-06-01 for Kindra Todd
+Created: Kindra Todd - $20.0 on 2024-06-01
+------------------------------
+
+SUCCESS #63
+File: current_payments.csv
+Row: 64
+Result: Created payment: $100.0 on 2024-10-09 for Kindra Todd
+Created: Kindra Todd - $100.0 on 2024-10-09
+------------------------------
+
+SUCCESS #64
+File: current_payments.csv
+Row: 65
+Result: Created payment: $100.0 on 2025-04-07 for Kindra Todd
+Created: Kindra Todd - $100.0 on 2025-04-07
+------------------------------
+
+SUCCESS #65
+File: current_payments.csv
+Row: 66
+Result: Created payment: $20.0 on 2025-07-23 for Kindra Todd
+Created: Kindra Todd - $20.0 on 2025-07-23
+------------------------------
+
+SUCCESS #66
+File: current_payments.csv
+Row: 67
+Result: Created payment: $20.0 on 2025-08-12 for Kindra Todd
+Created: Kindra Todd - $20.0 on 2025-08-12
+------------------------------
+
+SUCCESS #67
+File: current_payments.csv
+Row: 68
+Result: Created payment: $200.0 on 2025-08-23 for Richard Potter
+Created: Richard Potter - $200.0 on 2025-08-23
+------------------------------
+
+SUCCESS #68
+File: current_payments.csv
+Row: 69
+Result: Created payment: $30.0 on 2025-10-24 for Bear X
+Created: Bear X - $30.0 on 2025-10-24
+------------------------------
+
+SUCCESS #69
+File: current_payments.csv
+Row: 70
+Result: Created payment: $100.0 on 2024-09-28 for Thompson Sharkey
+Created: Thompson Sharkey - $100.0 on 2024-09-28
+------------------------------
+
+SUCCESS #70
+File: current_payments.csv
+Row: 71
+Result: Created payment: $100.0 on 2025-04-17 for Thompson Sharkey
+Created: Thompson Sharkey - $100.0 on 2025-04-17
+------------------------------
+
+SUCCESS #71
+File: current_payments.csv
+Row: 72
+Result: Created payment: $200.0 on 2024-04-14 for Francine Gutierriz
+Created: Francine Gutierriz - $200.0 on 2024-04-14
+------------------------------
+
+SUCCESS #72
+File: current_payments.csv
+Row: 73
+Result: Created payment: $100.0 on 2025-05-08 for Francine Gutierriz
+Created: Francine Gutierriz - $100.0 on 2025-05-08
+------------------------------
+
+SUCCESS #73
+File: current_payments.csv
+Row: 74
+Result: Created payment: $20.0 on 2025-11-20 for Francine Gutierriz
+Created: Francine Gutierriz - $20.0 on 2025-11-20
+------------------------------
+
+SUCCESS #74
+File: current_payments.csv
+Row: 75
+Result: Created payment: $20.0 on 2025-05-30 for Tony Rosa
+Created: Tony Rosa - $20.0 on 2025-05-30
+------------------------------
+
+SUCCESS #75
+File: current_payments.csv
+Row: 76
+Result: Created payment: $20.0 on 2025-07-01 for Tony Rosa
+Created: Tony Rosa - $20.0 on 2025-07-01
+------------------------------
+
+SUCCESS #76
+File: current_payments.csv
+Row: 77
+Result: Created payment: $20.0 on 2025-08-01 for Tony Rosa
+Created: Tony Rosa - $20.0 on 2025-08-01
+------------------------------
+
+SUCCESS #77
+File: current_payments.csv
+Row: 78
+Result: Created payment: $20.0 on 2025-08-29 for Tony Rosa
+Created: Tony Rosa - $20.0 on 2025-08-29
+------------------------------
+
+SUCCESS #78
+File: current_payments.csv
+Row: 79
+Result: Created payment: $20.0 on 2025-10-01 for Tony Rosa
+Created: Tony Rosa - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #79
+File: current_payments.csv
+Row: 80
+Result: Created payment: $20.0 on 2025-10-31 for Tony Rosa
+Created: Tony Rosa - $20.0 on 2025-10-31
+------------------------------
+
+SUCCESS #80
+File: current_payments.csv
+Row: 81
+Result: Created payment: $40.0 on 2025-06-20 for Rachel Gratch
+Created: Rachel Gratch - $40.0 on 2025-06-20
+------------------------------
+
+SUCCESS #81
+File: current_payments.csv
+Row: 82
+Result: Created payment: $20.0 on 2025-05-09 for Rachel Gratch
+Created: Rachel Gratch - $20.0 on 2025-05-09
+------------------------------
+
+SUCCESS #82
+File: current_payments.csv
+Row: 83
+Result: Created payment: $20.0 on 2025-08-01 for Rachel Gratch
+Created: Rachel Gratch - $20.0 on 2025-08-01
+------------------------------
+
+SUCCESS #83
+File: current_payments.csv
+Row: 84
+Result: Created payment: $2000.0 on 2011-05-07 for Mark Parker
+Created: Mark Parker - $2000.0 on 2011-05-07
+------------------------------
+
+SUCCESS #84
+File: current_payments.csv
+Row: 85
+Result: Created payment: $40.0 on 2024-03-29 for Christina Vaubel
+Created: Christina Vaubel - $40.0 on 2024-03-29
+------------------------------
+
+SUCCESS #85
+File: current_payments.csv
+Row: 86
+Result: Created payment: $40.0 on 2025-02-02 for Christina Vaubel
+Created: Christina Vaubel - $40.0 on 2025-02-02
+------------------------------
+
+SUCCESS #86
+File: current_payments.csv
+Row: 87
+Result: Created payment: $20.0 on 2025-04-19 for Christina Vaubel
+Created: Christina Vaubel - $20.0 on 2025-04-19
+------------------------------
+
+SUCCESS #87
+File: current_payments.csv
+Row: 88
+Result: Created payment: $60.0 on 2025-07-08 for Christina Vaubel
+Created: Christina Vaubel - $60.0 on 2025-07-08
+------------------------------
+
+SUCCESS #88
+File: current_payments.csv
+Row: 89
+Result: Created payment: $40.0 on 2025-11-15 for Christina Vaubel
+Created: Christina Vaubel - $40.0 on 2025-11-15
+------------------------------
+
+SUCCESS #89
+File: current_payments.csv
+Row: 90
+Result: Created payment: $40.0 on 2025-08-23 for Christina Vaubel
+Created: Christina Vaubel - $40.0 on 2025-08-23
+------------------------------
+
+SUCCESS #90
+File: current_payments.csv
+Row: 91
+Result: Created payment: $150.0 on 2023-07-16 for Randy Galvez
+Created: Randy Galvez - $150.0 on 2023-07-16
+------------------------------
+
+SUCCESS #91
+File: current_payments.csv
+Row: 92
+Result: Created payment: $200.0 on 2024-10-31 for Randy Galvez
+Created: Randy Galvez - $200.0 on 2024-10-31
+------------------------------
+
+SUCCESS #92
+File: current_payments.csv
+Row: 93
+Result: Created payment: $2000.0 on 2018-08-07 for Steve Carrasco
+Created: Steve Carrasco - $2000.0 on 2018-08-07
+------------------------------
+
+SUCCESS #93
+File: current_payments.csv
+Row: 94
+Result: Created payment: $1000.0 on 2006-06-04 for Luther Brock Sr.
+Created: Luther Brock Sr. - $1000.0 on 2006-06-04
+------------------------------
+
+SUCCESS #94
+File: current_payments.csv
+Row: 95
+Result: Created payment: $100.0 on 2023-11-11 for Kevin Root
+Created: Kevin Root - $100.0 on 2023-11-11
+------------------------------
+
+SUCCESS #95
+File: current_payments.csv
+Row: 96
+Result: Created payment: $30.0 on 2025-05-10 for Eric Hernandez
+Created: Eric Hernandez - $30.0 on 2025-05-10
+------------------------------
+
+SUCCESS #96
+File: current_payments.csv
+Row: 97
+Result: Created payment: $300.0 on 2025-09-14 for Eric Hernandez
+Created: Eric Hernandez - $300.0 on 2025-09-14
+------------------------------
+
+SUCCESS #97
+File: current_payments.csv
+Row: 98
+Result: Created payment: $500.0 on 2024-12-24 for Catherine Campbell
+Created: Catherine Campbell - $500.0 on 2024-12-24
+------------------------------
+
+SUCCESS #98
+File: current_payments.csv
+Row: 99
+Result: Created payment: $207.0 on 2025-07-15 for Patti McGuffin
+Created: Patti McGuffin - $207.0 on 2025-07-15
+------------------------------
+
+SUCCESS #99
+File: current_payments.csv
+Row: 100
+Result: Created payment: $200.0 on 2025-10-31 for Michael Tuft
+Created: Michael Tuft - $200.0 on 2025-10-31
+------------------------------
+
+SUCCESS #100
+File: current_payments.csv
+Row: 101
+Result: Created payment: $20.0 on 2025-05-12 for Lupe Martinez
+Created: Lupe Martinez - $20.0 on 2025-05-12
+------------------------------
+
+SUCCESS #101
+File: current_payments.csv
+Row: 102
+Result: Created payment: $40.0 on 2025-07-07 for Lupe Martinez
+Created: Lupe Martinez - $40.0 on 2025-07-07
+------------------------------
+
+SUCCESS #102
+File: current_payments.csv
+Row: 103
+Result: Created payment: $40.0 on 2025-11-22 for Lupe Martinez
+Created: Lupe Martinez - $40.0 on 2025-11-22
+------------------------------
+
+SUCCESS #103
+File: current_payments.csv
+Row: 104
+Result: Created payment: $20.0 on 2025-10-01 for Lupe Martinez
+Created: Lupe Martinez - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #104
+File: current_payments.csv
+Row: 105
+Result: Created payment: $40.0 on 2025-06-16 for Michael Bridges
+Created: Michael Bridges - $40.0 on 2025-06-16
+------------------------------
+
+SUCCESS #105
+File: current_payments.csv
+Row: 106
+Result: Created payment: $40.0 on 2025-09-01 for Michael Bridges
+Created: Michael Bridges - $40.0 on 2025-09-01
+------------------------------
+
+SUCCESS #106
+File: current_payments.csv
+Row: 107
+Result: Created payment: $20.0 on 2025-10-02 for Michael Bridges
+Created: Michael Bridges - $20.0 on 2025-10-02
+------------------------------
+
+SUCCESS #107
+File: current_payments.csv
+Row: 108
+Result: Created payment: $20.0 on 2025-10-21 for Michael Bridges
+Created: Michael Bridges - $20.0 on 2025-10-21
+------------------------------
+
+SUCCESS #108
+File: current_payments.csv
+Row: 109
+Result: Created payment: $200.0 on 2024-03-01 for Wade Goertz
+Created: Wade Goertz - $200.0 on 2024-03-01
+------------------------------
+
+SUCCESS #109
+File: current_payments.csv
+Row: 110
+Result: Created payment: $202.0 on 2025-04-28 for Wade Goertz
+Created: Wade Goertz - $202.0 on 2025-04-28
+------------------------------
+
+SUCCESS #110
+File: current_payments.csv
+Row: 111
+Result: Created payment: $60.0 on 2025-07-05 for Andy Salzar
+Created: Andy Salzar - $60.0 on 2025-07-05
+------------------------------
+
+SUCCESS #111
+File: current_payments.csv
+Row: 112
+Result: Created payment: $20.0 on 2025-11-07 for Andy Salzar
+Created: Andy Salzar - $20.0 on 2025-11-07
+------------------------------
+
+SUCCESS #112
+File: current_payments.csv
+Row: 113
+Result: Created payment: $20.0 on 2025-09-02 for Andy Salzar
+Created: Andy Salzar - $20.0 on 2025-09-02
+------------------------------
+
+SUCCESS #113
+File: current_payments.csv
+Row: 114
+Result: Created payment: $20.0 on 2025-10-03 for Andy Salzar
+Created: Andy Salzar - $20.0 on 2025-10-03
+------------------------------
+
+SUCCESS #114
+File: current_payments.csv
+Row: 115
+Result: Created payment: $20.0 on 2025-10-17 for Andy Salzar
+Created: Andy Salzar - $20.0 on 2025-10-17
+------------------------------
+
+SUCCESS #115
+File: current_payments.csv
+Row: 116
+Result: Created payment: $40.0 on 2025-06-18 for Maggie Claman
+Created: Maggie Claman - $40.0 on 2025-06-18
+------------------------------
+
+SUCCESS #116
+File: current_payments.csv
+Row: 117
+Result: Created payment: $40.0 on 2024-11-02 for Maggie Claman
+Created: Maggie Claman - $40.0 on 2024-11-02
+------------------------------
+
+SUCCESS #117
+File: current_payments.csv
+Row: 118
+Result: Created payment: $40.0 on 2025-02-05 for Maggie Claman
+Created: Maggie Claman - $40.0 on 2025-02-05
+------------------------------
+
+SUCCESS #118
+File: current_payments.csv
+Row: 119
+Result: Created payment: $40.0 on 2025-09-27 for Maggie Claman
+Created: Maggie Claman - $40.0 on 2025-09-27
+------------------------------
+
+SUCCESS #119
+File: current_payments.csv
+Row: 120
+Result: Created payment: $200.0 on 2024-01-07 for Ernie Orta
+Created: Ernie Orta - $200.0 on 2024-01-07
+------------------------------
+
+SUCCESS #120
+File: current_payments.csv
+Row: 121
+Result: Created payment: $100.0 on 2024-12-14 for Ernie Orta
+Created: Ernie Orta - $100.0 on 2024-12-14
+------------------------------
+
+SUCCESS #121
+File: current_payments.csv
+Row: 122
+Result: Created payment: $100.0 on 2025-08-07 for Ernie Orta
+Created: Ernie Orta - $100.0 on 2025-08-07
+------------------------------
+
+SUCCESS #122
+File: current_payments.csv
+Row: 123
+Result: Created payment: $20.0 on 2025-07-02 for Deandre Kay
+Created: Deandre Kay - $20.0 on 2025-07-02
+------------------------------
+
+SUCCESS #123
+File: current_payments.csv
+Row: 124
+Result: Created payment: $20.0 on 2025-08-05 for Deandre Kay
+Created: Deandre Kay - $20.0 on 2025-08-05
+------------------------------
+
+SUCCESS #124
+File: current_payments.csv
+Row: 125
+Result: Created payment: $20.0 on 2025-11-01 for Deandre Kay
+Created: Deandre Kay - $20.0 on 2025-11-01
+------------------------------
+
+SUCCESS #125
+File: current_payments.csv
+Row: 126
+Result: Created payment: $20.0 on 2025-10-05 for Deandre Kay
+Created: Deandre Kay - $20.0 on 2025-10-05
+------------------------------
+
+SUCCESS #126
+File: current_payments.csv
+Row: 127
+Result: Created payment: $20.0 on 2025-04-06 for John Koss
+Created: John Koss - $20.0 on 2025-04-06
+------------------------------
+
+SUCCESS #127
+File: current_payments.csv
+Row: 128
+Result: Created payment: $20.0 on 2025-05-17 for John Koss
+Created: John Koss - $20.0 on 2025-05-17
+------------------------------
+
+SUCCESS #128
+File: current_payments.csv
+Row: 129
+Result: Created payment: $200.0 on 2025-11-08 for John Koss
+Created: John Koss - $200.0 on 2025-11-08
+------------------------------
+
+SUCCESS #129
+File: current_payments.csv
+Row: 130
+Result: Created payment: $300.0 on 2024-05-01 for Michael Dardis
+Created: Michael Dardis - $300.0 on 2024-05-01
+------------------------------
+
+SUCCESS #130
+File: current_payments.csv
+Row: 131
+Result: Created payment: $300.0 on 2024-05-26 for Michael Dardis
+Created: Michael Dardis - $300.0 on 2024-05-26
+------------------------------
+
+SUCCESS #131
+File: current_payments.csv
+Row: 132
+Result: Created payment: $20.0 on 2025-03-05 for Donald Hines
+Created: Donald Hines - $20.0 on 2025-03-05
+------------------------------
+
+SUCCESS #132
+File: current_payments.csv
+Row: 133
+Result: Created payment: $20.0 on 2025-04-06 for Donald Hines
+Created: Donald Hines - $20.0 on 2025-04-06
+------------------------------
+
+SUCCESS #133
+File: current_payments.csv
+Row: 134
+Result: Created payment: $20.0 on 2025-05-17 for Donald Hines
+Created: Donald Hines - $20.0 on 2025-05-17
+------------------------------
+
+SUCCESS #134
+File: current_payments.csv
+Row: 135
+Result: Created payment: $20.0 on 2025-10-04 for Donald Hines
+Created: Donald Hines - $20.0 on 2025-10-04
+------------------------------
+
+SUCCESS #135
+File: current_payments.csv
+Row: 136
+Result: Created payment: $200.0 on 2025-10-25 for Donald Hines
+Created: Donald Hines - $200.0 on 2025-10-25
+------------------------------
+
+SUCCESS #136
+File: current_payments.csv
+Row: 137
+Result: Created payment: $2500.0 on 2020-08-16 for Jessica Westbrook
+Created: Jessica Westbrook - $2500.0 on 2020-08-16
+------------------------------
+
+SUCCESS #137
+File: current_payments.csv
+Row: 138
+Result: Created payment: $200.0 on 2025-07-07 for James Gleeson
+Created: James Gleeson - $200.0 on 2025-07-07
+------------------------------
+
+SUCCESS #138
+File: current_payments.csv
+Row: 139
+Result: Created payment: $150.0 on 2023-08-01 for Mark Buchanan
+Created: Mark Buchanan - $150.0 on 2023-08-01
+------------------------------
+
+SUCCESS #139
+File: current_payments.csv
+Row: 140
+Result: Created payment: $200.0 on 2024-07-16 for Mark Buchanan
+Created: Mark Buchanan - $200.0 on 2024-07-16
+------------------------------
+
+SUCCESS #140
+File: current_payments.csv
+Row: 141
+Result: Created payment: $200.0 on 2025-10-08 for Mark Buchanan
+Created: Mark Buchanan - $200.0 on 2025-10-08
+------------------------------
+
+SUCCESS #141
+File: current_payments.csv
+Row: 142
+Result: Created payment: $150.0 on 2023-10-28 for Thomas Neary
+Created: Thomas Neary - $150.0 on 2023-10-28
+------------------------------
+
+SUCCESS #142
+File: current_payments.csv
+Row: 143
+Result: Created payment: $200.0 on 2024-04-22 for Thomas Neary
+Created: Thomas Neary - $200.0 on 2024-04-22
+------------------------------
+
+SUCCESS #143
+File: current_payments.csv
+Row: 144
+Result: Created payment: $200.0 on 2025-04-21 for Thomas Neary
+Created: Thomas Neary - $200.0 on 2025-04-21
+------------------------------
+
+SUCCESS #144
+File: current_payments.csv
+Row: 145
+Result: Created payment: $20.0 on 2025-11-30 for David Hernandez
+Created: David Hernandez - $20.0 on 2025-11-30
+------------------------------
+
+SUCCESS #145
+File: current_payments.csv
+Row: 146
+Result: Created payment: $20.0 on 2025-08-26 for David Hernandez
+Created: David Hernandez - $20.0 on 2025-08-26
+------------------------------
+
+SUCCESS #146
+File: current_payments.csv
+Row: 147
+Result: Created payment: $20.0 on 2025-09-29 for David Hernandez
+Created: David Hernandez - $20.0 on 2025-09-29
+------------------------------
+
+SUCCESS #147
+File: current_payments.csv
+Row: 148
+Result: Created payment: $20.0 on 2025-10-29 for David Hernandez
+Created: David Hernandez - $20.0 on 2025-10-29
+------------------------------
+
+SUCCESS #148
+File: current_payments.csv
+Row: 149
+Result: Created payment: $200.0 on 2025-02-28 for Doug Felder
+Created: Doug Felder - $200.0 on 2025-02-28
+------------------------------
+
+SUCCESS #149
+File: current_payments.csv
+Row: 150
+Result: Created payment: $200.0 on 2025-05-20 for Doug Felder
+Created: Doug Felder - $200.0 on 2025-05-20
+------------------------------
+
+SUCCESS #150
+File: current_payments.csv
+Row: 151
+Result: Created payment: $20.0 on 2025-03-23 for Mike McCarthy
+Created: Mike McCarthy - $20.0 on 2025-03-23
+------------------------------
+
+SUCCESS #151
+File: current_payments.csv
+Row: 152
+Result: Created payment: $200.0 on 2025-09-15 for Mike McCarthy
+Created: Mike McCarthy - $200.0 on 2025-09-15
+------------------------------
+
+SUCCESS #152
+File: current_payments.csv
+Row: 153
+Result: Created payment: $20.0 on 2025-06-02 for Regina Palacios
+Created: Regina Palacios - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #153
+File: current_payments.csv
+Row: 154
+Result: Created payment: $20.0 on 2025-05-02 for Regina Palacios
+Created: Regina Palacios - $20.0 on 2025-05-02
+------------------------------
+
+SUCCESS #154
+File: current_payments.csv
+Row: 155
+Result: Created payment: $20.0 on 2025-06-30 for Regina Palacios
+Created: Regina Palacios - $20.0 on 2025-06-30
+------------------------------
+
+SUCCESS #155
+File: current_payments.csv
+Row: 156
+Result: Created payment: $20.0 on 2025-07-31 for Regina Palacios
+Created: Regina Palacios - $20.0 on 2025-07-31
+------------------------------
+
+SUCCESS #156
+File: current_payments.csv
+Row: 157
+Result: Created payment: $20.0 on 2025-09-04 for Regina Palacios
+Created: Regina Palacios - $20.0 on 2025-09-04
+------------------------------
+
+SUCCESS #157
+File: current_payments.csv
+Row: 158
+Result: Created payment: $25.0 on 2025-10-01 for Regina Palacios
+Created: Regina Palacios - $25.0 on 2025-10-01
+------------------------------
+
+SUCCESS #158
+File: current_payments.csv
+Row: 159
+Result: Created payment: $20.0 on 2025-10-31 for Regina Palacios
+Created: Regina Palacios - $20.0 on 2025-10-31
+------------------------------
+
+SUCCESS #159
+File: current_payments.csv
+Row: 160
+Result: Created payment: $2000.0 on 2024-01-01 for William Lawrence
+Created: William Lawrence - $2000.0 on 2024-01-01
+------------------------------
+
+SUCCESS #160
+File: current_payments.csv
+Row: 161
+Result: Created payment: $244.0 on 2024-03-29 for Nico Lopez
+Created: Nico Lopez - $244.0 on 2024-03-29
+------------------------------
+
+SUCCESS #161
+File: current_payments.csv
+Row: 162
+Result: Created payment: $20.0 on 2025-04-02 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-04-02
+------------------------------
+
+SUCCESS #162
+File: current_payments.csv
+Row: 163
+Result: Created payment: $20.0 on 2025-06-07 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-06-07
+------------------------------
+
+SUCCESS #163
+File: current_payments.csv
+Row: 164
+Result: Created payment: $20.0 on 2025-05-02 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-05-02
+------------------------------
+
+SUCCESS #164
+File: current_payments.csv
+Row: 165
+Result: Created payment: $20.0 on 2025-07-03 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-07-03
+------------------------------
+
+SUCCESS #165
+File: current_payments.csv
+Row: 166
+Result: Created payment: $20.0 on 2025-08-07 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-08-07
+------------------------------
+
+SUCCESS #166
+File: current_payments.csv
+Row: 167
+Result: Created payment: $20.0 on 2025-11-01 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-11-01
+------------------------------
+
+SUCCESS #167
+File: current_payments.csv
+Row: 168
+Result: Created payment: $20.0 on 2025-09-03 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-09-03
+------------------------------
+
+SUCCESS #168
+File: current_payments.csv
+Row: 169
+Result: Created payment: $20.0 on 2025-10-04 for Patricia Gomez
+Created: Patricia Gomez - $20.0 on 2025-10-04
+------------------------------
+
+SUCCESS #169
+File: current_payments.csv
+Row: 170
+Result: Created payment: $125.0 on 2021-10-20 for Brett Foreman
+Created: Brett Foreman - $125.0 on 2021-10-20
+------------------------------
+
+SUCCESS #170
+File: current_payments.csv
+Row: 171
+Result: Created payment: $250.0 on 2022-09-18 for Brett Foreman
+Created: Brett Foreman - $250.0 on 2022-09-18
+------------------------------
+
+SUCCESS #171
+File: current_payments.csv
+Row: 172
+Result: Created payment: $200.0 on 2024-07-04 for Brett Foreman
+Created: Brett Foreman - $200.0 on 2024-07-04
+------------------------------
+
+SUCCESS #172
+File: current_payments.csv
+Row: 173
+Result: Created payment: $200.0 on 2025-08-21 for Brett Foreman
+Created: Brett Foreman - $200.0 on 2025-08-21
+------------------------------
+
+SUCCESS #173
+File: current_payments.csv
+Row: 174
+Result: Created payment: $20.0 on 2025-06-02 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #174
+File: current_payments.csv
+Row: 175
+Result: Created payment: $20.0 on 2025-05-01 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #175
+File: current_payments.csv
+Row: 176
+Result: Created payment: $20.0 on 2025-07-01 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-07-01
+------------------------------
+
+SUCCESS #176
+File: current_payments.csv
+Row: 177
+Result: Created payment: $20.0 on 2025-08-04 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-08-04
+------------------------------
+
+SUCCESS #177
+File: current_payments.csv
+Row: 178
+Result: Created payment: $20.0 on 2025-11-03 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-11-03
+------------------------------
+
+SUCCESS #178
+File: current_payments.csv
+Row: 179
+Result: Created payment: $20.0 on 2025-09-01 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #179
+File: current_payments.csv
+Row: 180
+Result: Created payment: $20.0 on 2025-09-30 for Jim Jessup
+Created: Jim Jessup - $20.0 on 2025-09-30
+------------------------------
+
+SUCCESS #180
+File: current_payments.csv
+Row: 181
+Result: Created payment: $207.0 on 2025-07-15 for Colin Freeman
+Created: Colin Freeman - $207.0 on 2025-07-15
+------------------------------
+
+SUCCESS #181
+File: current_payments.csv
+Row: 182
+Result: Created payment: $30.0 on 2025-05-31 for Daniel Marquez
+Created: Daniel Marquez - $30.0 on 2025-05-31
+------------------------------
+
+SUCCESS #182
+File: current_payments.csv
+Row: 183
+Result: Created payment: $30.0 on 2025-04-05 for Daniel Marquez
+Created: Daniel Marquez - $30.0 on 2025-04-05
+------------------------------
+
+SUCCESS #183
+File: current_payments.csv
+Row: 184
+Result: Created payment: $30.0 on 2025-08-02 for Daniel Marquez
+Created: Daniel Marquez - $30.0 on 2025-08-02
+------------------------------
+
+SUCCESS #184
+File: current_payments.csv
+Row: 186
+Result: Created payment: $30.0 on 2025-11-01 for Daniel Marquez
+Created: Daniel Marquez - $30.0 on 2025-11-01
+------------------------------
+
+SUCCESS #185
+File: current_payments.csv
+Row: 187
+Result: Created payment: $30.0 on 2025-08-30 for Daniel Marquez
+Created: Daniel Marquez - $30.0 on 2025-08-30
+------------------------------
+
+SUCCESS #186
+File: current_payments.csv
+Row: 188
+Result: Created payment: $30.0 on 2025-10-04 for Daniel Marquez
+Created: Daniel Marquez - $30.0 on 2025-10-04
+------------------------------
+
+SUCCESS #187
+File: current_payments.csv
+Row: 189
+Result: Created payment: $150.0 on 2025-10-28 for Jose Balanos
+Created: Jose Balanos - $150.0 on 2025-10-28
+------------------------------
+
+SUCCESS #188
+File: current_payments.csv
+Row: 190
+Result: Created payment: $200.0 on 2024-06-01 for Brett Wormley
+Created: Brett Wormley - $200.0 on 2024-06-01
+------------------------------
+
+SUCCESS #189
+File: current_payments.csv
+Row: 191
+Result: Created payment: $300.0 on 2025-10-31 for Brett Wormley
+Created: Brett Wormley - $300.0 on 2025-10-31
+------------------------------
+
+SUCCESS #190
+File: current_payments.csv
+Row: 192
+Result: Created payment: $251.93 on 2022-11-03 for Tim Mcginnis
+Created: Tim Mcginnis - $251.93 on 2022-11-03
+------------------------------
+
+SUCCESS #191
+File: current_payments.csv
+Row: 193
+Result: Created payment: $251.93 on 2023-04-05 for Tim Mcginnis
+Created: Tim Mcginnis - $251.93 on 2023-04-05
+------------------------------
+
+SUCCESS #192
+File: current_payments.csv
+Row: 194
+Result: Created payment: $310.96 on 2024-09-27 for Tim Mcginnis
+Created: Tim Mcginnis - $310.96 on 2024-09-27
+------------------------------
+
+SUCCESS #193
+File: current_payments.csv
+Row: 195
+Result: Created payment: $303.42 on 2025-09-06 for Tim Mcginnis
+Created: Tim Mcginnis - $303.42 on 2025-09-06
+------------------------------
+
+SUCCESS #194
+File: current_payments.csv
+Row: 196
+Result: Created payment: $100.0 on 2025-03-28 for Melody Garcia
+Created: Melody Garcia - $100.0 on 2025-03-28
+------------------------------
+
+SUCCESS #195
+File: current_payments.csv
+Row: 197
+Result: Created payment: $20.0 on 2025-01-18 for Melody Garcia
+Created: Melody Garcia - $20.0 on 2025-01-18
+------------------------------
+
+SUCCESS #196
+File: current_payments.csv
+Row: 198
+Result: Created payment: $20.0 on 2025-08-22 for Melody Garcia
+Created: Melody Garcia - $20.0 on 2025-08-22
+------------------------------
+
+SUCCESS #197
+File: current_payments.csv
+Row: 199
+Result: Created payment: $100.0 on 2025-08-30 for Melody Garcia
+Created: Melody Garcia - $100.0 on 2025-08-30
+------------------------------
+
+SUCCESS #198
+File: current_payments.csv
+Row: 200
+Result: Created payment: $30.0 on 2024-11-02 for Nick Tanabe
+Created: Nick Tanabe - $30.0 on 2024-11-02
+------------------------------
+
+SUCCESS #199
+File: current_payments.csv
+Row: 201
+Result: Created payment: $60.0 on 2024-12-12 for Nick Tanabe
+Created: Nick Tanabe - $60.0 on 2024-12-12
+------------------------------
+
+SUCCESS #200
+File: current_payments.csv
+Row: 202
+Result: Created payment: $100.0 on 2025-08-25 for Nick Tanabe
+Created: Nick Tanabe - $100.0 on 2025-08-25
+------------------------------
+
+SUCCESS #201
+File: current_payments.csv
+Row: 203
+Result: Created payment: $100.0 on 2025-06-04 for John Hodges
+Created: John Hodges - $100.0 on 2025-06-04
+------------------------------
+
+SUCCESS #202
+File: current_payments.csv
+Row: 204
+Result: Created payment: $20.0 on 2025-05-20 for John Hodges
+Created: John Hodges - $20.0 on 2025-05-20
+------------------------------
+
+SUCCESS #203
+File: current_payments.csv
+Row: 205
+Result: Created payment: $150.0 on 2023-01-14 for Nevin Tatel
+Created: Nevin Tatel - $150.0 on 2023-01-14
+------------------------------
+
+SUCCESS #204
+File: current_payments.csv
+Row: 206
+Result: Created payment: $200.0 on 2024-05-05 for Nevin Tatel
+Created: Nevin Tatel - $200.0 on 2024-05-05
+------------------------------
+
+SUCCESS #205
+File: current_payments.csv
+Row: 207
+Result: Created payment: $100.0 on 2025-01-04 for Nevin Tatel
+Created: Nevin Tatel - $100.0 on 2025-01-04
+------------------------------
+
+SUCCESS #206
+File: current_payments.csv
+Row: 208
+Result: Created payment: $20.0 on 2025-08-09 for Nevin Tatel
+Created: Nevin Tatel - $20.0 on 2025-08-09
+------------------------------
+
+SUCCESS #207
+File: current_payments.csv
+Row: 209
+Result: Created payment: $20.0 on 2021-08-30 for Nevin Tatel
+Created: Nevin Tatel - $20.0 on 2021-08-30
+------------------------------
+
+SUCCESS #208
+File: current_payments.csv
+Row: 210
+Result: Created payment: $200.0 on 2025-03-27 for Charlotte Gibson
+Created: Charlotte Gibson - $200.0 on 2025-03-27
+------------------------------
+
+SUCCESS #209
+File: current_payments.csv
+Row: 211
+Result: Created payment: $300.0 on 2024-07-10 for Barb Heimgartner
+Created: Barb Heimgartner - $300.0 on 2024-07-10
+------------------------------
+
+SUCCESS #210
+File: current_payments.csv
+Row: 212
+Result: Created payment: $200.0 on 2025-07-21 for Barb Heimgartner
+Created: Barb Heimgartner - $200.0 on 2025-07-21
+------------------------------
+
+SUCCESS #211
+File: current_payments.csv
+Row: 213
+Result: Created payment: $203.47 on 2025-07-15 for Mary Crocker Cook
+Created: Mary Crocker Cook - $203.47 on 2025-07-15
+------------------------------
+
+SUCCESS #212
+File: current_payments.csv
+Row: 214
+Result: Created payment: $100.0 on 2025-03-01 for Ricky Lopez
+Created: Ricky Lopez - $100.0 on 2025-03-01
+------------------------------
+
+SUCCESS #213
+File: current_payments.csv
+Row: 215
+Result: Created payment: $20.0 on 2025-04-07 for Ricky Lopez
+Created: Ricky Lopez - $20.0 on 2025-04-07
+------------------------------
+
+SUCCESS #214
+File: current_payments.csv
+Row: 216
+Result: Created payment: $200.0 on 2025-09-02 for Ricky Lopez
+Created: Ricky Lopez - $200.0 on 2025-09-02
+------------------------------
+
+SUCCESS #215
+File: current_payments.csv
+Row: 217
+Result: Created payment: $2000.0 on 2020-05-23 for Michael Cogliandro
+Created: Michael Cogliandro - $2000.0 on 2020-05-23
+------------------------------
+
+SUCCESS #216
+File: current_payments.csv
+Row: 218
+Result: Created payment: $20.0 on 2025-07-16 for Roberto Farias
+Created: Roberto Farias - $20.0 on 2025-07-16
+------------------------------
+
+SUCCESS #217
+File: current_payments.csv
+Row: 219
+Result: Created payment: $100.0 on 2025-08-27 for Roberto Farias
+Created: Roberto Farias - $100.0 on 2025-08-27
+------------------------------
+
+SUCCESS #218
+File: current_payments.csv
+Row: 220
+Result: Created payment: $200.0 on 2025-02-22 for Lynne Lee
+Created: Lynne Lee - $200.0 on 2025-02-22
+------------------------------
+
+SUCCESS #219
+File: current_payments.csv
+Row: 221
+Result: Created payment: $20.0 on 2025-03-10 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-03-10
+------------------------------
+
+SUCCESS #220
+File: current_payments.csv
+Row: 222
+Result: Created payment: $20.0 on 2025-04-04 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-04-04
+------------------------------
+
+SUCCESS #221
+File: current_payments.csv
+Row: 223
+Result: Created payment: $20.0 on 2025-05-07 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-05-07
+------------------------------
+
+SUCCESS #222
+File: current_payments.csv
+Row: 224
+Result: Created payment: $40.0 on 2025-07-07 for Donnie Green
+Created: Donnie Green - $40.0 on 2025-07-07
+------------------------------
+
+SUCCESS #223
+File: current_payments.csv
+Row: 225
+Result: Created payment: $20.0 on 2025-11-18 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-11-18
+------------------------------
+
+SUCCESS #224
+File: current_payments.csv
+Row: 226
+Result: Created payment: $20.0 on 2025-08-27 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-08-27
+------------------------------
+
+SUCCESS #225
+File: current_payments.csv
+Row: 227
+Result: Created payment: $20.0 on 2025-09-08 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-09-08
+------------------------------
+
+SUCCESS #226
+File: current_payments.csv
+Row: 228
+Result: Created payment: $20.0 on 2025-10-01 for Donnie Green
+Created: Donnie Green - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #227
+File: current_payments.csv
+Row: 229
+Result: Created payment: $20.0 on 2025-06-01 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-06-01
+------------------------------
+
+SUCCESS #228
+File: current_payments.csv
+Row: 230
+Result: Created payment: $20.0 on 2025-05-04 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-05-04
+------------------------------
+
+SUCCESS #229
+File: current_payments.csv
+Row: 231
+Result: Created payment: $20.0 on 2025-06-29 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-06-29
+------------------------------
+
+SUCCESS #230
+File: current_payments.csv
+Row: 232
+Result: Created payment: $20.0 on 2025-07-27 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-07-27
+------------------------------
+
+SUCCESS #231
+File: current_payments.csv
+Row: 233
+Result: Created payment: $20.0 on 2025-11-02 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-11-02
+------------------------------
+
+SUCCESS #232
+File: current_payments.csv
+Row: 234
+Result: Created payment: $20.0 on 2025-08-31 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-08-31
+------------------------------
+
+SUCCESS #233
+File: current_payments.csv
+Row: 235
+Result: Created payment: $20.0 on 2025-10-05 for Eric Phillips
+Created: Eric Phillips - $20.0 on 2025-10-05
+------------------------------
+
+SUCCESS #234
+File: current_payments.csv
+Row: 236
+Result: Created payment: $100.0 on 2025-02-28 for Shannon Jones
+Created: Shannon Jones - $100.0 on 2025-02-28
+------------------------------
+
+SUCCESS #235
+File: current_payments.csv
+Row: 237
+Result: Created payment: $100.0 on 2025-11-26 for Shannon Jones
+Created: Shannon Jones - $100.0 on 2025-11-26
+------------------------------
+
+SUCCESS #236
+File: current_payments.csv
+Row: 238
+Result: Created payment: $20.0 on 2025-06-09 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-06-09
+------------------------------
+
+SUCCESS #237
+File: current_payments.csv
+Row: 239
+Result: Created payment: $20.0 on 2025-04-07 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-04-07
+------------------------------
+
+SUCCESS #238
+File: current_payments.csv
+Row: 240
+Result: Created payment: $20.0 on 2025-05-06 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-05-06
+------------------------------
+
+SUCCESS #239
+File: current_payments.csv
+Row: 241
+Result: Created payment: $20.0 on 2025-08-06 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-08-06
+------------------------------
+
+SUCCESS #240
+File: current_payments.csv
+Row: 242
+Result: Created payment: $20.0 on 2025-11-11 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-11-11
+------------------------------
+
+SUCCESS #241
+File: current_payments.csv
+Row: 243
+Result: Created payment: $20.0 on 2025-09-08 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-09-08
+------------------------------
+
+SUCCESS #242
+File: current_payments.csv
+Row: 244
+Result: Created payment: $20.0 on 2025-10-09 for Ruben Guerro
+Created: Ruben Guerro - $20.0 on 2025-10-09
+------------------------------
+
+SUCCESS #243
+File: current_payments.csv
+Row: 245
+Result: Created payment: $20.0 on 2024-07-01 for Harvey DeJesus
+Created: Harvey DeJesus - $20.0 on 2024-07-01
+------------------------------
+
+SUCCESS #244
+File: current_payments.csv
+Row: 246
+Result: Created payment: $20.0 on 2024-08-12 for Harvey DeJesus
+Created: Harvey DeJesus - $20.0 on 2024-08-12
+------------------------------
+
+SUCCESS #245
+File: current_payments.csv
+Row: 247
+Result: Created payment: $200.0 on 2024-08-16 for Harvey DeJesus
+Created: Harvey DeJesus - $200.0 on 2024-08-16
+------------------------------
+
+SUCCESS #246
+File: current_payments.csv
+Row: 248
+Result: Created payment: $20.0 on 2025-10-22 for Harvey DeJesus
+Created: Harvey DeJesus - $20.0 on 2025-10-22
+------------------------------
+
+SUCCESS #247
+File: current_payments.csv
+Row: 249
+Result: Created payment: $20.0 on 2025-11-05 for Harvey DeJesus
+Created: Harvey DeJesus - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #248
+File: current_payments.csv
+Row: 250
+Result: Created payment: $200.0 on 2024-06-24 for Doug Hames
+Created: Doug Hames - $200.0 on 2024-06-24
+------------------------------
+
+SUCCESS #249
+File: current_payments.csv
+Row: 251
+Result: Created payment: $20.0 on 2025-06-10 for Jerry Diaz
+Created: Jerry Diaz - $20.0 on 2025-06-10
+------------------------------
+
+SUCCESS #250
+File: current_payments.csv
+Row: 252
+Result: Created payment: $40.0 on 2024-12-31 for Jerry Diaz
+Created: Jerry Diaz - $40.0 on 2024-12-31
+------------------------------
+
+SUCCESS #251
+File: current_payments.csv
+Row: 253
+Result: Created payment: $20.0 on 2025-02-03 for Jerry Diaz
+Created: Jerry Diaz - $20.0 on 2025-02-03
+------------------------------
+
+SUCCESS #252
+File: current_payments.csv
+Row: 254
+Result: Created payment: $20.0 on 2025-04-17 for Jerry Diaz
+Created: Jerry Diaz - $20.0 on 2025-04-17
+------------------------------
+
+SUCCESS #253
+File: current_payments.csv
+Row: 255
+Result: Created payment: $20.0 on 2025-05-01 for Jerry Diaz
+Created: Jerry Diaz - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #254
+File: current_payments.csv
+Row: 256
+Result: Created payment: $20.0 on 2025-10-03 for Jerry Diaz
+Created: Jerry Diaz - $20.0 on 2025-10-03
+------------------------------
+
+SUCCESS #255
+File: current_payments.csv
+Row: 257
+Result: Created payment: $20.0 on 2025-11-05 for Jerry Diaz
+Created: Jerry Diaz - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #256
+File: current_payments.csv
+Row: 258
+Result: Created payment: $200.0 on 2025-03-15 for Louie Runnestrand
+Created: Louie Runnestrand - $200.0 on 2025-03-15
+------------------------------
+
+SUCCESS #257
+File: current_payments.csv
+Row: 259
+Result: Created payment: $1000.0 on 1993-03-28 for Cora Stewart
+Created: Cora Stewart - $1000.0 on 1993-03-28
+------------------------------
+
+SUCCESS #258
+File: current_payments.csv
+Row: 260
+Result: Created payment: $20.0 on 2025-06-07 for Suzan Vasquez
+Created: Suzan Vasquez - $20.0 on 2025-06-07
+------------------------------
+
+SUCCESS #259
+File: current_payments.csv
+Row: 261
+Result: Created payment: $20.0 on 2025-05-01 for Suzan Vasquez
+Created: Suzan Vasquez - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #260
+File: current_payments.csv
+Row: 262
+Result: Created payment: $20.0 on 2025-07-07 for Suzan Vasquez
+Created: Suzan Vasquez - $20.0 on 2025-07-07
+------------------------------
+
+SUCCESS #261
+File: current_payments.csv
+Row: 263
+Result: Created payment: $20.0 on 2025-08-22 for Suzan Vasquez
+Created: Suzan Vasquez - $20.0 on 2025-08-22
+------------------------------
+
+SUCCESS #262
+File: current_payments.csv
+Row: 264
+Result: Created payment: $20.0 on 2025-09-29 for Suzan Vasquez
+Created: Suzan Vasquez - $20.0 on 2025-09-29
+------------------------------
+
+SUCCESS #263
+File: current_payments.csv
+Row: 265
+Result: Created payment: $20.0 on 2025-10-27 for Suzan Vasquez
+Created: Suzan Vasquez - $20.0 on 2025-10-27
+------------------------------
+
+SUCCESS #264
+File: current_payments.csv
+Row: 266
+Result: Created payment: $20.0 on 2025-11-05 for Angie Saldana
+Created: Angie Saldana - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #265
+File: current_payments.csv
+Row: 267
+Result: Created payment: $20.0 on 2025-10-03 for Angie Saldana
+Created: Angie Saldana - $20.0 on 2025-10-03
+------------------------------
+
+SUCCESS #266
+File: current_payments.csv
+Row: 268
+Result: Created payment: $100.0 on 2025-08-30 for Robert Blalock
+Created: Robert Blalock - $100.0 on 2025-08-30
+------------------------------
+
+SUCCESS #267
+File: current_payments.csv
+Row: 269
+Result: Created payment: $90.0 on 2025-06-28 for Greg Laffen
+Created: Greg Laffen - $90.0 on 2025-06-28
+------------------------------
+
+SUCCESS #268
+File: current_payments.csv
+Row: 270
+Result: Created payment: $100.0 on 2025-03-31 for Ken Beasley
+Created: Ken Beasley - $100.0 on 2025-03-31
+------------------------------
+
+SUCCESS #269
+File: current_payments.csv
+Row: 271
+Result: Created payment: $30.0 on 2025-06-28 for Doug Kepler
+Created: Doug Kepler - $30.0 on 2025-06-28
+------------------------------
+
+SUCCESS #270
+File: current_payments.csv
+Row: 272
+Result: Created payment: $100.0 on 2025-08-30 for Doug Kepler
+Created: Doug Kepler - $100.0 on 2025-08-30
+------------------------------
+
+SUCCESS #271
+File: current_payments.csv
+Row: 273
+Result: Created payment: $100.0 on 2025-08-30 for Herman Guerrgro
+Created: Herman Guerrgro - $100.0 on 2025-08-30
+------------------------------
+
+SUCCESS #272
+File: current_payments.csv
+Row: 274
+Result: Created payment: $20.0 on 2025-06-06 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-06-06
+------------------------------
+
+SUCCESS #273
+File: current_payments.csv
+Row: 275
+Result: Created payment: $20.0 on 2025-05-23 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-05-23
+------------------------------
+
+SUCCESS #274
+File: current_payments.csv
+Row: 276
+Result: Created payment: $20.0 on 2025-07-17 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-07-17
+------------------------------
+
+SUCCESS #275
+File: current_payments.csv
+Row: 277
+Result: Created payment: $20.0 on 2025-09-02 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-09-02
+------------------------------
+
+SUCCESS #276
+File: current_payments.csv
+Row: 278
+Result: Created payment: $20.0 on 2025-09-11 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-09-11
+------------------------------
+
+SUCCESS #277
+File: current_payments.csv
+Row: 279
+Result: Created payment: $20.0 on 2025-10-20 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-10-20
+------------------------------
+
+SUCCESS #278
+File: current_payments.csv
+Row: 280
+Result: Created payment: $20.0 on 2025-11-05 for Douglas Capote Jr
+Created: Douglas Capote Jr - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #279
+File: current_payments.csv
+Row: 281
+Result: Created payment: $20.0 on 2024-01-31 for Jessica Jarrod
+Created: Jessica Jarrod - $20.0 on 2024-01-31
+------------------------------
+
+SUCCESS #280
+File: current_payments.csv
+Row: 282
+Result: Created payment: $30.0 on 2023-09-03 for Jessica Jarrod
+Created: Jessica Jarrod - $30.0 on 2023-09-03
+------------------------------
+
+SUCCESS #281
+File: current_payments.csv
+Row: 283
+Result: Created payment: $60.0 on 2024-01-01 for Jessica Jarrod
+Created: Jessica Jarrod - $60.0 on 2024-01-01
+------------------------------
+
+SUCCESS #282
+File: current_payments.csv
+Row: 284
+Result: Created payment: $20.0 on 2024-05-03 for Jessica Jarrod
+Created: Jessica Jarrod - $20.0 on 2024-05-03
+------------------------------
+
+SUCCESS #283
+File: current_payments.csv
+Row: 285
+Result: Created payment: $100.0 on 2024-07-08 for Jessica Jarrod
+Created: Jessica Jarrod - $100.0 on 2024-07-08
+------------------------------
+
+SUCCESS #284
+File: current_payments.csv
+Row: 286
+Result: Created payment: $20.0 on 2024-02-29 for Jessica Jarrod
+Created: Jessica Jarrod - $20.0 on 2024-02-29
+------------------------------
+
+SUCCESS #285
+File: current_payments.csv
+Row: 287
+Result: Created payment: $120.0 on 2025-02-25 for Jessica Jarrod
+Created: Jessica Jarrod - $120.0 on 2025-02-25
+------------------------------
+
+SUCCESS #286
+File: current_payments.csv
+Row: 288
+Result: Created payment: $20.0 on 2025-11-22 for Jessica Jarrod
+Created: Jessica Jarrod - $20.0 on 2025-11-22
+------------------------------
+
+SUCCESS #287
+File: current_payments.csv
+Row: 289
+Result: Created payment: $1000.0 on 2019-01-01 for Liz Hamm
+Created: Liz Hamm - $1000.0 on 2019-01-01
+------------------------------
+
+SUCCESS #288
+File: current_payments.csv
+Row: 290
+Result: Created payment: $200.0 on 2025-03-28 for Michele Phillips
+Created: Michele Phillips - $200.0 on 2025-03-28
+------------------------------
+
+SUCCESS #289
+File: current_payments.csv
+Row: 291
+Result: Created payment: $1000.0 on 1987-04-02 for Buzz Sheridan
+Created: Buzz Sheridan - $1000.0 on 1987-04-02
+------------------------------
+
+SUCCESS #290
+File: current_payments.csv
+Row: 292
+Result: Created payment: $20.0 on 2025-06-13 for Lisa Romero
+Created: Lisa Romero - $20.0 on 2025-06-13
+------------------------------
+
+SUCCESS #291
+File: current_payments.csv
+Row: 293
+Result: Created payment: $200.0 on 2024-04-13 for Jacques Gagne
+Created: Jacques Gagne - $200.0 on 2024-04-13
+------------------------------
+
+SUCCESS #292
+File: current_payments.csv
+Row: 294
+Result: Created payment: $100.0 on 2024-09-03 for Jacques Gagne
+Created: Jacques Gagne - $100.0 on 2024-09-03
+------------------------------
+
+SUCCESS #293
+File: current_payments.csv
+Row: 295
+Result: Created payment: $3750.0 on 2024-04-06 for Jacques Gagne
+Created: Jacques Gagne - $3750.0 on 2024-04-06
+------------------------------
+
+SUCCESS #294
+File: current_payments.csv
+Row: 296
+Result: Created payment: $200.0 on 2024-07-19 for Randy Shaw
+Created: Randy Shaw - $200.0 on 2024-07-19
+------------------------------
+
+SUCCESS #295
+File: current_payments.csv
+Row: 297
+Result: Created payment: $100.0 on 2024-11-30 for Tony Saenz
+Created: Tony Saenz - $100.0 on 2024-11-30
+------------------------------
+
+SUCCESS #296
+File: current_payments.csv
+Row: 298
+Result: Created payment: $100.0 on 2025-09-15 for Tony Saenz
+Created: Tony Saenz - $100.0 on 2025-09-15
+------------------------------
+
+SUCCESS #297
+File: current_payments.csv
+Row: 299
+Result: Created payment: $1500.0 on 2022-05-04 for Lisa Freitas
+Created: Lisa Freitas - $1500.0 on 2022-05-04
+------------------------------
+
+SUCCESS #298
+File: current_payments.csv
+Row: 300
+Result: Created payment: $15.0 on 2025-06-14 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-06-14
+------------------------------
+
+SUCCESS #299
+File: current_payments.csv
+Row: 301
+Result: Created payment: $15.0 on 2025-05-31 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-05-31
+------------------------------
+
+SUCCESS #300
+File: current_payments.csv
+Row: 302
+Result: Created payment: $15.0 on 2025-07-17 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-07-17
+------------------------------
+
+SUCCESS #301
+File: current_payments.csv
+Row: 303
+Result: Created payment: $15.0 on 2025-11-13 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-11-13
+------------------------------
+
+SUCCESS #302
+File: current_payments.csv
+Row: 304
+Result: Created payment: $15.0 on 2025-08-16 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-08-16
+------------------------------
+
+SUCCESS #303
+File: current_payments.csv
+Row: 305
+Result: Created payment: $15.0 on 2025-09-11 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-09-11
+------------------------------
+
+SUCCESS #304
+File: current_payments.csv
+Row: 306
+Result: Created payment: $15.0 on 2025-10-16 for Zeke Zapata Jr.
+Created: Zeke Zapata Jr. - $15.0 on 2025-10-16
+------------------------------
+
+SUCCESS #305
+File: current_payments.csv
+Row: 307
+Result: Created payment: $100.0 on 2023-12-24 for Ricardo Hernandez
+Created: Ricardo Hernandez - $100.0 on 2023-12-24
+------------------------------
+
+SUCCESS #306
+File: current_payments.csv
+Row: 308
+Result: Created payment: $200.0 on 2024-04-09 for Ricardo Hernandez
+Created: Ricardo Hernandez - $200.0 on 2024-04-09
+------------------------------
+
+SUCCESS #307
+File: current_payments.csv
+Row: 309
+Result: Created payment: $100.0 on 2025-08-07 for Ricardo Hernandez
+Created: Ricardo Hernandez - $100.0 on 2025-08-07
+------------------------------
+
+SUCCESS #308
+File: current_payments.csv
+Row: 310
+Result: Created payment: $30.0 on 2025-03-29 for Chuy Cortez
+Created: Chuy Cortez - $30.0 on 2025-03-29
+------------------------------
+
+SUCCESS #309
+File: current_payments.csv
+Row: 311
+Result: Created payment: $20.0 on 2025-06-14 for Chuy Cortez
+Created: Chuy Cortez - $20.0 on 2025-06-14
+------------------------------
+
+SUCCESS #310
+File: current_payments.csv
+Row: 312
+Result: Created payment: $60.0 on 2025-01-04 for Chuy Cortez
+Created: Chuy Cortez - $60.0 on 2025-01-04
+------------------------------
+
+SUCCESS #311
+File: current_payments.csv
+Row: 313
+Result: Created payment: $40.0 on 2025-07-31 for Chuy Cortez
+Created: Chuy Cortez - $40.0 on 2025-07-31
+------------------------------
+
+SUCCESS #312
+File: current_payments.csv
+Row: 314
+Result: Created payment: $60.0 on 2025-11-09 for Chuy Cortez
+Created: Chuy Cortez - $60.0 on 2025-11-09
+------------------------------
+
+SUCCESS #313
+File: current_payments.csv
+Row: 316
+Result: Created payment: $20.0 on 2025-09-01 for Chuy Cortez
+Created: Chuy Cortez - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #314
+File: current_payments.csv
+Row: 317
+Result: Created payment: $20.0 on 2025-06-01 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-06-01
+------------------------------
+
+SUCCESS #315
+File: current_payments.csv
+Row: 318
+Result: Created payment: $20.0 on 2025-05-03 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-05-03
+------------------------------
+
+SUCCESS #316
+File: current_payments.csv
+Row: 319
+Result: Created payment: $20.0 on 2025-06-29 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-06-29
+------------------------------
+
+SUCCESS #317
+File: current_payments.csv
+Row: 320
+Result: Created payment: $20.0 on 2025-07-27 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-07-27
+------------------------------
+
+SUCCESS #318
+File: current_payments.csv
+Row: 321
+Result: Created payment: $20.0 on 2025-11-02 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-11-02
+------------------------------
+
+SUCCESS #319
+File: current_payments.csv
+Row: 322
+Result: Created payment: $20.0 on 2025-11-16 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-11-16
+------------------------------
+
+SUCCESS #320
+File: current_payments.csv
+Row: 323
+Result: Created payment: $20.0 on 2025-08-31 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-08-31
+------------------------------
+
+SUCCESS #321
+File: current_payments.csv
+Row: 324
+Result: Created payment: $20.0 on 2025-10-05 for Ceritia Allen
+Created: Ceritia Allen - $20.0 on 2025-10-05
+------------------------------
+
+SUCCESS #322
+File: current_payments.csv
+Row: 325
+Result: Created payment: $20.0 on 2025-06-23 for Margie Ballesteros
+Created: Margie Ballesteros - $20.0 on 2025-06-23
+------------------------------
+
+SUCCESS #323
+File: current_payments.csv
+Row: 326
+Result: Created payment: $20.0 on 2025-07-07 for Margie Ballesteros
+Created: Margie Ballesteros - $20.0 on 2025-07-07
+------------------------------
+
+SUCCESS #324
+File: current_payments.csv
+Row: 327
+Result: Created payment: $20.0 on 2025-08-06 for Margie Ballesteros
+Created: Margie Ballesteros - $20.0 on 2025-08-06
+------------------------------
+
+SUCCESS #325
+File: current_payments.csv
+Row: 328
+Result: Created payment: $20.0 on 2025-11-03 for Margie Ballesteros
+Created: Margie Ballesteros - $20.0 on 2025-11-03
+------------------------------
+
+SUCCESS #326
+File: current_payments.csv
+Row: 329
+Result: Created payment: $20.0 on 2025-10-05 for Margie Ballesteros
+Created: Margie Ballesteros - $20.0 on 2025-10-05
+------------------------------
+
+SUCCESS #327
+File: current_payments.csv
+Row: 330
+Result: Created payment: $20.0 on 2025-11-25 for Alexis Serrano-Ruiz
+Created: Alexis Serrano-Ruiz - $20.0 on 2025-11-25
+------------------------------
+
+SUCCESS #328
+File: current_payments.csv
+Row: 331
+Result: Created payment: $100.0 on 2025-03-30 for Layfayette Minnieweather
+Created: Layfayette Minnieweather - $100.0 on 2025-03-30
+------------------------------
+
+SUCCESS #329
+File: current_payments.csv
+Row: 332
+Result: Created payment: $100.0 on 2024-09-20 for Layfayette Minnieweather
+Created: Layfayette Minnieweather - $100.0 on 2024-09-20
+------------------------------
+
+SUCCESS #330
+File: current_payments.csv
+Row: 333
+Result: Created payment: $200.0 on 2024-10-06 for Carolyn Fierro
+Created: Carolyn Fierro - $200.0 on 2024-10-06
+------------------------------
+
+SUCCESS #331
+File: current_payments.csv
+Row: 334
+Result: Created payment: $20.0 on 2025-07-20 for Carolyn Fierro
+Created: Carolyn Fierro - $20.0 on 2025-07-20
+------------------------------
+
+SUCCESS #332
+File: current_payments.csv
+Row: 335
+Result: Created payment: $20.0 on 2025-11-22 for Carolyn Fierro
+Created: Carolyn Fierro - $20.0 on 2025-11-22
+------------------------------
+
+SUCCESS #333
+File: current_payments.csv
+Row: 336
+Result: Created payment: $20.0 on 2025-08-20 for Carolyn Fierro
+Created: Carolyn Fierro - $20.0 on 2025-08-20
+------------------------------
+
+SUCCESS #334
+File: current_payments.csv
+Row: 337
+Result: Created payment: $20.0 on 2024-10-23 for Carolyn Fierro
+Created: Carolyn Fierro - $20.0 on 2024-10-23
+------------------------------
+
+SUCCESS #335
+File: current_payments.csv
+Row: 338
+Result: Created payment: $20.0 on 2025-10-22 for Carolyn Fierro
+Created: Carolyn Fierro - $20.0 on 2025-10-22
+------------------------------
+
+SUCCESS #336
+File: current_payments.csv
+Row: 339
+Result: Created payment: $150.0 on 2023-10-03 for Erich Winkler
+Created: Erich Winkler - $150.0 on 2023-10-03
+------------------------------
+
+SUCCESS #337
+File: current_payments.csv
+Row: 340
+Result: Created payment: $200.0 on 2024-11-22 for Erich Winkler
+Created: Erich Winkler - $200.0 on 2024-11-22
+------------------------------
+
+SUCCESS #338
+File: current_payments.csv
+Row: 341
+Result: Created payment: $200.0 on 2025-11-13 for Erich Winkler
+Created: Erich Winkler - $200.0 on 2025-11-13
+------------------------------
+
+SUCCESS #339
+File: current_payments.csv
+Row: 342
+Result: Created payment: $300.0 on 2025-05-20 for Rick Souk
+Created: Rick Souk - $300.0 on 2025-05-20
+------------------------------
+
+SUCCESS #340
+File: current_payments.csv
+Row: 343
+Result: Created payment: $1000.0 on 1996-07-02 for Sal Castiglia
+Created: Sal Castiglia - $1000.0 on 1996-07-02
+------------------------------
+
+SUCCESS #341
+File: current_payments.csv
+Row: 344
+Result: Created payment: $20.0 on 2025-01-19 for Clem Velez
+Created: Clem Velez - $20.0 on 2025-01-19
+------------------------------
+
+SUCCESS #342
+File: current_payments.csv
+Row: 345
+Result: Created payment: $200.0 on 2025-04-18 for Clem Velez
+Created: Clem Velez - $200.0 on 2025-04-18
+------------------------------
+
+SUCCESS #343
+File: current_payments.csv
+Row: 346
+Result: Created payment: $30.0 on 2025-06-02 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-06-02
+------------------------------
+
+SUCCESS #344
+File: current_payments.csv
+Row: 347
+Result: Created payment: $30.0 on 2025-05-01 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-05-01
+------------------------------
+
+SUCCESS #345
+File: current_payments.csv
+Row: 348
+Result: Created payment: $30.0 on 2025-07-01 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-07-01
+------------------------------
+
+SUCCESS #346
+File: current_payments.csv
+Row: 349
+Result: Created payment: $30.0 on 2025-08-04 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-08-04
+------------------------------
+
+SUCCESS #347
+File: current_payments.csv
+Row: 350
+Result: Created payment: $30.0 on 2025-11-03 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-11-03
+------------------------------
+
+SUCCESS #348
+File: current_payments.csv
+Row: 351
+Result: Created payment: $30.0 on 2025-09-01 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-09-01
+------------------------------
+
+SUCCESS #349
+File: current_payments.csv
+Row: 352
+Result: Created payment: $30.0 on 2025-09-30 for Sue Erskin
+Created: Sue Erskin - $30.0 on 2025-09-30
+------------------------------
+
+SUCCESS #350
+File: current_payments.csv
+Row: 353
+Result: Created payment: $100.0 on 2025-03-05 for Jimmy Mulleniux
+Created: Jimmy Mulleniux - $100.0 on 2025-03-05
+------------------------------
+
+SUCCESS #351
+File: current_payments.csv
+Row: 354
+Result: Created payment: $100.0 on 2024-10-04 for Jimmy Mulleniux
+Created: Jimmy Mulleniux - $100.0 on 2024-10-04
+------------------------------
+
+SUCCESS #352
+File: current_payments.csv
+Row: 355
+Result: Created payment: $100.0 on 2025-05-17 for Jimmy Mulleniux
+Created: Jimmy Mulleniux - $100.0 on 2025-05-17
+------------------------------
+
+SUCCESS #353
+File: current_payments.csv
+Row: 356
+Result: Created payment: $20.0 on 2025-11-10 for Jimmy Mulleniux
+Created: Jimmy Mulleniux - $20.0 on 2025-11-10
+------------------------------
+
+SUCCESS #354
+File: current_payments.csv
+Row: 357
+Result: Created payment: $150.0 on 2021-05-06 for Kiki Martinez
+Created: Kiki Martinez - $150.0 on 2021-05-06
+------------------------------
+
+SUCCESS #355
+File: current_payments.csv
+Row: 358
+Result: Created payment: $150.0 on 2019-02-12 for Kiki Martinez
+Created: Kiki Martinez - $150.0 on 2019-02-12
+------------------------------
+
+SUCCESS #356
+File: current_payments.csv
+Row: 359
+Result: Created payment: $100.0 on 2025-08-26 for Jerry Vasquez
+Created: Jerry Vasquez - $100.0 on 2025-08-26
+------------------------------
+
+SUCCESS #357
+File: current_payments.csv
+Row: 360
+Result: Created payment: $20.0 on 2025-11-02 for Paul Nigro
+Created: Paul Nigro - $20.0 on 2025-11-02
+------------------------------
+
+SUCCESS #358
+File: current_payments.csv
+Row: 361
+Result: Created payment: $20.0 on 2025-09-16 for Paul Nigro
+Created: Paul Nigro - $20.0 on 2025-09-16
+------------------------------
+
+SUCCESS #359
+File: current_payments.csv
+Row: 362
+Result: Created payment: $20.0 on 2025-10-03 for Paul Nigro
+Created: Paul Nigro - $20.0 on 2025-10-03
+------------------------------
+
+SUCCESS #360
+File: current_payments.csv
+Row: 363
+Result: Created payment: $20.0 on 2025-11-06 for Lesley Davis Jr.
+Created: Lesley Davis Jr. - $20.0 on 2025-11-06
+------------------------------
+
+SUCCESS #361
+File: current_payments.csv
+Row: 364
+Result: Created payment: $1000.0 on 2015-09-15 for Mike Stokes
+Created: Mike Stokes - $1000.0 on 2015-09-15
+------------------------------
+
+SUCCESS #362
+File: current_payments.csv
+Row: 365
+Result: Created payment: $1000.0 on 2017-01-01 for Susan Jagodzinski
+Created: Susan Jagodzinski - $1000.0 on 2017-01-01
+------------------------------
+
+SUCCESS #363
+File: current_payments.csv
+Row: 366
+Result: Created payment: $40.0 on 2025-03-16 for Jeff Jones
+Created: Jeff Jones - $40.0 on 2025-03-16
+------------------------------
+
+SUCCESS #364
+File: current_payments.csv
+Row: 367
+Result: Created payment: $20.0 on 2024-12-31 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2024-12-31
+------------------------------
+
+SUCCESS #365
+File: current_payments.csv
+Row: 368
+Result: Created payment: $20.0 on 2025-05-28 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2025-05-28
+------------------------------
+
+SUCCESS #366
+File: current_payments.csv
+Row: 369
+Result: Created payment: $20.0 on 2025-08-05 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2025-08-05
+------------------------------
+
+SUCCESS #367
+File: current_payments.csv
+Row: 370
+Result: Created payment: $20.0 on 2025-09-06 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2025-09-06
+------------------------------
+
+SUCCESS #368
+File: current_payments.csv
+Row: 371
+Result: Created payment: $20.0 on 2025-09-30 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2025-09-30
+------------------------------
+
+SUCCESS #369
+File: current_payments.csv
+Row: 372
+Result: Created payment: $20.0 on 2025-10-16 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2025-10-16
+------------------------------
+
+SUCCESS #370
+File: current_payments.csv
+Row: 373
+Result: Created payment: $20.0 on 2025-10-21 for Jeff Jones
+Created: Jeff Jones - $20.0 on 2025-10-21
+------------------------------
+
+SUCCESS #371
+File: current_payments.csv
+Row: 374
+Result: Created payment: $20.0 on 2025-08-30 for Jeffery Lewis
+Created: Jeffery Lewis - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #372
+File: current_payments.csv
+Row: 375
+Result: Created payment: $20.0 on 2025-06-02 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #373
+File: current_payments.csv
+Row: 376
+Result: Created payment: $20.0 on 2025-05-01 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #374
+File: current_payments.csv
+Row: 377
+Result: Created payment: $20.0 on 2025-06-30 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-06-30
+------------------------------
+
+SUCCESS #375
+File: current_payments.csv
+Row: 378
+Result: Created payment: $20.0 on 2025-07-31 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-07-31
+------------------------------
+
+SUCCESS #376
+File: current_payments.csv
+Row: 379
+Result: Created payment: $20.0 on 2025-09-01 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #377
+File: current_payments.csv
+Row: 380
+Result: Created payment: $20.0 on 2025-09-30 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-09-30
+------------------------------
+
+SUCCESS #378
+File: current_payments.csv
+Row: 381
+Result: Created payment: $20.0 on 2025-10-30 for Edward Morales
+Created: Edward Morales - $20.0 on 2025-10-30
+------------------------------
+
+SUCCESS #379
+File: current_payments.csv
+Row: 382
+Result: Created payment: $20.0 on 2025-06-26 for Doug Murphy
+Created: Doug Murphy - $20.0 on 2025-06-26
+------------------------------
+
+SUCCESS #380
+File: current_payments.csv
+Row: 383
+Result: Created payment: $100.0 on 2025-07-04 for Doug Murphy
+Created: Doug Murphy - $100.0 on 2025-07-04
+------------------------------
+
+SUCCESS #381
+File: current_payments.csv
+Row: 384
+Result: Created payment: $2500.0 on 2023-10-02 for Gay Miller
+Created: Gay Miller - $2500.0 on 2023-10-02
+------------------------------
+
+SUCCESS #382
+File: current_payments.csv
+Row: 385
+Result: Created payment: $150.0 on 2025-01-18 for Geof Giacomini
+Created: Geof Giacomini - $150.0 on 2025-01-18
+------------------------------
+
+SUCCESS #383
+File: current_payments.csv
+Row: 386
+Result: Created payment: $150.0 on 2025-10-08 for Geof Giacomini
+Created: Geof Giacomini - $150.0 on 2025-10-08
+------------------------------
+
+SUCCESS #384
+File: current_payments.csv
+Row: 387
+Result: Created payment: $20.0 on 2025-06-02 for Brianna Martinez
+Created: Brianna Martinez - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #385
+File: current_payments.csv
+Row: 388
+Result: Created payment: $20.0 on 2025-05-02 for Brianna Martinez
+Created: Brianna Martinez - $20.0 on 2025-05-02
+------------------------------
+
+SUCCESS #386
+File: current_payments.csv
+Row: 389
+Result: Created payment: $60.0 on 2025-09-02 for Brianna Martinez
+Created: Brianna Martinez - $60.0 on 2025-09-02
+------------------------------
+
+SUCCESS #387
+File: current_payments.csv
+Row: 390
+Result: Created payment: $20.0 on 2025-10-03 for Brianna Martinez
+Created: Brianna Martinez - $20.0 on 2025-10-03
+------------------------------
+
+SUCCESS #388
+File: current_payments.csv
+Row: 391
+Result: Created payment: $20.0 on 2025-11-07 for Brianna Martinez
+Created: Brianna Martinez - $20.0 on 2025-11-07
+------------------------------
+
+SUCCESS #389
+File: current_payments.csv
+Row: 392
+Result: Created payment: $200.0 on 2025-01-18 for Janelle M.
+Created: Janelle M. - $200.0 on 2025-01-18
+------------------------------
+
+SUCCESS #390
+File: current_payments.csv
+Row: 393
+Result: Created payment: $20.0 on 2024-06-21 for Gerald Garcia
+Created: Gerald Garcia - $20.0 on 2024-06-21
+------------------------------
+
+SUCCESS #391
+File: current_payments.csv
+Row: 394
+Result: Created payment: $200.0 on 2024-07-26 for Gerald Garcia
+Created: Gerald Garcia - $200.0 on 2024-07-26
+------------------------------
+
+SUCCESS #392
+File: current_payments.csv
+Row: 395
+Result: Created payment: $250.0 on 2023-10-07 for Samantha Roberts
+Created: Samantha Roberts - $250.0 on 2023-10-07
+------------------------------
+
+SUCCESS #393
+File: current_payments.csv
+Row: 396
+Result: Created payment: $60.0 on 2025-05-30 for Victor Castaneda
+Created: Victor Castaneda - $60.0 on 2025-05-30
+------------------------------
+
+SUCCESS #394
+File: current_payments.csv
+Row: 397
+Result: Created payment: $60.0 on 2025-06-15 for Victor Castaneda
+Created: Victor Castaneda - $60.0 on 2025-06-15
+------------------------------
+
+SUCCESS #395
+File: current_payments.csv
+Row: 398
+Result: Created payment: $30.0 on 2025-02-16 for Victor Castaneda
+Created: Victor Castaneda - $30.0 on 2025-02-16
+------------------------------
+
+SUCCESS #396
+File: current_payments.csv
+Row: 399
+Result: Created payment: $200.0 on 2023-12-30 for Kelly Conway
+Created: Kelly Conway - $200.0 on 2023-12-30
+------------------------------
+
+SUCCESS #397
+File: current_payments.csv
+Row: 400
+Result: Created payment: $200.0 on 2025-05-10 for Kelly Conway
+Created: Kelly Conway - $200.0 on 2025-05-10
+------------------------------
+
+SUCCESS #398
+File: current_payments.csv
+Row: 401
+Result: Created payment: $150.0 on 2023-08-05 for David Indra
+Created: David Indra - $150.0 on 2023-08-05
+------------------------------
+
+SUCCESS #399
+File: current_payments.csv
+Row: 402
+Result: Created payment: $100.0 on 2024-09-18 for David Indra
+Created: David Indra - $100.0 on 2024-09-18
+------------------------------
+
+SUCCESS #400
+File: current_payments.csv
+Row: 403
+Result: Created payment: $100.0 on 2025-04-17 for David Indra
+Created: David Indra - $100.0 on 2025-04-17
+------------------------------
+
+SUCCESS #401
+File: current_payments.csv
+Row: 404
+Result: Created payment: $30.0 on 2025-07-25 for Stephen Nicholls
+Created: Stephen Nicholls - $30.0 on 2025-07-25
+------------------------------
+
+SUCCESS #402
+File: current_payments.csv
+Row: 405
+Result: Created payment: $30.0 on 2025-09-09 for Stephen Nicholls
+Created: Stephen Nicholls - $30.0 on 2025-09-09
+------------------------------
+
+SUCCESS #403
+File: current_payments.csv
+Row: 406
+Result: Created payment: $300.0 on 2025-06-28 for Margaret Orandi
+Created: Margaret Orandi - $300.0 on 2025-06-28
+------------------------------
+
+SUCCESS #404
+File: current_payments.csv
+Row: 407
+Result: Created payment: $100.0 on 2023-12-26 for Jennie Crawford
+Created: Jennie Crawford - $100.0 on 2023-12-26
+------------------------------
+
+SUCCESS #405
+File: current_payments.csv
+Row: 408
+Result: Created payment: $100.0 on 2024-09-05 for Jennie Crawford
+Created: Jennie Crawford - $100.0 on 2024-09-05
+------------------------------
+
+SUCCESS #406
+File: current_payments.csv
+Row: 409
+Result: Created payment: $100.0 on 2025-02-21 for Jennie Crawford
+Created: Jennie Crawford - $100.0 on 2025-02-21
+------------------------------
+
+SUCCESS #407
+File: current_payments.csv
+Row: 410
+Result: Created payment: $100.0 on 2025-08-30 for Jennie Crawford
+Created: Jennie Crawford - $100.0 on 2025-08-30
+------------------------------
+
+SUCCESS #408
+File: current_payments.csv
+Row: 411
+Result: Created payment: $150.0 on 2025-04-05 for Robert Gutierrez
+Created: Robert Gutierrez - $150.0 on 2025-04-05
+------------------------------
+
+SUCCESS #409
+File: current_payments.csv
+Row: 412
+Result: Created payment: $100.0 on 2025-08-21 for Tammy Aguiire
+Created: Tammy Aguiire - $100.0 on 2025-08-21
+------------------------------
+
+SUCCESS #410
+File: current_payments.csv
+Row: 413
+Result: Created payment: $20.0 on 2025-10-18 for Jerry Huntley
+Created: Jerry Huntley - $20.0 on 2025-10-18
+------------------------------
+
+SUCCESS #411
+File: current_payments.csv
+Row: 414
+Result: Created payment: $200.0 on 2024-12-18 for Bill Williams
+Created: Bill Williams - $200.0 on 2024-12-18
+------------------------------
+
+SUCCESS #412
+File: current_payments.csv
+Row: 415
+Result: Created payment: $20.0 on 2024-11-04 for Jack Fanning
+Created: Jack Fanning - $20.0 on 2024-11-04
+------------------------------
+
+SUCCESS #413
+File: current_payments.csv
+Row: 416
+Result: Created payment: $100.0 on 2024-12-23 for Jack Fanning
+Created: Jack Fanning - $100.0 on 2024-12-23
+------------------------------
+
+SUCCESS #414
+File: current_payments.csv
+Row: 417
+Result: Created payment: $100.0 on 2025-04-21 for Jack Fanning
+Created: Jack Fanning - $100.0 on 2025-04-21
+------------------------------
+
+SUCCESS #415
+File: current_payments.csv
+Row: 418
+Result: Created payment: $20.0 on 2025-05-30 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-05-30
+------------------------------
+
+SUCCESS #416
+File: current_payments.csv
+Row: 419
+Result: Created payment: $20.0 on 2025-05-01 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #417
+File: current_payments.csv
+Row: 420
+Result: Created payment: $20.0 on 2025-07-02 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-07-02
+------------------------------
+
+SUCCESS #418
+File: current_payments.csv
+Row: 421
+Result: Created payment: $20.0 on 2025-07-28 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-07-28
+------------------------------
+
+SUCCESS #419
+File: current_payments.csv
+Row: 422
+Result: Created payment: $20.0 on 2025-11-25 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-11-25
+------------------------------
+
+SUCCESS #420
+File: current_payments.csv
+Row: 423
+Result: Created payment: $20.0 on 2025-08-30 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #421
+File: current_payments.csv
+Row: 424
+Result: Created payment: $20.0 on 2025-09-22 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-09-22
+------------------------------
+
+SUCCESS #422
+File: current_payments.csv
+Row: 425
+Result: Created payment: $20.0 on 2025-10-18 for Robert Perez
+Created: Robert Perez - $20.0 on 2025-10-18
+------------------------------
+
+SUCCESS #423
+File: current_payments.csv
+Row: 426
+Result: Created payment: $200.0 on 2024-07-22 for Jerry Ruggiero
+Created: Jerry Ruggiero - $200.0 on 2024-07-22
+------------------------------
+
+SUCCESS #424
+File: current_payments.csv
+Row: 427
+Result: Created payment: $200.0 on 2025-07-21 for Jerry Ruggiero
+Created: Jerry Ruggiero - $200.0 on 2025-07-21
+------------------------------
+
+SUCCESS #425
+File: current_payments.csv
+Row: 428
+Result: Created payment: $20.0 on 2024-12-31 for Frank McCarthy
+Created: Frank McCarthy - $20.0 on 2024-12-31
+------------------------------
+
+SUCCESS #426
+File: current_payments.csv
+Row: 429
+Result: Created payment: $40.0 on 2025-04-18 for Frank McCarthy
+Created: Frank McCarthy - $40.0 on 2025-04-18
+------------------------------
+
+SUCCESS #427
+File: current_payments.csv
+Row: 430
+Result: Created payment: $20.0 on 2025-05-12 for Frank McCarthy
+Created: Frank McCarthy - $20.0 on 2025-05-12
+------------------------------
+
+SUCCESS #428
+File: current_payments.csv
+Row: 431
+Result: Created payment: $60.0 on 2025-09-14 for Frank McCarthy
+Created: Frank McCarthy - $60.0 on 2025-09-14
+------------------------------
+
+SUCCESS #429
+File: current_payments.csv
+Row: 432
+Result: Created payment: $20.0 on 2025-03-02 for Kristin Galindo
+Created: Kristin Galindo - $20.0 on 2025-03-02
+------------------------------
+
+SUCCESS #430
+File: current_payments.csv
+Row: 433
+Result: Created payment: $20.0 on 2025-04-13 for Kristin Galindo
+Created: Kristin Galindo - $20.0 on 2025-04-13
+------------------------------
+
+SUCCESS #431
+File: current_payments.csv
+Row: 434
+Result: Created payment: $20.0 on 2025-05-18 for Kristin Galindo
+Created: Kristin Galindo - $20.0 on 2025-05-18
+------------------------------
+
+SUCCESS #432
+File: current_payments.csv
+Row: 435
+Result: Created payment: $40.0 on 2025-07-20 for Kristin Galindo
+Created: Kristin Galindo - $40.0 on 2025-07-20
+------------------------------
+
+SUCCESS #433
+File: current_payments.csv
+Row: 436
+Result: Created payment: $20.0 on 2025-11-16 for Kristin Galindo
+Created: Kristin Galindo - $20.0 on 2025-11-16
+------------------------------
+
+SUCCESS #434
+File: current_payments.csv
+Row: 437
+Result: Created payment: $20.0 on 2025-10-12 for Kristin Galindo
+Created: Kristin Galindo - $20.0 on 2025-10-12
+------------------------------
+
+SUCCESS #435
+File: current_payments.csv
+Row: 438
+Result: Created payment: $100.0 on 2024-12-08 for Rosalinda Lopez
+Created: Rosalinda Lopez - $100.0 on 2024-12-08
+------------------------------
+
+SUCCESS #436
+File: current_payments.csv
+Row: 439
+Result: Created payment: $50.0 on 2025-08-07 for Rosalinda Lopez
+Created: Rosalinda Lopez - $50.0 on 2025-08-07
+------------------------------
+
+SUCCESS #437
+File: current_payments.csv
+Row: 440
+Result: Created payment: $60.0 on 2025-08-22 for Rosalinda Lopez
+Created: Rosalinda Lopez - $60.0 on 2025-08-22
+------------------------------
+
+SUCCESS #438
+File: current_payments.csv
+Row: 441
+Result: Created payment: $200.0 on 2025-05-21 for Johnnie Smith
+Created: Johnnie Smith - $200.0 on 2025-05-21
+------------------------------
+
+SUCCESS #439
+File: current_payments.csv
+Row: 442
+Result: Created payment: $150.0 on 2023-01-15 for Jeanne Wiens
+Created: Jeanne Wiens - $150.0 on 2023-01-15
+------------------------------
+
+SUCCESS #440
+File: current_payments.csv
+Row: 443
+Result: Created payment: $100.0 on 2024-02-18 for Jeanne Wiens
+Created: Jeanne Wiens - $100.0 on 2024-02-18
+------------------------------
+
+SUCCESS #441
+File: current_payments.csv
+Row: 444
+Result: Created payment: $100.0 on 2024-10-04 for Jeanne Wiens
+Created: Jeanne Wiens - $100.0 on 2024-10-04
+------------------------------
+
+SUCCESS #442
+File: current_payments.csv
+Row: 445
+Result: Created payment: $20.0 on 2025-04-03 for Jeanne Wiens
+Created: Jeanne Wiens - $20.0 on 2025-04-03
+------------------------------
+
+SUCCESS #443
+File: current_payments.csv
+Row: 446
+Result: Created payment: $60.0 on 2025-05-03 for Jeanne Wiens
+Created: Jeanne Wiens - $60.0 on 2025-05-03
+------------------------------
+
+SUCCESS #444
+File: current_payments.csv
+Row: 447
+Result: Created payment: $20.0 on 2025-08-07 for Jeanne Wiens
+Created: Jeanne Wiens - $20.0 on 2025-08-07
+------------------------------
+
+SUCCESS #445
+File: current_payments.csv
+Row: 448
+Result: Created payment: $20.0 on 2025-10-01 for Jeanne Wiens
+Created: Jeanne Wiens - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #446
+File: current_payments.csv
+Row: 449
+Result: Created payment: $20.0 on 2025-10-12 for Jeanne Wiens
+Created: Jeanne Wiens - $20.0 on 2025-10-12
+------------------------------
+
+SUCCESS #447
+File: current_payments.csv
+Row: 450
+Result: Created payment: $20.0 on 2025-06-04 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-06-04
+------------------------------
+
+SUCCESS #448
+File: current_payments.csv
+Row: 451
+Result: Created payment: $20.0 on 2025-05-06 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-05-06
+------------------------------
+
+SUCCESS #449
+File: current_payments.csv
+Row: 452
+Result: Created payment: $20.0 on 2025-07-02 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-07-02
+------------------------------
+
+SUCCESS #450
+File: current_payments.csv
+Row: 453
+Result: Created payment: $20.0 on 2025-08-06 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-08-06
+------------------------------
+
+SUCCESS #451
+File: current_payments.csv
+Row: 454
+Result: Created payment: $20.0 on 2025-11-05 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #452
+File: current_payments.csv
+Row: 455
+Result: Created payment: $20.0 on 2025-09-01 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #453
+File: current_payments.csv
+Row: 456
+Result: Created payment: $20.0 on 2025-10-01 for David Tenorio
+Created: David Tenorio - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #454
+File: current_payments.csv
+Row: 457
+Result: Created payment: $20.0 on 2024-11-04 for Juliette Monser
+Created: Juliette Monser - $20.0 on 2024-11-04
+------------------------------
+
+SUCCESS #455
+File: current_payments.csv
+Row: 458
+Result: Created payment: $100.0 on 2024-12-23 for Juliette Monser
+Created: Juliette Monser - $100.0 on 2024-12-23
+------------------------------
+
+SUCCESS #456
+File: current_payments.csv
+Row: 459
+Result: Created payment: $100.0 on 2025-04-21 for Juliette Monser
+Created: Juliette Monser - $100.0 on 2025-04-21
+------------------------------
+
+SUCCESS #457
+File: current_payments.csv
+Row: 460
+Result: Created payment: $125.0 on 2024-05-26 for Gretchen Fleet
+Created: Gretchen Fleet - $125.0 on 2024-05-26
+------------------------------
+
+SUCCESS #458
+File: current_payments.csv
+Row: 461
+Result: Created payment: $20.0 on 2012-06-22 for Jackie La France
+Created: Jackie La France - $20.0 on 2012-06-22
+------------------------------
+
+SUCCESS #459
+File: current_payments.csv
+Row: 462
+Result: Created payment: $20.0 on 2012-08-01 for Jackie La France
+Created: Jackie La France - $20.0 on 2012-08-01
+------------------------------
+
+SUCCESS #460
+File: current_payments.csv
+Row: 463
+Result: Created payment: $20.0 on 2012-09-04 for Jackie La France
+Created: Jackie La France - $20.0 on 2012-09-04
+------------------------------
+
+SUCCESS #461
+File: current_payments.csv
+Row: 464
+Result: Created payment: $200.0 on 2012-09-28 for Jackie La France
+Created: Jackie La France - $200.0 on 2012-09-28
+------------------------------
+
+SUCCESS #462
+File: current_payments.csv
+Row: 465
+Result: Created payment: $200.0 on 2013-11-17 for Jackie La France
+Created: Jackie La France - $200.0 on 2013-11-17
+------------------------------
+
+SUCCESS #463
+File: current_payments.csv
+Row: 466
+Result: Created payment: $20.0 on 2025-08-30 for Roberto Palomo
+Created: Roberto Palomo - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #464
+File: current_payments.csv
+Row: 467
+Result: Created payment: $20.0 on 2025-08-02 for Kevin Bertolucci
+Created: Kevin Bertolucci - $20.0 on 2025-08-02
+------------------------------
+
+SUCCESS #465
+File: current_payments.csv
+Row: 468
+Result: Created payment: $80.0 on 2025-08-04 for Kevin Bertolucci
+Created: Kevin Bertolucci - $80.0 on 2025-08-04
+------------------------------
+
+SUCCESS #466
+File: current_payments.csv
+Row: 469
+Result: Created payment: $196.1 on 2025-05-23 for Vickie Magghetti
+Created: Vickie Magghetti - $196.1 on 2025-05-23
+------------------------------
+
+SUCCESS #467
+File: current_payments.csv
+Row: 470
+Result: Created payment: $200.0 on 2024-01-27 for Scott Cowherd
+Created: Scott Cowherd - $200.0 on 2024-01-27
+------------------------------
+
+SUCCESS #468
+File: current_payments.csv
+Row: 471
+Result: Created payment: $200.0 on 2025-04-05 for Scott Cowherd
+Created: Scott Cowherd - $200.0 on 2025-04-05
+------------------------------
+
+SUCCESS #469
+File: current_payments.csv
+Row: 472
+Result: Created payment: $150.0 on 2023-05-20 for Gary Easthouse
+Created: Gary Easthouse - $150.0 on 2023-05-20
+------------------------------
+
+SUCCESS #470
+File: current_payments.csv
+Row: 473
+Result: Created payment: $150.0 on 2023-10-12 for Gary Easthouse
+Created: Gary Easthouse - $150.0 on 2023-10-12
+------------------------------
+
+SUCCESS #471
+File: current_payments.csv
+Row: 474
+Result: Created payment: $200.0 on 2025-10-09 for Gary Easthouse
+Created: Gary Easthouse - $200.0 on 2025-10-09
+------------------------------
+
+SUCCESS #472
+File: current_payments.csv
+Row: 475
+Result: Created payment: $30.0 on 2025-03-30 for Brian Huges
+Created: Brian Huges - $30.0 on 2025-03-30
+------------------------------
+
+SUCCESS #473
+File: current_payments.csv
+Row: 476
+Result: Created payment: $30.0 on 2025-01-20 for Brian Huges
+Created: Brian Huges - $30.0 on 2025-01-20
+------------------------------
+
+SUCCESS #474
+File: current_payments.csv
+Row: 477
+Result: Created payment: $30.0 on 2025-02-26 for Brian Huges
+Created: Brian Huges - $30.0 on 2025-02-26
+------------------------------
+
+SUCCESS #475
+File: current_payments.csv
+Row: 478
+Result: Created payment: $60.0 on 2025-08-16 for Brian Huges
+Created: Brian Huges - $60.0 on 2025-08-16
+------------------------------
+
+SUCCESS #476
+File: current_payments.csv
+Row: 479
+Result: Created payment: $100.0 on 2024-09-20 for Dario Smart
+Created: Dario Smart - $100.0 on 2024-09-20
+------------------------------
+
+SUCCESS #477
+File: current_payments.csv
+Row: 480
+Result: Created payment: $100.0 on 2025-02-11 for Dario Smart
+Created: Dario Smart - $100.0 on 2025-02-11
+------------------------------
+
+SUCCESS #478
+File: current_payments.csv
+Row: 481
+Result: Created payment: $100.0 on 2025-08-21 for Dario Smart
+Created: Dario Smart - $100.0 on 2025-08-21
+------------------------------
+
+SUCCESS #479
+File: current_payments.csv
+Row: 482
+Result: Created payment: $20.0 on 2025-06-29 for Rodney Belasco
+Created: Rodney Belasco - $20.0 on 2025-06-29
+------------------------------
+
+SUCCESS #480
+File: current_payments.csv
+Row: 483
+Result: Created payment: $40.0 on 2025-05-03 for Rodney Belasco
+Created: Rodney Belasco - $40.0 on 2025-05-03
+------------------------------
+
+SUCCESS #481
+File: current_payments.csv
+Row: 484
+Result: Created payment: $20.0 on 2025-08-10 for Rodney Belasco
+Created: Rodney Belasco - $20.0 on 2025-08-10
+------------------------------
+
+SUCCESS #482
+File: current_payments.csv
+Row: 485
+Result: Created payment: $20.0 on 2025-09-01 for Rodney Belasco
+Created: Rodney Belasco - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #483
+File: current_payments.csv
+Row: 486
+Result: Created payment: $20.0 on 2025-09-28 for Rodney Belasco
+Created: Rodney Belasco - $20.0 on 2025-09-28
+------------------------------
+
+SUCCESS #484
+File: current_payments.csv
+Row: 487
+Result: Created payment: $20.0 on 1995-09-28 for Rodney Belasco
+Created: Rodney Belasco - $20.0 on 1995-09-28
+------------------------------
+
+SUCCESS #485
+File: current_payments.csv
+Row: 488
+Result: Created payment: $20.0 on 2025-05-30 for Mike Oconnell
+Created: Mike Oconnell - $20.0 on 2025-05-30
+------------------------------
+
+SUCCESS #486
+File: current_payments.csv
+Row: 489
+Result: Created payment: $100.0 on 2025-05-30 for Mike Oconnell
+Created: Mike Oconnell - $100.0 on 2025-05-30
+------------------------------
+
+SUCCESS #487
+File: current_payments.csv
+Row: 490
+Result: Created payment: $20.0 on 2025-06-23 for Mike Oconnell
+Created: Mike Oconnell - $20.0 on 2025-06-23
+------------------------------
+
+SUCCESS #488
+File: current_payments.csv
+Row: 491
+Result: Created payment: $20.0 on 2025-04-17 for Mike Oconnell
+Created: Mike Oconnell - $20.0 on 2025-04-17
+------------------------------
+
+SUCCESS #489
+File: current_payments.csv
+Row: 492
+Result: Created payment: $20.0 on 2025-08-03 for Mike Oconnell
+Created: Mike Oconnell - $20.0 on 2025-08-03
+------------------------------
+
+SUCCESS #490
+File: current_payments.csv
+Row: 493
+Result: Created payment: $300.0 on 2024-03-16 for Brian Lancaster
+Created: Brian Lancaster - $300.0 on 2024-03-16
+------------------------------
+
+SUCCESS #491
+File: current_payments.csv
+Row: 494
+Result: Created payment: $293.04 on 2025-06-02 for Brian Lancaster
+Created: Brian Lancaster - $293.04 on 2025-06-02
+------------------------------
+
+SUCCESS #492
+File: current_payments.csv
+Row: 495
+Result: Created payment: $200.0 on 2023-11-25 for Peter Verbica
+Created: Peter Verbica - $200.0 on 2023-11-25
+------------------------------
+
+SUCCESS #493
+File: current_payments.csv
+Row: 496
+Result: Created payment: $30.0 on 2025-06-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-06-01
+------------------------------
+
+SUCCESS #494
+File: current_payments.csv
+Row: 497
+Result: Created payment: $30.0 on 2025-05-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-05-01
+------------------------------
+
+SUCCESS #495
+File: current_payments.csv
+Row: 498
+Result: Created payment: $30.0 on 2025-07-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-07-01
+------------------------------
+
+SUCCESS #496
+File: current_payments.csv
+Row: 499
+Result: Created payment: $30.0 on 2025-08-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-08-01
+------------------------------
+
+SUCCESS #497
+File: current_payments.csv
+Row: 500
+Result: Created payment: $30.0 on 2025-11-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-11-01
+------------------------------
+
+SUCCESS #498
+File: current_payments.csv
+Row: 501
+Result: Created payment: $30.0 on 2025-09-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-09-01
+------------------------------
+
+SUCCESS #499
+File: current_payments.csv
+Row: 502
+Result: Created payment: $30.0 on 2025-10-01 for Laura Martin
+Created: Laura Martin - $30.0 on 2025-10-01
+------------------------------
+
+SUCCESS #500
+File: current_payments.csv
+Row: 503
+Result: Created payment: $300.0 on 2025-03-09 for Jenett Spindel
+Created: Jenett Spindel - $300.0 on 2025-03-09
+------------------------------
+
+SUCCESS #501
+File: current_payments.csv
+Row: 504
+Result: Created payment: $30.0 on 2025-01-09 for Jenett Spindel
+Created: Jenett Spindel - $30.0 on 2025-01-09
+------------------------------
+
+SUCCESS #502
+File: current_payments.csv
+Row: 505
+Result: Created payment: $20.0 on 2025-04-09 for Walter McDonald
+Created: Walter McDonald - $20.0 on 2025-04-09
+------------------------------
+
+SUCCESS #503
+File: current_payments.csv
+Row: 506
+Result: Created payment: $20.0 on 2025-05-05 for Walter McDonald
+Created: Walter McDonald - $20.0 on 2025-05-05
+------------------------------
+
+SUCCESS #504
+File: current_payments.csv
+Row: 507
+Result: Created payment: $40.0 on 2025-07-08 for Walter McDonald
+Created: Walter McDonald - $40.0 on 2025-07-08
+------------------------------
+
+SUCCESS #505
+File: current_payments.csv
+Row: 508
+Result: Created payment: $20.0 on 2025-08-19 for Walter McDonald
+Created: Walter McDonald - $20.0 on 2025-08-19
+------------------------------
+
+SUCCESS #506
+File: current_payments.csv
+Row: 509
+Result: Created payment: $40.0 on 2025-10-31 for Walter McDonald
+Created: Walter McDonald - $40.0 on 2025-10-31
+------------------------------
+
+SUCCESS #507
+File: current_payments.csv
+Row: 510
+Result: Created payment: $20.0 on 2025-01-23 for Gary Govola
+Created: Gary Govola - $20.0 on 2025-01-23
+------------------------------
+
+SUCCESS #508
+File: current_payments.csv
+Row: 511
+Result: Created payment: $200.0 on 2025-07-29 for Gary Govola
+Created: Gary Govola - $200.0 on 2025-07-29
+------------------------------
+
+SUCCESS #509
+File: current_payments.csv
+Row: 512
+Result: Created payment: $150.0 on 2023-10-15 for Phil Lohafer
+Created: Phil Lohafer - $150.0 on 2023-10-15
+------------------------------
+
+SUCCESS #510
+File: current_payments.csv
+Row: 513
+Result: Created payment: $200.0 on 2025-02-25 for Phil Lohafer
+Created: Phil Lohafer - $200.0 on 2025-02-25
+------------------------------
+
+SUCCESS #511
+File: current_payments.csv
+Row: 514
+Result: Created payment: $1000.0 on 1987-05-21 for Mac Mc Donald
+Created: Mac Mc Donald - $1000.0 on 1987-05-21
+------------------------------
+
+SUCCESS #512
+File: current_payments.csv
+Row: 515
+Result: Created payment: $147.05 on 2025-05-26 for Jake Young
+Created: Jake Young - $147.05 on 2025-05-26
+------------------------------
+
+SUCCESS #513
+File: current_payments.csv
+Row: 516
+Result: Created payment: $90.0 on 2023-07-09 for Richard Resler
+Created: Richard Resler - $90.0 on 2023-07-09
+------------------------------
+
+SUCCESS #514
+File: current_payments.csv
+Row: 517
+Result: Created payment: $150.0 on 2024-02-09 for Richard Resler
+Created: Richard Resler - $150.0 on 2024-02-09
+------------------------------
+
+SUCCESS #515
+File: current_payments.csv
+Row: 518
+Result: Created payment: $200.0 on 2025-02-01 for Richard Resler
+Created: Richard Resler - $200.0 on 2025-02-01
+------------------------------
+
+SUCCESS #516
+File: current_payments.csv
+Row: 519
+Result: Created payment: $2000.0 on 2007-03-31 for Joe Brown
+Created: Joe Brown - $2000.0 on 2007-03-31
+------------------------------
+
+SUCCESS #517
+File: current_payments.csv
+Row: 520
+Result: Created payment: $3000.0 on 2025-04-23 for Patrick Palon
+Created: Patrick Palon - $3000.0 on 2025-04-23
+------------------------------
+
+SUCCESS #518
+File: current_payments.csv
+Row: 521
+Result: Created payment: $20.0 on 2025-04-03 for Nancy Silva
+Created: Nancy Silva - $20.0 on 2025-04-03
+------------------------------
+
+SUCCESS #519
+File: current_payments.csv
+Row: 522
+Result: Created payment: $20.0 on 2025-08-13 for Nancy Silva
+Created: Nancy Silva - $20.0 on 2025-08-13
+------------------------------
+
+SUCCESS #520
+File: current_payments.csv
+Row: 523
+Result: Created payment: $200.0 on 2025-05-26 for Jerry Rubaleaba
+Created: Jerry Rubaleaba - $200.0 on 2025-05-26
+------------------------------
+
+SUCCESS #521
+File: current_payments.csv
+Row: 524
+Result: Created payment: $200.0 on 2023-10-09 for Annette Jester
+Created: Annette Jester - $200.0 on 2023-10-09
+------------------------------
+
+SUCCESS #522
+File: current_payments.csv
+Row: 525
+Result: Created payment: $500.0 on 2023-11-07 for Annette Jester
+Created: Annette Jester - $500.0 on 2023-11-07
+------------------------------
+
+SUCCESS #523
+File: current_payments.csv
+Row: 526
+Result: Created payment: $100.0 on 2025-07-17 for Annette Jester
+Created: Annette Jester - $100.0 on 2025-07-17
+------------------------------
+
+SUCCESS #524
+File: current_payments.csv
+Row: 527
+Result: Created payment: $20.0 on 2025-08-06 for Tasha Applegate
+Created: Tasha Applegate - $20.0 on 2025-08-06
+------------------------------
+
+SUCCESS #525
+File: current_payments.csv
+Row: 528
+Result: Created payment: $20.0 on 2025-08-17 for Tasha Applegate
+Created: Tasha Applegate - $20.0 on 2025-08-17
+------------------------------
+
+SUCCESS #526
+File: current_payments.csv
+Row: 529
+Result: Created payment: $100.0 on 2025-06-25 for Jeffrey Hardcastle
+Created: Jeffrey Hardcastle - $100.0 on 2025-06-25
+------------------------------
+
+SUCCESS #527
+File: current_payments.csv
+Row: 530
+Result: Created payment: $100.0 on 2025-08-09 for Kiven Christine
+Created: Kiven Christine - $100.0 on 2025-08-09
+------------------------------
+
+SUCCESS #528
+File: current_payments.csv
+Row: 531
+Result: Created payment: $100.0 on 2025-03-01 for John Reese
+Created: John Reese - $100.0 on 2025-03-01
+------------------------------
+
+SUCCESS #529
+File: current_payments.csv
+Row: 532
+Result: Created payment: $100.0 on 2025-08-30 for John Reese
+Created: John Reese - $100.0 on 2025-08-30
+------------------------------
+
+SUCCESS #530
+File: current_payments.csv
+Row: 533
+Result: Created payment: $100.0 on 2025-03-08 for Chuck Glasper
+Created: Chuck Glasper - $100.0 on 2025-03-08
+------------------------------
+
+SUCCESS #531
+File: current_payments.csv
+Row: 534
+Result: Created payment: $20.0 on 2025-06-21 for Chuck Glasper
+Created: Chuck Glasper - $20.0 on 2025-06-21
+------------------------------
+
+SUCCESS #532
+File: current_payments.csv
+Row: 535
+Result: Created payment: $100.0 on 2025-08-11 for Chuck Glasper
+Created: Chuck Glasper - $100.0 on 2025-08-11
+------------------------------
+
+SUCCESS #533
+File: current_payments.csv
+Row: 536
+Result: Created payment: $150.0 on 2023-07-25 for Dale Phelps
+Created: Dale Phelps - $150.0 on 2023-07-25
+------------------------------
+
+SUCCESS #534
+File: current_payments.csv
+Row: 537
+Result: Created payment: $150.0 on 2023-12-08 for Dale Phelps
+Created: Dale Phelps - $150.0 on 2023-12-08
+------------------------------
+
+SUCCESS #535
+File: current_payments.csv
+Row: 538
+Result: Created payment: $1000.0 on 2023-10-12 for Michele McHugh
+Created: Michele McHugh - $1000.0 on 2023-10-12
+------------------------------
+
+SUCCESS #536
+File: current_payments.csv
+Row: 539
+Result: Created payment: $150.0 on 2023-01-01 for David Revsbeck
+Created: David Revsbeck - $150.0 on 2023-01-01
+------------------------------
+
+SUCCESS #537
+File: current_payments.csv
+Row: 540
+Result: Created payment: $100.0 on 2023-10-15 for David Revsbeck
+Created: David Revsbeck - $100.0 on 2023-10-15
+------------------------------
+
+SUCCESS #538
+File: current_payments.csv
+Row: 541
+Result: Created payment: $500.0 on 2025-04-14 for James Long
+Created: James Long - $500.0 on 2025-04-14
+------------------------------
+
+SUCCESS #539
+File: current_payments.csv
+Row: 542
+Result: Created payment: $200.0 on 2024-01-15 for Linda Honekamp
+Created: Linda Honekamp - $200.0 on 2024-01-15
+------------------------------
+
+SUCCESS #540
+File: current_payments.csv
+Row: 543
+Result: Created payment: $150.0 on 2023-06-04 for Linda Honekamp
+Created: Linda Honekamp - $150.0 on 2023-06-04
+------------------------------
+
+SUCCESS #541
+File: current_payments.csv
+Row: 544
+Result: Created payment: $206.0 on 2025-04-28 for Linda Honekamp
+Created: Linda Honekamp - $206.0 on 2025-04-28
+------------------------------
+
+SUCCESS #542
+File: current_payments.csv
+Row: 545
+Result: Created payment: $150.0 on 2023-07-25 for Sharon Phelps
+Created: Sharon Phelps - $150.0 on 2023-07-25
+------------------------------
+
+SUCCESS #543
+File: current_payments.csv
+Row: 546
+Result: Created payment: $150.0 on 2023-12-08 for Sharon Phelps
+Created: Sharon Phelps - $150.0 on 2023-12-08
+------------------------------
+
+SUCCESS #544
+File: current_payments.csv
+Row: 547
+Result: Created payment: $200.0 on 2024-01-02 for Mario Hernanbdez
+Created: Mario Hernanbdez - $200.0 on 2024-01-02
+------------------------------
+
+SUCCESS #545
+File: current_payments.csv
+Row: 548
+Result: Created payment: $200.0 on 2024-01-01 for Mario Hernanbdez
+Created: Mario Hernanbdez - $200.0 on 2024-01-01
+------------------------------
+
+SUCCESS #546
+File: current_payments.csv
+Row: 549
+Result: Created payment: $100.0 on 2025-01-03 for Mario Hernanbdez
+Created: Mario Hernanbdez - $100.0 on 2025-01-03
+------------------------------
+
+SUCCESS #547
+File: current_payments.csv
+Row: 550
+Result: Created payment: $200.0 on 2025-08-22 for Mario Hernanbdez
+Created: Mario Hernanbdez - $200.0 on 2025-08-22
+------------------------------
+
+SUCCESS #548
+File: current_payments.csv
+Row: 551
+Result: Created payment: $20.0 on 2025-08-30 for Mario Hernanbdez
+Created: Mario Hernanbdez - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #549
+File: current_payments.csv
+Row: 552
+Result: Created payment: $200.0 on 2025-08-25 for Jesse Mendez
+Created: Jesse Mendez - $200.0 on 2025-08-25
+------------------------------
+
+SUCCESS #550
+File: current_payments.csv
+Row: 553
+Result: Created payment: $300.0 on 2025-08-31 for Garry Johnson
+Created: Garry Johnson - $300.0 on 2025-08-31
+------------------------------
+
+SUCCESS #551
+File: current_payments.csv
+Row: 554
+Result: Created payment: $150.0 on 2023-10-06 for Richard Katren
+Created: Richard Katren - $150.0 on 2023-10-06
+------------------------------
+
+SUCCESS #552
+File: current_payments.csv
+Row: 555
+Result: Created payment: $100.0 on 2025-06-04 for Richard Katren
+Created: Richard Katren - $100.0 on 2025-06-04
+------------------------------
+
+SUCCESS #553
+File: current_payments.csv
+Row: 556
+Result: Created payment: $100.0 on 2024-12-24 for Kavy Marin
+Created: Kavy Marin - $100.0 on 2024-12-24
+------------------------------
+
+SUCCESS #554
+File: current_payments.csv
+Row: 557
+Result: Created payment: $20.0 on 2025-07-20 for Kavy Marin
+Created: Kavy Marin - $20.0 on 2025-07-20
+------------------------------
+
+SUCCESS #555
+File: current_payments.csv
+Row: 558
+Result: Created payment: $20.0 on 2025-09-12 for Kavy Marin
+Created: Kavy Marin - $20.0 on 2025-09-12
+------------------------------
+
+SUCCESS #556
+File: current_payments.csv
+Row: 559
+Result: Created payment: $15.0 on 2023-06-03 for Mike O'Reilly
+Created: Mike O'Reilly - $15.0 on 2023-06-03
+------------------------------
+
+SUCCESS #557
+File: current_payments.csv
+Row: 560
+Result: Created payment: $200.0 on 2024-11-25 for Mike O'Reilly
+Created: Mike O'Reilly - $200.0 on 2024-11-25
+------------------------------
+
+SUCCESS #558
+File: current_payments.csv
+Row: 561
+Result: Created payment: $100.0 on 2025-08-04 for Mike O'Reilly
+Created: Mike O'Reilly - $100.0 on 2025-08-04
+------------------------------
+
+SUCCESS #559
+File: current_payments.csv
+Row: 562
+Result: Created payment: $100.0 on 2025-08-11 for Mike O'Reilly
+Created: Mike O'Reilly - $100.0 on 2025-08-11
+------------------------------
+
+SUCCESS #560
+File: current_payments.csv
+Row: 563
+Result: Created payment: $20.0 on 2025-03-10 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-03-10
+------------------------------
+
+SUCCESS #561
+File: current_payments.csv
+Row: 564
+Result: Created payment: $20.0 on 2025-04-03 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-04-03
+------------------------------
+
+SUCCESS #562
+File: current_payments.csv
+Row: 565
+Result: Created payment: $20.0 on 2025-05-03 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-05-03
+------------------------------
+
+SUCCESS #563
+File: current_payments.csv
+Row: 566
+Result: Created payment: $20.0 on 2025-07-03 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-07-03
+------------------------------
+
+SUCCESS #564
+File: current_payments.csv
+Row: 567
+Result: Created payment: $20.0 on 2025-08-27 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-08-27
+------------------------------
+
+SUCCESS #565
+File: current_payments.csv
+Row: 568
+Result: Created payment: $20.0 on 2025-09-02 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-09-02
+------------------------------
+
+SUCCESS #566
+File: current_payments.csv
+Row: 569
+Result: Created payment: $20.0 on 2025-10-04 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-10-04
+------------------------------
+
+SUCCESS #567
+File: current_payments.csv
+Row: 570
+Result: Created payment: $20.0 on 2025-10-21 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-10-21
+------------------------------
+
+SUCCESS #568
+File: current_payments.csv
+Row: 571
+Result: Created payment: $20.0 on 1952-11-02 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 1952-11-02
+------------------------------
+
+SUCCESS #569
+File: current_payments.csv
+Row: 572
+Result: Created payment: $20.0 on 2025-11-05 for Gaylynn Ramirez
+Created: Gaylynn Ramirez - $20.0 on 2025-11-05
+------------------------------
+
+SUCCESS #570
+File: current_payments.csv
+Row: 573
+Result: Created payment: $200.0 on 2024-07-29 for Bill Fritz
+Created: Bill Fritz - $200.0 on 2024-07-29
+------------------------------
+
+SUCCESS #571
+File: current_payments.csv
+Row: 574
+Result: Created payment: $350.0 on 2025-06-05 for Bill Fritz
+Created: Bill Fritz - $350.0 on 2025-06-05
+------------------------------
+
+SUCCESS #572
+File: current_payments.csv
+Row: 575
+Result: Created payment: $60.0 on 2025-06-08 for David Connor
+Created: David Connor - $60.0 on 2025-06-08
+------------------------------
+
+SUCCESS #573
+File: current_payments.csv
+Row: 576
+Result: Created payment: $40.0 on 2025-02-16 for David Connor
+Created: David Connor - $40.0 on 2025-02-16
+------------------------------
+
+SUCCESS #574
+File: current_payments.csv
+Row: 577
+Result: Created payment: $40.0 on 2025-07-12 for David Connor
+Created: David Connor - $40.0 on 2025-07-12
+------------------------------
+
+SUCCESS #575
+File: current_payments.csv
+Row: 578
+Result: Created payment: $80.0 on 2025-10-26 for David Connor
+Created: David Connor - $80.0 on 2025-10-26
+------------------------------
+
+SUCCESS #576
+File: current_payments.csv
+Row: 579
+Result: Created payment: $1500.0 on 2022-09-04 for Lisa Ann Ray
+Created: Lisa Ann Ray - $1500.0 on 2022-09-04
+------------------------------
+
+SUCCESS #577
+File: current_payments.csv
+Row: 580
+Result: Created payment: $45.0 on 2023-06-01 for Angela Young
+Created: Angela Young - $45.0 on 2023-06-01
+------------------------------
+
+SUCCESS #578
+File: current_payments.csv
+Row: 581
+Result: Created payment: $150.0 on 2023-07-07 for Angela Young
+Created: Angela Young - $150.0 on 2023-07-07
+------------------------------
+
+SUCCESS #579
+File: current_payments.csv
+Row: 582
+Result: Created payment: $60.0 on 2024-08-27 for Angela Young
+Created: Angela Young - $60.0 on 2024-08-27
+------------------------------
+
+SUCCESS #580
+File: current_payments.csv
+Row: 583
+Result: Created payment: $20.0 on 2025-11-28 for Miguel Garcia
+Created: Miguel Garcia - $20.0 on 2025-11-28
+------------------------------
+
+SUCCESS #581
+File: current_payments.csv
+Row: 584
+Result: Created payment: $100.0 on 2025-04-27 for Gabriel Jamie
+Created: Gabriel Jamie - $100.0 on 2025-04-27
+------------------------------
+
+SUCCESS #582
+File: current_payments.csv
+Row: 585
+Result: Created payment: $100.0 on 2025-08-05 for Gabriel Jamie
+Created: Gabriel Jamie - $100.0 on 2025-08-05
+------------------------------
+
+SUCCESS #583
+File: current_payments.csv
+Row: 586
+Result: Created payment: $200.0 on 2024-11-27 for Enrique Saucedo
+Created: Enrique Saucedo - $200.0 on 2024-11-27
+------------------------------
+
+SUCCESS #584
+File: current_payments.csv
+Row: 587
+Result: Created payment: $150.0 on 2019-05-07 for Nancy Perkins
+Created: Nancy Perkins - $150.0 on 2019-05-07
+------------------------------
+
+SUCCESS #585
+File: current_payments.csv
+Row: 588
+Result: Created payment: $207.47 on 2024-10-11 for Nancy Perkins
+Created: Nancy Perkins - $207.47 on 2024-10-11
+------------------------------
+
+SUCCESS #586
+File: current_payments.csv
+Row: 589
+Result: Created payment: $200.0 on 2025-06-23 for Rick Wagner
+Created: Rick Wagner - $200.0 on 2025-06-23
+------------------------------
+
+SUCCESS #587
+File: current_payments.csv
+Row: 590
+Result: Created payment: $20.0 on 2025-04-03 for Adrian Flores
+Created: Adrian Flores - $20.0 on 2025-04-03
+------------------------------
+
+SUCCESS #588
+File: current_payments.csv
+Row: 591
+Result: Created payment: $20.0 on 2025-05-31 for Adrian Flores
+Created: Adrian Flores - $20.0 on 2025-05-31
+------------------------------
+
+SUCCESS #589
+File: current_payments.csv
+Row: 592
+Result: Created payment: $20.0 on 2025-05-09 for Adrian Flores
+Created: Adrian Flores - $20.0 on 2025-05-09
+------------------------------
+
+SUCCESS #590
+File: current_payments.csv
+Row: 593
+Result: Created payment: $20.0 on 2025-07-07 for Adrian Flores
+Created: Adrian Flores - $20.0 on 2025-07-07
+------------------------------
+
+SUCCESS #591
+File: current_payments.csv
+Row: 594
+Result: Created payment: $20.0 on 2025-08-04 for Adrian Flores
+Created: Adrian Flores - $20.0 on 2025-08-04
+------------------------------
+
+SUCCESS #592
+File: current_payments.csv
+Row: 595
+Result: Created payment: $20.0 on 2025-08-11 for Adrian Flores
+Created: Adrian Flores - $20.0 on 2025-08-11
+------------------------------
+
+SUCCESS #593
+File: current_payments.csv
+Row: 596
+Result: Created payment: $200.0 on 2025-09-04 for Adrian Flores
+Created: Adrian Flores - $200.0 on 2025-09-04
+------------------------------
+
+SUCCESS #594
+File: current_payments.csv
+Row: 597
+Result: Created payment: $20.0 on 2025-06-10 for Dawn S
+Created: Dawn S - $20.0 on 2025-06-10
+------------------------------
+
+SUCCESS #595
+File: current_payments.csv
+Row: 598
+Result: Created payment: $40.0 on 2025-03-01 for Dawn S
+Created: Dawn S - $40.0 on 2025-03-01
+------------------------------
+
+SUCCESS #596
+File: current_payments.csv
+Row: 599
+Result: Created payment: $20.0 on 2025-05-07 for Dawn S
+Created: Dawn S - $20.0 on 2025-05-07
+------------------------------
+
+SUCCESS #597
+File: current_payments.csv
+Row: 600
+Result: Created payment: $20.0 on 2025-07-03 for Dawn S
+Created: Dawn S - $20.0 on 2025-07-03
+------------------------------
+
+SUCCESS #598
+File: current_payments.csv
+Row: 601
+Result: Created payment: $20.0 on 2025-08-05 for Dawn S
+Created: Dawn S - $20.0 on 2025-08-05
+------------------------------
+
+SUCCESS #599
+File: current_payments.csv
+Row: 602
+Result: Created payment: $20.0 on 2025-11-01 for Dawn S
+Created: Dawn S - $20.0 on 2025-11-01
+------------------------------
+
+SUCCESS #600
+File: current_payments.csv
+Row: 603
+Result: Created payment: $20.0 on 2025-11-23 for Dawn S
+Created: Dawn S - $20.0 on 2025-11-23
+------------------------------
+
+SUCCESS #601
+File: current_payments.csv
+Row: 604
+Result: Created payment: $20.0 on 2025-09-01 for Dawn S
+Created: Dawn S - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #602
+File: current_payments.csv
+Row: 605
+Result: Created payment: $20.0 on 2025-10-03 for Dawn S
+Created: Dawn S - $20.0 on 2025-10-03
+------------------------------
+
+SUCCESS #603
+File: current_payments.csv
+Row: 606
+Result: Created payment: $200.0 on 2025-08-30 for Tom Kepner
+Created: Tom Kepner - $200.0 on 2025-08-30
+------------------------------
+
+SUCCESS #604
+File: current_payments.csv
+Row: 607
+Result: Created payment: $97.52 on 2025-06-01 for Lewis Witter
+Created: Lewis Witter - $97.52 on 2025-06-01
+------------------------------
+
+SUCCESS #605
+File: current_payments.csv
+Row: 608
+Result: Created payment: $100.0 on 2024-03-24 for Scott Twist
+Created: Scott Twist - $100.0 on 2024-03-24
+------------------------------
+
+SUCCESS #606
+File: current_payments.csv
+Row: 609
+Result: Created payment: $100.0 on 2024-10-12 for Scott Twist
+Created: Scott Twist - $100.0 on 2024-10-12
+------------------------------
+
+SUCCESS #607
+File: current_payments.csv
+Row: 610
+Result: Created payment: $100.0 on 2025-04-08 for Scott Twist
+Created: Scott Twist - $100.0 on 2025-04-08
+------------------------------
+
+SUCCESS #608
+File: current_payments.csv
+Row: 611
+Result: Created payment: $100.0 on 2025-11-04 for Scott Twist
+Created: Scott Twist - $100.0 on 2025-11-04
+------------------------------
+
+SUCCESS #609
+File: current_payments.csv
+Row: 612
+Result: Created payment: $1000.0 on 1991-03-13 for Mary Garcia
+Created: Mary Garcia - $1000.0 on 1991-03-13
+------------------------------
+
+SUCCESS #610
+File: current_payments.csv
+Row: 613
+Result: Created payment: $30.0 on 2025-01-23 for Sharon Mathog
+Created: Sharon Mathog - $30.0 on 2025-01-23
+------------------------------
+
+SUCCESS #611
+File: current_payments.csv
+Row: 614
+Result: Created payment: $200.0 on 2025-07-29 for Sharon Mathog
+Created: Sharon Mathog - $200.0 on 2025-07-29
+------------------------------
+
+SUCCESS #612
+File: current_payments.csv
+Row: 615
+Result: Created payment: $200.0 on 2025-08-08 for Celina Loza
+Created: Celina Loza - $200.0 on 2025-08-08
+------------------------------
+
+SUCCESS #613
+File: current_payments.csv
+Row: 616
+Result: Created payment: $150.0 on 2025-06-01 for Sarah Ignaut
+Created: Sarah Ignaut - $150.0 on 2025-06-01
+------------------------------
+
+SUCCESS #614
+File: current_payments.csv
+Row: 617
+Result: Created payment: $100.0 on 2024-11-08 for Margaret Cervantes
+Created: Margaret Cervantes - $100.0 on 2024-11-08
+------------------------------
+
+SUCCESS #615
+File: current_payments.csv
+Row: 618
+Result: Created payment: $100.0 on 2025-02-19 for Margaret Cervantes
+Created: Margaret Cervantes - $100.0 on 2025-02-19
+------------------------------
+
+SUCCESS #616
+File: current_payments.csv
+Row: 619
+Result: Created payment: $100.0 on 2025-08-07 for Margaret Cervantes
+Created: Margaret Cervantes - $100.0 on 2025-08-07
+------------------------------
+
+SUCCESS #617
+File: current_payments.csv
+Row: 620
+Result: Created payment: $20.0 on 2025-09-20 for Lee Lutz
+Created: Lee Lutz - $20.0 on 2025-09-20
+------------------------------
+
+SUCCESS #618
+File: current_payments.csv
+Row: 621
+Result: Created payment: $100.0 on 2025-10-07 for Sedrick Amar
+Created: Sedrick Amar - $100.0 on 2025-10-07
+------------------------------
+
+SUCCESS #619
+File: current_payments.csv
+Row: 622
+Result: Created payment: $20.0 on 2025-06-01 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-06-01
+------------------------------
+
+SUCCESS #620
+File: current_payments.csv
+Row: 623
+Result: Created payment: $20.0 on 2025-05-01 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #621
+File: current_payments.csv
+Row: 624
+Result: Created payment: $20.0 on 2025-07-03 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-07-03
+------------------------------
+
+SUCCESS #622
+File: current_payments.csv
+Row: 625
+Result: Created payment: $20.0 on 2025-08-10 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-08-10
+------------------------------
+
+SUCCESS #623
+File: current_payments.csv
+Row: 626
+Result: Created payment: $20.0 on 2025-11-01 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-11-01
+------------------------------
+
+SUCCESS #624
+File: current_payments.csv
+Row: 627
+Result: Created payment: $20.0 on 2025-09-01 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #625
+File: current_payments.csv
+Row: 628
+Result: Created payment: $20.0 on 2025-10-31 for Freddie Heider
+Created: Freddie Heider - $20.0 on 2025-10-31
+------------------------------
+
+SUCCESS #626
+File: current_payments.csv
+Row: 629
+Result: Created payment: $20.0 on 2024-10-05 for Bud Near
+Created: Bud Near - $20.0 on 2024-10-05
+------------------------------
+
+SUCCESS #627
+File: current_payments.csv
+Row: 630
+Result: Created payment: $100.0 on 2024-11-30 for Bud Near
+Created: Bud Near - $100.0 on 2024-11-30
+------------------------------
+
+SUCCESS #628
+File: current_payments.csv
+Row: 631
+Result: Created payment: $100.0 on 2025-02-06 for Bud Near
+Created: Bud Near - $100.0 on 2025-02-06
+------------------------------
+
+SUCCESS #629
+File: current_payments.csv
+Row: 632
+Result: Created payment: $20.0 on 2025-07-31 for Russell Gundy
+Created: Russell Gundy - $20.0 on 2025-07-31
+------------------------------
+
+SUCCESS #630
+File: current_payments.csv
+Row: 633
+Result: Created payment: $20.0 on 2025-08-27 for Russell Gundy
+Created: Russell Gundy - $20.0 on 2025-08-27
+------------------------------
+
+SUCCESS #631
+File: current_payments.csv
+Row: 634
+Result: Created payment: $150.0 on 2023-03-17 for Kelly Bennett
+Created: Kelly Bennett - $150.0 on 2023-03-17
+------------------------------
+
+SUCCESS #632
+File: current_payments.csv
+Row: 635
+Result: Created payment: $200.0 on 2025-06-09 for Kelly Bennett
+Created: Kelly Bennett - $200.0 on 2025-06-09
+------------------------------
+
+SUCCESS #633
+File: current_payments.csv
+Row: 636
+Result: Created payment: $20.0 on 2025-03-11 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-03-11
+------------------------------
+
+SUCCESS #634
+File: current_payments.csv
+Row: 637
+Result: Created payment: $20.0 on 2025-01-30 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-01-30
+------------------------------
+
+SUCCESS #635
+File: current_payments.csv
+Row: 638
+Result: Created payment: $20.0 on 2025-07-13 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-07-13
+------------------------------
+
+SUCCESS #636
+File: current_payments.csv
+Row: 639
+Result: Created payment: $20.0 on 2025-08-13 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-08-13
+------------------------------
+
+SUCCESS #637
+File: current_payments.csv
+Row: 640
+Result: Created payment: $20.0 on 2025-09-03 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-09-03
+------------------------------
+
+SUCCESS #638
+File: current_payments.csv
+Row: 641
+Result: Created payment: $20.0 on 2025-10-08 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-10-08
+------------------------------
+
+SUCCESS #639
+File: current_payments.csv
+Row: 642
+Result: Created payment: $20.0 on 2025-10-30 for Vivienne Vlaskerit
+Created: Vivienne Vlaskerit - $20.0 on 2025-10-30
+------------------------------
+
+SUCCESS #640
+File: current_payments.csv
+Row: 643
+Result: Created payment: $40.47 on 2025-03-08 for Amber Mah
+Created: Amber Mah - $40.47 on 2025-03-08
+------------------------------
+
+SUCCESS #641
+File: current_payments.csv
+Row: 644
+Result: Created payment: $207.47 on 2025-04-12 for Amber Mah
+Created: Amber Mah - $207.47 on 2025-04-12
+------------------------------
+
+SUCCESS #642
+File: current_payments.csv
+Row: 645
+Result: Created payment: $150.0 on 2024-11-01 for Jarmaal Long
+Created: Jarmaal Long - $150.0 on 2024-11-01
+------------------------------
+
+SUCCESS #643
+File: current_payments.csv
+Row: 646
+Result: Created payment: $30.0 on 2025-04-13 for Jarmaal Long
+Created: Jarmaal Long - $30.0 on 2025-04-13
+------------------------------
+
+SUCCESS #644
+File: current_payments.csv
+Row: 647
+Result: Created payment: $150.0 on 2025-09-15 for Jarmaal Long
+Created: Jarmaal Long - $150.0 on 2025-09-15
+------------------------------
+
+SUCCESS #645
+File: current_payments.csv
+Row: 648
+Result: Created payment: $100.0 on 2025-03-01 for Arlene Lopez
+Created: Arlene Lopez - $100.0 on 2025-03-01
+------------------------------
+
+SUCCESS #646
+File: current_payments.csv
+Row: 649
+Result: Created payment: $20.0 on 2025-04-04 for Arlene Lopez
+Created: Arlene Lopez - $20.0 on 2025-04-04
+------------------------------
+
+SUCCESS #647
+File: current_payments.csv
+Row: 650
+Result: Created payment: $200.0 on 2025-09-02 for Arlene Lopez
+Created: Arlene Lopez - $200.0 on 2025-09-02
+------------------------------
+
+SUCCESS #648
+File: current_payments.csv
+Row: 651
+Result: Created payment: $150.0 on 2025-06-01 for Sean Bennett
+Created: Sean Bennett - $150.0 on 2025-06-01
+------------------------------
+
+SUCCESS #649
+File: current_payments.csv
+Row: 652
+Result: Created payment: $75.0 on 2025-03-09 for Joseph Bennett
+Created: Joseph Bennett - $75.0 on 2025-03-09
+------------------------------
+
+SUCCESS #650
+File: current_payments.csv
+Row: 653
+Result: Created payment: $200.0 on 2025-06-09 for Joseph Bennett
+Created: Joseph Bennett - $200.0 on 2025-06-09
+------------------------------
+
+SUCCESS #651
+File: current_payments.csv
+Row: 654
+Result: Created payment: $200.0 on 2025-08-24 for Daniel Ruiz
+Created: Daniel Ruiz - $200.0 on 2025-08-24
+------------------------------
+
+SUCCESS #652
+File: current_payments.csv
+Row: 655
+Result: Created payment: $150.0 on 2025-04-09 for Joe ManVanh
+Created: Joe ManVanh - $150.0 on 2025-04-09
+------------------------------
+
+SUCCESS #653
+File: current_payments.csv
+Row: 656
+Result: Created payment: $150.0 on 2022-08-19 for Jerome Aguilar
+Created: Jerome Aguilar - $150.0 on 2022-08-19
+------------------------------
+
+SUCCESS #654
+File: current_payments.csv
+Row: 657
+Result: Created payment: $200.0 on 2024-12-06 for Jerome Aguilar
+Created: Jerome Aguilar - $200.0 on 2024-12-06
+------------------------------
+
+SUCCESS #655
+File: current_payments.csv
+Row: 658
+Result: Created payment: $3000.0 on 2024-03-09 for Don Glauvitz
+Created: Don Glauvitz - $3000.0 on 2024-03-09
+------------------------------
+
+SUCCESS #656
+File: current_payments.csv
+Row: 659
+Result: Created payment: $40.0 on 2025-02-14 for Noemi Deleon
+Created: Noemi Deleon - $40.0 on 2025-02-14
+------------------------------
+
+SUCCESS #657
+File: current_payments.csv
+Row: 660
+Result: Created payment: $100.0 on 2025-04-28 for Noemi Deleon
+Created: Noemi Deleon - $100.0 on 2025-04-28
+------------------------------
+
+SUCCESS #658
+File: current_payments.csv
+Row: 661
+Result: Created payment: $150.0 on 2022-01-01 for Terisa Martinez
+Created: Terisa Martinez - $150.0 on 2022-01-01
+------------------------------
+
+SUCCESS #659
+File: current_payments.csv
+Row: 662
+Result: Created payment: $50.0 on 2025-06-03 for Greta LaBorde
+Created: Greta LaBorde - $50.0 on 2025-06-03
+------------------------------
+
+SUCCESS #660
+File: current_payments.csv
+Row: 663
+Result: Created payment: $20.285 on 2024-12-08 for Greta LaBorde
+Created: Greta LaBorde - $20.285 on 2024-12-08
+------------------------------
+
+SUCCESS #661
+File: current_payments.csv
+Row: 664
+Result: Created payment: $40.0 on 2025-08-09 for Greta LaBorde
+Created: Greta LaBorde - $40.0 on 2025-08-09
+------------------------------
+
+SUCCESS #662
+File: current_payments.csv
+Row: 665
+Result: Created payment: $30.0 on 2025-11-02 for Greta LaBorde
+Created: Greta LaBorde - $30.0 on 2025-11-02
+------------------------------
+
+SUCCESS #663
+File: current_payments.csv
+Row: 666
+Result: Created payment: $30.0 on 2025-10-02 for Greta LaBorde
+Created: Greta LaBorde - $30.0 on 2025-10-02
+------------------------------
+
+SUCCESS #664
+File: current_payments.csv
+Row: 667
+Result: Created payment: $150.0 on 2023-08-02 for Geno Heck
+Created: Geno Heck - $150.0 on 2023-08-02
+------------------------------
+
+SUCCESS #665
+File: current_payments.csv
+Row: 668
+Result: Created payment: $100.0 on 2024-08-02 for Geno Heck
+Created: Geno Heck - $100.0 on 2024-08-02
+------------------------------
+
+SUCCESS #666
+File: current_payments.csv
+Row: 669
+Result: Created payment: $90.0 on 2025-08-12 for Geno Heck
+Created: Geno Heck - $90.0 on 2025-08-12
+------------------------------
+
+SUCCESS #667
+File: current_payments.csv
+Row: 670
+Result: Created payment: $1000.0 on 2015-01-30 for Francisco Hernandez
+Created: Francisco Hernandez - $1000.0 on 2015-01-30
+------------------------------
+
+SUCCESS #668
+File: current_payments.csv
+Row: 671
+Result: Created payment: $500.0 on 2025-04-10 for Gabriele Kenaston
+Created: Gabriele Kenaston - $500.0 on 2025-04-10
+------------------------------
+
+SUCCESS #669
+File: current_payments.csv
+Row: 672
+Result: Created payment: $300.0 on 2025-08-26 for Gabriele Kenaston
+Created: Gabriele Kenaston - $300.0 on 2025-08-26
+------------------------------
+
+SUCCESS #670
+File: current_payments.csv
+Row: 673
+Result: Created payment: $200.0 on 2025-06-05 for Billy Malpas
+Created: Billy Malpas - $200.0 on 2025-06-05
+------------------------------
+
+SUCCESS #671
+File: current_payments.csv
+Row: 674
+Result: Created payment: $20.0 on 2025-08-30 for Donald Bachmann
+Created: Donald Bachmann - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #672
+File: current_payments.csv
+Row: 675
+Result: Created payment: $2000.0 on 2005-03-25 for Thomas Graham
+Created: Thomas Graham - $2000.0 on 2005-03-25
+------------------------------
+
+SUCCESS #673
+File: current_payments.csv
+Row: 676
+Result: Created payment: $150.0 on 2023-10-11 for Victoria Kirschner
+Created: Victoria Kirschner - $150.0 on 2023-10-11
+------------------------------
+
+SUCCESS #674
+File: current_payments.csv
+Row: 677
+Result: Created payment: $200.0 on 2024-12-06 for Victoria Kirschner
+Created: Victoria Kirschner - $200.0 on 2024-12-06
+------------------------------
+
+SUCCESS #675
+File: current_payments.csv
+Row: 678
+Result: Created payment: $20.0 on 2024-07-01 for Tony Lawrence
+Created: Tony Lawrence - $20.0 on 2024-07-01
+------------------------------
+
+SUCCESS #676
+File: current_payments.csv
+Row: 679
+Result: Created payment: $100.0 on 2025-02-15 for Tony Lawrence
+Created: Tony Lawrence - $100.0 on 2025-02-15
+------------------------------
+
+SUCCESS #677
+File: current_payments.csv
+Row: 680
+Result: Created payment: $200.0 on 2025-01-27 for Maddie P.
+Created: Maddie P. - $200.0 on 2025-01-27
+------------------------------
+
+SUCCESS #678
+File: current_payments.csv
+Row: 681
+Result: Created payment: $20.0 on 2025-03-02 for Michael Strathman
+Created: Michael Strathman - $20.0 on 2025-03-02
+------------------------------
+
+SUCCESS #679
+File: current_payments.csv
+Row: 682
+Result: Created payment: $21.19 on 2025-05-06 for Michael Strathman
+Created: Michael Strathman - $21.19 on 2025-05-06
+------------------------------
+
+SUCCESS #680
+File: current_payments.csv
+Row: 683
+Result: Created payment: $21.28 on 2025-08-01 for Michael Strathman
+Created: Michael Strathman - $21.28 on 2025-08-01
+------------------------------
+
+SUCCESS #681
+File: current_payments.csv
+Row: 684
+Result: Created payment: $43.96 on 2025-09-01 for Michael Strathman
+Created: Michael Strathman - $43.96 on 2025-09-01
+------------------------------
+
+SUCCESS #682
+File: current_payments.csv
+Row: 685
+Result: Created payment: $20.28 on 2025-09-26 for Michael Strathman
+Created: Michael Strathman - $20.28 on 2025-09-26
+------------------------------
+
+SUCCESS #683
+File: current_payments.csv
+Row: 686
+Result: Created payment: $21.19 on 2025-10-18 for Michael Strathman
+Created: Michael Strathman - $21.19 on 2025-10-18
+------------------------------
+
+SUCCESS #684
+File: current_payments.csv
+Row: 687
+Result: Created payment: $20.0 on 2025-07-02 for John Parra
+Created: John Parra - $20.0 on 2025-07-02
+------------------------------
+
+SUCCESS #685
+File: current_payments.csv
+Row: 688
+Result: Created payment: $2000.0 on 2024-02-15 for John Gutierrez
+Created: John Gutierrez - $2000.0 on 2024-02-15
+------------------------------
+
+SUCCESS #686
+File: current_payments.csv
+Row: 689
+Result: Created payment: $20.0 on 2025-07-13 for Sue Whiteside
+Created: Sue Whiteside - $20.0 on 2025-07-13
+------------------------------
+
+SUCCESS #687
+File: current_payments.csv
+Row: 690
+Result: Created payment: $20.0 on 2025-08-04 for Sue Whiteside
+Created: Sue Whiteside - $20.0 on 2025-08-04
+------------------------------
+
+SUCCESS #688
+File: current_payments.csv
+Row: 691
+Result: Created payment: $20.0 on 2025-10-30 for Sue Whiteside
+Created: Sue Whiteside - $20.0 on 2025-10-30
+------------------------------
+
+SUCCESS #689
+File: current_payments.csv
+Row: 692
+Result: Created payment: $20.0 on 2025-11-28 for Sue Whiteside
+Created: Sue Whiteside - $20.0 on 2025-11-28
+------------------------------
+
+SUCCESS #690
+File: current_payments.csv
+Row: 693
+Result: Created payment: $20.0 on 2025-09-02 for Sue Whiteside
+Created: Sue Whiteside - $20.0 on 2025-09-02
+------------------------------
+
+SUCCESS #691
+File: current_payments.csv
+Row: 694
+Result: Created payment: $20.0 on 2025-10-16 for Sue Whiteside
+Created: Sue Whiteside - $20.0 on 2025-10-16
+------------------------------
+
+SUCCESS #692
+File: current_payments.csv
+Row: 695
+Result: Created payment: $200.0 on 2025-01-11 for Jeri Balsley
+Created: Jeri Balsley - $200.0 on 2025-01-11
+------------------------------
+
+SUCCESS #693
+File: current_payments.csv
+Row: 696
+Result: Created payment: $200.0 on 2025-04-20 for Gasper Martinez
+Created: Gasper Martinez - $200.0 on 2025-04-20
+------------------------------
+
+SUCCESS #694
+File: current_payments.csv
+Row: 697
+Result: Created payment: $100.0 on 2025-03-31 for Chris Hyde
+Created: Chris Hyde - $100.0 on 2025-03-31
+------------------------------
+
+SUCCESS #695
+File: current_payments.csv
+Row: 698
+Result: Created payment: $20.0 on 2025-05-01 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-05-01
+------------------------------
+
+SUCCESS #696
+File: current_payments.csv
+Row: 699
+Result: Created payment: $20.0 on 2025-06-02 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #697
+File: current_payments.csv
+Row: 700
+Result: Created payment: $20.0 on 2025-07-03 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-07-03
+------------------------------
+
+SUCCESS #698
+File: current_payments.csv
+Row: 701
+Result: Created payment: $20.0 on 2025-10-02 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-10-02
+------------------------------
+
+SUCCESS #699
+File: current_payments.csv
+Row: 702
+Result: Created payment: $20.0 on 2025-11-15 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-11-15
+------------------------------
+
+SUCCESS #700
+File: current_payments.csv
+Row: 703
+Result: Created payment: $20.0 on 2025-08-09 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-08-09
+------------------------------
+
+SUCCESS #701
+File: current_payments.csv
+Row: 704
+Result: Created payment: $20.0 on 2025-09-04 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-09-04
+------------------------------
+
+SUCCESS #702
+File: current_payments.csv
+Row: 705
+Result: Created payment: $20.0 on 2025-04-02 for Mike Johnson
+Created: Mike Johnson - $20.0 on 2025-04-02
+------------------------------
+
+SUCCESS #703
+File: current_payments.csv
+Row: 706
+Result: Created payment: $155.72 on 2024-03-30 for Colby Waterland
+Created: Colby Waterland - $155.72 on 2024-03-30
+------------------------------
+
+SUCCESS #704
+File: current_payments.csv
+Row: 707
+Result: Created payment: $304.28 on 2024-12-30 for Colby Waterland
+Created: Colby Waterland - $304.28 on 2024-12-30
+------------------------------
+
+SUCCESS #705
+File: current_payments.csv
+Row: 708
+Result: Created payment: $2000.0 on 2003-07-18 for Andy Lujan
+Created: Andy Lujan - $2000.0 on 2003-07-18
+------------------------------
+
+SUCCESS #706
+File: current_payments.csv
+Row: 709
+Result: Created payment: $200.0 on 2025-05-10 for Hank Bradley
+Created: Hank Bradley - $200.0 on 2025-05-10
+------------------------------
+
+SUCCESS #707
+File: current_payments.csv
+Row: 710
+Result: Created payment: $100.0 on 2025-09-29 for Chauncy Hill
+Created: Chauncy Hill - $100.0 on 2025-09-29
+------------------------------
+
+SUCCESS #708
+File: current_payments.csv
+Row: 711
+Result: Created payment: $100.0 on 2025-11-01 for Michael Johnson
+Created: Michael Johnson - $100.0 on 2025-11-01
+------------------------------
+
+SUCCESS #709
+File: current_payments.csv
+Row: 712
+Result: Created payment: $250.0 on 2023-04-22 for Richard Long
+Created: Richard Long - $250.0 on 2023-04-22
+------------------------------
+
+SUCCESS #710
+File: current_payments.csv
+Row: 713
+Result: Created payment: $300.0 on 2024-06-01 for Richard Long
+Created: Richard Long - $300.0 on 2024-06-01
+------------------------------
+
+SUCCESS #711
+File: current_payments.csv
+Row: 714
+Result: Created payment: $100.0 on 2025-10-17 for Richard Long
+Created: Richard Long - $100.0 on 2025-10-17
+------------------------------
+
+SUCCESS #712
+File: current_payments.csv
+Row: 715
+Result: Created payment: $500.0 on 2003-12-25 for Manny Tomaz
+Created: Manny Tomaz - $500.0 on 2003-12-25
+------------------------------
+
+SUCCESS #713
+File: current_payments.csv
+Row: 716
+Result: Created payment: $1000.0 on 2006-11-20 for Manny Tomaz
+Created: Manny Tomaz - $1000.0 on 2006-11-20
+------------------------------
+
+SUCCESS #714
+File: current_payments.csv
+Row: 717
+Result: Created payment: $20.0 on 2025-11-12 for Abigail Abby Rosa
+Created: Abigail Abby Rosa - $20.0 on 2025-11-12
+------------------------------
+
+SUCCESS #715
+File: current_payments.csv
+Row: 718
+Result: Created payment: $20.0 on 2025-06-05 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-06-05
+------------------------------
+
+SUCCESS #716
+File: current_payments.csv
+Row: 719
+Result: Created payment: $20.0 on 2025-05-03 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-05-03
+------------------------------
+
+SUCCESS #717
+File: current_payments.csv
+Row: 720
+Result: Created payment: $20.0 on 2025-07-05 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-07-05
+------------------------------
+
+SUCCESS #718
+File: current_payments.csv
+Row: 721
+Result: Created payment: $20.0 on 2025-08-02 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-08-02
+------------------------------
+
+SUCCESS #719
+File: current_payments.csv
+Row: 722
+Result: Created payment: $20.0 on 2025-11-08 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-11-08
+------------------------------
+
+SUCCESS #720
+File: current_payments.csv
+Row: 723
+Result: Created payment: $20.0 on 2025-08-30 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #721
+File: current_payments.csv
+Row: 724
+Result: Created payment: $20.0 on 2025-10-04 for Lorenzo Galvan
+Created: Lorenzo Galvan - $20.0 on 2025-10-04
+------------------------------
+
+SUCCESS #722
+File: current_payments.csv
+Row: 725
+Result: Created payment: $200.0 on 2024-06-08 for Pete Wells
+Created: Pete Wells - $200.0 on 2024-06-08
+------------------------------
+
+SUCCESS #723
+File: current_payments.csv
+Row: 726
+Result: Created payment: $150.0 on 2023-03-04 for Pete Wells
+Created: Pete Wells - $150.0 on 2023-03-04
+------------------------------
+
+SUCCESS #724
+File: current_payments.csv
+Row: 727
+Result: Created payment: $200.0 on 2025-05-31 for Pete Wells
+Created: Pete Wells - $200.0 on 2025-05-31
+------------------------------
+
+SUCCESS #725
+File: current_payments.csv
+Row: 728
+Result: Created payment: $40.0 on 2025-03-16 for Lenin Bojorquez
+Created: Lenin Bojorquez - $40.0 on 2025-03-16
+------------------------------
+
+SUCCESS #726
+File: current_payments.csv
+Row: 729
+Result: Created payment: $20.0 on 2025-02-09 for Lenin Bojorquez
+Created: Lenin Bojorquez - $20.0 on 2025-02-09
+------------------------------
+
+SUCCESS #727
+File: current_payments.csv
+Row: 730
+Result: Created payment: $80.0 on 2025-07-21 for Lenin Bojorquez
+Created: Lenin Bojorquez - $80.0 on 2025-07-21
+------------------------------
+
+SUCCESS #728
+File: current_payments.csv
+Row: 731
+Result: Created payment: $60.0 on 2025-10-12 for Lenin Bojorquez
+Created: Lenin Bojorquez - $60.0 on 2025-10-12
+------------------------------
+
+SUCCESS #729
+File: current_payments.csv
+Row: 732
+Result: Created payment: $20.0 on 2025-03-02 for Nina Stolar
+Created: Nina Stolar - $20.0 on 2025-03-02
+------------------------------
+
+SUCCESS #730
+File: current_payments.csv
+Row: 733
+Result: Created payment: $40.0 on 2025-04-25 for Nina Stolar
+Created: Nina Stolar - $40.0 on 2025-04-25
+------------------------------
+
+SUCCESS #731
+File: current_payments.csv
+Row: 734
+Result: Created payment: $100.0 on 2025-10-05 for Nina Stolar
+Created: Nina Stolar - $100.0 on 2025-10-05
+------------------------------
+
+SUCCESS #732
+File: current_payments.csv
+Row: 735
+Result: Created payment: $30.0 on 2025-09-09 for Kerry Delange
+Created: Kerry Delange - $30.0 on 2025-09-09
+------------------------------
+
+SUCCESS #733
+File: current_payments.csv
+Row: 736
+Result: Created payment: $40.0 on 2025-06-21 for Muhammed Yahaya
+Created: Muhammed Yahaya - $40.0 on 2025-06-21
+------------------------------
+
+SUCCESS #734
+File: current_payments.csv
+Row: 737
+Result: Created payment: $20.0 on 2025-04-26 for Muhammed Yahaya
+Created: Muhammed Yahaya - $20.0 on 2025-04-26
+------------------------------
+
+SUCCESS #735
+File: current_payments.csv
+Row: 738
+Result: Created payment: $40.0 on 2025-08-09 for Muhammed Yahaya
+Created: Muhammed Yahaya - $40.0 on 2025-08-09
+------------------------------
+
+SUCCESS #736
+File: current_payments.csv
+Row: 739
+Result: Created payment: $40.0 on 2025-11-15 for Muhammed Yahaya
+Created: Muhammed Yahaya - $40.0 on 2025-11-15
+------------------------------
+
+SUCCESS #737
+File: current_payments.csv
+Row: 740
+Result: Created payment: $40.0 on 2025-09-25 for Muhammed Yahaya
+Created: Muhammed Yahaya - $40.0 on 2025-09-25
+------------------------------
+
+SUCCESS #738
+File: current_payments.csv
+Row: 741
+Result: Created payment: $40.0 on 2025-10-18 for Muhammed Yahaya
+Created: Muhammed Yahaya - $40.0 on 2025-10-18
+------------------------------
+
+SUCCESS #739
+File: current_payments.csv
+Row: 742
+Result: Created payment: $20.0 on 2025-07-01 for Jeanette Gonzalez
+Created: Jeanette Gonzalez - $20.0 on 2025-07-01
+------------------------------
+
+SUCCESS #740
+File: current_payments.csv
+Row: 743
+Result: Created payment: $20.0 on 2025-08-02 for Jeanette Gonzalez
+Created: Jeanette Gonzalez - $20.0 on 2025-08-02
+------------------------------
+
+SUCCESS #741
+File: current_payments.csv
+Row: 744
+Result: Created payment: $20.0 on 2025-11-03 for Jeanette Gonzalez
+Created: Jeanette Gonzalez - $20.0 on 2025-11-03
+------------------------------
+
+SUCCESS #742
+File: current_payments.csv
+Row: 745
+Result: Created payment: $20.0 on 2025-08-30 for Jeanette Gonzalez
+Created: Jeanette Gonzalez - $20.0 on 2025-08-30
+------------------------------
+
+SUCCESS #743
+File: current_payments.csv
+Row: 746
+Result: Created payment: $20.0 on 2025-10-02 for Jeanette Gonzalez
+Created: Jeanette Gonzalez - $20.0 on 2025-10-02
+------------------------------
+
+SUCCESS #744
+File: current_payments.csv
+Row: 747
+Result: Created payment: $100.0 on 2025-04-28 for Chad Swanson
+Created: Chad Swanson - $100.0 on 2025-04-28
+------------------------------
+
+SUCCESS #745
+File: current_payments.csv
+Row: 748
+Result: Created payment: $30.0 on 2025-11-27 for Laura Amy Patterson
+Created: Laura Amy Patterson - $30.0 on 2025-11-27
+------------------------------
+
+SUCCESS #746
+File: current_payments.csv
+Row: 749
+Result: Created payment: $300.0 on 2024-02-17 for Jeff Huther
+Created: Jeff Huther - $300.0 on 2024-02-17
+------------------------------
+
+SUCCESS #747
+File: current_payments.csv
+Row: 750
+Result: Created payment: $150.0 on 2025-07-04 for Jeff Huther
+Created: Jeff Huther - $150.0 on 2025-07-04
+------------------------------
+
+SUCCESS #748
+File: current_payments.csv
+Row: 751
+Result: Created payment: $150.0 on 2025-10-03 for Jeff Huther
+Created: Jeff Huther - $150.0 on 2025-10-03
+------------------------------
+
+SUCCESS #749
+File: current_payments.csv
+Row: 752
+Result: Created payment: $100.0 on 2025-11-20 for Brenda Stewart
+Created: Brenda Stewart - $100.0 on 2025-11-20
+------------------------------
+
+SUCCESS #750
+File: current_payments.csv
+Row: 753
+Result: Created payment: $200.0 on 2024-08-19 for Virginia Morgan
+Created: Virginia Morgan - $200.0 on 2024-08-19
+------------------------------
+
+SUCCESS #751
+File: current_payments.csv
+Row: 754
+Result: Created payment: $2000.0 on 2025-10-30 for Virginia Morgan
+Created: Virginia Morgan - $2000.0 on 2025-10-30
+------------------------------
+
+SUCCESS #752
+File: current_payments.csv
+Row: 755
+Result: Created payment: $20.0 on 2025-06-02 for Zenaida Rivera
+Created: Zenaida Rivera - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #753
+File: current_payments.csv
+Row: 756
+Result: Created payment: $20.0 on 2025-05-06 for Zenaida Rivera
+Created: Zenaida Rivera - $20.0 on 2025-05-06
+------------------------------
+
+SUCCESS #754
+File: current_payments.csv
+Row: 757
+Result: Created payment: $20.0 on 2025-07-07 for Zenaida Rivera
+Created: Zenaida Rivera - $20.0 on 2025-07-07
+------------------------------
+
+SUCCESS #755
+File: current_payments.csv
+Row: 758
+Result: Created payment: $20.0 on 2025-08-13 for Zenaida Rivera
+Created: Zenaida Rivera - $20.0 on 2025-08-13
+------------------------------
+
+SUCCESS #756
+File: current_payments.csv
+Row: 759
+Result: Created payment: $20.0 on 2025-09-08 for Zenaida Rivera
+Created: Zenaida Rivera - $20.0 on 2025-09-08
+------------------------------
+
+SUCCESS #757
+File: current_payments.csv
+Row: 760
+Result: Created payment: $20.0 on 2025-10-06 for Zenaida Rivera
+Created: Zenaida Rivera - $20.0 on 2025-10-06
+------------------------------
+
+SUCCESS #758
+File: current_payments.csv
+Row: 761
+Result: Created payment: $300.0 on 2024-06-22 for Angel Badillo
+Created: Angel Badillo - $300.0 on 2024-06-22
+------------------------------
+
+SUCCESS #759
+File: current_payments.csv
+Row: 762
+Result: Created payment: $300.0 on 2025-09-15 for Angel Badillo
+Created: Angel Badillo - $300.0 on 2025-09-15
+------------------------------
+
+SUCCESS #760
+File: current_payments.csv
+Row: 763
+Result: Created payment: $100.0 on 2025-04-28 for Richmond Brock
+Created: Richmond Brock - $100.0 on 2025-04-28
+------------------------------
+
+SUCCESS #761
+File: current_payments.csv
+Row: 764
+Result: Created payment: $1250.0 on 2005-03-26 for Norm Davis
+Created: Norm Davis - $1250.0 on 2005-03-26
+------------------------------
+
+SUCCESS #762
+File: current_payments.csv
+Row: 765
+Result: Created payment: $200.0 on 2024-03-20 for Susie Saenz
+Created: Susie Saenz - $200.0 on 2024-03-20
+------------------------------
+
+SUCCESS #763
+File: current_payments.csv
+Row: 766
+Result: Created payment: $200.0 on 2025-05-29 for Susie Saenz
+Created: Susie Saenz - $200.0 on 2025-05-29
+------------------------------
+
+SUCCESS #764
+File: current_payments.csv
+Row: 767
+Result: Created payment: $302.0 on 2025-06-09 for Anthony Kudsi
+Created: Anthony Kudsi - $302.0 on 2025-06-09
+------------------------------
+
+SUCCESS #765
+File: current_payments.csv
+Row: 768
+Result: Created payment: $30.0 on 2025-07-21 for Anthony Kudsi
+Created: Anthony Kudsi - $30.0 on 2025-07-21
+------------------------------
+
+SUCCESS #766
+File: current_payments.csv
+Row: 769
+Result: Created payment: $30.0 on 2025-11-02 for Anthony Kudsi
+Created: Anthony Kudsi - $30.0 on 2025-11-02
+------------------------------
+
+SUCCESS #767
+File: current_payments.csv
+Row: 770
+Result: Created payment: $29.0 on 2025-08-01 for Anthony Kudsi
+Created: Anthony Kudsi - $29.0 on 2025-08-01
+------------------------------
+
+SUCCESS #768
+File: current_payments.csv
+Row: 771
+Result: Created payment: $30.0 on 2025-09-04 for Anthony Kudsi
+Created: Anthony Kudsi - $30.0 on 2025-09-04
+------------------------------
+
+SUCCESS #769
+File: current_payments.csv
+Row: 772
+Result: Created payment: $30.0 on 2025-10-13 for Anthony Kudsi
+Created: Anthony Kudsi - $30.0 on 2025-10-13
+------------------------------
+
+SUCCESS #770
+File: current_payments.csv
+Row: 773
+Result: Created payment: $300.0 on 2025-04-13 for Jeremy Bianchard
+Created: Jeremy Bianchard - $300.0 on 2025-04-13
+------------------------------
+
+SUCCESS #771
+File: current_payments.csv
+Row: 774
+Result: Created payment: $150.0 on 2025-08-30 for Jeremy Bianchard
+Created: Jeremy Bianchard - $150.0 on 2025-08-30
+------------------------------
+
+SUCCESS #772
+File: current_payments.csv
+Row: 775
+Result: Created payment: $20.0 on 2025-03-02 for Rudy Porras
+Created: Rudy Porras - $20.0 on 2025-03-02
+------------------------------
+
+SUCCESS #773
+File: current_payments.csv
+Row: 776
+Result: Created payment: $20.0 on 2025-04-13 for Rudy Porras
+Created: Rudy Porras - $20.0 on 2025-04-13
+------------------------------
+
+SUCCESS #774
+File: current_payments.csv
+Row: 777
+Result: Created payment: $20.0 on 2025-05-18 for Rudy Porras
+Created: Rudy Porras - $20.0 on 2025-05-18
+------------------------------
+
+SUCCESS #775
+File: current_payments.csv
+Row: 778
+Result: Created payment: $40.0 on 2025-07-20 for Rudy Porras
+Created: Rudy Porras - $40.0 on 2025-07-20
+------------------------------
+
+SUCCESS #776
+File: current_payments.csv
+Row: 779
+Result: Created payment: $20.0 on 2025-11-16 for Rudy Porras
+Created: Rudy Porras - $20.0 on 2025-11-16
+------------------------------
+
+SUCCESS #777
+File: current_payments.csv
+Row: 780
+Result: Created payment: $20.0 on 2025-10-12 for Rudy Porras
+Created: Rudy Porras - $20.0 on 2025-10-12
+------------------------------
+
+SUCCESS #778
+File: current_payments.csv
+Row: 781
+Result: Created payment: $100.0 on 2024-03-25 for Terri Weeman
+Created: Terri Weeman - $100.0 on 2024-03-25
+------------------------------
+
+SUCCESS #779
+File: current_payments.csv
+Row: 782
+Result: Created payment: $100.0 on 2020-04-26 for Terri Weeman
+Created: Terri Weeman - $100.0 on 2020-04-26
+------------------------------
+
+SUCCESS #780
+File: current_payments.csv
+Row: 783
+Result: Created payment: $150.0 on 2023-08-06 for Terri Weeman
+Created: Terri Weeman - $150.0 on 2023-08-06
+------------------------------
+
+SUCCESS #781
+File: current_payments.csv
+Row: 784
+Result: Created payment: $600.0 on 2025-10-31 for Antonio Marlbrough
+Created: Antonio Marlbrough - $600.0 on 2025-10-31
+------------------------------
+
+SUCCESS #782
+File: current_payments.csv
+Row: 785
+Result: Created payment: $300.0 on 2025-09-26 for Anthony Roiss
+Created: Anthony Roiss - $300.0 on 2025-09-26
+------------------------------
+
+SUCCESS #783
+File: current_payments.csv
+Row: 786
+Result: Created payment: $200.0 on 2025-05-24 for Tomas Gonzales Jr.
+Created: Tomas Gonzales Jr. - $200.0 on 2025-05-24
+------------------------------
+
+SUCCESS #784
+File: current_payments.csv
+Row: 787
+Result: Created payment: $21.19 on 2025-11-09 for Michele Ashby
+Created: Michele Ashby - $21.19 on 2025-11-09
+------------------------------
+
+SUCCESS #785
+File: current_payments.csv
+Row: 788
+Result: Created payment: $20.0 on 2025-09-23 for Michele Ashby
+Created: Michele Ashby - $20.0 on 2025-09-23
+------------------------------
+
+SUCCESS #786
+File: current_payments.csv
+Row: 789
+Result: Created payment: $20.0 on 2025-11-16 for Grant Prouty
+Created: Grant Prouty - $20.0 on 2025-11-16
+------------------------------
+
+SUCCESS #787
+File: current_payments.csv
+Row: 790
+Result: Created payment: $20.0 on 2025-06-11 for John Barton
+Created: John Barton - $20.0 on 2025-06-11
+------------------------------
+
+SUCCESS #788
+File: current_payments.csv
+Row: 791
+Result: Created payment: $20.0 on 2025-04-09 for John Barton
+Created: John Barton - $20.0 on 2025-04-09
+------------------------------
+
+SUCCESS #789
+File: current_payments.csv
+Row: 792
+Result: Created payment: $20.0 on 1962-05-15 for John Barton
+Created: John Barton - $20.0 on 1962-05-15
+------------------------------
+
+SUCCESS #790
+File: current_payments.csv
+Row: 793
+Result: Created payment: $20.0 on 2025-07-11 for John Barton
+Created: John Barton - $20.0 on 2025-07-11
+------------------------------
+
+SUCCESS #791
+File: current_payments.csv
+Row: 794
+Result: Created payment: $20.0 on 2025-11-12 for John Barton
+Created: John Barton - $20.0 on 2025-11-12
+------------------------------
+
+SUCCESS #792
+File: current_payments.csv
+Row: 795
+Result: Created payment: $20.0 on 2025-08-14 for John Barton
+Created: John Barton - $20.0 on 2025-08-14
+------------------------------
+
+SUCCESS #793
+File: current_payments.csv
+Row: 796
+Result: Created payment: $20.0 on 2025-09-11 for John Barton
+Created: John Barton - $20.0 on 2025-09-11
+------------------------------
+
+SUCCESS #794
+File: current_payments.csv
+Row: 797
+Result: Created payment: $20.0 on 2025-10-08 for John Barton
+Created: John Barton - $20.0 on 2025-10-08
+------------------------------
+
+SUCCESS #795
+File: current_payments.csv
+Row: 798
+Result: Created payment: $20.0 on 2025-06-25 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-06-25
+------------------------------
+
+SUCCESS #796
+File: current_payments.csv
+Row: 799
+Result: Created payment: $20.0 on 2025-05-04 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-05-04
+------------------------------
+
+SUCCESS #797
+File: current_payments.csv
+Row: 800
+Result: Created payment: $20.0 on 2025-07-07 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-07-07
+------------------------------
+
+SUCCESS #798
+File: current_payments.csv
+Row: 801
+Result: Created payment: $20.0 on 2025-08-04 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-08-04
+------------------------------
+
+SUCCESS #799
+File: current_payments.csv
+Row: 802
+Result: Created payment: $20.0 on 2025-09-03 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-09-03
+------------------------------
+
+SUCCESS #800
+File: current_payments.csv
+Row: 803
+Result: Created payment: $20.0 on 2025-10-01 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-10-01
+------------------------------
+
+SUCCESS #801
+File: current_payments.csv
+Row: 804
+Result: Created payment: $20.0 on 2025-11-04 for Maria Cruit
+Created: Maria Cruit - $20.0 on 2025-11-04
+------------------------------
+
+SUCCESS #802
+File: current_payments.csv
+Row: 805
+Result: Created payment: $2000.0 on 2010-03-09 for Matt Stephens
+Created: Matt Stephens - $2000.0 on 2010-03-09
+------------------------------
+
+SUCCESS #803
+File: current_payments.csv
+Row: 806
+Result: Created payment: $100.0 on 2025-05-01 for Greg McMaster
+Created: Greg McMaster - $100.0 on 2025-05-01
+------------------------------
+
+SUCCESS #804
+File: current_payments.csv
+Row: 807
+Result: Created payment: $30.0 on 2025-11-03 for Robel Tefera
+Created: Robel Tefera - $30.0 on 2025-11-03
+------------------------------
+
+SUCCESS #805
+File: current_payments.csv
+Row: 808
+Result: Created payment: $30.0 on 2025-09-22 for Robel Tefera
+Created: Robel Tefera - $30.0 on 2025-09-22
+------------------------------
+
+SUCCESS #806
+File: current_payments.csv
+Row: 809
+Result: Created payment: $250.0 on 2023-10-06 for Greg Dulberg
+Created: Greg Dulberg - $250.0 on 2023-10-06
+------------------------------
+
+SUCCESS #807
+File: current_payments.csv
+Row: 810
+Result: Created payment: $200.0 on 2024-11-25 for Greg Dulberg
+Created: Greg Dulberg - $200.0 on 2024-11-25
+------------------------------
+
+SUCCESS #808
+File: current_payments.csv
+Row: 811
+Result: Created payment: $200.0 on 2025-11-24 for Greg Dulberg
+Created: Greg Dulberg - $200.0 on 2025-11-24
+------------------------------
+
+SUCCESS #809
+File: current_payments.csv
+Row: 812
+Result: Created payment: $20.0 on 2025-06-08 for Pete Doandero
+Created: Pete Doandero - $20.0 on 2025-06-08
+------------------------------
+
+SUCCESS #810
+File: current_payments.csv
+Row: 813
+Result: Created payment: $20.0 on 2025-05-04 for Pete Doandero
+Created: Pete Doandero - $20.0 on 2025-05-04
+------------------------------
+
+SUCCESS #811
+File: current_payments.csv
+Row: 814
+Result: Created payment: $40.0 on 2025-08-03 for Pete Doandero
+Created: Pete Doandero - $40.0 on 2025-08-03
+------------------------------
+
+SUCCESS #812
+File: current_payments.csv
+Row: 815
+Result: Created payment: $20.0 on 2025-10-27 for Pete Doandero
+Created: Pete Doandero - $20.0 on 2025-10-27
+------------------------------
+
+SUCCESS #813
+File: current_payments.csv
+Row: 816
+Result: Created payment: $40.0 on 2025-05-12 for Jerry Grijjalva
+Created: Jerry Grijjalva - $40.0 on 2025-05-12
+------------------------------
+
+SUCCESS #814
+File: current_payments.csv
+Row: 817
+Result: Created payment: $120.0 on 2025-07-24 for Jerry Grijjalva
+Created: Jerry Grijjalva - $120.0 on 2025-07-24
+------------------------------
+
+SUCCESS #815
+File: current_payments.csv
+Row: 818
+Result: Created payment: $200.0 on 2025-05-06 for Richard Potter
+Created: Richard Potter - $200.0 on 2025-05-06
+------------------------------
+
+SUCCESS #816
+File: current_payments.csv
+Row: 819
+Result: Created payment: $125.87 on 2023-04-30 for Carolyn Schaup
+Created: Carolyn Schaup - $125.87 on 2023-04-30
+------------------------------
+
+SUCCESS #817
+File: current_payments.csv
+Row: 820
+Result: Created payment: $200.0 on 2024-05-05 for Carolyn Schaup
+Created: Carolyn Schaup - $200.0 on 2024-05-05
+------------------------------
+
+SUCCESS #818
+File: current_payments.csv
+Row: 821
+Result: Created payment: $207.47 on 2025-04-15 for Carolyn Schaup
+Created: Carolyn Schaup - $207.47 on 2025-04-15
+------------------------------
+
+SUCCESS #819
+File: current_payments.csv
+Row: 822
+Result: Created payment: $150.0 on 2025-05-04 for Maria Salazar
+Created: Maria Salazar - $150.0 on 2025-05-04
+------------------------------
+
+SUCCESS #820
+File: current_payments.csv
+Row: 823
+Result: Created payment: $20.0 on 2025-08-06 for Joey Marrtinez
+Created: Joey Marrtinez - $20.0 on 2025-08-06
+------------------------------
+
+SUCCESS #821
+File: current_payments.csv
+Row: 824
+Result: Created payment: $20.0 on 2025-11-04 for Joey Marrtinez
+Created: Joey Marrtinez - $20.0 on 2025-11-04
+------------------------------
+
+SUCCESS #822
+File: current_payments.csv
+Row: 825
+Result: Created payment: $20.0 on 2025-09-01 for Joey Marrtinez
+Created: Joey Marrtinez - $20.0 on 2025-09-01
+------------------------------
+
+SUCCESS #823
+File: current_payments.csv
+Row: 826
+Result: Created payment: $20.0 on 2025-10-05 for Joey Marrtinez
+Created: Joey Marrtinez - $20.0 on 2025-10-05
+------------------------------
+
+SUCCESS #824
+File: current_payments.csv
+Row: 827
+Result: Created payment: $207.47 on 2025-04-09 for Donald Crooks
+Created: Donald Crooks - $207.47 on 2025-04-09
+------------------------------
+
+SUCCESS #825
+File: current_payments.csv
+Row: 828
+Result: Created payment: $200.0 on 2024-06-20 for Steve Taylor
+Created: Steve Taylor - $200.0 on 2024-06-20
+------------------------------
+
+SUCCESS #826
+File: current_payments.csv
+Row: 829
+Result: Created payment: $200.0 on 2025-09-07 for Steve Taylor
+Created: Steve Taylor - $200.0 on 2025-09-07
+------------------------------
+
+SUCCESS #827
+File: current_payments.csv
+Row: 830
+Result: Created payment: $2000.0 on 2025-04-10 for Penny Johnson
+Created: Penny Johnson - $2000.0 on 2025-04-10
+------------------------------
+
+SUCCESS #828
+File: current_payments.csv
+Row: 831
+Result: Created payment: $200.0 on 2025-05-15 for Doug Lucken
+Created: Doug Lucken - $200.0 on 2025-05-15
+------------------------------
+
+SUCCESS #829
+File: current_payments.csv
+Row: 832
+Result: Created payment: $1000.0 on 2003-07-03 for Jill Lowe
+Created: Jill Lowe - $1000.0 on 2003-07-03
+------------------------------
+
+SUCCESS #830
+File: current_payments.csv
+Row: 833
+Result: Created payment: $100.0 on 2025-04-20 for Rich Otto
+Created: Rich Otto - $100.0 on 2025-04-20
+------------------------------
+
+SUCCESS #831
+File: current_payments.csv
+Row: 834
+Result: Created payment: $30.0 on 2025-03-28 for Joe Escatel
+Created: Joe Escatel - $30.0 on 2025-03-28
+------------------------------
+
+SUCCESS #832
+File: current_payments.csv
+Row: 835
+Result: Created payment: $300.0 on 2025-06-10 for Joe Escatel
+Created: Joe Escatel - $300.0 on 2025-06-10
+------------------------------
+
+SUCCESS #833
+File: current_payments.csv
+Row: 836
+Result: Created payment: $30.0 on 2025-04-29 for Joe Escatel
+Created: Joe Escatel - $30.0 on 2025-04-29
+------------------------------
+
+SUCCESS #834
+File: current_payments.csv
+Row: 837
+Result: Created payment: $30.0 on 2024-06-21 for Anthony Purnell
+Created: Anthony Purnell - $30.0 on 2024-06-21
+------------------------------
+
+SUCCESS #835
+File: current_payments.csv
+Row: 838
+Result: Created payment: $30.0 on 2024-04-01 for Anthony Purnell
+Created: Anthony Purnell - $30.0 on 2024-04-01
+------------------------------
+
+SUCCESS #836
+File: current_payments.csv
+Row: 839
+Result: Created payment: $60.0 on 2024-07-03 for Anthony Purnell
+Created: Anthony Purnell - $60.0 on 2024-07-03
+------------------------------
+
+SUCCESS #837
+File: current_payments.csv
+Row: 840
+Result: Created payment: $1000.0 on 2016-01-24 for BryBear Gomez
+Created: BryBear Gomez - $1000.0 on 2016-01-24
+------------------------------
+
+SUCCESS #838
+File: current_payments.csv
+Row: 841
+Result: Created payment: $120.0 on 2025-06-05 for Jody Kamachi
+Created: Jody Kamachi - $120.0 on 2025-06-05
+------------------------------
+
+SUCCESS #839
+File: current_payments.csv
+Row: 842
+Result: Created payment: $2000.0 on 2011-11-19 for Kevin Ahern
+Created: Kevin Ahern - $2000.0 on 2011-11-19
+------------------------------
+
+SUCCESS #840
+File: current_payments.csv
+Row: 843
+Result: Created payment: $100.0 on 2025-05-04 for Duncan Nanney
+Created: Duncan Nanney - $100.0 on 2025-05-04
+------------------------------
+
+SUCCESS #841
+File: current_payments.csv
+Row: 844
+Result: Created payment: $100.0 on 2025-11-09 for Duncan Nanney
+Created: Duncan Nanney - $100.0 on 2025-11-09
+------------------------------
+
+SUCCESS #842
+File: current_payments.csv
+Row: 845
+Result: Created payment: $2000.0 on 2002-11-14 for Carolyn Medina
+Created: Carolyn Medina - $2000.0 on 2002-11-14
+------------------------------
+
+SUCCESS #843
+File: current_payments.csv
+Row: 846
+Result: Created payment: $2000.0 on 2004-10-23 for Jack Smith
+Created: Jack Smith - $2000.0 on 2004-10-23
+------------------------------
+
+SUCCESS #844
+File: current_payments.csv
+Row: 847
+Result: Created payment: $300.0 on 2024-01-18 for Alex Lopez
+Created: Alex Lopez - $300.0 on 2024-01-18
+------------------------------
+
+SUCCESS #845
+File: current_payments.csv
+Row: 848
+Result: Created payment: $100.0 on 2015-03-30 for Alex Lopez
+Created: Alex Lopez - $100.0 on 2015-03-30
+------------------------------
+
+SUCCESS #846
+File: current_payments.csv
+Row: 849
+Result: Created payment: $50.0 on 2021-03-16 for Alex Lopez
+Created: Alex Lopez - $50.0 on 2021-03-16
+------------------------------
+
+SUCCESS #847
+File: current_payments.csv
+Row: 850
+Result: Created payment: $300.0 on 2025-02-13 for Alex Lopez
+Created: Alex Lopez - $300.0 on 2025-02-13
+------------------------------
+
+SUCCESS #848
+File: current_payments.csv
+Row: 851
+Result: Created payment: $2000.0 on 2020-12-31 for Susan Salmon
+Created: Susan Salmon - $2000.0 on 2020-12-31
+------------------------------
+
+SUCCESS #849
+File: current_payments.csv
+Row: 852
+Result: Created payment: $40.0 on 2025-03-16 for Jason Rios
+Created: Jason Rios - $40.0 on 2025-03-16
+------------------------------
+
+SUCCESS #850
+File: current_payments.csv
+Row: 853
+Result: Created payment: $20.0 on 2025-04-28 for Jason Rios
+Created: Jason Rios - $20.0 on 2025-04-28
+------------------------------
+
+SUCCESS #851
+File: current_payments.csv
+Row: 854
+Result: Created payment: $40.0 on 2025-07-05 for Jason Rios
+Created: Jason Rios - $40.0 on 2025-07-05
+------------------------------
+
+SUCCESS #852
+File: current_payments.csv
+Row: 855
+Result: Created payment: $100.0 on 2025-10-03 for Jason Rios
+Created: Jason Rios - $100.0 on 2025-10-03
+------------------------------
+
+SUCCESS #853
+File: current_payments.csv
+Row: 856
+Result: Created payment: $200.0 on 2024-06-13 for Richard Boyce
+Created: Richard Boyce - $200.0 on 2024-06-13
+------------------------------
+
+SUCCESS #854
+File: current_payments.csv
+Row: 857
+Result: Created payment: $150.0 on 2023-07-01 for Richard Boyce
+Created: Richard Boyce - $150.0 on 2023-07-01
+------------------------------
+
+SUCCESS #855
+File: current_payments.csv
+Row: 858
+Result: Created payment: $200.0 on 2025-07-21 for Richard Boyce
+Created: Richard Boyce - $200.0 on 2025-07-21
+------------------------------
+
+SUCCESS #856
+File: current_payments.csv
+Row: 859
+Result: Created payment: $125.0 on 2023-01-05 for Dennis Furuike
+Created: Dennis Furuike - $125.0 on 2023-01-05
+------------------------------
+
+SUCCESS #857
+File: current_payments.csv
+Row: 860
+Result: Created payment: $200.0 on 2024-10-17 for Dennis Furuike
+Created: Dennis Furuike - $200.0 on 2024-10-17
+------------------------------
+
+SUCCESS #858
+File: current_payments.csv
+Row: 861
+Result: Created payment: $200.0 on 2024-02-12 for Julia Sullivan
+Created: Julia Sullivan - $200.0 on 2024-02-12
+------------------------------
+
+SUCCESS #859
+File: current_payments.csv
+Row: 862
+Result: Created payment: $200.0 on 2025-04-21 for Julia Sullivan
+Created: Julia Sullivan - $200.0 on 2025-04-21
+------------------------------
+
+SUCCESS #860
+File: current_payments.csv
+Row: 863
+Result: Created payment: $2500.0 on 2022-07-22 for Mary Marshall
+Created: Mary Marshall - $2500.0 on 2022-07-22
+------------------------------
+
+SUCCESS #861
+File: current_payments.csv
+Row: 864
+Result: Created payment: $15.0 on 2018-11-22 for Liam Jacobo
+Created: Liam Jacobo - $15.0 on 2018-11-22
+------------------------------
+
+SUCCESS #862
+File: current_payments.csv
+Row: 865
+Result: Created payment: $300.0 on 2024-02-10 for Mark Lundholm
+Created: Mark Lundholm - $300.0 on 2024-02-10
+------------------------------
+
+SUCCESS #863
+File: current_payments.csv
+Row: 866
+Result: Created payment: $300.0 on 2025-06-16 for Mark Lundholm
+Created: Mark Lundholm - $300.0 on 2025-06-16
+------------------------------
+
+SUCCESS #864
+File: current_payments.csv
+Row: 867
+Result: Created payment: $300.0 on 2024-02-28 for Allen Corlson
+Created: Allen Corlson - $300.0 on 2024-02-28
+------------------------------
+
+SUCCESS #865
+File: current_payments.csv
+Row: 868
+Result: Created payment: $150.0 on 2025-03-09 for Jennifer Koopman
+Created: Jennifer Koopman - $150.0 on 2025-03-09
+------------------------------
+
+SUCCESS #866
+File: current_payments.csv
+Row: 869
+Result: Created payment: $150.0 on 2024-03-05 for Jennifer Koopman
+Created: Jennifer Koopman - $150.0 on 2024-03-05
+------------------------------
+
+SUCCESS #867
+File: current_payments.csv
+Row: 870
+Result: Created payment: $150.0 on 2024-09-11 for Jennifer Koopman
+Created: Jennifer Koopman - $150.0 on 2024-09-11
+------------------------------
+
+SUCCESS #868
+File: current_payments.csv
+Row: 871
+Result: Created payment: $150.0 on 2023-08-14 for Claude Rose
+Created: Claude Rose - $150.0 on 2023-08-14
+------------------------------
+
+SUCCESS #869
+File: current_payments.csv
+Row: 872
+Result: Created payment: $200.0 on 2023-11-02 for Claude Rose
+Created: Claude Rose - $200.0 on 2023-11-02
+------------------------------
+
+SUCCESS #870
+File: current_payments.csv
+Row: 873
+Result: Created payment: $250.0 on 2019-07-20 for Clayton Krinard
+Created: Clayton Krinard - $250.0 on 2019-07-20
+------------------------------
+
+SUCCESS #871
+File: current_payments.csv
+Row: 874
+Result: Created payment: $250.0 on 2020-10-23 for Clayton Krinard
+Created: Clayton Krinard - $250.0 on 2020-10-23
+------------------------------
+
+SUCCESS #872
+File: current_payments.csv
+Row: 875
+Result: Created payment: $125.0 on 2021-10-07 for Clayton Krinard
+Created: Clayton Krinard - $125.0 on 2021-10-07
+------------------------------
+
+SUCCESS #873
+File: current_payments.csv
+Row: 876
+Result: Created payment: $250.0 on 2023-09-13 for Clayton Krinard
+Created: Clayton Krinard - $250.0 on 2023-09-13
+------------------------------
+
+SUCCESS #874
+File: current_payments.csv
+Row: 877
+Result: Created payment: $100.0 on 2024-11-14 for Jose Contreas
+Created: Jose Contreas - $100.0 on 2024-11-14
+------------------------------
+
+SUCCESS #875
+File: current_payments.csv
+Row: 878
+Result: Created payment: $100.0 on 2025-01-30 for Jose Contreas
+Created: Jose Contreas - $100.0 on 2025-01-30
+------------------------------
+
+SUCCESS #876
+File: current_payments.csv
+Row: 879
+Result: Created payment: $200.0 on 2025-11-25 for Jose Contreas
+Created: Jose Contreas - $200.0 on 2025-11-25
+------------------------------
+
+SUCCESS #877
+File: current_payments.csv
+Row: 880
+Result: Created payment: $20.0 on 2025-06-02 for Mario Garcia
+Created: Mario Garcia - $20.0 on 2025-06-02
+------------------------------
+
+SUCCESS #878
+File: current_payments.csv
+Row: 881
+Result: Created payment: $20.0 on 2025-05-06 for Mario Garcia
+Created: Mario Garcia - $20.0 on 2025-05-06
+------------------------------
+
+SUCCESS #879
+File: current_payments.csv
+Row: 882
+Result: Created payment: $20.0 on 2025-07-07 for Mario Garcia
+Created: Mario Garcia - $20.0 on 2025-07-07
+------------------------------
+
+SUCCESS #880
+File: current_payments.csv
+Row: 883
+Result: Created payment: $20.0 on 2025-08-13 for Mario Garcia
+Created: Mario Garcia - $20.0 on 2025-08-13
+------------------------------
+
+SUCCESS #881
+File: current_payments.csv
+Row: 884
+Result: Created payment: $20.0 on 2025-09-08 for Mario Garcia
+Created: Mario Garcia - $20.0 on 2025-09-08
+------------------------------
+
+SUCCESS #882
+File: current_payments.csv
+Row: 885
+Result: Created payment: $20.0 on 2025-10-06 for Mario Garcia
+Created: Mario Garcia - $20.0 on 2025-10-06
+------------------------------
+
+SUCCESS #883
+File: current_payments.csv
+Row: 886
+Result: Created payment: $80.0 on 2024-12-08 for Kanal Khieu
+Created: Kanal Khieu - $80.0 on 2024-12-08
+------------------------------
+
+SUCCESS #884
+File: current_payments.csv
+Row: 887
+Result: Created payment: $100.0 on 2024-12-08 for Kanal Khieu
+Created: Kanal Khieu - $100.0 on 2024-12-08
+------------------------------
+
+SUCCESS #885
+File: current_payments.csv
+Row: 888
+Result: Created payment: $50.0 on 2025-08-07 for Kanal Khieu
+Created: Kanal Khieu - $50.0 on 2025-08-07
+------------------------------
+
+SUCCESS #886
+File: current_payments.csv
+Row: 889
+Result: Created payment: $60.0 on 2025-08-27 for Kanal Khieu
+Created: Kanal Khieu - $60.0 on 2025-08-27
+------------------------------
+
+SUCCESS #887
+File: current_payments.csv
+Row: 890
+Result: Created payment: $2500.0 on 2019-12-26 for Nikesh Karla
+Created: Nikesh Karla - $2500.0 on 2019-12-26
+------------------------------
+
+SUCCESS #888
+File: current_payments.csv
+Row: 891
+Result: Created payment: $150.0 on 2025-04-08 for Bill Burke
+Created: Bill Burke - $150.0 on 2025-04-08
+------------------------------
+
+SUCCESS #889
+File: current_payments.csv
+Row: 892
+Result: Created payment: $150.0 on 2025-10-07 for Bill Burke
+Created: Bill Burke - $150.0 on 2025-10-07
+------------------------------
+
+SUCCESS #890
+File: current_payments.csv
+Row: 893
+Result: Created payment: $200.0 on 2024-02-12 for Chris Sullivan
+Created: Chris Sullivan - $200.0 on 2024-02-12
+------------------------------
+
+SUCCESS #891
+File: current_payments.csv
+Row: 894
+Result: Created payment: $200.0 on 2025-04-21 for Chris Sullivan
+Created: Chris Sullivan - $200.0 on 2025-04-21
+------------------------------
+
+SUCCESS #892
+File: current_payments.csv
+Row: 895
+Result: Created payment: $5000.0 on 1973-07-07 for Tony Baron
+Created: Tony Baron - $5000.0 on 1973-07-07
+------------------------------
+
+SUCCESS #893
+File: current_payments.csv
+Row: 896
+Result: Created payment: $240.0 on 2023-01-06 for Doris Gieselman
+Created: Doris Gieselman - $240.0 on 2023-01-06
+------------------------------
+

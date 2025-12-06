@@ -1,0 +1,55 @@
+ERROR LOG - IMPORT_PAYMENTS
+Timestamp: 2025-12-06_15-55-04
+CSV File: data/2025_12_06/cleaned/current_payments.csv
+================================================================================
+
+DUPLICATE #1
+File: current_payments.csv
+Row: 185
+Duplicate: Payment already exists: $30.0 on 2025-08-02 for Daniel Marquez
+Row Data:
+  member_id: 64
+  first_name: Daniel
+  last_name: Marquez
+  member_type: Regular
+  home_address: 6940 Bose Ln.
+  home_city: San Jose
+  home_state: Ca
+  home_zip: 95120-    
+  home_phone: (650) 770-3947
+  email: Dannyatthesally@gmail.com
+  milestone_date: 2018-06-22
+  date_joined: 2024-01-27
+  mobile_phone: 
+  expiration_date: 2025-11-30
+  payment_amount: 30.0
+  payment_date: 2025-08-02
+  payment_method: Cash
+  receipt_number: 595944.0
+----------------------------------------
+
+DUPLICATE #2
+File: current_payments.csv
+Row: 315
+Duplicate: Payment already exists: $60.0 on 2025-11-09 for Chuy Cortez
+Row Data:
+  member_id: 107
+  first_name: Chuy
+  last_name: Cortez
+  member_type: Senior
+  home_address: 555 Umbarger Rd.  #55
+  home_city: San Jose
+  home_state: Ca
+  home_zip: 95111-    
+  home_phone: 
+  email: jcortezx@yahoo.com
+  milestone_date: 2023-02-10
+  date_joined: 2023-12-29
+  mobile_phone: 
+  expiration_date: 2026-04-30
+  payment_amount: 60.0
+  payment_date: 2025-11-09
+  payment_method: Cash
+  receipt_number: 596213.0
+----------------------------------------
+

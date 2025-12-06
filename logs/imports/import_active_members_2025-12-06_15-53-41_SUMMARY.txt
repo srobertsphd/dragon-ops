@@ -1,0 +1,16 @@
+IMPORT SUMMARY - IMPORT_ACTIVE_MEMBERS
+Timestamp: 2025-12-06_15-53-41
+CSV File: data/2025_12_06/cleaned/current_members.csv
+============================================================
+
+RESULTS:
+  ✅ Successfully Created: 333
+  ❌ Errors: 0
+  ⚠️  Skipped: 0
+  🔄 Duplicates: 0
+  📊 Total Processed: 333
+
+LOG FILES:
+  Errors/Skipped: logs/imports/import_active_members_2025-12-06_15-53-41_ERRORS.log
+  Successes: logs/imports/import_active_members_2025-12-06_15-53-41_SUCCESS.log
+  Summary: logs/imports/import_active_members_2025-12-06_15-53-41_SUMMARY.txt

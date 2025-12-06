@@ -1,0 +1,19 @@
+IMPORT SUMMARY - IMPORT_INACTIVE_MEMBERS
+Timestamp: 2025-12-06_15-53-53
+CSV File: data/2025_12_06/cleaned/current_dead.csv
+============================================================
+
+RESULTS:
+  ✅ Successfully Created: 794
+  ❌ Errors: 15
+  ⚠️  Skipped: 0
+  🔄 Duplicates: 27
+  📊 Total Processed: 836
+
+ADDITIONAL STATISTICS:
+  Total duplicates skipped: 27
+
+LOG FILES:
+  Errors/Skipped: logs/imports/import_inactive_members_2025-12-06_15-53-53_ERRORS.log
+  Successes: logs/imports/import_inactive_members_2025-12-06_15-53-53_SUCCESS.log
+  Summary: logs/imports/import_inactive_members_2025-12-06_15-53-53_SUMMARY.txt

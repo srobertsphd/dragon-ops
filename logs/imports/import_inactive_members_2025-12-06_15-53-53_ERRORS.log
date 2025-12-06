@@ -1,0 +1,845 @@
+ERROR LOG - IMPORT_INACTIVE_MEMBERS
+Timestamp: 2025-12-06_15-53-53
+CSV File: data/2025_12_06/cleaned/current_dead.csv
+================================================================================
+
+ERROR #1
+File: current_dead.csv
+Row: 3
+Error: Missing member_type
+Row Data:
+  member_id: 
+  first_name: Art
+  last_name: Adagan
+  member_type: 
+  home_address: 1507 Leeward Dr.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95122
+  home_phone: (408) 509-6843
+  email: aarty01@gmail.com
+  milestone_date: 2012-03-18
+  date_joined: 2012-03-29
+  expiration_date: 2012-07-30
+--------------------------------------------------
+
+DUPLICATE #1
+File: current_dead.csv
+Row: 14
+Duplicate: Member already exists: Sedrick Amar
+Row Data:
+  member_id: 65
+  first_name: Sedrick
+  last_name: Amar
+  member_type: Fixed/Income
+  home_address: 
+  home_city: San Jose
+  home_state: CA
+  home_zip: 
+  home_phone: 
+  email: amar.sedrick@yahoo.com
+  milestone_date: 2007-10-01
+  date_joined: 2025-02-08
+  expiration_date: 2025-06-30
+----------------------------------------
+
+DUPLICATE #2
+File: current_dead.csv
+Row: 182
+Duplicate: Member already exists: Noemi Deleon
+Row Data:
+  member_id: 231
+  first_name: Noemi
+  last_name: Deleon
+  member_type: Couple
+  home_address: 1096 Sally St
+  home_city: Holister
+  home_state: CA
+  home_zip: 95023
+  home_phone: (831) 664-5695
+  email: mimmy.sammy24@gmail.com
+  milestone_date: 2024-04-14
+  date_joined: 2024-07-31
+  expiration_date: 2024-08-31
+----------------------------------------
+
+ERROR #2
+File: current_dead.csv
+Row: 233
+Error: Missing member_type
+Row Data:
+  member_id: 166
+  first_name: Connie
+  last_name: Fischer
+  member_type: 
+  home_address: 165 Blossom Hill Rd.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95123
+  home_phone: (408) 841-1765
+  email: luvmy1jman7@gmail.com
+  milestone_date: 2010-03-05
+  date_joined: 2016-03-29
+  expiration_date: 2016-04-30
+--------------------------------------------------
+
+ERROR #3
+File: current_dead.csv
+Row: 236
+Error: Invalid or missing date_joined
+Row Data:
+  member_id: 129
+  first_name: Juanita
+  last_name: Fletcher
+  member_type: Fixed/Income
+  home_address: 2778 Hostetter Rd.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95132
+  home_phone: (669) 261-3787
+  email: fletcherjuan@gmail.com
+  milestone_date: 2022-12-01
+  date_joined: 
+  expiration_date: 2023-04-30
+--------------------------------------------------
+
+ERROR #4
+File: current_dead.csv
+Row: 250
+Error: Missing member_type
+Row Data:
+  member_id: 
+  first_name: Rigo
+  last_name: Gallardo
+  member_type: 
+  home_address: 14321 Clayton Rd
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95127
+  home_phone: (408) 439-6383
+  email: gallardorigo@yahoo.com
+  milestone_date: 2011-11-29
+  date_joined: 2012-03-22
+  expiration_date: 2012-04-30
+--------------------------------------------------
+
+DUPLICATE #3
+File: current_dead.csv
+Row: 257
+Duplicate: Member already exists: Gerald Garcia
+Row Data:
+  member_id: 133
+  first_name: Gerald
+  last_name: Garcia
+  member_type: Senior
+  home_address: 1744 Sundown Lane
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95127
+  home_phone: (408) 512-8179
+  email: geraldgar85@gmail.com
+  milestone_date: 2024-06-15
+  date_joined: 2024-06-21
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #4
+File: current_dead.csv
+Row: 260
+Duplicate: Member already exists: Melody Garcia
+Row Data:
+  member_id: 440
+  first_name: Melody
+  last_name: Garcia
+  member_type: Regular
+  home_address: 1520 Mt.Frazier
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95127
+  home_phone: (408) 771-3721
+  email: meldaisy@hotmail.com
+  milestone_date: 
+  date_joined: 2019-05-26
+  expiration_date: 2023-02-28
+----------------------------------------
+
+DUPLICATE #5
+File: current_dead.csv
+Row: 268
+Duplicate: Member already exists: Chuck Glasper
+Row Data:
+  member_id: 40
+  first_name: Chuck
+  last_name: Glasper
+  member_type: Fixed/Income
+  home_address: 3325 Cold Water Dr.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95148
+  home_phone: (408) 512-7755
+  email: ceglasper63@gmail.com
+  milestone_date: 2017-07-03
+  date_joined: 2022-05-20
+  expiration_date: 2022-07-31
+----------------------------------------
+
+DUPLICATE #6
+File: current_dead.csv
+Row: 288
+Duplicate: Member already exists: Rachel Gratch
+Row Data:
+  member_id: 28
+  first_name: Rachel
+  last_name: Gratch
+  member_type: Fixed/Income
+  home_address: 4200 The Woods Dr. #413
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95136
+  home_phone: (408) 823-4734
+  email: Rachelgatch491@gmail.com
+  milestone_date: 2023-03-23
+  date_joined: 2025-05-09
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #7
+File: current_dead.csv
+Row: 308
+Duplicate: Member already exists: Doug Hames
+Row Data:
+  member_id: 84
+  first_name: Doug
+  last_name: Hames
+  member_type: Senior
+  home_address: 177 Chateau La Sale Dr.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95111
+  home_phone: (408) 582-2185
+  email: hames880@gmail.com
+  milestone_date: 2024-03-14
+  date_joined: 2024-06-20
+  expiration_date: 2025-08-31
+----------------------------------------
+
+ERROR #5
+File: current_dead.csv
+Row: 330
+Error: Missing member_type
+Row Data:
+  member_id: 
+  first_name: Chuck
+  last_name: Hertwig
+  member_type: 
+  home_address: 684 N. 15TH St.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95122
+  home_phone: (408) 799-5182
+  email: chuckhwelding@yahoo.com
+  milestone_date: 1992-03-02
+  date_joined: 2012-07-04
+  expiration_date: 2012-09-30
+--------------------------------------------------
+
+DUPLICATE #8
+File: current_dead.csv
+Row: 336
+Duplicate: Member already exists: Donald Hines
+Row Data:
+  member_id: 231
+  first_name: Donald
+  last_name: Hines
+  member_type: Senior
+  home_address: 59 S. 16th St.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95112
+  home_phone: 
+  email: d_roman_hines@hotmail.com
+  milestone_date: 
+  date_joined: 2023-10-14
+  expiration_date: 2024-02-28
+----------------------------------------
+
+DUPLICATE #9
+File: current_dead.csv
+Row: 349
+Duplicate: Member already exists: Jerry Huntley
+Row Data:
+  member_id: 98
+  first_name: Jerry
+  last_name: Huntley
+  member_type: Senior
+  home_address: 4154 Manzanita Dr.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95117
+  home_phone: (408) 561-2004
+  email: huntley.jerry@yahoo.com
+  milestone_date: 1990-12-04
+  date_joined: 2023-12-17
+  expiration_date: 2023-12-31
+----------------------------------------
+
+DUPLICATE #10
+File: current_dead.csv
+Row: 350
+Duplicate: Member already exists: Sarah Ignaut
+Row Data:
+  member_id: 60
+  first_name: Sarah
+  last_name: Ignaut
+  member_type: Fixed/Income
+  home_address: 
+  home_city: San Jose
+  home_state: CA
+  home_zip: 
+  home_phone: (408) 857-5284
+  email: ignautsarah@gmail.com
+  milestone_date: 
+  date_joined: 2016-07-23
+  expiration_date: 2017-01-31
+----------------------------------------
+
+DUPLICATE #11
+File: current_dead.csv
+Row: 359
+Duplicate: Member already exists: Garry Johnson
+Row Data:
+  member_id: 16
+  first_name: Garry
+  last_name: Johnson
+  member_type: Regular
+  home_address: 380 S., 20th St
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95116
+  home_phone: (808) 225-7765
+  email: nursegarry@hotmail.com
+  milestone_date: 1994-09-18
+  date_joined: 2023-09-09
+  expiration_date: 2024-09-30
+----------------------------------------
+
+DUPLICATE #12
+File: current_dead.csv
+Row: 385
+Duplicate: Member already exists: Jennifer Koopman
+Row Data:
+  member_id: 562
+  first_name: Jennifer
+  last_name: Koopman
+  member_type: Regular
+  home_address: 962 6th St.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95112
+  home_phone: (408) 858-8391
+  email: jennkoop@gmail.com
+  milestone_date: 2024-07-16
+  date_joined: 2019-04-09
+  expiration_date: 2025-08-31
+----------------------------------------
+
+ERROR #6
+File: current_dead.csv
+Row: 408
+Error: Missing member_type
+Row Data:
+  member_id: 
+  first_name: Gary
+  last_name: Licon
+  member_type: 
+  home_address: 3210 Amaro lane
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95135
+  home_phone: (714) 394-1342
+  email: glicon044@yahoo.com
+  milestone_date: 2012-01-30
+  date_joined: 2012-03-01
+  expiration_date: 2012-05-30
+--------------------------------------------------
+
+DUPLICATE #13
+File: current_dead.csv
+Row: 424
+Duplicate: Member already exists: Lee Lutz
+Row Data:
+  member_id: 350
+  first_name: Lee
+  last_name: Lutz
+  member_type: Fixed/Income
+  home_address: 80 Market St
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95113
+  home_phone: (408) 593-2646
+  email: leegreelyusa@yahoo.com
+  milestone_date: 2000-02-27
+  date_joined: 2016-03-28
+  expiration_date: 2016-07-31
+----------------------------------------
+
+ERROR #7
+File: current_dead.csv
+Row: 425
+Error: Missing member_type
+Row Data:
+  member_id: 273
+  first_name: James
+  last_name: Maccaubin
+  member_type: 
+  home_address: Vista Montana Apt 2426
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95134
+  home_phone: 
+  email: cre8iveca@gmail.com
+  milestone_date: 
+  date_joined: 2016-01-14
+  expiration_date: 2016-03-31
+--------------------------------------------------
+
+DUPLICATE #14
+File: current_dead.csv
+Row: 439
+Duplicate: Member already exists: Brianna Martinez
+Row Data:
+  member_id: 13
+  first_name: Brianna
+  last_name: Martinez
+  member_type: Fixed/Income
+  home_address: 
+  home_city: San Jose
+  home_state: CA
+  home_zip: 
+  home_phone: (408) 854-1110
+  email: brianna.martinez94@icloud.com
+  milestone_date: 2022-01-09
+  date_joined: 2022-02-03
+  expiration_date: 2022-04-30
+----------------------------------------
+
+DUPLICATE #15
+File: current_dead.csv
+Row: 446
+Duplicate: Member already exists: Lupe Martinez
+Row Data:
+  member_id: 8
+  first_name: Lupe
+  last_name: Martinez
+  member_type: Fixed/Income
+  home_address: 611 Hermes Ct.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95111
+  home_phone: (408) 401-2607
+  email: jaykeira7@gmail.com
+  milestone_date: 2020-06-27
+  date_joined: 2020-06-27
+  expiration_date: 2022-03-31
+----------------------------------------
+
+DUPLICATE #16
+File: current_dead.csv
+Row: 454
+Duplicate: Member already exists: Mike McCarthy
+Row Data:
+  member_id: 210
+  first_name: Mike
+  last_name: McCarthy
+  member_type: Regular
+  home_address: 1501 Bellevile
+  home_city: Sunnyvale
+  home_state: CA
+  home_zip: 94086
+  home_phone: (650) 793-0696
+  email: mijumc@gmail.com
+  milestone_date: 1988-09-10
+  date_joined: 2023-04-21
+  expiration_date: 2023-05-31
+----------------------------------------
+
+ERROR #8
+File: current_dead.csv
+Row: 591
+Error: Member type 'Reinstate' not found
+Row Data:
+  member_id: 648
+  first_name: John
+  last_name: Quezada
+  member_type: Reinstate
+  home_address: 5344 Montery Hwy #1
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95111
+  home_phone: 
+  email: quezada_72@yahoo.com
+  milestone_date: 2019-11-02
+  date_joined: 2019-11-29
+  expiration_date: 2023-01-31
+--------------------------------------------------
+
+ERROR #9
+File: current_dead.csv
+Row: 626
+Error: Missing member_type
+Row Data:
+  member_id: 
+  first_name: Yansi
+  last_name: Ritchie
+  member_type: 
+  home_address: 3355 Americos Dr.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95148
+  home_phone: (408) 799-8190
+  email: yansirictchie@yahoo .com
+  milestone_date: 2011-11-28
+  date_joined: 2013-11-28
+  expiration_date: 2013-11-30
+--------------------------------------------------
+
+ERROR #10
+File: current_dead.csv
+Row: 634
+Error: Missing member_type
+Row Data:
+  member_id: 56
+  first_name: Alfredo
+  last_name: Robles
+  member_type: 
+  home_address: 918 N. 4Th St.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95112
+  home_phone: (408) 770-0124
+  email: freddyrobles1974@gmail.com
+  milestone_date: 2016-02-22
+  date_joined: 2016-07-25
+  expiration_date: 2016-08-30
+--------------------------------------------------
+
+ERROR #11
+File: current_dead.csv
+Row: 637
+Error: Member type 'Reinstate' not found
+Row Data:
+  member_id: 511
+  first_name: Daniel
+  last_name: Rodabugh
+  member_type: Reinstate
+  home_address: 1348 Martin Ave
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95126
+  home_phone: (408) 449-6006
+  email: rodabaughdan@comcast.net
+  milestone_date: 2010-04-17
+  date_joined: 2018-12-17
+  expiration_date: 2019-01-31
+--------------------------------------------------
+
+DUPLICATE #17
+File: current_dead.csv
+Row: 653
+Duplicate: Member already exists: Lisa Romero
+Row Data:
+  member_id: 100
+  first_name: Lisa
+  last_name: Romero
+  member_type: Fixed/Income
+  home_address: 
+  home_city: 
+  home_state: 
+  home_zip: 
+  home_phone: (408) 829-0484
+  email: lisaromero99@gmail
+  milestone_date: 1999-07-15
+  date_joined: 2025-06-13
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #18
+File: current_dead.csv
+Row: 669
+Duplicate: Member already exists: Daniel Ruiz
+Row Data:
+  member_id: 236
+  first_name: Daniel
+  last_name: Ruiz
+  member_type: Fixed/Income
+  home_address: 3369 Leigh Ave
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95124
+  home_phone: (408) 561-0843
+  email: druiz1111@yahoo.com
+  milestone_date: 2008-04-14
+  date_joined: 2015-12-21
+  expiration_date: 2017-05-31
+----------------------------------------
+
+ERROR #12
+File: current_dead.csv
+Row: 671
+Error: Invalid or missing date_joined
+Row Data:
+  member_id: 345
+  first_name: Randy
+  last_name: Rutter
+  member_type: Fixed/Income
+  home_address: 4075 Hobart ave
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95127
+  home_phone: (408) 217-4565
+  email: randyrutter@sbcglonol.net
+  milestone_date: 2015-01-21
+  date_joined: 
+  expiration_date: 2016-03-31
+--------------------------------------------------
+
+DUPLICATE #19
+File: current_dead.csv
+Row: 675
+Duplicate: Member already exists: Tony Saenz
+Row Data:
+  member_id: 101
+  first_name: Tony
+  last_name: Saenz
+  member_type: Senior
+  home_address: 1822 Bird Ave
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95125
+  home_phone: (408) 590-6618
+  email: dtasaenz@gmail.com
+  milestone_date: 2024-08-01
+  date_joined: 2024-10-03
+  expiration_date: 2025-03-31
+----------------------------------------
+
+ERROR #13
+File: current_dead.csv
+Row: 699
+Error: Invalid or missing date_joined
+Row Data:
+  member_id: 142
+  first_name: Sukeert
+  last_name: Shanker
+  member_type: Regular
+  home_address: 
+  home_city: San Jose
+  home_state: CA
+  home_zip: 
+  home_phone: 
+  email: sukeert.shanker@gmail.com
+  milestone_date: 
+  date_joined: 
+  expiration_date: 2023-08-31
+--------------------------------------------------
+
+DUPLICATE #20
+File: current_dead.csv
+Row: 702
+Duplicate: Member already exists: Randy Shaw
+Row Data:
+  member_id: 102
+  first_name: Randy
+  last_name: Shaw
+  member_type: Senior
+  home_address: 6262 Blaller
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95135
+  home_phone: (408) 505-2130
+  email: RSHAW001@gmail.com
+  milestone_date: 1999-01-05
+  date_joined: 2024-07-19
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #21
+File: current_dead.csv
+Row: 709
+Duplicate: Member already exists: Nancy Silva
+Row Data:
+  member_id: 180
+  first_name: Nancy
+  last_name: Silva
+  member_type: Fixed/Income
+  home_address: 5770 Preston Dr.  #8
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95124
+  home_phone: (669) 245-1606
+  email: great.white.15183@gmail.com
+  milestone_date: 2025-02-12
+  date_joined: 2025-08-13
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #22
+File: current_dead.csv
+Row: 714
+Duplicate: Member already exists: April Smith
+Row Data:
+  member_id: 184
+  first_name: April
+  last_name: Smith
+  member_type: Senior
+  home_address: 126 George St.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95110
+  home_phone: (559) 777-1487
+  email: aprilcreagercic@yahoo.com
+  milestone_date: 1998-06-24
+  date_joined: 2024-10-28
+  expiration_date: 2025-01-31
+----------------------------------------
+
+DUPLICATE #23
+File: current_dead.csv
+Row: 742
+Duplicate: Member already exists: Nick Tanabe
+Row Data:
+  member_id: 23
+  first_name: Nick
+  last_name: Tanabe
+  member_type: Fixed/Income
+  home_address: 975 Boyton Ave.  #36
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95117
+  home_phone: (408) 316-6365
+  email: n1615t@gmail.com
+  milestone_date: 2019-08-18
+  date_joined: 2024-09-16
+  expiration_date: 2025-04-30
+----------------------------------------
+
+DUPLICATE #24
+File: current_dead.csv
+Row: 775
+Duplicate: Member already exists: Jerry Vasquez
+Row Data:
+  member_id: 256
+  first_name: Jerry
+  last_name: Vasquez
+  member_type: Senior
+  home_address: P.O. Box 22028
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95151
+  home_phone: (408) 797-5502
+  email: jerryvasquez299@gmail.com
+  milestone_date: 1991-02-15
+  date_joined: 2022-01-08
+  expiration_date: 2024-10-31
+----------------------------------------
+
+ERROR #14
+File: current_dead.csv
+Row: 778
+Error: Member type 'Reinstate' not found
+Row Data:
+  member_id: 8
+  first_name: Ben
+  last_name: Vera
+  member_type: Reinstate
+  home_address: 3242 Moreno Ave
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95127
+  home_phone: 
+  email: mr.vera81benjamin@gmail.com
+  milestone_date: 2016-08-12
+  date_joined: 2022-11-17
+  expiration_date: 2022-12-31
+--------------------------------------------------
+
+DUPLICATE #25
+File: current_dead.csv
+Row: 785
+Duplicate: Member already exists: Art Villarreal
+Row Data:
+  member_id: 8
+  first_name: Art
+  last_name: Villarreal
+  member_type: Senior
+  home_address: 543 Lily Ann Way
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95123
+  home_phone: (408) 839-9396
+  email: artvillarreal16@yahoo.com
+  milestone_date: 1998-09-18
+  date_joined: 1998-09-18
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #26
+File: current_dead.csv
+Row: 803
+Duplicate: Member already exists: Terri Weeman
+Row Data:
+  member_id: 312
+  first_name: Terri
+  last_name: Weeman
+  member_type: Senior
+  home_address: 195 Chateau La Salle
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95111
+  home_phone: (408) 759-9437
+  email: tweeeman58@gmail.com
+  milestone_date: 2014-08-30
+  date_joined: 2014-09-03
+  expiration_date: 2025-08-31
+----------------------------------------
+
+DUPLICATE #27
+File: current_dead.csv
+Row: 811
+Duplicate: Member already exists: Sue Whiteside
+Row Data:
+  member_id: 258
+  first_name: Sue
+  last_name: Whiteside
+  member_type: Fixed/Income
+  home_address: 5305 Pebbletree Way
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95111
+  home_phone: (408) 687-1794
+  email: susan.whiteside3@gmail.com
+  milestone_date: 2007-02-09
+  date_joined: 2009-12-13
+  expiration_date: 2015-12-31
+----------------------------------------
+
+ERROR #15
+File: current_dead.csv
+Row: 818
+Error: Missing member_type
+Row Data:
+  member_id: 
+  first_name: Sally
+  last_name: Wilson
+  member_type: 
+  home_address: 5515 Felter Rd.
+  home_city: San Jose
+  home_state: CA
+  home_zip: 95132
+  home_phone: 
+  email: sallywilson9@sbcglobal.net
+  milestone_date: 1999-04-18
+  date_joined: 2013-03-27
+  expiration_date: 2013-04-30
+--------------------------------------------------
+

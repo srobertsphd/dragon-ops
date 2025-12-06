@@ -1,0 +1,19 @@
+IMPORT SUMMARY - IMPORT_PAYMENTS
+Timestamp: 2025-12-06_15-55-04
+CSV File: data/2025_12_06/cleaned/current_payments.csv
+============================================================
+
+RESULTS:
+  ✅ Successfully Created: 893
+  ❌ Errors: 0
+  ⚠️  Skipped: 0
+  🔄 Duplicates: 2
+  📊 Total Processed: 895
+
+ADDITIONAL STATISTICS:
+  Total duplicates skipped: 2
+
+LOG FILES:
+  Errors/Skipped: logs/imports/import_payments_2025-12-06_15-55-04_ERRORS.log
+  Successes: logs/imports/import_payments_2025-12-06_15-55-04_SUCCESS.log
+  Summary: logs/imports/import_payments_2025-12-06_15-55-04_SUMMARY.txt
