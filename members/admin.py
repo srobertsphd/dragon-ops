@@ -46,6 +46,7 @@ class MemberAdmin(admin.ModelAdmin):
 
     class Media:
         js = ("members/js/phone_format.js",)
+        css = {"all": ("members/css/admin_member_id_width.css",)}
 
     list_display = [
         "member_id",
@@ -53,10 +54,11 @@ class MemberAdmin(admin.ModelAdmin):
         "last_name",
         "member_type",
         "status",
+        "date_joined",
         "expiration_date",
         "home_phone",
     ]
-    list_filter = ["member_type", "status", "home_state"]
+    list_filter = ["member_type", "status", "home_state", "date_joined"]
     search_fields = [
         "member_id",
         "first_name",

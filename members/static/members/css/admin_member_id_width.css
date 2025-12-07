@@ -1,0 +1,8 @@
+/* Reduce Member ID column width to 1/3 of default */
+#result_list th.field-member_id,
+#result_list td.field-member_id {
+    width: 60px !important;
+    max-width: 60px !important;
+    min-width: 60px !important;
+}
+

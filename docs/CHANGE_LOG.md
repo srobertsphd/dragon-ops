@@ -2020,6 +2020,142 @@ class TestDeactivateExpiredMembersView(TestCase):
 
 ---
 
+### Change #008: Base User Login Page Implementation Options
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** TBD (depends on chosen approach)  
+**Created:** December 2025
+
+#### Description
+
+Currently, the system only has an administrative login page (`/admin/login/`) accessible to staff and superusers. With the need to allow base users (regular authenticated users) to access the system, we need to determine the best approach for implementing a login page that serves both staff and regular users.
+
+#### Current Implementation
+
+**Location:** `alano_club_site/settings.py` - Authentication settings
+
+**Current Behavior:**
+- `LOGIN_URL = "/admin/login/"` - Points to Django admin login
+- `LOGIN_REDIRECT_URL = "/"` - Redirects to landing page after login
+- `LOGOUT_REDIRECT_URL = "/admin/login/"` - Redirects back to admin login
+- All views use `@login_required` decorator (requires any authenticated user)
+- One admin view uses `@staff_member_required` (requires staff status)
+- Custom member management views are accessible to any logged-in user
+
+**Current Limitations:**
+- Base users cannot log in (admin login requires staff/superuser status)
+- No unified login experience for all user types
+- No role-based access control beyond basic staff checks
+
+#### Proposed Implementation Options
+
+**Option 1: Unified Login Page (Recommended)**
+- Create a single custom login page at `/login/`
+- Update `LOGIN_URL` to point to `/login/`
+- After login, redirect based on user role:
+  - Staff/superusers → `/admin/` or staff dashboard
+  - Regular users → `/` (landing page)
+- Keep `/admin/login/` available for staff who prefer it
+- Single URL for all users to remember
+- Consistent user experience
+- Easier to maintain
+
+**Option 2: Separate Login Pages**
+- Keep `/admin/login/` for staff/admin users
+- Create `/login/` for regular users
+- Update `LOGIN_URL` to `/login/` (for `@login_required` redirects)
+- Staff can use either login page
+- Clear separation of concerns
+- Different branding/styling per audience
+- More complexity to maintain
+
+**Option 3: Single Site with Role-Based Access**
+- Unified login at `/login/`
+- After login, show different content based on role:
+  - Staff: Access to admin + full member management
+  - Regular users: Limited access (search/view only, or other restrictions)
+- Use `user.is_staff` checks or custom permissions in views
+- Single entry point with clear access control
+- Scales well for future permission needs
+- Requires defining what regular users can do
+
+#### Implementation Considerations
+
+**Questions to Answer Before Implementation:**
+1. What should regular users be able to do?
+   - Only search/view members?
+   - Add payments?
+   - View reports?
+   - Nothing beyond search?
+
+2. Should regular users see different UI than staff?
+   - Same pages, different permissions?
+   - Different navigation/menu?
+
+3. How will regular user accounts be created?
+   - Manual creation in admin?
+   - Self-registration?
+   - Bulk import?
+
+4. Should regular users be able to access Django admin at all?
+   - Typically no, unless they're staff
+
+**Architecture Decision:**
+- Do NOT need two separate sites
+- Can use one Django app with:
+  - One login page (or two if preferred)
+  - Role-based access control in views
+  - Different redirects after login
+
+#### Dependencies
+
+- ✅ Django authentication system - Completed
+- ✅ User model exists - Completed
+- ✅ Views use `@login_required` decorator - Completed
+- ⏳ Decision on user permissions/access levels - Pending
+- ⏳ Decision on account creation method - Pending
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Test login for regular users
+   - Test login for staff users
+   - Verify redirects work correctly based on role
+   - Verify access restrictions work as intended
+   - Test logout functionality
+
+2. **Edge Cases:**
+   - Users with no assigned role
+   - Inactive users attempting to log in
+   - Session expiration
+   - Multiple login attempts
+
+3. **Automated Testing:**
+   - Add test cases for login views
+   - Test role-based redirects
+   - Test access control decorators
+   - Test permission checks in views
+
+#### Benefits
+
+- ✅ Enables base user access to the system
+- ✅ Provides clear login path for all user types
+- ✅ Supports role-based access control
+- ✅ Improves user experience with appropriate redirects
+- ✅ Maintains security with proper authentication
+
+#### Notes
+
+- **Current Status**: Keeping existing admin login until requirements are finalized
+- **Recommendation**: Option 1 (Unified Login) is recommended for simplicity and maintainability
+- **Future Enhancement**: Could add self-registration if needed
+- **Future Enhancement**: Could add password reset functionality
+- **Future Enhancement**: Could add two-factor authentication for enhanced security
+- **Future Enhancement**: Could implement custom permission system for fine-grained access control
+
+---
+
 ## Template for New Changes
 
 ### Change #XXX: [Title]

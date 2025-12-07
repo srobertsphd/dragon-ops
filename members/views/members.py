@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -10,7 +10,7 @@ from ..utils import ensure_end_of_month
 from ..services import MemberService, PaymentService
 
 
-@staff_member_required
+@login_required
 def reactivate_member_view(request, member_uuid):
     """Redirect to add_member flow with reactivation context"""
     member = get_object_or_404(Member, member_uuid=member_uuid)
@@ -23,7 +23,7 @@ def reactivate_member_view(request, member_uuid):
     return redirect("members:add_member")
 
 
-@staff_member_required
+@login_required
 def member_detail_view(request, member_uuid):
     """Member detail page with payment history and optional date filtering"""
     member = get_object_or_404(Member, member_uuid=member_uuid)
@@ -67,7 +67,7 @@ def member_detail_view(request, member_uuid):
     return render(request, "members/member_detail.html", context)
 
 
-@staff_member_required
+@login_required
 def add_member_view(request):
     """Add new member workflow with form, validation, and confirmation"""
 
@@ -221,6 +221,12 @@ def add_member_view(request):
                     milestone_date, "%Y-%m-%d"
                 ).date()
                 date_joined_obj = datetime.strptime(date_joined, "%Y-%m-%d").date()
+
+                # Validate dates are not in the future
+                if milestone_date_obj > date.today():
+                    raise ValueError("Milestone date cannot be in the future")
+                if date_joined_obj > date.today():
+                    raise ValueError("Date joined cannot be in the future")
 
                 # Check if reactivating
                 reactivate_uuid = request.session.get("reactivate_member_uuid")

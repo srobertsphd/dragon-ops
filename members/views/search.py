@@ -1,18 +1,18 @@
 from datetime import timedelta, date
 from django.shortcuts import render
 from django.db.models import Q
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 
 from ..models import Member, Payment
 
 
-@staff_member_required
+@login_required
 def landing_view(request):
     """Landing page with system overview"""
     return render(request, "members/landing.html")
 
 
-@staff_member_required
+@login_required
 def search_view(request):
     """Simple member search page with alphabet browsing and status filtering"""
     query = request.GET.get("q", "").strip()

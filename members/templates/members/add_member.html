@@ -143,6 +143,7 @@
                                                id="milestone_date" 
                                                name="milestone_date" 
                                                value="{{ member_data.milestone_date|default:'' }}"
+                                               max="{{ today|date:'Y-m-d' }}"
                                                required>
                                         <small class="form-text text-muted">Sobriety date or other significant milestone</small>
                                     </div>
@@ -155,6 +156,7 @@
                                                id="date_joined" 
                                                name="date_joined" 
                                                value="{% if member_data.date_joined %}{{ member_data.date_joined }}{% else %}{{ today|date:'Y-m-d' }}{% endif %}"
+                                               max="{{ today|date:'Y-m-d' }}"
                                                required>
                                         <small class="form-text text-muted">Date joined the organization</small>
                                     </div>
