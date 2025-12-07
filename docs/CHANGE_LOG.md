@@ -1451,6 +1451,575 @@ Add a reports landing page with two banner links: one for the existing Current M
 
 ---
 
+### Change #007: Admin Panel for Deactivating Expired Members
+
+**Status:** Planned  
+**Priority:** High  
+**Estimated Effort:** 4-6 hours  
+**Created:** December 06, 2025 at 07:06 PM
+
+#### Description
+
+Add a manual admin interface to deactivate members who are 90+ days past their expiration date and have no payment recorded after their expiration date. This provides control over the deactivation process, allowing administrators to review and select specific members before executing the deactivation.
+
+#### Current Implementation
+
+**Location:** `members/models.py` - `MemberManager.get_expired_for_deactivation()`
+
+**Current Behavior:**
+- `Member.objects.get_expired_for_deactivation()` finds active members expired 90+ days
+- Does not check for payments after expiration date
+- No admin interface to review or execute deactivation
+- `Member.deactivate()` method exists but is not exposed in admin
+
+**Current Code:**
+```python
+# members/models.py - Line 74-79
+def get_expired_for_deactivation(self):
+    """Get members who are expired 3+ months and should be deactivated"""
+    from datetime import date, timedelta
+    three_months_ago = date.today() - timedelta(days=90)
+    return self.filter(status="active", expiration_date__lt=three_months_ago)
+```
+
+**Limitations:**
+- No payment check (doesn't exclude members who paid after expiration)
+- No admin UI to review members before deactivation
+- No way to selectively deactivate specific members
+- No visual feedback or confirmation
+
+#### Proposed Implementation
+
+**New Feature: Custom Django Admin Page**
+
+A dedicated admin page accessible from the Django admin sidebar that:
+1. Queries eligible members:
+   - Status = "active"
+   - Expiration date is 90+ days in the past
+   - No payment recorded after expiration date
+2. Displays a review list with:
+   - Checkboxes for selection
+   - Member details (ID, name, expiration date, days expired, last payment date)
+   - Summary count
+3. Allows selective deactivation:
+   - Select individual members or "Select All"
+   - Preview before executing
+   - Execute deactivation with confirmation
+4. Provides feedback:
+   - Success messages showing count of deactivated members
+   - Error handling for individual failures
+   - List of members that were deactivated
+
+**Key Changes:**
+- Add new manager method: `get_expired_without_payment()` (includes payment check)
+- Create custom admin view: `deactivate_expired_members_view()`
+- Create admin template: `deactivate_expired.html`
+- Register custom admin URL and menu item
+- Add helper method to calculate days expired
+
+#### Implementation Steps
+
+**Step 1: Add Manager Method for Payment-Aware Query (`members/models.py`)**
+
+**Location:** `MemberManager` class (around line 74)
+
+**Add new method:**
+```python
+def get_expired_without_payment(self, days_threshold=90):
+    """
+    Get active members expired N+ days with no payment after expiration.
+    
+    Args:
+        days_threshold: Number of days past expiration (default: 90)
+    
+    Returns:
+        QuerySet of eligible members
+    """
+    from datetime import date, timedelta
+    from django.db.models import Max
+    
+    cutoff_date = date.today() - timedelta(days=days_threshold)
+    
+    # Get active members expired beyond threshold
+    expired_members = self.filter(
+        status="active",
+        expiration_date__lt=cutoff_date
+    )
+    
+    # Annotate with last payment date after expiration
+    expired_members = expired_members.annotate(
+        last_payment_after_expiration=Max(
+            'payments__date',
+            filter=models.Q(payments__date__gt=models.F('expiration_date'))
+        )
+    )
+    
+    # Filter to only those with no payment after expiration
+    return expired_members.filter(last_payment_after_expiration__isnull=True)
+```
+
+**Why this approach:**
+- Uses annotation to find last payment after expiration
+- Filters out members who paid after expiration
+- Efficient single query
+- Configurable threshold
+
+**Step 2: Add Helper Method to Member Model (`members/models.py`)**
+
+**Location:** `Member` class (around line 180)
+
+**Add property/method:**
+```python
+def days_expired(self):
+    """Calculate days since expiration date"""
+    from datetime import date
+    if self.expiration_date:
+        return (date.today() - self.expiration_date).days
+    return 0
+
+@property
+def last_payment_date(self):
+    """Get the most recent payment date, or None"""
+    last_payment = self.payments.order_by('-date').first()
+    return last_payment.date if last_payment else None
+```
+
+**Step 3: Create Custom Admin View (`members/admin_views.py` - NEW FILE)**
+
+**Create new file:** `members/admin_views.py`
+
+**Purpose:** Handle GET (display list) and POST (execute deactivation) requests
+
+**Implementation:**
+```python
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.db import transaction
+from django.utils import timezone
+from ..models import Member
+
+@staff_member_required
+def deactivate_expired_members_view(request):
+    """
+    Custom admin view for reviewing and deactivating expired members.
+    
+    GET: Display list of eligible members with checkboxes
+    POST: Deactivate selected members
+    """
+    if request.method == 'POST':
+        # Handle deactivation
+        member_uuids = request.POST.getlist('member_uuids')
+        
+        if not member_uuids:
+            messages.warning(request, "No members selected for deactivation.")
+            return redirect('admin:deactivate_expired_members')
+        
+        # Get members and validate they're still eligible
+        members = Member.objects.filter(
+            member_uuid__in=member_uuids,
+            status='active'
+        )
+        
+        deactivated_count = 0
+        errors = []
+        
+        with transaction.atomic():
+            for member in members:
+                try:
+                    # Double-check eligibility before deactivating
+                    if member.is_expired_for_deactivation():
+                        # Check for payments after expiration
+                        has_payment_after = member.payments.filter(
+                            date__gt=member.expiration_date
+                        ).exists()
+                        
+                        if not has_payment_after:
+                            member.deactivate()
+                            deactivated_count += 1
+                        else:
+                            errors.append(
+                                f"{member.full_name} has a payment after expiration"
+                            )
+                    else:
+                        errors.append(
+                            f"{member.full_name} is not expired 90+ days"
+                        )
+                except Exception as e:
+                    errors.append(f"Error deactivating {member.full_name}: {str(e)}")
+        
+        if deactivated_count > 0:
+            messages.success(
+                request,
+                f"Successfully deactivated {deactivated_count} member(s)."
+            )
+        
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+        
+        return redirect('admin:deactivate_expired_members')
+    
+    # GET request - display list
+    eligible_members = Member.objects.get_expired_without_payment()
+    
+    # Calculate days expired for each member
+    members_with_info = []
+    for member in eligible_members:
+        members_with_info.append({
+            'member': member,
+            'days_expired': member.days_expired,
+            'last_payment_date': member.last_payment_date,
+        })
+    
+    # Sort by days expired (most expired first)
+    members_with_info.sort(key=lambda x: x['days_expired'], reverse=True)
+    
+    context = {
+        'members': members_with_info,
+        'total_count': len(members_with_info),
+        'title': 'Deactivate Expired Members',
+    }
+    
+    return render(request, 'admin/deactivate_expired.html', context)
+```
+
+**Step 4: Create Admin Template (`members/templates/admin/deactivate_expired.html` - NEW FILE)**
+
+**Create new file:** `members/templates/admin/deactivate_expired.html`
+
+**Purpose:** Display list of eligible members with selection interface
+
+**Template Structure:**
+```django
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Deactivate Expired Members{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Deactivate Expired Members</h1>
+    
+    <div class="module">
+        <div class="form-row">
+            <p class="help">
+                Found <strong>{{ total_count }}</strong> member(s) expired 90+ days 
+                with no payment after expiration date.
+            </p>
+        </div>
+        
+        {% if members %}
+        <form method="post" id="deactivate-form">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <label>
+                    <input type="checkbox" id="select-all" />
+                    <strong>Select All</strong>
+                </label>
+            </div>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Member ID</th>
+                        <th>Name</th>
+                        <th>Expiration Date</th>
+                        <th>Days Expired</th>
+                        <th>Last Payment</th>
+                        <th>Member Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in members %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" 
+                                   name="member_uuids" 
+                                   value="{{ item.member.member_uuid }}"
+                                   class="member-checkbox" />
+                        </td>
+                        <td>{{ item.member.member_id|default:"—" }}</td>
+                        <td>
+                            <a href="{% url 'admin:members_member_change' item.member.member_uuid %}">
+                                {{ item.member.full_name }}
+                            </a>
+                        </td>
+                        <td>{{ item.member.expiration_date|date:"M d, Y" }}</td>
+                        <td>
+                            <span class="badge badge-warning">{{ item.days_expired }} days</span>
+                        </td>
+                        <td>
+                            {% if item.last_payment_date %}
+                                {{ item.last_payment_date|date:"M d, Y" }}
+                            {% else %}
+                                <span class="text-muted">No payments</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.member.member_type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="submit-row">
+                <button type="submit" 
+                        class="default" 
+                        onclick="return confirm('Are you sure you want to deactivate the selected members? This action cannot be undone.');">
+                    Deactivate Selected
+                </button>
+                <a href="{% url 'admin:index' %}" class="button">Cancel</a>
+            </div>
+        </form>
+        
+        <script>
+            // Select All functionality
+            document.getElementById('select-all').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.member-checkbox');
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        </script>
+        {% else %}
+        <div class="form-row">
+            <p class="help">No members found matching the criteria.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+```
+
+**Step 5: Register Custom Admin URL (`members/admin.py`)**
+
+**Location:** Add to end of `members/admin.py`
+
+**Simpler Approach - Monkey-patch admin site:**
+```python
+# At end of members/admin.py
+from django.urls import path
+from .admin_views import deactivate_expired_members_view
+
+# Monkey-patch admin site to add custom URL
+original_get_urls = admin.site.get_urls
+
+def custom_get_urls():
+    urls = original_get_urls()
+    custom_urls = [
+        path(
+            'deactivate-expired-members/',
+            admin.site.admin_view(deactivate_expired_members_view),
+            name='deactivate_expired_members',
+        ),
+    ]
+    return custom_urls + urls
+
+admin.site.get_urls = custom_get_urls
+```
+
+**Step 6: Add Admin Menu Item (`members/admin.py`)**
+
+**Location:** Create template override for Member admin changelist
+
+**Simplest Approach - Option C: Add link in Member admin via changelist template**
+
+**Create:** `members/templates/admin/members/member/change_list.html`
+```django
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    <li>
+        <a href="{% url 'admin:deactivate_expired_members' %}" class="addlink">
+            Deactivate Expired Members
+        </a>
+    </li>
+{% endblock %}
+```
+
+This adds a link in the Member admin changelist page's object tools section.
+
+**Step 7: Update URL Configuration (if needed)**
+
+**Location:** `alano_club_site/urls.py`
+
+**Check if admin URLs are configured correctly:**
+- Admin URLs should already be set up
+- Custom admin URLs will be added via admin site override (Step 5)
+
+**Step 8: Add Tests (`tests/test_admin_views.py` - NEW FILE)**
+
+**Create test file for admin views:**
+```python
+from django.test import TestCase, Client
+from django.contrib.auth.models import User
+from members.models import Member, MemberType, Payment, PaymentMethod
+from datetime import date, timedelta
+
+class TestDeactivateExpiredMembersView(TestCase):
+    def setUp(self):
+        # Create staff user
+        self.user = User.objects.create_user(
+            username='admin',
+            password='testpass',
+            is_staff=True
+        )
+        self.client = Client()
+        self.client.login(username='admin', password='testpass')
+        
+        # Create member type
+        self.member_type = MemberType.objects.create(
+            member_type='Regular',
+            member_dues=30.00,
+            num_months=1
+        )
+        
+        # Create payment method
+        self.payment_method = PaymentMethod.objects.create(
+            payment_method='Cash'
+        )
+    
+    def test_get_view_displays_eligible_members(self):
+        # Create expired member without payment
+        expired_date = date.today() - timedelta(days=95)
+        member = Member.objects.create(
+            first_name='John',
+            last_name='Doe',
+            member_type=self.member_type,
+            status='active',
+            expiration_date=expired_date,
+            date_joined=date.today() - timedelta(days=200)
+        )
+        
+        response = self.client.get('/admin/deactivate-expired-members/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'John Doe')
+    
+    def test_get_view_excludes_members_with_payment_after_expiration(self):
+        # Create expired member with payment after expiration
+        expired_date = date.today() - timedelta(days=95)
+        member = Member.objects.create(
+            first_name='Jane',
+            last_name='Smith',
+            member_type=self.member_type,
+            status='active',
+            expiration_date=expired_date,
+            date_joined=date.today() - timedelta(days=200)
+        )
+        
+        # Add payment after expiration
+        Payment.objects.create(
+            member=member,
+            payment_method=self.payment_method,
+            amount=30.00,
+            date=expired_date + timedelta(days=10)  # After expiration
+        )
+        
+        response = self.client.get('/admin/deactivate-expired-members/')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'Jane Smith')
+    
+    def test_post_view_deactivates_selected_members(self):
+        # Create expired member
+        expired_date = date.today() - timedelta(days=95)
+        member = Member.objects.create(
+            first_name='Bob',
+            last_name='Johnson',
+            member_type=self.member_type,
+            status='active',
+            expiration_date=expired_date,
+            date_joined=date.today() - timedelta(days=200),
+            member_id=42
+        )
+        
+        response = self.client.post(
+            '/admin/deactivate-expired-members/',
+            {'member_uuids': [str(member.member_uuid)]}
+        )
+        
+        member.refresh_from_db()
+        self.assertEqual(member.status, 'inactive')
+        self.assertIsNone(member.member_id)
+```
+
+#### Dependencies
+
+- ✅ Member model with `expiration_date`, `status`, `deactivate()` method - Completed
+- ✅ Payment model with `date` field and ForeignKey to Member - Completed
+- ✅ Django admin interface - Completed
+- ✅ Staff user authentication - Completed
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Access admin panel and navigate to "Deactivate Expired Members" (via Member admin link)
+   - Verify list shows only eligible members (90+ days expired, no payment after expiration)
+   - Verify members with payments after expiration are excluded
+   - Verify "Select All" checkbox works
+   - Select individual members and verify deactivation
+   - Verify success messages display correctly
+   - Verify deactivated members have status="inactive" and member_id=None
+   - Verify date_inactivated is set
+   - Test with empty result set (no eligible members)
+   - Test with members exactly 90 days expired
+   - Test with members 89 days expired (should not appear)
+
+2. **Edge Cases:**
+   - Member becomes active between page load and deactivation
+   - Member receives payment between page load and deactivation
+   - Multiple admins deactivating simultaneously
+   - Very large result sets (performance)
+   - Members with no payments at all
+   - Members with payments before expiration but not after
+
+3. **Automated Testing:**
+   - Test `get_expired_without_payment()` manager method
+   - Test payment filtering logic
+   - Test admin view GET request (display list)
+   - Test admin view POST request (deactivate selected)
+   - Test authentication/authorization (staff only)
+   - Test error handling
+   - Test transaction atomicity
+
+#### Benefits
+
+- ✅ Manual control over deactivation process
+- ✅ Review before executing
+- ✅ Selective deactivation of specific members
+- ✅ Payment-aware filtering (excludes members who paid after expiration)
+- ✅ Visual feedback and confirmation
+- ✅ Integrated with Django admin
+- ✅ Uses existing `deactivate()` method
+- ✅ Audit trail via admin messages
+
+#### Notes
+
+- **Payment Rule**: Option B - No payment after expiration date (members who paid after expiration are excluded)
+- **Implementation**: Option 1 - Custom Django admin page
+- **Threshold**: 90 days (configurable via method parameter)
+- **Deactivation**: Uses existing `Member.deactivate()` method
+- **Transaction Safety**: Uses `transaction.atomic()` for batch operations
+- **Performance**: Uses annotation for efficient querying
+- **Future Enhancement**: Add filtering by days expired (e.g., 90+, 120+, 180+)
+- **Future Enhancement**: Add search by name
+- **Future Enhancement**: Add export to CSV
+- **Future Enhancement**: Add "undo" functionality (reactivate)
+
+#### Files to Create/Modify
+
+**New Files:**
+1. `members/admin_views.py` - Custom admin view
+2. `members/templates/admin/deactivate_expired.html` - Admin template
+3. `members/templates/admin/members/member/change_list.html` - Add menu link
+4. `tests/test_admin_views.py` - Test suite
+
+**Modified Files:**
+1. `members/models.py` - Add `get_expired_without_payment()` method and helper properties
+2. `members/admin.py` - Register custom admin URL (monkey-patch approach)
+
+---
+
 ## Template for New Changes
 
 ### Change #XXX: [Title]

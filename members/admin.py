@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django import forms
 from django.db import models
+from django.urls import path
 from .models import Member, MemberType, PaymentMethod, Payment
+from .admin_views import deactivate_expired_members_view
 
 
 @admin.register(MemberType)
@@ -187,3 +189,23 @@ class PaymentAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
+# Register custom admin URL for deactivating expired members
+# Monkey-patch admin site to add custom URL
+original_get_urls = admin.site.get_urls
+
+
+def custom_get_urls():
+    urls = original_get_urls()
+    custom_urls = [
+        path(
+            "deactivate-expired-members/",
+            admin.site.admin_view(deactivate_expired_members_view),
+            name="deactivate_expired_members",
+        ),
+    ]
+    return custom_urls + urls
+
+
+admin.site.get_urls = custom_get_urls

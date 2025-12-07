@@ -78,6 +78,35 @@ class MemberManager(models.Manager):
         three_months_ago = date.today() - timedelta(days=90)
         return self.filter(status="active", expiration_date__lt=three_months_ago)
 
+    def get_expired_without_payment(self, days_threshold=90):
+        """
+        Get active members expired N+ days with no payment after expiration.
+
+        Args:
+            days_threshold: Number of days past expiration (default: 90)
+
+        Returns:
+            QuerySet of eligible members
+        """
+        from datetime import date, timedelta
+        from django.db.models import Max
+
+        cutoff_date = date.today() - timedelta(days=days_threshold)
+
+        # Get active members expired beyond threshold
+        expired_members = self.filter(status="active", expiration_date__lt=cutoff_date)
+
+        # Annotate with last payment date after expiration
+        expired_members = expired_members.annotate(
+            last_payment_after_expiration=Max(
+                "payments__date",
+                filter=models.Q(payments__date__gt=models.F("expiration_date")),
+            )
+        )
+
+        # Filter to only those with no payment after expiration
+        return expired_members.filter(last_payment_after_expiration__isnull=True)
+
     def get_member_for_reactivation(self, first_name, last_name):
         """Find inactive member by name for reactivation"""
         return self.filter(
@@ -172,6 +201,20 @@ class Member(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    def days_expired(self):
+        """Calculate days since expiration date"""
+        from datetime import date
+
+        if self.expiration_date:
+            return (date.today() - self.expiration_date).days
+        return 0
+
+    @property
+    def last_payment_date(self):
+        """Get the most recent payment date, or None"""
+        last_payment = self.payments.order_by("-date").first()
+        return last_payment.date if last_payment else None
 
     def is_membership_expired(self):
         """Check if membership has expired"""

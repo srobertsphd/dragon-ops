@@ -1191,6 +1191,131 @@ Use this checklist to track progress:
 
 ---
 
+## Quick Re-Import Guide: December 6, 2025 Data
+
+**Use this section if you need to re-import the already-cleaned December 6, 2025 data into the database.**
+
+**Prerequisites:**
+- Cleaned CSV files exist in `data/2025_12_06/cleaned/`:
+  - `current_members.csv`
+  - `current_dead.csv`
+  - `current_payments.csv`
+- Virtual environment is activated
+- Database connection is configured (DATABASE_URL set)
+
+### Step 1: Activate Virtual Environment
+
+```bash
+source .venv/bin/activate
+```
+
+### Step 2: Verify Database Connection
+
+```bash
+python manage.py shell -c "from django.db import connection; connection.ensure_connection(); print('✅ Database connected')"
+```
+
+### Step 3: Clear Existing Data (Manual Clearing Required)
+
+**Important:** Due to foreign key constraints, payments must be deleted before members.
+
+**In Django shell:**
+```bash
+python manage.py shell
+```
+
+```python
+from members.models import Member, Payment
+
+# Clear payments first (required due to foreign key constraints)
+payment_count = Payment.objects.count()
+Payment.objects.all().delete()
+print(f"✅ Deleted {payment_count} payments")
+
+# Then clear members
+member_count = Member.objects.count()
+Member.objects.all().delete()
+print(f"✅ Deleted {member_count} members")
+
+# Verify clearing
+print(f"\nRemaining payments: {Payment.objects.count()}")
+print(f"Remaining members: {Member.objects.count()}")
+
+exit()
+```
+
+**Note:** Member Types and Payment Methods are preserved (not cleared).
+
+### Step 4: Import Members
+
+**Active Members:**
+```bash
+python manage.py import_members \
+  --csv-file data/2025_12_06/cleaned/current_members.csv \
+  --status active
+```
+
+**Inactive Members:**
+```bash
+python manage.py import_members \
+  --csv-file data/2025_12_06/cleaned/current_dead.csv \
+  --status inactive
+```
+
+**Expected Results:**
+- Active Members: 333 created
+- Inactive Members: 794 created (some errors expected for historical records)
+
+### Step 5: Import Payments
+
+```bash
+python manage.py import_payments \
+  --csv-file data/2025_12_06/cleaned/current_payments.csv
+```
+
+**Expected Results:**
+- Payments: 893 created
+
+### Step 6: Verify Import
+
+```bash
+python manage.py shell
+```
+
+```python
+from members.models import Member, Payment
+
+print("=== Record Counts ===")
+print(f"Active Members: {Member.objects.filter(status='active').count()}")
+print(f"Inactive Members: {Member.objects.filter(status='inactive').count()}")
+print(f"Total Members: {Member.objects.count()}")
+print(f"Payments: {Payment.objects.count()}")
+
+# Verify relationships
+print("\n=== Relationship Checks ===")
+print(f"Orphaned payments: {Payment.objects.filter(member__isnull=True).count()}")
+print(f"Members without type: {Member.objects.filter(member_type__isnull=True).count()}")
+print(f"Payments without method: {Payment.objects.filter(payment_method__isnull=True).count()}")
+
+exit()
+```
+
+**Expected Counts:**
+- Active Members: 333
+- Inactive Members: 794
+- Total Members: 1,127
+- Payments: 893
+- All relationship checks should be 0
+
+### Step 7: Review Import Logs (Optional)
+
+Check log files in `logs/imports/` for any errors or warnings:
+- `import_active_members_*.log`
+- `import_inactive_members_*.log`
+- `import_payments_*.log`
+
+---
+
 ## End of Document
 
 This completes the data update process documentation. Follow each phase sequentially, and always verify completion before proceeding to the next phase.
