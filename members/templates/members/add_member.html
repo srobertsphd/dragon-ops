@@ -25,6 +25,15 @@
                     </h1>
                 </div>
                 <div class="card-body">
+                    <!-- Display Django messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                     
                     <!-- Step 1: Member Form -->
                     {% if step == 'form' %}

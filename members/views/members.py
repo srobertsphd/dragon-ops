@@ -172,8 +172,21 @@ def add_member_view(request):
                 if not date_joined:
                     raise ValueError("Date joined is required")
 
+                # Validate member ID range and availability
+                try:
+                    member_id_int = int(member_id)
+                except ValueError:
+                    raise ValueError(
+                        f"Member ID must be a number. You entered: '{member_id}'"
+                    )
+                
+                # Validate range (1-999)
+                if member_id_int < 1 or member_id_int > 999:
+                    raise ValueError(
+                        f"Member ID must be between 1 and 999. You entered: {member_id_int}"
+                    )
+                
                 # Validate member ID is available
-                member_id_int = int(member_id)
                 if Member.objects.filter(
                     status="active", member_id=member_id_int
                 ).exists():
@@ -240,8 +253,35 @@ def add_member_view(request):
                 return render(request, "members/add_member.html", context)
 
             except (ValueError, MemberType.DoesNotExist) as e:
-                messages.error(request, f"Invalid member data: {e}")
-                return redirect("members:add_member")
+                messages.error(request, str(e))
+                # Render form again with preserved data instead of redirecting
+                member_types = MemberType.objects.all()
+                next_member_id, suggested_ids = MemberService.get_suggested_ids(count=5)
+                
+                # Preserve form data in context
+                context = {
+                    "step": "form",
+                    "member_types": member_types,
+                    "today": date.today(),
+                    "next_member_id": next_member_id,
+                    "suggested_ids": suggested_ids,
+                    "member_data": {
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "email": email,
+                        "member_type_id": member_type_id,
+                        "member_id": member_id,  # Preserve the entered ID
+                        "milestone_date": milestone_date,
+                        "date_joined": date_joined,
+                        "home_address": home_address,
+                        "home_city": home_city,
+                        "home_state": home_state,
+                        "home_zip": home_zip,
+                        "home_phone": home_phone,
+                    },
+                    "reactivate_member": None,
+                }
+                return render(request, "members/add_member.html", context)
         else:
             messages.error(request, "Invalid request.")
             return redirect("members:add_member")
