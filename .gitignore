@@ -12,7 +12,6 @@ wheels/
 .env
 
 
-# Data files (optional - uncomment to ignore data)
-# data/csv_data/
-# data/xlsx_data/
+# data files
+data/
 
