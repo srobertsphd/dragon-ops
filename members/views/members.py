@@ -80,6 +80,19 @@ def add_member_view(request):
     # Get workflow step
     step = request.GET.get("step", "form")
 
+    # Clear stale session data if this is a fresh "Add Member" request (no reactivate query param)
+    # Clear member_data and payment_data always - this ensures clicking "Add Member" starts fresh
+    # Clear reactivate_member_uuid only if member_data exists (stale data scenario)
+    # If reactivate_member_uuid exists without member_data, it's a fresh reactivation (will re-populate)
+    if not request.GET.get("reactivate"):
+        if "member_data" in request.session:
+            del request.session["member_data"]
+            # If member_data existed, also clear reactivate_member_uuid (it's stale)
+            if "reactivate_member_uuid" in request.session:
+                del request.session["reactivate_member_uuid"]
+        if "payment_data" in request.session:
+            del request.session["payment_data"]
+
     if step == "form":
         # Step 1: Member Form
         member_types = MemberType.objects.all()
@@ -209,6 +222,7 @@ def add_member_view(request):
             member_type_id = request.POST.get("member_type")
             member_id = request.POST.get("member_id")
             milestone_date = request.POST.get("milestone_date")
+            skip_milestone = request.POST.get("skip_milestone") == "on"
             date_joined = request.POST.get("date_joined")
             home_address = request.POST.get("home_address", "").strip()
             home_city = request.POST.get("home_city", "").strip()
@@ -228,6 +242,10 @@ def add_member_view(request):
                     raise ValueError("Member ID is required")
                 if not date_joined:
                     raise ValueError("Date joined is required")
+                if not skip_milestone and not milestone_date:
+                    raise ValueError(
+                        "Milestone date is required. Check 'Skip Milestone Date' if you don't want to provide one."
+                    )
 
                 # Validate member ID range and availability
                 try:

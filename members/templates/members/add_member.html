@@ -147,14 +147,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="milestone_date" class="form-label">Milestone Date</label>
+                                        <label for="milestone_date" class="form-label" id="milestone_date_label">Milestone Date *</label>
                                         <input type="date" 
                                                class="form-control" 
                                                id="milestone_date" 
                                                name="milestone_date" 
                                                value="{{ member_data.milestone_date|default:'' }}"
-                                               max="{{ today|date:'Y-m-d' }}">
-                                        <small class="form-text text-muted">Sobriety date or other significant milestone (optional)</small>
+                                               max="{{ today|date:'Y-m-d' }}"
+                                               required>
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="checkbox" id="skip_milestone" name="skip_milestone">
+                                            <label class="form-check-label" for="skip_milestone">Skip Milestone Date</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -661,6 +665,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (this.value) {
                     memberIdInput.value = this.value;
                     this.value = ''; // Reset dropdown
+                }
+            });
+        }
+        
+        // Skip Milestone Date checkbox handler
+        const skipMilestoneCheckbox = document.getElementById('skip_milestone');
+        const milestoneDateInput = document.getElementById('milestone_date');
+        const milestoneDateLabel = document.getElementById('milestone_date_label');
+        if (skipMilestoneCheckbox && milestoneDateInput && milestoneDateLabel) {
+            skipMilestoneCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    // Remove required attribute and disable field
+                    milestoneDateInput.removeAttribute('required');
+                    milestoneDateInput.disabled = true;
+                    milestoneDateInput.value = ''; // Clear the value
+                    // Remove asterisk from label
+                    milestoneDateLabel.textContent = 'Milestone Date';
+                } else {
+                    // Add required attribute back and enable field
+                    milestoneDateInput.setAttribute('required', 'required');
+                    milestoneDateInput.disabled = false;
+                    // Add asterisk back to label
+                    milestoneDateLabel.textContent = 'Milestone Date *';
                 }
             });
         }
