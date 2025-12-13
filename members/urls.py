@@ -33,6 +33,11 @@ urlpatterns = [
         name="newsletter_export",
     ),
     path(
+        "reports/new-members/",
+        views.new_member_export_view,
+        name="new_member_export",
+    ),
+    path(
         "reports/deactivate-expired/",
         views.deactivate_expired_members_report_view,
         name="deactivate_expired_members",

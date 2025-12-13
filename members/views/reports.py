@@ -106,6 +106,108 @@ def newsletter_export_view(request):
     return generate_newsletter_excel(active_members)
 
 
+@login_required
+def new_member_export_view(request):
+    """
+    Generate Excel export of new members (active members who joined within date range).
+
+    GET: Display date range selection form
+    POST: Validate dates and generate Excel export
+    """
+    today = date.today()
+    min_date = today - timedelta(days=180)  # 6 months ago
+
+    if request.method == "POST":
+        # Get form data
+        start_date_str = request.POST.get("start_date")
+        end_date_str = request.POST.get("end_date")
+
+        form_errors = {}
+        validation_errors = []
+
+        # Validate dates are provided
+        if not start_date_str:
+            form_errors["start_date"] = "Start date is required."
+        if not end_date_str:
+            form_errors["end_date"] = "End date is required."
+
+        if form_errors:
+            context = {
+                "today": today,
+                "min_date": min_date,
+                "form_errors": form_errors,
+                "start_date": start_date_str or "",
+                "end_date": end_date_str or "",
+            }
+            return render(request, "members/reports/new_member_export.html", context)
+
+        # Parse dates
+        try:
+            start_date = date.fromisoformat(start_date_str)
+            end_date = date.fromisoformat(end_date_str)
+        except ValueError:
+            form_errors["start_date"] = "Invalid date format."
+            context = {
+                "today": today,
+                "min_date": min_date,
+                "form_errors": form_errors,
+                "start_date": start_date_str,
+                "end_date": end_date_str,
+            }
+            return render(request, "members/reports/new_member_export.html", context)
+
+        # Server-side validation
+        # Check start date is not more than 6 months ago
+        if start_date < min_date:
+            validation_errors.append("Start date cannot be more than 6 months ago.")
+            form_errors["start_date"] = "Start date cannot be more than 6 months ago."
+
+        # Check end date is not in the future
+        if end_date > today:
+            validation_errors.append("End date cannot exceed today.")
+            form_errors["end_date"] = "End date cannot exceed today."
+
+        # Check end date is not before start date
+        if end_date < start_date:
+            validation_errors.append("End date must be on or after start date.")
+            form_errors["end_date"] = "End date must be on or after start date."
+
+        # If validation errors, return form with errors
+        if form_errors or validation_errors:
+            context = {
+                "today": today,
+                "min_date": min_date,
+                "form_errors": form_errors,
+                "start_date": start_date_str,
+                "end_date": end_date_str,
+            }
+            if validation_errors:
+                messages.error(request, " ".join(validation_errors))
+            return render(request, "members/reports/new_member_export.html", context)
+
+        # Validation passed - filter members and generate Excel
+        # Filter active members where date_joined is within range
+        new_members = Member.objects.filter(
+            status="active",
+            date_joined__gte=start_date,
+            date_joined__lte=end_date,
+        ).order_by("member_id")
+
+        # Import and call Excel generation function
+        from ..reports.excel import generate_new_member_excel
+
+        return generate_new_member_excel(new_members)
+
+    # GET request - display form
+    context = {
+        "today": today,
+        "min_date": min_date,
+        "start_date": "",
+        "end_date": "",
+    }
+    return render(request, "members/reports/new_member_export.html", context)
+
+
 @staff_member_required
 def deactivate_expired_members_report_view(request):
     """

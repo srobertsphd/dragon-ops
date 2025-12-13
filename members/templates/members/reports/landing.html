@@ -66,6 +66,23 @@
                             </div>
                         </div>
 
+                        <!-- New Member Export Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-person-plus text-success" style="font-size: 3rem;"></i>
+                                    <h3 class="card-title mt-3">New Member Export</h3>
+                                    <p class="card-text text-muted">
+                                        Export new members (active members who joined within a selected date range) to Excel.
+                                    </p>
+                                    <a href="{% url 'members:new_member_export' %}" class="btn btn-success">
+                                        <i class="bi bi-file-earmark-spreadsheet-fill me-2"></i>
+                                        Export New Members
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Deactivate Expired Members Card -->
                         <div class="col-md-6">
                             <div class="card h-100 border-warning">

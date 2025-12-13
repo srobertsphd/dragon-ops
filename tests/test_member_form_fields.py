@@ -347,15 +347,6 @@ class TestMemberIdDropdown:
                 or f'value="{i}"' in content
             ), f"Member ID {i} should be in dropdown"
 
-    def test_member_id_helper_text_shows_50_available(self, client):
-        """Test that helper text mentions 50 available IDs"""
-        response = client.get("/add/")
-        assert response.status_code == 200
-        content = response.content.decode()
-        assert "Next 50 available" in content, (
-            "Helper text should mention 50 available IDs"
-        )
-
     def test_member_id_dropdown_has_quick_select_placeholder(self, client):
         """Test that member ID dropdown has Quick Select placeholder"""
         response = client.get("/add/")

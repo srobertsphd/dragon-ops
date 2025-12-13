@@ -6,6 +6,7 @@ from .reports import (
     reports_landing_view,
     recent_payments_report_view,
     newsletter_export_view,
+    new_member_export_view,
     deactivate_expired_members_report_view,
 )
 from .health import healthz
@@ -21,6 +22,7 @@ __all__ = [
     "reports_landing_view",
     "recent_payments_report_view",
     "newsletter_export_view",
+    "new_member_export_view",
     "deactivate_expired_members_report_view",
     "healthz",
 ]

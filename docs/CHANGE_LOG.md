@@ -20,6 +20,297 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #013: New Member Export Report with Date Range Selection
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 4-5 hours  
+**Created:** December 2025
+
+#### Description
+
+Add a new report on the Reports landing page that generates an Excel file containing new members (active members who joined within a selected date range). The report includes a date range selection page where users can choose start and end dates (up to 90 days back, cannot exceed present day), and generates an Excel export with specialized column formatting for new member identification. Members without email addresses are separated into a dedicated "no email" tab.
+
+#### Current Implementation
+
+**Location:** `members/templates/members/reports/landing.html`, `members/views/reports.py`, `members/reports/excel.py`
+
+**Current Behavior:**
+- Reports landing page displays four report cards: Current Members Report, Recent Payments Report, Newsletter Export, and Deactivate Expired Members
+- Newsletter Export generates Excel file with active members (no date range selection)
+- Newsletter Export uses `generate_newsletter_excel()` function in `members/reports/excel.py`
+- No date range selection functionality exists for any reports
+- No new member export functionality exists
+
+**Current Limitations:**
+- Cannot filter members by date joined
+- Cannot export only new members within a specific date range
+- Newsletter export includes all active members (no date filtering)
+
+#### Proposed Implementation
+
+**New Feature: New Member Export Report**
+
+A new report card on the Reports landing page that:
+1. **Date Range Selection Page:**
+   - Form with start_date and end_date inputs
+   - Client-side validation: maximum 90 days back from today
+   - Client-side validation: end date cannot exceed present day
+   - Server-side validation for security
+   - Submit button to generate Excel export
+
+2. **Excel Export Generation:**
+   - Filters active members where `date_joined` is between start_date and end_date
+   - Only includes members with `status='active'`
+   - Generates Excel file with specialized column formatting
+   - Creates "no email" tab if any members lack email addresses
+
+**Excel File Structure:**
+
+**Column Headers (in order):**
+1. **member_id** - `member_id` field
+2. **first_name** - `first_name` field
+3. **last_name** - `last_name` field
+4. **address_long** - Composite field: `{home_address}\t{home_city}\t{home_state}\t{zip5}` (tab-separated on one line)
+5. **home_address** - `home_address` field (street address)
+6. **home_city** - `home_city` field
+7. **home_state** - `home_state` field (state abbreviation)
+8. **zip** - First 5 digits of `home_zip` field
+9. **phone** - `home_phone` field
+10. **email** - `email` field
+11. **birth_date** - `milestone_date` field (formatted as MM/DD/YYYY)
+12. **date_joined** - `date_joined` field (formatted as MM/DD/YYYY)
+13. **expires** - `expiration_date` field (formatted as MM/DD/YYYY)
+14. **mail_name** - Formatted as: `FirstName LastName<email@example.com>` (e.g., "Abigail Rosa<abbyrrosa@gmail.com>")
+
+**Date Formatting:**
+- All dates formatted as MM/DD/YYYY with slashes (e.g., "12/25/2025")
+- Applies to: birth_date (milestone_date), date_joined, expires (expiration_date)
+- Empty/null dates: Leave cell completely blank (empty cell, no "N/A" or placeholder)
+
+**Sheet Organization:**
+- **Main Sheet(s)**: All members with email addresses (no 99-row limit, unlike newsletter export)
+- **"no email" Sheet**: Contains all members without email addresses (only created if such members exist)
+  - email column: Empty/blank cells
+  - mail_name column: Empty/blank cells (no email, no brackets)
+  - Other fields: Same formatting rules apply
+
+**Data Processing Rules:**
+- Query active members where `date_joined >= start_date` AND `date_joined <= end_date`
+- Order by `member_id` ASC (lowest to highest)
+- Split members into two groups:
+  - **With Email**: Members where `email` field is not null/empty
+  - **Without Email**: Members where `email` field is null/empty
+- For "With Email" group: Create main sheet(s) with all members
+- For "Without Email" group: Create single "no email" sheet with all members (only if any exist)
+- address_long formatting: `f"{home_address}\t{home_city}\t{home_state}\t{zip5}"` (tab-separated)
+- zip extraction: First 5 digits of `home_zip` (e.g., "12345-6789" → "12345")
+- mail_name formatting:
+  - If email exists: `FirstName LastName<email@example.com>`
+  - If email is null/empty: Leave mail_name cell blank
+
+**Date Range Constraints:**
+- Start date: Can go back maximum 90 days from today
+- End date: Cannot exceed present day (today)
+- Both dates required for export
+- Validation on both client-side (JavaScript) and server-side (Django)
+
+#### Implementation Steps
+
+**Step 1: Create Date Range Selection Template**
+- **File:** `members/templates/members/reports/new_member_export.html` (new file)
+- **Action:** Create form page with date range inputs
+- **Changes:**
+  - Extend `members/base.html`
+  - Create form with start_date and end_date inputs (type="date")
+  - Add client-side validation:
+    - Maximum 90 days back from today
+    - End date cannot exceed today
+    - End date must be >= start date
+  - Add JavaScript for real-time validation feedback
+  - Add "Generate Excel Export" submit button
+  - Style consistently with other report pages (Bootstrap cards)
+  - Add help text explaining date range constraints
+  - Display validation errors if present
+- **Lines:** ~100-150 lines
+
+**Step 2: Create View Function for Date Range Selection**
+- **File:** `members/views/reports.py`
+- **Action:** Add new function `new_member_export_view(request)`
+- **Changes:**
+  - GET request: Render date range selection form
+  - POST request: Validate dates and generate Excel export
+  - Server-side validation:
+    - Check start_date is not more than 90 days ago
+    - Check end_date is not in the future
+    - Check end_date >= start_date
+    - Return form with errors if validation fails
+  - If validation passes: Filter members and call Excel generation function
+  - Use `@login_required` decorator (consistent with other reports)
+- **Lines added:** ~50-70 lines
+
+**Step 3: Create Excel Generation Function**
+- **File:** `members/reports/excel.py`
+- **Action:** Add new function `generate_new_member_excel(members_queryset)`
+- **Changes:**
+  - Take queryset of active members filtered by date_joined range
+  - Split members into "with email" and "without email" groups
+  - Create Excel workbook using openpyxl
+  - Create main sheet(s) for members with emails (no 99-row limit)
+  - Create "no email" sheet if any members lack emails
+  - Format address_long column with tabs: `f"{home_address}\t{home_city}\t{home_state}\t{zip5}"`
+  - Extract first 5 digits of zip: `home_zip[:5] if home_zip else ""`
+  - Format dates as MM/DD/YYYY
+  - Generate mail_name: `f"{first_name} {last_name}<{email}>"` if email exists, else blank
+  - Set column headers: member_id, first_name, last_name, address_long, home_address, home_city, home_state, zip, phone, email, birth_date, date_joined, expires, mail_name
+  - Make headers bold
+  - Return HttpResponse with Excel file
+  - Set Content-Disposition header: `attachment; filename="new_members_YYYY_MM_DD.xlsx"`
+- **Lines added:** ~150-200 lines
+
+**Step 4: Add URL Route**
+- **File:** `members/urls.py`
+- **Action:** Add new route in reports section
+- **Changes:**
+  - Add after newsletter export route (around line 34):
+    ```python
+    path(
+        "reports/new-members/",
+        views.new_member_export_view,
+        name="new_member_export",
+    ),
+    ```
+- **Lines added:** 4-5 lines
+
+**Step 5: Add Card to Reports Landing Page**
+- **File:** `members/templates/members/reports/landing.html`
+- **Action:** Add new card for "New Member Export"
+- **Changes:**
+  - Add new card in the `<div class="row g-4 mt-2">` section (after Newsletter Export card, around line 67)
+  - Match styling of existing cards (col-md-6, card, card-body, etc.)
+  - Use appropriate icon (e.g., `bi-person-plus` or `bi-file-earmark-spreadsheet`)
+  - Use appropriate color (e.g., `border-success` or `border-primary`)
+  - Link to: `{% url 'members:new_member_export' %}`
+  - Description: "Export new members (active members who joined within a selected date range) to Excel."
+  - Title: "New Member Export"
+- **Lines added:** ~15-20 lines
+
+**Step 6: Update Views Init File (if needed)**
+- **File:** `members/views/__init__.py`
+- **Action:** Export new view function if needed
+- **Changes:**
+  - Add `new_member_export_view` to exports if views are imported from `__init__.py`
+  - Check current exports to see pattern
+- **Lines:** 1-2 lines (if needed)
+
+**Step 7: Add Client-Side Date Validation**
+- **File:** `members/templates/members/reports/new_member_export.html`
+- **Action:** Add JavaScript for date range validation
+- **Changes:**
+  - Set max attribute on start_date input: `max="{{ today|date:'Y-m-d' }}"`
+  - Set min attribute on start_date input: `min="{{ min_date|date:'Y-m-d' }}"` (90 days ago)
+  - Set max attribute on end_date input: `max="{{ today|date:'Y-m-d' }}"`
+  - Add JavaScript event listeners for real-time validation:
+    - Check start_date is not more than 90 days ago
+    - Check end_date is not in the future
+    - Check end_date >= start_date
+  - Display validation messages below inputs
+  - Disable submit button if validation fails
+- **Lines added:** ~50-80 lines
+
+#### Dependencies
+
+- ✅ Reports landing page exists - Completed
+- ✅ Reports view structure exists - Completed
+- ✅ Member model with required fields (date_joined, status, email, address fields) - Completed
+- ✅ Excel generation utility exists (`members/reports/excel.py`) - Completed
+- ✅ Newsletter export functionality exists (as reference) - Completed
+- ✅ Python Excel library (openpyxl>=3.1.0) - Already installed
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Navigate to Reports landing page and verify new "New Member Export" card appears
+   - Click card and verify date range selection page loads
+   - Test date range validation:
+     - Try selecting start date more than 90 days ago (should show error)
+     - Try selecting end date in the future (should show error)
+     - Try selecting end date before start date (should show error)
+     - Verify valid date ranges work correctly
+   - Submit form with valid dates and verify Excel file downloads
+   - Open Excel file and verify:
+     - Column headers are correct and in correct order
+     - Only active members are included
+     - Only members with date_joined within selected range are included
+     - Members are ordered by member_id (lowest to highest)
+     - Dates are formatted as MM/DD/YYYY
+     - address_long column contains tab-separated values (street, city, state, zip)
+     - zip column contains only first 5 digits
+     - mail_name format is correct for members with emails
+     - mail_name is blank for members without emails
+     - Members with emails are in main sheet(s)
+     - Members without emails are in "no email" sheet (if any exist)
+     - Empty milestone_date fields result in blank birth_date cells
+     - Empty email fields result in blank email and mail_name cells
+   - Test with date range that includes no members (empty result set)
+   - Test with date range that includes only members with emails (no "no email" sheet)
+   - Test with date range that includes only members without emails (only "no email" sheet)
+   - Test with date range that includes mix of members with and without emails
+   - Verify file naming includes current date
+
+2. **Edge Cases:**
+   - No members in date range (empty Excel file or appropriate message)
+   - All members have emails (no "no email" sheet needed)
+   - All members lack emails (only "no email" sheet)
+   - Members with null milestone_date (blank birth_date cell)
+   - Members with null date_joined (should not appear, but handle gracefully)
+   - Members with null expiration_date (blank expires cell)
+   - Members with partial zip codes (less than 5 digits)
+   - Members with zip codes longer than 5 digits (extract first 5)
+   - Members with missing address fields (handle gracefully in address_long)
+   - Start date exactly 90 days ago (should be valid)
+   - Start date 91 days ago (should be invalid)
+   - End date exactly today (should be valid)
+   - End date tomorrow (should be invalid)
+   - Very large result sets (performance testing)
+
+3. **Automated Testing:**
+   - Add test cases for date range selection view (GET and POST)
+   - Test date validation logic (90-day limit, future date prevention)
+   - Test member filtering (date_joined range, active status only)
+   - Add test cases for Excel generation function
+   - Test column formatting (address_long, zip extraction, mail_name)
+   - Test date formatting (MM/DD/YYYY)
+   - Test "no email" sheet creation logic
+   - Test file download response headers
+   - Test empty result sets
+   - Test edge cases (null fields, partial data)
+
+#### Benefits
+
+- ✅ Enables export of new members within specific date ranges
+- ✅ Helps track new member growth over time periods
+- ✅ Specialized column formatting for new member identification
+- ✅ Separates members with and without emails for different handling
+- ✅ Date range constraints prevent invalid queries
+- ✅ Consistent with existing reports infrastructure
+- ✅ Staff-only access maintains security
+- ✅ Excel format enables data analysis and external processing
+
+#### Notes
+
+- **Field Name Note**: The database field for "birthdate" is `milestone_date` in the Member model
+- **Address Long Format**: Uses tab characters (`\t`) to separate address components in a single cell
+- **Zip Extraction**: Takes first 5 digits only (handles formats like "12345" or "12345-6789")
+- **No 99-Row Limit**: Unlike newsletter export, new member export doesn't split into multiple numbered sheets (no limit per sheet)
+- **Date Range Validation**: Both client-side (JavaScript) and server-side (Django) validation for security
+- **File Naming**: Include date in filename for easy identification: `new_members_YYYY_MM_DD.xlsx`
+- **Reference Implementation**: Newsletter export (`generate_newsletter_excel`) serves as reference for Excel generation patterns
+- **Future Enhancement**: Could add preview page before download (like other reports)
+- **Future Enhancement**: Could add filtering by member type or other criteria
+
+---
+
 ### Change #012: Deactivate Expired Members Report (Staff Access)
 
 **Status:** Planned  
