@@ -20,6 +20,48 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #014: Milestone Export Report with Date Range Selection
+
+**Status:** ✅ Completed  
+**Priority:** Medium  
+**Created:** December 2025  
+**Completed:** December 2025
+
+#### Summary
+
+Added a new report on the Reports landing page that generates an Excel file containing active members whose milestone dates (anniversaries) fall within a selected date range. The report filters by milestone month/day falling within the selected range THIS YEAR (not by original year), allowing recognition of upcoming anniversaries.
+
+#### Implementation
+
+**Features:**
+- Date range selection page with start/end date inputs (defaults: today and today + 30 days)
+- Date range validation: up to 6 months back/forward from today (client-side and server-side)
+- Filters active members whose milestone dates fall within selected range THIS YEAR
+- Handles leap year dates (Feb 29 → Feb 28 in non-leap years)
+- Excel export with 11 specialized columns: MemberID, FirstName, LastName, Birthdate, DateJoined, Expires, BdayLong, Years, MailName, Jmonth, Jyear
+- Special calculations:
+  - **BdayLong**: Day of week + date format (e.g., "Monday, June 15") for milestone THIS YEAR
+  - **Years**: `current_year - milestone_year`
+  - **Jmonth/Jyear**: Month name and year from `date_joined` (not milestone_date)
+- Creates "no email" sheet for members without email addresses
+
+**Files Created:**
+- `members/templates/members/reports/milestone_export.html` - Date range selection form
+- `tests/test_milestone_export.py` - Comprehensive test suite (27 tests)
+
+**Files Modified:**
+- `members/views/reports.py` - Added `milestone_export_view()` and `milestone_falls_in_range()` helper
+- `members/reports/excel.py` - Added `generate_milestone_excel()` function
+- `members/urls.py` - Added milestone export route
+- `members/views/__init__.py` - Added milestone_export_view to exports
+- `members/templates/members/reports/landing.html` - Added Milestone Export card
+
+**Testing:**
+- 27 comprehensive tests covering view functionality, date validation, filtering logic, Excel generation, and edge cases
+- All tests passing
+
+---
+
 ### Change #013: New Member Export Report with Date Range Selection
 
 **Status:** Planned  

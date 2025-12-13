@@ -38,6 +38,11 @@ urlpatterns = [
         name="new_member_export",
     ),
     path(
+        "reports/milestone-export/",
+        views.milestone_export_view,
+        name="milestone_export",
+    ),
+    path(
         "reports/deactivate-expired/",
         views.deactivate_expired_members_report_view,
         name="deactivate_expired_members",

@@ -272,3 +272,187 @@ def generate_new_member_excel(members_queryset):
     )
 
     return response
+
+
+def generate_milestone_excel(members_queryset):
+    """Generate Excel export of active members whose milestone dates fall within date range"""
+
+    # Split members into groups
+    members_with_email = []
+    members_without_email = []
+
+    for member in members_queryset:
+        if member.email and member.email.strip():
+            members_with_email.append(member)
+        else:
+            members_without_email.append(member)
+
+    # Create workbook
+    wb = Workbook()
+    wb.remove(wb.active)  # Remove default sheet
+
+    # Column headers (in order, 11 columns total)
+    headers = [
+        "MemberID",
+        "FirstName",
+        "LastName",
+        "Birthdate",
+        "DateJoined",
+        "Expires",
+        "BdayLong",
+        "Years",
+        "MailName",
+        "Jmonth",
+        "Jyear",
+    ]
+
+    # Helper function to format date
+    def format_date(d):
+        if d:
+            return d.strftime("%m/%d/%Y")
+        return ""
+
+    # Helper function to calculate years (current_year - milestone_year)
+    def calculate_years(milestone_date):
+        if milestone_date:
+            current_year = date.today().year
+            return current_year - milestone_date.year
+        return ""
+
+    # Helper function to get month name from date
+    def get_month_name(date_obj):
+        if not date_obj:
+            return ""
+        month_names = [
+            "",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ]
+        return month_names[date_obj.month]
+
+    # Helper function to get day of week name
+    def get_day_of_week_name(date_obj):
+        if not date_obj:
+            return ""
+        day_names = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ]
+        return day_names[date_obj.weekday()]
+
+    # Helper function to get BdayLong (day of week + date for milestone THIS YEAR)
+    def get_bday_long(milestone_date):
+        if not milestone_date:
+            return ""
+
+        current_year = date.today().year
+        milestone_month = milestone_date.month
+        milestone_day = milestone_date.day
+
+        # Handle leap year dates (Feb 29) - use Feb 28 in non-leap years
+        try:
+            milestone_this_year = date(current_year, milestone_month, milestone_day)
+        except ValueError:
+            # Leap year date in non-leap year - use Feb 28
+            milestone_this_year = date(current_year, 2, 28)
+
+        # Get day of week name
+        day_name = get_day_of_week_name(milestone_this_year)
+        # Get month name
+        month_name = get_month_name(milestone_this_year)
+        # Format as "Monday, June 15"
+        return f"{day_name}, {month_name} {milestone_day}"
+
+    # Helper function to get year from date
+    def get_year(date_obj):
+        if date_obj:
+            return date_obj.year
+        return ""
+
+    # Helper function to create mail_name
+    def create_mail_name(member):
+        if member.email and member.email.strip():
+            return f"{member.first_name} {member.last_name}<{member.email}>"
+        return ""
+
+    # Helper function to write member row
+    def write_member_row(ws, member):
+        ws.append(
+            [
+                member.member_id or "",
+                member.first_name,
+                member.last_name,
+                format_date(member.milestone_date),  # Birthdate
+                format_date(member.date_joined),  # DateJoined
+                format_date(member.expiration_date),  # Expires
+                get_bday_long(member.milestone_date),  # BdayLong
+                calculate_years(member.milestone_date),  # Years
+                create_mail_name(member),  # MailName
+                get_month_name(member.date_joined),  # Jmonth (from date_joined)
+                get_year(member.date_joined),  # Jyear (from date_joined)
+            ]
+        )
+
+    # Create main sheet(s) for members with emails (no row limit)
+    if members_with_email:
+        main_sheet = wb.create_sheet(title="Milestone Export")
+        # Write headers
+        main_sheet.append(headers)
+        # Make headers bold
+        for cell in main_sheet[1]:
+            cell.font = Font(bold=True)
+
+        # Write all members with emails
+        for member in members_with_email:
+            write_member_row(main_sheet, member)
+
+    # Create "no email" sheet if any members lack emails
+    if members_without_email:
+        no_email_sheet = wb.create_sheet(title="no email")
+        # Write headers
+        no_email_sheet.append(headers)
+        # Make headers bold
+        for cell in no_email_sheet[1]:
+            cell.font = Font(bold=True)
+
+        # Write all members without emails
+        for member in members_without_email:
+            write_member_row(no_email_sheet, member)
+
+    # Ensure at least one sheet exists (for empty queryset case)
+    if len(wb.sheetnames) == 0:
+        empty_sheet = wb.create_sheet(title="Milestone Export")
+        empty_sheet.append(headers)
+        for cell in empty_sheet[1]:
+            cell.font = Font(bold=True)
+
+    # Save to BytesIO buffer
+    buffer = BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+
+    # Create HTTP response
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = (
+        f'attachment; filename="milestone_export_{date.today().strftime("%Y_%m_%d")}.xlsx"'
+    )
+
+    return response

@@ -1,0 +1,242 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Milestone Export - ALANO CLUB{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header text-center bg-info text-white">
+                    <h1 class="mb-0">
+                        <i class="bi bi-calendar-event me-2"></i>
+                        Milestone Export
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Export active members whose milestone dates (anniversaries) fall within a selected date range to Excel. 
+                        The date range can go back up to 6 months and forward up to 6 months from today.
+                    </p>
+
+                    <!-- Display Django messages/errors -->
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Please correct the following errors:</h6>
+                            <ul class="mb-0">
+                                {% for error in form_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" id="date-range-form">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="start_date" class="form-label">Start Date *</label>
+                                    <input type="date" 
+                                           class="form-control {% if form_errors.start_date %}is-invalid{% endif %}" 
+                                           id="start_date" 
+                                           name="start_date" 
+                                           value="{{ start_date|default:today|date:'Y-m-d' }}"
+                                           max="{{ max_date|date:'Y-m-d' }}"
+                                           min="{{ min_date|date:'Y-m-d' }}"
+                                           required>
+                                    <div class="invalid-feedback" id="start_date_error"></div>
+                                    <small class="form-text text-muted">
+                                        Select the start date for the range (default: today, maximum 6 months back)
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="end_date" class="form-label">End Date *</label>
+                                    <input type="date" 
+                                           class="form-control {% if form_errors.end_date %}is-invalid{% endif %}" 
+                                           id="end_date" 
+                                           name="end_date" 
+                                           value="{{ end_date|default:end_date_default|date:'Y-m-d' }}"
+                                           max="{{ max_date|date:'Y-m-d' }}"
+                                           min="{{ min_date|date:'Y-m-d' }}"
+                                           required>
+                                    <div class="invalid-feedback" id="end_date_error"></div>
+                                    <small class="form-text text-muted">
+                                        Select the end date for the range (default: 30 days from today, maximum 6 months forward)
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Validation feedback area -->
+                        <div id="validation-feedback" class="alert alert-warning d-none" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <span id="validation-message"></span>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-between">
+                                <a href="{% url 'members:reports_landing' %}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Cancel
+                                </a>
+                                <button type="submit" 
+                                        class="btn btn-info" 
+                                        id="submit-btn">
+                                    <i class="bi bi-file-earmark-spreadsheet-fill me-2"></i>
+                                    Generate Excel Export
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    const submitBtn = document.getElementById('submit-btn');
+    const validationFeedback = document.getElementById('validation-feedback');
+    const validationMessage = document.getElementById('validation-message');
+    const form = document.getElementById('date-range-form');
+
+    // Get today's date, min date (6 months ago), and max date (6 months from today)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const minDate = new Date(today);
+    minDate.setMonth(minDate.getMonth() - 6);  // 6 months ago
+    const maxDate = new Date(today);
+    maxDate.setMonth(maxDate.getMonth() + 6);  // 6 months from today
+
+    // Format date as YYYY-MM-DD for input
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Validate date range
+    function validateDateRange() {
+        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+        
+        let isValid = true;
+        let errorMessage = '';
+
+        // Check if dates are selected
+        if (!startDate || !endDate) {
+            isValid = false;
+            return { isValid, errorMessage };
+        }
+
+        // Reset input states
+        startDateInput.classList.remove('is-invalid');
+        endDateInput.classList.remove('is-invalid');
+        document.getElementById('start_date_error').textContent = '';
+        document.getElementById('end_date_error').textContent = '';
+
+        // Check start date is not more than 6 months ago
+        if (startDate < minDate) {
+            isValid = false;
+            startDateInput.classList.add('is-invalid');
+            document.getElementById('start_date_error').textContent = 
+                'Start date cannot be more than 6 months ago';
+            errorMessage = 'Start date cannot be more than 6 months ago.';
+        }
+
+        // Check start date is not more than 6 months in the future
+        if (startDate > maxDate) {
+            isValid = false;
+            startDateInput.classList.add('is-invalid');
+            document.getElementById('start_date_error').textContent = 
+                'Start date cannot be more than 6 months in the future';
+            if (!errorMessage) {
+                errorMessage = 'Start date cannot be more than 6 months in the future.';
+            }
+        }
+
+        // Check end date is not more than 6 months ago
+        if (endDate < minDate) {
+            isValid = false;
+            endDateInput.classList.add('is-invalid');
+            document.getElementById('end_date_error').textContent = 
+                'End date cannot be more than 6 months ago';
+            if (!errorMessage) {
+                errorMessage = 'End date cannot be more than 6 months ago.';
+            }
+        }
+
+        // Check end date is not more than 6 months in the future
+        if (endDate > maxDate) {
+            isValid = false;
+            endDateInput.classList.add('is-invalid');
+            document.getElementById('end_date_error').textContent = 
+                'End date cannot be more than 6 months in the future';
+            if (!errorMessage) {
+                errorMessage = 'End date cannot be more than 6 months in the future.';
+            }
+        }
+
+        // Check end date is not before start date
+        if (endDate < startDate) {
+            isValid = false;
+            endDateInput.classList.add('is-invalid');
+            document.getElementById('end_date_error').textContent = 
+                'End date must be on or after start date';
+            if (!errorMessage) {
+                errorMessage = 'End date must be on or after start date.';
+            }
+        }
+
+        // Show/hide validation feedback
+        if (!isValid && errorMessage) {
+            validationFeedback.classList.remove('d-none');
+            validationMessage.textContent = errorMessage;
+        } else {
+            validationFeedback.classList.add('d-none');
+        }
+
+        // Enable/disable submit button
+        submitBtn.disabled = !isValid;
+
+        return { isValid, errorMessage };
+    }
+
+    // Real-time validation on input change
+    startDateInput.addEventListener('change', validateDateRange);
+    endDateInput.addEventListener('change', validateDateRange);
+
+    // Initial validation
+    validateDateRange();
+
+    // Form submission validation
+    form.addEventListener('submit', function(e) {
+        const validation = validateDateRange();
+        if (!validation.isValid) {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}
+
