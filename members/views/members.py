@@ -80,11 +80,26 @@ def add_member_view(request):
     # Get workflow step
     step = request.GET.get("step", "form")
 
-    # Clear stale session data if this is a fresh "Add Member" request (no reactivate query param)
-    # Clear member_data and payment_data always - this ensures clicking "Add Member" starts fresh
+    # Clear stale session data only when starting a fresh form (not when navigating between steps)
+    # Clear member_data and payment_data only on form step when it's a fresh start
+    # Preserve session data when navigating back from other steps (e.g., from payment step)
     # Clear reactivate_member_uuid only if member_data exists (stale data scenario)
     # If reactivate_member_uuid exists without member_data, it's a fresh reactivation (will re-populate)
-    if not request.GET.get("reactivate"):
+    # Check if this is a fresh start:
+    # - Must be form step
+    # - Must be GET request (not POST)
+    # - Must not have "back" parameter (indicates navigating back)
+    # - Must not have "reactivate" parameter (indicates reactivation flow)
+    is_fresh_start = (
+        step == "form"
+        and request.method == "GET"  # Only clear on GET, not POST
+        and not request.GET.get("back")  # "back" parameter indicates navigating back
+        and not request.GET.get(
+            "reactivate"
+        )  # "reactivate" parameter indicates reactivation
+    )
+
+    if is_fresh_start:
         if "member_data" in request.session:
             del request.session["member_data"]
             # If member_data existed, also clear reactivate_member_uuid (it's stale)

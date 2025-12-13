@@ -221,7 +221,7 @@ class TestNewMemberCreationWithPayment:
             "home_phone": "555-1234",
         }
 
-        response = client.post("/add/?step=form", form_data)
+        response = client.post("/add/?step=confirm", form_data)
         assert response.status_code == 200  # Should show confirmation page
         assert "confirm" in response.context["step"]
 
@@ -294,7 +294,7 @@ class TestNewMemberCreationWithPayment:
             "home_phone": "",
         }
 
-        client.post("/add/?step=form", form_data)
+        client.post("/add/?step=confirm", form_data)
 
         # Step 2: Submit payment with override expiration
         override_expiration = date(2026, 6, 30)
@@ -336,14 +336,16 @@ class TestNewMemberCreationWithPayment:
             "home_phone": "555-9999",
         }
 
-        client.post("/add/?step=form", form_data)
+        # Step 1: Submit member form (POST to confirm step stores data in session)
+        client.post("/add/?step=confirm", form_data)
 
-        # Step 2: Go to payment step (this stores data in session)
+        # Step 2: Go to payment step (this uses data from session)
         response = client.get("/add/?step=payment")
         assert response.status_code == 200
 
-        # Step 3: Go back to form
-        response = client.get("/add/?step=form")
+        # Step 3: Go back to form (should preserve session data when navigating back)
+        # The code preserves session data when navigating back (back parameter or coming from another step)
+        response = client.get("/add/?step=form&back=true")
         assert response.status_code == 200
 
         # Verify form is pre-populated with session data
@@ -396,7 +398,11 @@ class TestMemberReactivation:
 
     @pytest.fixture
     def inactive_member(self, db, member_type):
-        """Create an inactive member for reactivation"""
+        """Create an inactive member for reactivation
+
+        Note: When a member is deactivated, member_id is cleared and preferred_member_id
+        is set to preserve the old ID. This fixture matches that behavior.
+        """
         from datetime import date
 
         return Member.objects.create(
@@ -404,7 +410,8 @@ class TestMemberReactivation:
             last_name="Member",
             email="inactive@example.com",
             member_type=member_type,
-            member_id=251,
+            member_id=None,  # Cleared on deactivation
+            preferred_member_id=251,  # Preserved from deactivation
             status="inactive",
             expiration_date=date(2024, 1, 31),
             milestone_date=date(2018, 1, 1),
@@ -482,7 +489,7 @@ class TestMemberReactivation:
             "last_name": inactive_member.last_name,
             "email": inactive_member.email,
             "member_type_id": str(inactive_member.member_type.pk),
-            "member_id": inactive_member.member_id,
+            "member_id": inactive_member.preferred_member_id,  # Use preferred_member_id since member_id is None
             "milestone_date": inactive_member.milestone_date.isoformat(),
             "date_joined": date.today().isoformat(),
             "home_address": inactive_member.home_address,
@@ -590,14 +597,14 @@ class TestMemberReactivation:
         """Test that reactivation uses next available ID if old ID is taken by active member"""
         from datetime import date
 
-        # Store the old member ID
-        old_member_id = inactive_member.member_id  # Should be 251
+        # Store the old member ID (preferred_member_id since member_id is None for inactive members)
+        old_member_id = inactive_member.preferred_member_id  # Should be 251
 
-        # The view checks: if old_member_id exists AND no active member has it, use it
+        # The view checks: if preferred_member_id exists AND no active member has it, use it
         # To test the "taken" scenario, we need to simulate that ID 251 is taken by an active member
         # Since member_id has unique constraint, we can't have two members with same ID
-        # So we: clear inactive member's ID, then create active member with that ID
-        inactive_member.member_id = None
+        # So we: clear inactive member's preferred_member_id, then create active member with that ID
+        inactive_member.preferred_member_id = None
         inactive_member.save()
 
         # Create active member with the old ID (simulating ID was reused/recycled)

@@ -351,4 +351,3 @@ class TestNewsletterExcelGeneration:
             ws = wb.active
             # Should only have header row
             assert ws.max_row == 1
-

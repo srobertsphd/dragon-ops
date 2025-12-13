@@ -453,8 +453,18 @@ class TestPaymentServiceNewMemberMethods:
         )
 
         # Should be end of month (at least current month)
+        # Handle year boundaries: if expiration is in next year, that's fine
+        today = date.today()
         assert expiration.day >= 28  # End of month
-        assert expiration.month >= date.today().month
+        if expiration.year > today.year:
+            # Next year is valid
+            assert True
+        elif expiration.year == today.year:
+            # Same year, check month
+            assert expiration.month >= today.month
+        else:
+            # Past year is invalid
+            assert False, f"Expiration {expiration} is in the past"
 
     def test_calculate_expiration_for_new_member_always_end_of_month(self, member_type):
         """Test that expiration is always end of month"""
