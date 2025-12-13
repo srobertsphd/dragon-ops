@@ -3,6 +3,60 @@ from django.db import models
 from django.utils import timezone
 
 
+STATE_CHOICES = [
+    ("CA", "California (CA)"),
+    ("AL", "Alabama (AL)"),
+    ("AK", "Alaska (AK)"),
+    ("AZ", "Arizona (AZ)"),
+    ("AR", "Arkansas (AR)"),
+    ("CO", "Colorado (CO)"),
+    ("CT", "Connecticut (CT)"),
+    ("DE", "Delaware (DE)"),
+    ("FL", "Florida (FL)"),
+    ("GA", "Georgia (GA)"),
+    ("HI", "Hawaii (HI)"),
+    ("ID", "Idaho (ID)"),
+    ("IL", "Illinois (IL)"),
+    ("IN", "Indiana (IN)"),
+    ("IA", "Iowa (IA)"),
+    ("KS", "Kansas (KS)"),
+    ("KY", "Kentucky (KY)"),
+    ("LA", "Louisiana (LA)"),
+    ("ME", "Maine (ME)"),
+    ("MD", "Maryland (MD)"),
+    ("MA", "Massachusetts (MA)"),
+    ("MI", "Michigan (MI)"),
+    ("MN", "Minnesota (MN)"),
+    ("MS", "Mississippi (MS)"),
+    ("MO", "Missouri (MO)"),
+    ("MT", "Montana (MT)"),
+    ("NE", "Nebraska (NE)"),
+    ("NV", "Nevada (NV)"),
+    ("NH", "New Hampshire (NH)"),
+    ("NJ", "New Jersey (NJ)"),
+    ("NM", "New Mexico (NM)"),
+    ("NY", "New York (NY)"),
+    ("NC", "North Carolina (NC)"),
+    ("ND", "North Dakota (ND)"),
+    ("OH", "Ohio (OH)"),
+    ("OK", "Oklahoma (OK)"),
+    ("OR", "Oregon (OR)"),
+    ("PA", "Pennsylvania (PA)"),
+    ("RI", "Rhode Island (RI)"),
+    ("SC", "South Carolina (SC)"),
+    ("SD", "South Dakota (SD)"),
+    ("TN", "Tennessee (TN)"),
+    ("TX", "Texas (TX)"),
+    ("UT", "Utah (UT)"),
+    ("VT", "Vermont (VT)"),
+    ("VA", "Virginia (VA)"),
+    ("WA", "Washington (WA)"),
+    ("WV", "West Virginia (WV)"),
+    ("WI", "Wisconsin (WI)"),
+    ("WY", "Wyoming (WY)"),
+]
+
+
 class MemberType(models.Model):
     """Simple membership types lookup table"""
 
@@ -176,7 +230,9 @@ class Member(models.Model):
     # Contact Information (CSV: current_members.csv)
     home_address = models.TextField(blank=True)  # "home_address"
     home_city = models.CharField(max_length=100, blank=True)  # "home_city"
-    home_state = models.CharField(max_length=2, blank=True)  # "home_state"
+    home_state = models.CharField(
+        max_length=2, blank=True, choices=STATE_CHOICES
+    )  # "home_state"
     home_zip = models.CharField(max_length=10, blank=True)  # "home_zip"
     home_phone = models.CharField(max_length=20, blank=True)  # "home_phone"
 

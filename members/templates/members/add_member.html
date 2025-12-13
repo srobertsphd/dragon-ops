@@ -213,14 +213,14 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="home_state" class="form-label">State</label>
-                                        <input type="text" 
-                                               class="form-control" 
-                                               id="home_state" 
-                                               name="home_state" 
-                                               maxlength="2"
-                                               value="{{ member_data.home_state|default:'' }}"
-                                               placeholder="Enter state code (e.g., CA, NY)">
-                                        <small class="form-text text-muted">2-letter state code</small>
+                                        <select class="form-control" 
+                                                id="home_state" 
+                                                name="home_state">
+                                            <option value="">Select a state</option>
+                                            {% for code, name in state_choices %}
+                                                <option value="{{ code }}" {% if member_data.home_state == code or not member_data.home_state and code == "CA" %}selected{% endif %}>{{ name }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -328,10 +328,14 @@
                                             <dt class="col-sm-5">Member Type:</dt>
                                             <dd class="col-sm-7">{{ member_type.member_type }}</dd>
                                             
-                                            {% if milestone_date %}
                                             <dt class="col-sm-5">Milestone Date:</dt>
-                                            <dd class="col-sm-7">{{ milestone_date|date:"F j, Y" }}</dd>
-                                            {% endif %}
+                                            <dd class="col-sm-7">
+                                                {% if milestone_date %}
+                                                    {{ milestone_date|date:"F j, Y" }}
+                                                {% else %}
+                                                    Milestone date skipped
+                                                {% endif %}
+                                            </dd>
                                             
                                             <dt class="col-sm-5">Date Joined:</dt>
                                             <dd class="col-sm-7">{{ date_joined|date:"F j, Y" }}</dd>
@@ -353,9 +357,13 @@
                                             
                                             <dt class="col-sm-5">Address:</dt>
                                             <dd class="col-sm-7">
-                                                {% if home_address %}
-                                                    {{ home_address }}<br>
-                                                    {{ home_city }}{% if home_city and home_state %},{% endif %} {{ home_state }} {{ home_zip }}
+                                                {% if home_address or home_city or home_state %}
+                                                    {% if home_address %}
+                                                        {{ home_address }}<br>
+                                                    {% endif %}
+                                                    {% if home_city or home_state %}
+                                                        {{ home_city }}{% if home_city and home_state %},{% endif %} {{ home_state }}{% if home_zip %} {{ home_zip }}{% endif %}
+                                                    {% endif %}
                                                 {% else %}
                                                     Not provided
                                                 {% endif %}
@@ -625,6 +633,12 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- Choices.js CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+
+<!-- Choices.js JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Only run on form step
@@ -656,6 +670,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 this.value = value;
+            });
+        }
+        
+        // Initialize Choices.js on state dropdown
+        const stateSelect = document.getElementById('home_state');
+        if (stateSelect && typeof Choices !== 'undefined') {
+            new Choices(stateSelect, {
+                placeholder: true,
+                placeholderValue: 'Select a state',
+                searchEnabled: true,
+                shouldSort: false, // Keep Django choices order (CA first)
             });
         }
         

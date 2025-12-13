@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
 from decimal import Decimal
 
-from ..models import Member, MemberType, PaymentMethod
+from ..models import Member, MemberType, PaymentMethod, STATE_CHOICES
 from ..utils import ensure_end_of_month
 from ..services import MemberService, PaymentService
 
@@ -224,6 +224,7 @@ def add_member_view(request):
             "reactivate_member": reactivate_member if reactivate_uuid else None,
             "id_message_type": id_message_type,
             "id_message": id_message,
+            "state_choices": STATE_CHOICES,
         }
         return render(request, "members/add_member.html", context)
 
@@ -351,6 +352,7 @@ def add_member_view(request):
                     "home_phone": home_phone,
                     "duplicate_members": duplicate_members,
                     "reactivate_member": reactivate_member,
+                    "state_choices": STATE_CHOICES,
                 }
                 return render(request, "members/add_member.html", context)
 
@@ -382,6 +384,7 @@ def add_member_view(request):
                         "home_phone": home_phone,
                     },
                     "reactivate_member": None,
+                    "state_choices": STATE_CHOICES,
                 }
                 return render(request, "members/add_member.html", context)
         else:
@@ -443,6 +446,7 @@ def add_member_view(request):
                     "home_phone": member_data.get("home_phone", ""),
                     "duplicate_members": duplicate_members,
                     "reactivate_member": reactivate_member,
+                    "state_choices": STATE_CHOICES,
                 }
                 return render(request, "members/add_member.html", context)
 

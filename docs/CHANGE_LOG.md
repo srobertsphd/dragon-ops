@@ -20,6 +20,119 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #011: State Field Dropdown with California Priority
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 1-2 hours  
+**Created:** December 2025
+
+#### Description
+
+Replace the current text input for `home_state` field with a searchable dropdown that includes all 50 US states, with California (CA) appearing at the top of the list. The field should be reusable across multiple forms (add member, reactivate member, etc.) using Django Choices for maintainability.
+
+#### Current Implementation
+
+**Location:** `members/models.py` (line 179), `members/templates/members/add_member.html` (line 216-223)
+
+**Current Behavior:**
+- `home_state` is a simple text input with `maxlength="2"`
+- Users must manually type the 2-letter state code
+- No validation or suggestions
+- Same field used in add member and reactivate member forms
+
+**Current Limitations:**
+- Users can type invalid state codes
+- No autocomplete or suggestions
+- California not prioritized
+- Code duplication if used in multiple forms
+
+#### Proposed Implementation
+
+**Dropdown + Choices.js with Django Choices:**
+- Define `STATE_CHOICES` constant in model with all 50 states (California first)
+- Add `choices=STATE_CHOICES` to `home_state` field
+- Replace text input with `<select>` dropdown in template
+- Use Choices.js library (CDN) for searchable/filterable dropdown
+- Pass `state_choices` to template via view context
+- Enforces valid input (user must select from list)
+- California appears first, then alphabetically
+
+#### Implementation Steps
+
+**Step 1: Define STATE_CHOICES in Model**
+**File:** `members/models.py`
+**Location:** At the top of the file, before the `Member` class
+- Add `STATE_CHOICES` constant with all 50 states
+- California first: `("CA", "California (CA)")`
+- Rest alphabetically: `("AL", "Alabama (AL)")`, etc.
+
+**Step 2: Update home_state Field to Use Choices**
+**File:** `members/models.py`
+**Location:** In the `Member` class, find `home_state` field (around line 179)
+- Change from: `home_state = models.CharField(max_length=2, blank=True)`
+- To: `home_state = models.CharField(max_length=2, blank=True, choices=STATE_CHOICES)`
+
+**Step 3: Update Views to Pass state_choices**
+**File:** `members/views/members.py`
+- Add import at top: `from ..models import STATE_CHOICES`
+- In `add_member_view` function, add to context: `"state_choices": STATE_CHOICES`
+- In `reactivate_member_view` function, add to context: `"state_choices": STATE_CHOICES`
+
+**Step 4: Update Template - Replace Input with Select**
+**File:** `members/templates/members/add_member.html`
+**Location:** Find the state input field (around line 215-223)
+- Replace text input with `<select>` dropdown
+- Add empty option: `<option value="">Select a state</option>`
+- Loop through choices: `{% for code, name in state_choices %}`
+- Set selected state if `member_data.home_state` matches
+
+**Step 5: Add Choices.js CDN Links**
+**File:** `members/templates/members/add_member.html`
+**Location:** In `{% block extra_js %}` section or before closing `</body>` tag
+- Add Choices.js CSS: `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />`
+- Add Choices.js JavaScript: `<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>`
+
+**Step 6: Initialize Choices.js**
+**File:** `members/templates/members/add_member.html`
+**Location:** Right after the Choices.js script tag
+- Add JavaScript to initialize Choices.js on `#home_state` select element
+- Configure with `searchEnabled: true` and appropriate placeholder text
+
+#### Dependencies
+
+- ✅ Member model exists - Completed
+- ✅ Add member and reactivate member views exist - Completed
+- ⏳ Choices.js library (loaded via CDN, no installation needed)
+
+#### Testing Requirements
+
+- Test that California appears first in dropdown
+- Test that all 50 states are available
+- Test search functionality (type "n" → filters to New York, New Jersey, etc.)
+- Test form submission stores correct 2-letter code
+- Test in both add member and reactivate member forms
+- Test on mobile devices
+- Verify invalid codes cannot be submitted
+
+#### Benefits
+
+- ✅ Enforces valid input (can only select from list)
+- ✅ Fast and searchable (Choices.js provides search/filter)
+- ✅ California appears first (priority state)
+- ✅ Reusable (STATE_CHOICES can be imported anywhere)
+- ✅ Mobile-friendly (Choices.js handles mobile well)
+- ✅ No installation needed (Choices.js via CDN)
+
+#### Notes
+
+- No migration needed (adding `choices=` doesn't change database schema)
+- Choices.js loaded via CDN (no UV/npm installation required)
+- STATE_CHOICES constant provides single source of truth for all forms
+- Format: `("CA", "California (CA)")` - code stored, full name displayed
+
+---
+
 ### Change #010: Newsletter Data Export Report
 
 **Status:** ✅ Completed  

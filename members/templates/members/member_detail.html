@@ -105,10 +105,15 @@
                                 <tr>
                                     <td>Address</td>
                                     <td>
-                                        {% if member.home_address %}
-                                            {{ member.home_address|linebreaks }}
-                                            {% if member.home_country and member.home_country != 'US' %}
-                                                <small class="text-muted">({{ member.home_country }})</small>
+                                        {% if member.home_address or member.home_city or member.home_state %}
+                                            {% if member.home_address %}
+                                                {{ member.home_address|linebreaks }}
+                                            {% endif %}
+                                            {% if member.home_city or member.home_state %}
+                                                {{ member.home_city }}{% if member.home_city and member.home_state %},{% endif %} {{ member.home_state }}{% if member.home_zip %} {{ member.home_zip }}{% endif %}
+                                                {% if member.home_country and member.home_country != 'US' %}
+                                                    <small class="text-muted">({{ member.home_country }})</small>
+                                                {% endif %}
                                             {% endif %}
                                         {% else %}
                                             <span class="text-muted">Not provided</span>
