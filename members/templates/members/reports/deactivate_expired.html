@@ -1,0 +1,139 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Deactivate Expired Members - ALANO CLUB{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                    <h1 class="mb-0">
+                        <i class="bi bi-person-x me-2"></i>
+                        Deactivate Expired Members
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <!-- Display Django messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <p class="text-muted mb-0">
+                                Found <strong>{{ total_count }}</strong> member(s) expired 90+ days 
+                                with no payment after expiration date.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {% if members %}
+                    <form method="post" id="deactivate-form">
+                        {% csrf_token %}
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="select-all" />
+                                    <label class="form-check-label" for="select-all">
+                                        <strong>Select All</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Member ID</th>
+                                        <th>Name</th>
+                                        <th>Expiration Date</th>
+                                        <th>Days Expired</th>
+                                        <th>Last Payment</th>
+                                        <th>Member Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in members %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" 
+                                                   name="member_uuids" 
+                                                   value="{{ item.member.member_uuid }}"
+                                                   class="form-check-input member-checkbox" />
+                                        </td>
+                                        <td>{{ item.member.member_id|default:"—" }}</td>
+                                        <td>
+                                            <a href="{% url 'members:member_detail' item.member.member_uuid %}">
+                                                {{ item.member.full_name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ item.member.expiration_date|date:"M d, Y" }}</td>
+                                        <td>
+                                            <span class="badge bg-warning text-dark">{{ item.days_expired }} days</span>
+                                        </td>
+                                        <td>
+                                            {% if item.last_payment_date %}
+                                                {{ item.last_payment_date|date:"M d, Y" }}
+                                            {% else %}
+                                                <span class="text-muted">No payments</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.member.member_type }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-between">
+                                <a href="{% url 'members:reports_landing' %}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Cancel
+                                </a>
+                                <button type="submit" 
+                                        class="btn btn-danger" 
+                                        onclick="return confirm('Are you sure you want to deactivate the selected members? This action cannot be undone.');">
+                                    <i class="bi bi-person-x me-1"></i>
+                                    Deactivate Selected
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <script>
+                        // Select All functionality
+                        document.getElementById('select-all').addEventListener('change', function() {
+                            const checkboxes = document.querySelectorAll('.member-checkbox');
+                            checkboxes.forEach(cb => cb.checked = this.checked);
+                        });
+                    </script>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>
+                        <h5 class="text-muted mt-3">No members found</h5>
+                        <p class="text-muted">
+                            No members match the criteria for deactivation.
+                        </p>
+                        <a href="{% url 'members:reports_landing' %}" class="btn btn-outline-secondary mt-3">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Back to Reports
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

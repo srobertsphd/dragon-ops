@@ -20,6 +20,202 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #012: Deactivate Expired Members Report (Staff Access)
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 2-3 hours  
+**Created:** December 2025
+
+#### Description
+
+Add the "Deactivate Expired Members" functionality to the Reports section, making it accessible to staff users without requiring admin panel access. This duplicates the existing admin functionality in a reports-style interface, allowing staff to review and deactivate members who are 90+ days past expiration with no payment after expiration date. The admin panel functionality will remain unchanged, but this provides an alternative access point for staff users who don't need full admin access.
+
+#### Current Implementation
+
+**Location:** `members/admin_views.py` (deactivate_expired_members_view), `members/templates/admin/deactivate_expired.html`, `/admin/deactivate-expired-members/`
+
+**Current Behavior:**
+- Deactivate expired members functionality exists only in Django admin panel
+- Accessible via `/admin/deactivate-expired-members/` URL
+- Uses `@staff_member_required` decorator
+- Uses admin template styling (`admin/base_site.html`)
+- Links to admin member change pages
+- Cancel button redirects to admin index
+
+**Current Limitations:**
+- Requires admin panel access
+- Staff users who don't need admin access cannot use this feature
+- Not integrated with Reports section where other staff tools are located
+
+#### Proposed Implementation
+
+**New Feature: Reports-Style Deactivate Expired Members Page**
+
+A duplicate of the admin functionality, accessible from the Reports landing page, with:
+1. **Same Functionality:**
+   - Queries eligible members (90+ days expired, no payment after expiration)
+   - Displays list with checkboxes for selection
+   - "Select All" checkbox functionality
+   - Deactivates selected members with validation
+   - Shows success/error messages
+   - Same eligibility criteria and validation logic
+
+2. **Reports-Style Interface:**
+   - Uses `members/base.html` template (not admin template)
+   - Bootstrap 5 styling (consistent with other reports)
+   - Links to `members:member_detail` (not admin change page)
+   - Cancel button redirects to reports landing page
+   - Card-based layout matching other reports
+
+3. **Access Control:**
+   - Uses `@login_required` decorator (or `@staff_member_required` if staff-only)
+   - Accessible to staff users without admin panel access
+   - URL: `/reports/deactivate-expired/`
+
+4. **Reports Landing Page Integration:**
+   - New card on reports landing page
+   - Icon and description matching other report cards
+   - Links to the new deactivate expired members page
+
+**Key Changes:**
+- Duplicate view function in `members/views/reports.py`
+- New template: `members/templates/members/reports/deactivate_expired.html`
+- New URL route: `/reports/deactivate-expired/`
+- Update reports landing page with new card
+- No changes to existing admin code
+
+#### Implementation Steps
+
+**Step 1: Copy View Function to reports.py**
+- **File:** `members/views/reports.py`
+- **Action:** Add new function `deactivate_expired_members_report_view(request)`
+- **Changes:**
+  - Copy entire function from `admin_views.py` (lines 8-86)
+  - Change decorator: Keep `@staff_member_required` or change to `@login_required` based on requirements
+  - Change redirect URLs:
+    - Line 22: `redirect("admin:deactivate_expired_members")` → `redirect("members:deactivate_expired_members")`
+    - Line 61: `redirect("admin:deactivate_expired_members")` → `redirect("members:deactivate_expired_members")`
+  - Change template path:
+    - Line 86: `"admin/deactivate_expired.html"` → `"members/reports/deactivate_expired.html"`
+- **Lines added:** ~80 lines
+
+**Step 2: Create Reports-Style Template**
+- **File:** `members/templates/members/reports/deactivate_expired.html` (new file)
+- **Action:** Create template based on admin template but styled for reports
+- **Changes:**
+  - Change extends: `{% extends "admin/base_site.html" %}` → `{% extends "members/base.html" %}`
+  - Replace admin styling with Bootstrap 5 (match other reports templates)
+  - Update member links:
+    - Line 50: `{% url 'admin:members_member_change' ... %}` → `{% url 'members:member_detail' item.member.member_uuid %}`
+  - Update cancel link:
+    - Line 77: `{% url 'admin:index' %}` → `{% url 'members:reports_landing' %}`
+  - Convert admin CSS classes to Bootstrap:
+    - `.content`, `.module`, `.form-row` → Bootstrap card/container classes
+    - `.table` → `.table table-striped table-hover`
+    - `.badge badge-warning` → `.badge bg-warning`
+    - `.submit-row`, `.default`, `.button` → Bootstrap buttons
+  - Keep all functionality:
+    - Select All checkbox
+    - Member checkboxes
+    - Form submission
+    - JavaScript for select-all
+    - Confirmation dialog
+- **Lines:** ~100-120 lines
+
+**Step 3: Add URL Route**
+- **File:** `members/urls.py`
+- **Action:** Add new URL pattern in the Reports section
+- **Changes:**
+  - Add after line 34 (after newsletter export):
+    ```python
+    path(
+        "reports/deactivate-expired/",
+        views.deactivate_expired_members_report_view,
+        name="deactivate_expired_members",
+    ),
+    ```
+- **Lines added:** 4-5 lines
+
+**Step 4: Update Reports Landing Page**
+- **File:** `members/templates/members/reports/landing.html`
+- **Action:** Add new card for "Deactivate Expired Members"
+- **Changes:**
+  - Add new card in the `<div class="row g-4 mt-2">` section (after Newsletter Export card, around line 67)
+  - Match styling of existing cards (col-md-6, card, card-body, etc.)
+  - Use appropriate icon (e.g., `bi-person-x` or `bi-person-dash`)
+  - Use appropriate color (e.g., `border-danger` or `border-warning`)
+  - Link to: `{% url 'members:deactivate_expired_members' %}`
+  - Description: "Review and deactivate members expired 90+ days with no payment after expiration."
+- **Lines added:** ~15-20 lines
+
+**Step 5: Export Function in views/__init__.py (if needed)**
+- **File:** `members/views/__init__.py`
+- **Action:** Check if new function needs to be exported
+- **Changes:**
+  - Add `deactivate_expired_members_report_view` to imports if needed
+  - Check current exports to see pattern
+- **Lines:** 1-2 lines (if needed)
+
+#### Dependencies
+
+- ✅ Admin deactivate expired members functionality exists - Completed
+- ✅ Reports landing page exists - Completed
+- ✅ Member model methods exist (`get_expired_without_payment()`, `days_expired()`, `deactivate()`) - Completed
+- ✅ Reports view structure exists - Completed
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Navigate to Reports landing page and verify new "Deactivate Expired Members" card appears
+   - Click card and verify page loads with eligible members list
+   - Verify styling matches other reports (Bootstrap cards, not admin styling)
+   - Verify member links go to member detail page (not admin change page)
+   - Verify "Select All" checkbox works
+   - Select individual members and verify deactivation
+   - Verify success messages display correctly
+   - Verify deactivated members have status="inactive" and member_id=None
+   - Verify cancel button redirects to reports landing page
+   - Test with empty result set (no eligible members)
+   - Verify admin functionality still works unchanged
+
+2. **Edge Cases:**
+   - Member becomes active between page load and deactivation
+   - Member receives payment between page load and deactivation
+   - Multiple users deactivating simultaneously
+   - Very large result sets (performance)
+   - Members with no payments at all
+   - Members with payments before expiration but not after
+
+3. **Automated Testing:**
+   - Add test cases for new reports view function
+   - Test GET request (display list)
+   - Test POST request (deactivate selected)
+   - Test authentication/authorization
+   - Test redirect URLs
+   - Test template rendering
+   - Verify admin functionality tests still pass
+
+#### Benefits
+
+- ✅ Staff users can access deactivation functionality without admin panel access
+- ✅ Consistent with other reports functionality
+- ✅ Better user experience for staff-only workflows
+- ✅ Keeps admin panel functionality intact (no changes to existing code)
+- ✅ Reuses existing logic (duplicate, not refactor)
+- ✅ Future-ready (admin functionality can be removed later if desired)
+
+#### Notes
+
+- **Code Duplication:** This approach intentionally duplicates code rather than refactoring, as admin functionality will eventually be removed
+- **No Admin Changes:** Existing admin code remains completely unchanged
+- **Template Adaptation:** Admin template will be adapted to reports styling (Bootstrap 5 instead of admin CSS)
+- **URL Naming:** Uses `members:deactivate_expired_members` (same name as admin, but different namespace)
+- **Future Removal:** Admin functionality can be removed later without affecting reports version
+- **Permission Level:** Uses `@staff_member_required` or `@login_required` based on requirements (to be determined)
+
+---
+
 ### Change #011: State Field Dropdown with California Priority
 
 **Status:** Planned  

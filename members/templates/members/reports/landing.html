@@ -65,6 +65,23 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Deactivate Expired Members Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-warning">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-person-x text-warning" style="font-size: 3rem;"></i>
+                                    <h3 class="card-title mt-3">Deactivate Expired Members</h3>
+                                    <p class="card-text text-muted">
+                                        Review and deactivate members expired 90+ days with no payment after expiration.
+                                    </p>
+                                    <a href="{% url 'members:deactivate_expired_members' %}" class="btn btn-warning">
+                                        <i class="bi bi-person-x me-2"></i>
+                                        View Members
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

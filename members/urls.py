@@ -32,6 +32,11 @@ urlpatterns = [
         views.newsletter_export_view,
         name="newsletter_export",
     ),
+    path(
+        "reports/deactivate-expired/",
+        views.deactivate_expired_members_report_view,
+        name="deactivate_expired_members",
+    ),
     # Payment functionality
     path("payments/add/", views.add_payment_view, name="add_payment"),
 ]
