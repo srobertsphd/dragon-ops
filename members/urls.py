@@ -7,9 +7,10 @@ urlpatterns = [
     # Main pages
     path("", views.landing_view, name="landing"),
     path("search/", views.search_view, name="search"),
-    path("<uuid:member_uuid>/", views.member_detail_view, name="member_detail"),
     # Member management
     path("add/", views.add_member_view, name="add_member"),
+    path("edit/<uuid:member_uuid>/", views.edit_member_view, name="edit_member"),
+    path("edit/", views.edit_member_view, name="edit_member"),
     path(
         "reactivate/<uuid:member_uuid>/",
         views.reactivate_member_view,
@@ -54,4 +55,6 @@ urlpatterns = [
     ),
     # Payment functionality
     path("payments/add/", views.add_payment_view, name="add_payment"),
+    # Member detail (must come after edit routes to avoid conflicts)
+    path("<uuid:member_uuid>/", views.member_detail_view, name="member_detail"),
 ]

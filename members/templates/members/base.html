@@ -89,6 +89,15 @@
                         Add Member
                     </a>
                 </li>
+                {% if user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'edit_member' %}active{% endif %}" 
+                       href="{% url 'members:edit_member' %}">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Edit Member
+                    </a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link {% if 'reports' in request.path %}active{% endif %}" 
                        href="{% url 'members:reports_landing' %}">
@@ -134,6 +143,15 @@
                                 Add Member
                             </a>
                         </li>
+                        {% if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'edit_member' %}active{% endif %}" 
+                               href="{% url 'members:edit_member' %}">
+                                <i class="bi bi-pencil-square me-2"></i>
+                                Edit Member
+                            </a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link {% if 'reports' in request.path %}active{% endif %}" 
                                href="{% url 'members:reports_landing' %}">

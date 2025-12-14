@@ -20,6 +20,551 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #017: Three-Tier Permission System with Unified Login Page
+
+**Status:** Planned  
+**Priority:** High  
+**Estimated Effort:** 4-6 hours  
+**Created:** December 2025
+
+#### Description
+
+Implement a three-tier permission system (Regular User, Staff User, Admin User) with a unified login page that allows all user types to authenticate. Regular users will have read-only access (Home and Member Search only), while staff and admin users maintain full access to all features. This includes creating a custom login page at `/login/` while keeping the existing Django admin login at `/admin/login/` for staff/admin users.
+
+#### Current Implementation
+
+**Location:** `alano_club_site/settings.py`, `members/views/*.py`, `members/templates/members/base.html`
+
+**Current Behavior:**
+- Login only via `/admin/login/` (requires staff/superuser status)
+- All views use `@login_required` decorator (any authenticated user can access)
+- Some views use `@staff_member_required` (staff only: edit_member, deactivate_expired)
+- Sidebar shows all links to all authenticated users
+- Member detail page shows "Add Payment" button to all authenticated users
+- Regular users cannot log in (admin login blocks them)
+
+**Current Limitations:**
+- No way for regular users to log in
+- Regular users have access to features they shouldn't (Add Payment, Add Member, Reports)
+- No clear separation between user permission levels
+- All authenticated users see full navigation menu
+
+#### Proposed Implementation
+
+**Permission Levels:**
+
+1. **Regular User** (`is_staff=False`, `is_superuser=False`):
+   - ✅ Home page
+   - ✅ Member Search
+   - ✅ Member Detail (view only, no action buttons)
+   - ❌ Add Payment
+   - ❌ Add Member
+   - ❌ Edit Member
+   - ❌ Reports
+   - ❌ Reactivate Member
+
+2. **Staff User** (`is_staff=True`, `is_superuser=False`):
+   - ✅ All Regular User access
+   - ✅ Add Payment
+   - ✅ Add Member
+   - ✅ Edit Member
+   - ✅ Reports
+   - ✅ Reactivate Member
+   - ❌ Django Admin (unless also superuser)
+
+3. **Admin User** (`is_superuser=True`):
+   - ✅ All Staff access
+   - ✅ Django Admin panel
+
+**Login Pages:**
+- `/login/` - Unified login page for all users (regular, staff, admin)
+- `/admin/login/` - Django admin login (staff/admin only, kept for backward compatibility)
+
+#### Implementation Steps
+
+**Phase 1: Create Unified Login Page**
+
+**Step 1.1: Create Custom Login View**
+- **File:** `members/views/auth.py` (new file)
+- **Action:** Create `login_view` function
+- **Details:**
+  - Handle GET: Display login form
+  - Handle POST: Authenticate user, redirect based on role
+  - Redirect logic:
+    - If `next` parameter exists → redirect there
+    - Regular users → `/` (landing page)
+    - Staff/admin → `/` (landing page)
+  - Use Django's `authenticate()` and `login()` functions
+  - Display form errors if authentication fails
+- **Lines added:** ~50-60 lines
+
+**Step 1.2: Create Login Template**
+- **File:** `members/templates/members/login.html` (new file)
+- **Action:** Create login form template
+- **Details:**
+  - Extend `members/base.html`
+  - Bootstrap-styled login form
+  - Username and password fields
+  - CSRF token
+  - Error message display
+  - Match existing app styling
+  - Include "Remember me" option (optional)
+- **Lines:** ~80-100 lines
+
+**Step 1.3: Add Login URL Route**
+- **File:** `members/urls.py`
+- **Action:** Add login route
+- **Details:**
+  - Add `path("login/", views.login_view, name="login")` before other routes
+  - Import `login_view` from `members.views.auth`
+- **Lines added:** 2-3 lines
+
+**Step 1.4: Export Login View**
+- **File:** `members/views/__init__.py`
+- **Action:** Export `login_view`
+- **Details:**
+  - Add `from .auth import login_view`
+  - Add `"login_view"` to `__all__` list
+- **Lines added:** 1-2 lines
+
+**Step 1.5: Update Settings for Login URL**
+- **File:** `alano_club_site/settings.py`
+- **Action:** Update `LOGIN_URL` setting
+- **Details:**
+  - Change `LOGIN_URL = "/admin/login/"` to `LOGIN_URL = "/login/"`
+  - Keep `LOGIN_REDIRECT_URL = "/"` (unchanged)
+  - Optionally change `LOGOUT_REDIRECT_URL = "/admin/login/"` to `"/login/"`
+- **Lines modified:** 1-2 lines
+
+**Step 1.6: Add Logout View (Optional but Recommended)**
+- **File:** `members/views/auth.py`
+- **Action:** Create `logout_view` function
+- **Details:**
+  - Use Django's `logout()` function
+  - Redirect to `/login/` after logout
+- **Lines added:** ~10-15 lines
+
+**Step 1.7: Add Logout URL Route**
+- **File:** `members/urls.py`
+- **Action:** Add logout route
+- **Details:**
+  - Add `path("logout/", views.logout_view, name="logout")`
+- **Lines added:** 1 line
+
+**Phase 2: Restrict View Access (Change Decorators)**
+
+**Step 2.1: Restrict Add Payment View**
+- **File:** `members/views/payments.py`
+- **Action:** Change decorator from `@login_required` to `@staff_member_required`
+- **Details:**
+  - Import: `from django.contrib.admin.views.decorators import staff_member_required`
+  - Replace `@login_required` with `@staff_member_required` on `add_payment_view`
+- **Lines modified:** 1-2 lines
+
+**Step 2.2: Restrict Add Member View**
+- **File:** `members/views/members.py`
+- **Action:** Change decorator from `@login_required` to `@staff_member_required`
+- **Details:**
+  - Import: `from django.contrib.admin.views.decorators import staff_member_required` (if not already imported)
+  - Replace `@login_required` with `@staff_member_required` on `add_member_view`
+- **Lines modified:** 1-2 lines
+
+**Step 2.3: Restrict Reactivate Member View**
+- **File:** `members/views/members.py`
+- **Action:** Change decorator from `@login_required` to `@staff_member_required`
+- **Details:**
+  - Replace `@login_required` with `@staff_member_required` on `reactivate_member_view`
+- **Lines modified:** 1 line
+
+**Step 2.4: Restrict Reports Landing View**
+- **File:** `members/views/reports.py`
+- **Action:** Change decorator from `@login_required` to `@staff_member_required`
+- **Details:**
+  - Import: `from django.contrib.admin.views.decorators import staff_member_required` (if not already imported)
+  - Replace `@login_required` with `@staff_member_required` on `reports_landing_view`
+- **Lines modified:** 1-2 lines
+
+**Step 2.5: Restrict All Report Views**
+- **File:** `members/views/reports.py`
+- **Action:** Change decorators for all report views
+- **Details:**
+  - Replace `@login_required` with `@staff_member_required` on:
+    - `current_members_report_view`
+    - `recent_payments_report_view`
+    - `newsletter_export_view`
+    - `new_member_export_view`
+    - `milestone_export_view`
+    - `expires_two_months_export_view`
+  - Note: `deactivate_expired_members_report_view` already has `@staff_member_required`
+- **Lines modified:** 6 lines
+
+**Phase 3: Update Templates (Hide UI Elements)**
+
+**Step 3.1: Update Sidebar Navigation - Mobile**
+- **File:** `members/templates/members/base.html`
+- **Action:** Add `{% if user.is_staff %}` conditions around restricted links
+- **Details:**
+  - Wrap "Add Payment" link (lines 78-84) with `{% if user.is_staff %}...{% endif %}`
+  - Wrap "Add Member" link (lines 85-91) with `{% if user.is_staff %}...{% endif %}`
+  - Wrap "Reports" link (lines 101-107) with `{% if user.is_staff %}...{% endif %}`
+  - Keep "Home" and "Member Search" visible for all users
+  - Keep "Edit Member" already wrapped (no change needed)
+- **Lines modified:** ~15-20 lines
+
+**Step 3.2: Update Sidebar Navigation - Desktop**
+- **File:** `members/templates/members/base.html`
+- **Action:** Add `{% if user.is_staff %}` conditions around restricted links
+- **Details:**
+  - Wrap "Add Payment" link (lines 132-138) with `{% if user.is_staff %}...{% endif %}`
+  - Wrap "Add Member" link (lines 139-145) with `{% if user.is_staff %}...{% endif %}`
+  - Wrap "Reports" link (lines 151-157) with `{% if user.is_staff %}...{% endif %}`
+  - Keep "Home" and "Member Search" visible for all users
+  - Keep "Edit Member" already wrapped (no change needed)
+- **Lines modified:** ~15-20 lines
+
+**Step 3.3: Update Member Detail Page - Hide Action Buttons**
+- **File:** `members/templates/members/member_detail.html`
+- **Action:** Add `{% if user.is_staff %}` conditions around action buttons
+- **Details:**
+  - Wrap the "Add Payment" button section (lines 177-181) with `{% if user.is_staff %}...{% endif %}`
+  - Wrap "Reactivate Member" button (lines 182-186) with `{% if user.is_staff %}...{% endif %}`
+  - Regular users will see member info but no action buttons
+- **Lines modified:** ~10-15 lines
+
+**Phase 4: Update Navigation Header (Optional Enhancement)**
+
+**Step 4.1: Update User Dropdown in Header**
+- **File:** `members/templates/members/base.html`
+- **Action:** Update user dropdown menu
+- **Details:**
+  - Currently shows "Admin Panel" link only for `is_superuser`
+  - Consider showing different options based on user type
+  - Regular users: Only "Logout"
+  - Staff users: "Logout" (no admin panel unless superuser)
+  - Admin users: "Admin Panel", "Deactivate Expired Members", "Logout"
+- **Lines modified:** ~10-15 lines
+
+**Phase 5: Testing & Verification**
+
+**Step 5.1: Create Test Regular User Account**
+- **Action:** Manual step in Django admin
+- **Details:**
+  - Go to Django admin → Users
+  - Create new user with `is_staff=False`, `is_superuser=False`
+  - Set username and password
+- **Dependencies:** Phase 1 complete
+
+**Step 5.2: Test Regular User Access**
+- **Action:** Manual testing
+- **Details:**
+  - Log in as regular user via `/login/`
+  - Verify can access: Home, Member Search, Member Detail (view only)
+  - Verify cannot access: Add Payment, Add Member, Edit Member, Reports
+  - Verify sidebar only shows: Home, Member Search
+  - Verify member detail page shows no action buttons
+  - Verify direct URL access to restricted pages returns 403 Forbidden
+
+**Step 5.3: Test Staff User Access**
+- **Action:** Manual testing
+- **Details:**
+  - Log in as staff user (via `/login/` or `/admin/login/`)
+  - Verify can access all pages
+  - Verify sidebar shows all links
+  - Verify member detail shows all buttons
+
+**Step 5.4: Test Admin User Access**
+- **Action:** Manual testing
+- **Details:**
+  - Log in as admin/superuser (via `/login/` or `/admin/login/`)
+  - Verify can access everything
+  - Verify can access Django admin panel
+
+#### Dependencies
+
+- ✅ Django authentication system - Completed
+- ✅ User model exists - Completed
+- ✅ Views use `@login_required` decorator - Completed
+- ✅ Staff-only views exist (edit_member, deactivate_expired) - Completed
+- ⏳ Custom login page - To be created
+- ⏳ Regular user accounts - To be created manually via admin
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Test login for regular users via `/login/`
+   - Test login for staff users via `/login/` and `/admin/login/`
+   - Test login for admin users via `/login/` and `/admin/login/`
+   - Verify regular users can only see Home and Member Search
+   - Verify regular users cannot access restricted URLs directly (403 Forbidden)
+   - Verify staff users can access all features
+   - Verify admin users can access everything including Django admin
+
+2. **Access Control Testing:**
+   - Regular user: Home ✅, Search ✅, Member Detail (view) ✅
+   - Regular user: Add Payment ❌, Add Member ❌, Edit Member ❌, Reports ❌
+   - Staff user: All features ✅
+   - Admin user: All features ✅ + Django admin ✅
+
+#### Notes
+
+- **Two Login Pages:** `/login/` for all users, `/admin/login/` for staff/admin (backward compatibility)
+- **No Database Changes:** Uses Django's built-in `is_staff` and `is_superuser` flags
+- **Account Creation:** Regular user accounts created manually via Django admin
+- **Backward Compatible:** Existing staff/admin users continue to work as before
+- **Template Conditionals:** Use `{% if user.is_staff %}` to hide/show UI elements
+- **View Decorators:** Use `@staff_member_required` to restrict view access
+
+---
+
+### Change #016: Edit Member Page
+
+**Status:** Planned  
+**Priority:** High  
+**Estimated Effort:** 4-6 hours  
+**Created:** December 2025
+
+#### Description
+
+Create a new "Edit Member" page accessible from the sidebar that allows staff users to search for and edit active member information. This page provides a controlled interface for editing member data with proper validation, replacing the need to use the Django admin panel for member edits. The page enforces all validation rules from member creation (member ID uniqueness, expiration date end-of-month, phone formatting, etc.) and restricts editing to active members only.
+
+#### Current Implementation
+
+**Location:** `members/templates/members/base.html`, `members/views/members.py`, `members/admin.py`
+
+**Current Behavior:**
+- Sidebar navigation includes: Home, Member Search, Add Payment, Add Member, Reports
+- Member detail page shows member information but no edit functionality
+- Django admin panel allows editing but lacks proper validation enforcement
+- No staff-only edit interface exists in the main application
+- Reactivation flow allows editing member data, but only for inactive members
+
+**Current Limitations:**
+- Admin panel doesn't enforce expiration date end-of-month rule
+- Admin panel doesn't enforce phone number formatting
+- Admin panel doesn't validate member ID uniqueness properly
+- Admin panel has poor user experience
+- No way to edit active member data through main application interface
+- No staff-only access control for editing
+
+#### Proposed Implementation
+
+**New Feature: Edit Member Page**
+
+A two-mode page accessible from sidebar:
+1. **Search Mode** (`/members/edit/`):
+   - Search form to find member by ID or name (first/last)
+   - Display search results with "Edit" button for each
+   - Only show active members in search results
+   - Staff-only access (sidebar link only visible to staff)
+
+2. **Edit Mode** (`/members/edit/<uuid:member_uuid>/`):
+   - Pre-populated form with current member data
+   - All editable fields with validation
+   - Restriction: Only allow editing if `member.status == 'active'`
+   - Success: Redirect to member detail page with success message
+
+**Editable Fields:**
+- Basic Information: First Name, Last Name, Email
+- Contact Information: Home Address, City, State, ZIP, Phone
+- Membership: Member Type, Member ID, Expiration Date
+- Dates: Date Joined, Milestone Date (optional)
+
+**Non-Editable Fields:**
+- Payments (separate workflow)
+- Status (separate action: reactivate/deactivate)
+- member_uuid (permanent ID)
+- created_at, updated_at (metadata)
+
+**Validation Rules (same as creation):**
+- Member ID: Integer 1-999, unique (excluding current member)
+- Expiration Date: Must be end of month (`ensure_end_of_month`)
+- Phone: Format `(XXX) XXX-XXXX`
+- Email: Valid format if provided
+- Dates: Cannot be in future
+- Required: first_name, last_name, member_type, member_id, date_joined
+
+**Access Control:**
+- Sidebar link only visible to staff users (`request.user.is_staff`)
+- View protected with `@staff_member_required` decorator
+- Edit button on member detail page only visible to staff AND if member is active
+
+#### Implementation Steps
+
+**Step 1: Create Edit Member View Function**
+- **File:** `members/views/members.py`
+- **Action:** Add new function `edit_member_view(request, member_uuid=None)`
+- **Changes:**
+  - Add import: `from django.contrib.admin.views.decorators import staff_member_required`
+  - Add decorator: `@staff_member_required`
+  - Two modes:
+    - **Search mode** (`member_uuid=None`):
+      - GET: Show search form
+      - POST: Search by ID (exact match) or name (contains, case-insensitive)
+      - Filter: Only show active members (`status='active'`)
+      - Display results with "Edit" button linking to edit mode
+    - **Edit mode** (`member_uuid` provided):
+      - GET: Load member, check if active, show pre-populated form
+      - POST: Validate and save changes
+      - Restriction: If `member.status != 'active'`, show error and redirect to search
+      - Success: Redirect to `member_detail` page with success message
+  - Reuse validation logic from `add_member_view` where possible
+  - Call `MemberService.update_member()` for business logic (Step 2)
+- **Lines added:** ~200-250 lines
+
+**Step 2: Create Service Method for Update Logic**
+- **File:** `members/services.py`
+- **Action:** Add new method `update_member(member, member_data)` to `MemberService` class
+- **Changes:**
+  - Method signature: `@staticmethod def update_member(member, member_data)`
+  - Validate member ID uniqueness:
+    - If changed, check: `Member.objects.filter(status="active", member_id=new_id).exclude(member_uuid=member.member_uuid).exists()`
+    - If taken, raise `ValueError` with message
+  - Validate expiration date: Use `ensure_end_of_month()` utility
+  - Validate all other fields (same rules as creation)
+  - Update member instance with new data
+  - Save member: `member.save()`
+  - Return updated member
+  - Raise `ValueError` for validation errors
+- **Lines added:** ~80-100 lines
+
+**Step 3: Add URL Routes**
+- **File:** `members/urls.py`
+- **Action:** Add two routes for edit member functionality
+- **Changes:**
+  - Add after `add_member` route, before reports section:
+    ```python
+    path("edit/", views.edit_member_view, name="edit_member"),  # Search mode
+    path("edit/<uuid:member_uuid>/", views.edit_member_view, name="edit_member"),  # Edit mode
+    ```
+  - Note: Django will match more specific route first
+- **Lines added:** 4-5 lines
+
+**Step 4: Export View in Init File**
+- **File:** `members/views/__init__.py`
+- **Action:** Export new view function
+- **Changes:**
+  - Add to imports: `from .members import edit_member_view`
+  - Add to `__all__` list: `"edit_member_view"`
+- **Lines added:** 1-2 lines
+
+**Step 5: Create Edit Member Template**
+- **File:** `members/templates/members/edit_member.html` (new file)
+- **Action:** Create template with search and edit sections
+- **Changes:**
+  - Extend `members/base.html`
+  - **Search Section** (when `member_uuid` is None):
+    - Form with search input (ID or name)
+    - Display search results in table format (similar to `search.html`)
+    - Columns: Member ID, Full Name, Member Type, Expiration Date
+    - "Edit" button/link for each result linking to edit mode
+  - **Edit Form Section** (when `member` is provided):
+    - Show current member info at top (name, current ID, status badge)
+    - Reuse form structure from `add_member.html`
+    - Pre-populate all fields with current values
+    - Include phone formatting JavaScript (`phone_format.js`)
+    - Include expiration date month/year picker (like add_member)
+    - Submit button: "Save Changes"
+    - Cancel button: Link back to search or member detail
+    - Display validation errors inline
+  - Use Bootstrap styling consistent with other pages
+- **Lines:** ~400-500 lines
+
+**Step 6: Add Sidebar Navigation Link**
+- **File:** `members/templates/members/base.html`
+- **Action:** Add "Edit Member" link to sidebar (desktop and mobile)
+- **Changes:**
+  - Add new `<li class="nav-item">` in desktop sidebar (after "Add Member", before "Reports")
+  - Add same link in mobile offcanvas sidebar
+  - Condition: Only show if `{% if request.user.is_staff %}`
+  - Icon: `bi bi-pencil-square` or `bi bi-person-gear`
+  - Text: "Edit Member"
+  - Link: `{% url 'members:edit_member' %}`
+  - Active state: `{% if request.resolver_match.url_name == 'edit_member' %}active{% endif %}`
+- **Lines added:** ~10-15 lines
+
+**Step 7: Add Edit Button to Member Detail Page**
+- **File:** `members/templates/members/member_detail.html`
+- **Action:** Add "Edit Member" button near member actions
+- **Changes:**
+  - Add button near "Add Payment" button (around line 177)
+  - Condition: `{% if request.user.is_staff and member.status == 'active' %}`
+  - Link: `{% url 'members:edit_member' member.member_uuid %}`
+  - Style: Match existing button styling (e.g., `btn btn-primary btn-lg`)
+  - Icon: `bi bi-pencil-square`
+  - Text: "Edit Member"
+- **Lines added:** ~5-8 lines
+
+**Step 8: Include Phone Formatting JavaScript**
+- **File:** `members/templates/members/edit_member.html`
+- **Action:** Ensure phone formatting works in edit form
+- **Changes:**
+  - Include existing `phone_format.js` script
+  - Add class `phone-format` to phone input field
+  - Verify auto-formatting works on input
+- **Lines added:** ~5-10 lines
+
+**Step 9: Include Expiration Date Picker JavaScript**
+- **File:** `members/templates/members/edit_member.html`
+- **Action:** Ensure expiration date month/year picker works
+- **Changes:**
+  - Reuse JavaScript from `add_member.html` for expiration date picker
+  - Ensure it auto-adjusts to end of month
+  - Pre-populate with current expiration date
+- **Lines added:** ~10-15 lines (if copying JS inline) or reference existing JS file
+
+#### Dependencies
+
+- ✅ Member model with all required fields - Completed
+- ✅ Member creation validation logic exists - Completed
+- ✅ `ensure_end_of_month()` utility exists - Completed
+- ✅ Phone formatting JavaScript exists - Completed
+- ✅ Staff authentication system exists - Completed
+- ✅ Member detail page exists - Completed
+- ✅ Sidebar navigation structure exists - Completed
+- ✅ `MemberService` class exists - Completed
+
+#### Testing Requirements
+
+1. **Manual Testing:**
+   - Verify sidebar link only appears for staff users
+   - Verify non-staff users cannot access edit URL directly
+   - Test search by member ID (exact match)
+   - Test search by first name (contains)
+   - Test search by last name (contains)
+   - Verify only active members appear in search results
+   - Test editing active member (all fields)
+   - Verify cannot edit inactive member (error message)
+   - Test member ID uniqueness validation
+   - Test member ID range validation (1-999)
+   - Test expiration date auto-adjusts to end of month
+   - Test phone formatting works
+   - Test all field validations
+   - Verify success redirect to member detail page
+   - Verify success message displays
+   - Test cancel button works
+   - Test edit button on member detail page (staff only, active only)
+
+2. **Edge Cases:**
+   - Member ID changed to existing ID (should show error)
+   - Member ID changed to available ID (should work)
+   - Expiration date set to past date (should work)
+   - Expiration date set to future date (should adjust to end of month)
+   - Phone number with various formats (should auto-format)
+   - Empty required fields (should show validation errors)
+   - Invalid email format (should show error)
+   - Date joined set to future (should show error)
+
+#### Notes
+
+- **Inactive Member Restriction:** Only active members can be edited. Inactive members should use the reactivation flow which already allows editing their information.
+- **Member ID Changes:** Allowed with validation that new ID is not in use by another active member and is within range 1-999.
+- **No Audit Log:** Not implementing audit logging at this time. No need to track who changed what or when.
+- **No Timestamp Display:** Not showing last modified timestamp to users.
+- **Payment Editing:** Not included. Expiration date editing is sufficient for membership management.
+- **Access Control:** Edit functionality is staff-only. Regular users should not see edit links or be able to access edit URLs.
+
+---
+
 ### Change #014: Milestone Export Report with Date Range Selection
 
 **Status:** ✅ Completed  

@@ -49,6 +49,18 @@
     </div>
 </div>
 
+<!-- Django Messages -->
+{% if messages %}
+    {% for message in messages %}
+    <div class="container mt-3 mb-4">
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'success' }}{% endif %} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
 <div class="container">
     <!-- Member Information -->
     <div class="row mb-4">
@@ -332,6 +344,18 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Member Button (Staff Only) -->
+    {% if user.is_staff and member.status == 'active' %}
+    <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-end">
+            <a href="{% url 'members:edit_member' member.member_uuid %}" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-pencil-square me-1"></i>
+                Edit Member
+            </a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <!-- Add bottom spacing -->

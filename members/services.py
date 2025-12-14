@@ -207,7 +207,9 @@ class MemberService:
         # Parse milestone_date if provided, otherwise None
         milestone_date = None
         if member_data.get("milestone_date"):
-            milestone_date = datetime.fromisoformat(member_data["milestone_date"]).date()
+            milestone_date = datetime.fromisoformat(
+                member_data["milestone_date"]
+            ).date()
 
         member = Member.objects.create_new_member(
             first_name=member_data["first_name"],
@@ -279,3 +281,63 @@ class MemberService:
                     )
 
         return matches
+
+    @staticmethod
+    def update_member(member, member_data):
+        """
+        Update member with validation.
+
+        Args:
+            member: Member instance to update
+            member_data: Dict with member details (same format as create_member)
+
+        Returns:
+            Member instance
+        """
+        member_id_int = member_data["member_id"]
+        if not (1 <= member_id_int <= 999):
+            raise ValueError(
+                f"Member ID must be between 1 and 999. You entered: {member_id_int}"
+            )
+
+        if (
+            Member.objects.filter(status="active", member_id=member_id_int)
+            .exclude(member_uuid=member.member_uuid)
+            .exists()
+        ):
+            raise ValueError(f"Member ID {member_id_int} is already in use")
+
+        member_type = MemberType.objects.get(pk=member_data["member_type_id"])
+
+        milestone_date_obj = None
+        if member_data.get("milestone_date"):
+            milestone_date_obj = datetime.fromisoformat(
+                member_data["milestone_date"]
+            ).date()
+            if milestone_date_obj > date.today():
+                raise ValueError("Milestone date cannot be in the future")
+
+        date_joined_obj = datetime.fromisoformat(member_data["date_joined"]).date()
+        if date_joined_obj > date.today():
+            raise ValueError("Date joined cannot be in the future")
+
+        expiration_date_obj = ensure_end_of_month(
+            datetime.fromisoformat(member_data["expiration_date"]).date()
+        )
+
+        member.first_name = member_data["first_name"]
+        member.last_name = member_data["last_name"]
+        member.email = member_data["email"]
+        member.member_type = member_type
+        member.member_id = member_id_int
+        member.milestone_date = milestone_date_obj
+        member.date_joined = date_joined_obj
+        member.expiration_date = expiration_date_obj
+        member.home_address = member_data["home_address"]
+        member.home_city = member_data["home_city"]
+        member.home_state = member_data["home_state"]
+        member.home_zip = member_data["home_zip"]
+        member.home_phone = member_data["home_phone"]
+        member.save()
+
+        return member

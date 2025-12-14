@@ -3,6 +3,8 @@ from django.core.paginator import Paginator
 from django.core.validators import EmailValidator, ValidationError
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Q
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -72,6 +74,151 @@ def member_detail_view(request, member_uuid):
     }
 
     return render(request, "members/member_detail.html", context)
+
+
+@staff_member_required
+def edit_member_view(request, member_uuid=None):
+    """Edit member page: search mode (member_uuid=None) or edit mode (member_uuid provided)"""
+    if member_uuid is None:
+        query = request.GET.get("q", "").strip()
+        members = None
+        if query:
+            try:
+                members = (
+                    Member.objects.filter(status="active", member_id=int(query))
+                    .select_related("member_type")
+                    .order_by("last_name", "first_name")
+                )
+            except ValueError:
+                members = (
+                    Member.objects.filter(status="active")
+                    .filter(
+                        Q(first_name__icontains=query) | Q(last_name__icontains=query)
+                    )
+                    .select_related("member_type")
+                    .order_by("last_name", "first_name")
+                )
+        return render(
+            request,
+            "members/edit_member.html",
+            {"query": query, "members": members, "mode": "search"},
+        )
+
+    member = get_object_or_404(Member, member_uuid=member_uuid)
+    if member.status != "active":
+        messages.error(
+            request,
+            "Only active members can be edited. Use 'Reactivate Member' to reactivate an inactive member.",
+        )
+        return redirect("members:edit_member")
+
+    if request.method == "GET":
+        _, suggested_ids = MemberService.get_suggested_ids(count=50)
+        if member.member_id and member.member_id not in suggested_ids:
+            suggested_ids.insert(0, member.member_id)
+        return render(
+            request,
+            "members/edit_member.html",
+            {
+                "member": member,
+                "member_types": MemberType.objects.all(),
+                "today": date.today(),
+                "suggested_ids": suggested_ids[:50],
+                "state_choices": STATE_CHOICES,
+                "mode": "edit",
+            },
+        )
+
+    # POST: Process form submission
+    first_name = request.POST.get("first_name", "").strip()
+    last_name = request.POST.get("last_name", "").strip()
+    email = request.POST.get("email", "").strip()
+    member_type_id = request.POST.get("member_type")
+    member_id = request.POST.get("member_id")
+    milestone_date = request.POST.get("milestone_date")
+    skip_milestone = request.POST.get("skip_milestone") == "on"
+    date_joined = request.POST.get("date_joined")
+    expiration_date = request.POST.get("expiration_date") or request.POST.get(
+        "override_expiration"
+    )
+    home_address = request.POST.get("home_address", "").strip()
+    home_city = request.POST.get("home_city", "").strip()
+    home_state = request.POST.get("home_state", "").strip()
+    home_zip = request.POST.get("home_zip", "").strip()
+    home_phone = request.POST.get("home_phone", "").strip()
+
+    try:
+        if not all([first_name, last_name, member_type_id, member_id, date_joined]):
+            raise ValueError("Required fields are missing")
+        if not skip_milestone and not milestone_date:
+            raise ValueError(
+                "Milestone date is required. Check 'Skip Milestone Date' if you don't want to provide one."
+            )
+        if not expiration_date:
+            raise ValueError("Expiration date is required")
+
+        if email:
+            try:
+                EmailValidator()(email)
+            except ValidationError:
+                raise ValueError("Please enter a valid email address")
+
+        member_data = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": email,
+            "member_type_id": member_type_id,
+            "member_id": int(member_id),
+            "milestone_date": milestone_date if milestone_date else "",
+            "date_joined": date_joined,
+            "expiration_date": expiration_date,
+            "home_address": home_address,
+            "home_city": home_city,
+            "home_state": home_state,
+            "home_zip": home_zip,
+            "home_phone": home_phone,
+        }
+
+        MemberService.update_member(member, member_data)
+
+        messages.success(
+            request,
+            f"Member {member.full_name} (#{member.member_id}) updated successfully.",
+        )
+        return redirect("members:member_detail", member_uuid=member.member_uuid)
+
+    except (ValueError, ValidationError, MemberType.DoesNotExist) as e:
+        messages.error(request, str(e))
+        _, suggested_ids = MemberService.get_suggested_ids(count=50)
+        if member.member_id and member.member_id not in suggested_ids:
+            suggested_ids.insert(0, member.member_id)
+        return render(
+            request,
+            "members/edit_member.html",
+            {
+                "member": member,
+                "member_types": MemberType.objects.all(),
+                "today": date.today(),
+                "suggested_ids": suggested_ids[:50],
+                "state_choices": STATE_CHOICES,
+                "mode": "edit",
+                "member_data": {
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email,
+                    "member_type_id": member_type_id,
+                    "member_id": member_id,
+                    "milestone_date": milestone_date,
+                    "date_joined": date_joined,
+                    "expiration_date": expiration_date,
+                    "home_address": home_address,
+                    "home_city": home_city,
+                    "home_state": home_state,
+                    "home_zip": home_zip,
+                    "home_phone": home_phone,
+                },
+            },
+        )
 
 
 @login_required

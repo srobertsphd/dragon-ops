@@ -1,0 +1,308 @@
+{% extends "members/base.html" %}
+{% load static %}
+
+{% block title %}{% if mode == 'edit' %}Edit Member{% else %}Edit Member - Search{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h3 mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        {% if mode == 'edit' %}Edit Member{% else %}Edit Member - Search{% endif %}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if mode == 'search' %}
+                        <form method="get" class="mb-4">
+                            <div class="input-group input-group-lg">
+                                <input type="text" name="q" class="form-control" placeholder="Enter member name or ID..." value="{{ query }}" autofocus>
+                                <button class="btn btn-primary" type="submit"><i class="bi bi-search me-1"></i>Search</button>
+                            </div>
+                            <small class="form-text text-muted mt-2">Search by first name, last name, or member ID number (active members only)</small>
+                        </form>
+
+                        {% if members %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Member ID</th>
+                                            <th>Name</th>
+                                            <th>Member Type</th>
+                                            <th>Expires</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in members %}
+                                        <tr>
+                                            <td><strong>#{{ m.member_id }}</strong></td>
+                                            <td>{{ m.full_name }}</td>
+                                            <td>{{ m.member_type.member_type }}</td>
+                                            <td>{{ m.expiration_date|date:"M j, Y" }}</td>
+                                            <td><a href="{% url 'members:edit_member' m.member_uuid %}" class="btn btn-sm btn-primary">Edit</a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% elif query %}
+                            <p class="text-muted">No active members found matching "{{ query }}".</p>
+                        {% endif %}
+
+                    {% elif mode == 'edit' %}
+                        <div class="alert alert-info mb-4">
+                            <strong>{{ member.full_name }}</strong> (#{{ member.member_id }}) - <span class="badge bg-success">{{ member.get_status_display }}</span>
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-12"><h5 class="text-primary border-bottom pb-2 mb-4"><i class="bi bi-asterisk me-2"></i>Required Information</h5></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="member_id" class="form-label">Member ID *</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="member_id" name="member_id" value="{% if member_data.member_id %}{{ member_data.member_id }}{% else %}{{ member.member_id }}{% endif %}" required>
+                                            <select class="form-select" id="member_id_suggestions" style="max-width: 140px;">
+                                                <option value="">Quick Select</option>
+                                                {% for suggested_id in suggested_ids %}
+                                                <option value="{{ suggested_id }}">{{ suggested_id }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="first_name" class="form-label">First Name *</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" value="{% if member_data.first_name %}{{ member_data.first_name }}{% else %}{{ member.first_name }}{% endif %}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="last_name" class="form-label">Last Name *</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" value="{% if member_data.last_name %}{{ member_data.last_name }}{% else %}{{ member.last_name }}{% endif %}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="{% if member_data.email %}{{ member_data.email }}{% else %}{{ member.email|default:'' }}{% endif %}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="member_type" class="form-label">Member Type *</label>
+                                        <select class="form-control" id="member_type" name="member_type" required>
+                                            {% for mt in member_types %}
+                                            <option value="{{ mt.pk }}" {% if member_data.member_type_id == mt.pk|stringformat:"s" or not member_data and member.member_type.pk == mt.pk %}selected{% endif %}>{{ mt.member_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="milestone_date" class="form-label">Milestone Date</label>
+                                        <input type="date" class="form-control" id="milestone_date" name="milestone_date" value="{% if member_data.milestone_date %}{{ member_data.milestone_date }}{% else %}{% if member.milestone_date %}{{ member.milestone_date|date:'Y-m-d' }}{% endif %}{% endif %}" max="{{ today|date:'Y-m-d' }}">
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="checkbox" id="skip_milestone" name="skip_milestone" {% if not member.milestone_date and not member_data.milestone_date %}checked{% endif %}>
+                                            <label class="form-check-label" for="skip_milestone">Skip Milestone Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="date_joined" class="form-label">Date Joined *</label>
+                                        <input type="date" class="form-control" id="date_joined" name="date_joined" value="{% if member_data.date_joined %}{{ member_data.date_joined }}{% else %}{{ member.date_joined|date:'Y-m-d' }}{% endif %}" max="{{ today|date:'Y-m-d' }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-12"><h5 class="text-secondary border-bottom pb-2 mb-4"><i class="bi bi-calendar-x me-2"></i>Membership Expiration</h5></div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-md-3">
+                                            <label for="expiration-month-select" class="form-label">Month</label>
+                                            <select class="form-select" id="expiration-month-select">
+                                                <option value="">Select Month</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="expiration-year-select" class="form-label">Year</label>
+                                            <select class="form-select" id="expiration-year-select">
+                                                <option value="">Select Year</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">&nbsp;</label>
+                                            <div>
+                                                <small class="form-text text-muted d-block">All dates are automatically set to the last day of the selected month</small>
+                                                <small class="form-text text-info d-block mt-1" id="expiration-preview"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="override-expiration-hidden" name="override_expiration">
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-12"><h5 class="text-secondary border-bottom pb-2 mb-4"><i class="bi bi-house-door me-2"></i>Contact Information</h5></div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="home_address" class="form-label">Home Address</label>
+                                        <textarea class="form-control" id="home_address" name="home_address" rows="2">{% if member_data.home_address %}{{ member_data.home_address }}{% else %}{{ member.home_address|default:'' }}{% endif %}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="home_city" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="home_city" name="home_city" value="{% if member_data.home_city %}{{ member_data.home_city }}{% else %}{{ member.home_city|default:'' }}{% endif %}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="home_state" class="form-label">State</label>
+                                        <select class="form-control" id="home_state" name="home_state">
+                                            <option value="">Select a state</option>
+                                            {% for code, name in state_choices %}
+                                            <option value="{{ code }}" {% if member_data.home_state == code or not member_data and member.home_state == code %}selected{% endif %}>{{ name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="home_zip" class="form-label">ZIP Code</label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="home_zip" 
+                                               name="home_zip" 
+                                               maxlength="10"
+                                               inputmode="text"
+                                               pattern="^\d{5}(-\d{4})?$"
+                                               title="ZIP code must be 5 digits or 5-4 format (e.g., 12345 or 12345-6789)"
+                                               value="{% if member_data.home_zip %}{{ member_data.home_zip|stringformat:'s'|cut:'.0' }}{% else %}{{ member.home_zip|default:''|stringformat:'s'|cut:'.0' }}{% endif %}"
+                                               placeholder="12345 or 12345-6789">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="home_phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control phone-format" id="home_phone" name="home_phone" value="{% if member_data.home_phone %}{{ member_data.home_phone }}{% else %}{{ member.home_phone|default:'' }}{% endif %}" placeholder="(555) 123-4567">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="{% url 'members:edit_member' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back to Search</a>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if mode == 'edit' %}
+<script src="{% static 'members/js/phone_format.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const monthSelect = document.getElementById('expiration-month-select');
+    const yearSelect = document.getElementById('expiration-year-select');
+    const hiddenInput = document.getElementById('override-expiration-hidden');
+    const preview = document.getElementById('expiration-preview');
+    const currentDate = new Date('{{ member.expiration_date|date:"Y-m-d" }}');
+    const currentYear = new Date().getFullYear();
+    
+    const months = [
+        {name: 'January', value: 1, lastDay: 31}, {name: 'February', value: 2, lastDay: 28},
+        {name: 'March', value: 3, lastDay: 31}, {name: 'April', value: 4, lastDay: 30},
+        {name: 'May', value: 5, lastDay: 31}, {name: 'June', value: 6, lastDay: 30},
+        {name: 'July', value: 7, lastDay: 31}, {name: 'August', value: 8, lastDay: 31},
+        {name: 'September', value: 9, lastDay: 30}, {name: 'October', value: 10, lastDay: 31},
+        {name: 'November', value: 11, lastDay: 30}, {name: 'December', value: 12, lastDay: 31}
+    ];
+    
+    months.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.value;
+        opt.textContent = `${m.name} (${m.lastDay})`;
+        monthSelect.appendChild(opt);
+    });
+    
+    for (let y = currentYear; y <= currentYear + 4; y++) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSelect.appendChild(opt);
+    }
+    
+    monthSelect.value = currentDate.getMonth() + 1;
+    yearSelect.value = currentDate.getFullYear();
+    
+    function updateExpiration() {
+        const month = parseInt(monthSelect.value);
+        const year = parseInt(yearSelect.value);
+        if (month && year) {
+            const lastDay = new Date(year, month, 0).getDate();
+            const date = new Date(year, month - 1, lastDay);
+            hiddenInput.value = date.toISOString().split('T')[0];
+            preview.textContent = `Expiration: ${date.toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})}`;
+        }
+    }
+    
+    monthSelect.addEventListener('change', updateExpiration);
+    yearSelect.addEventListener('change', updateExpiration);
+    updateExpiration();
+    
+    document.getElementById('member_id_suggestions').addEventListener('change', function() {
+        if (this.value) document.getElementById('member_id').value = this.value;
+    });
+});
+</script>
+{% endif %}
+{% endblock %}
+
