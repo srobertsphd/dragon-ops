@@ -13,7 +13,7 @@ from ..utils import ensure_end_of_month
 from ..services import MemberService, PaymentService
 
 
-@login_required
+@staff_member_required
 def reactivate_member_view(request, member_uuid):
     """Redirect to add_member flow with reactivation context"""
     member = get_object_or_404(Member, member_uuid=member_uuid)
@@ -221,7 +221,7 @@ def edit_member_view(request, member_uuid=None):
         )
 
 
-@login_required
+@staff_member_required
 def add_member_view(request):
     """Add new member workflow with form, validation, and confirmation"""
 

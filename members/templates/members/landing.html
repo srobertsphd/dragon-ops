@@ -9,7 +9,7 @@
             <h1 class="welcome-title">ALANO-CLUB Member Data</h1>
             <p class="welcome-subtitle">Professional Member Management System</p>
             
-            <div class="row mt-5">
+            <div class="row mt-5 {% if not user.is_staff %}justify-content-center{% endif %}">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 d-flex flex-column">
                         <div class="card-header">
@@ -28,6 +28,7 @@
                     </div>
                 </div>
                 
+                {% if user.is_staff %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 d-flex flex-column">
                         <div class="card-header">
@@ -63,6 +64,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
             
             <div class="row mt-4">

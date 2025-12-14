@@ -4,6 +4,9 @@ from . import views
 app_name = "members"
 
 urlpatterns = [
+    # Authentication
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
     # Main pages
     path("", views.landing_view, name="landing"),
     path("search/", views.search_view, name="search"),

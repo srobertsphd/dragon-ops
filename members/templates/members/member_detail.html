@@ -184,6 +184,7 @@
     </div>
 
     <!-- Add Payment / Reactivate Button -->
+    {% if user.is_staff %}
     <div class="row mb-4">
         <div class="col-12 text-center">
             {% if member.status == 'active' %}
@@ -199,6 +200,7 @@
             {% endif %}
         </div>
     </div>
+    {% endif %}
 
     <!-- Payment History -->
     <div class="row">

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.db.models import Prefetch
-from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.db import transaction
@@ -10,13 +9,13 @@ from ..models import Member, Payment
 from ..reports.excel import generate_expires_two_months_excel
 
 
-@login_required
+@staff_member_required
 def reports_landing_view(request):
     """Reports landing page with links to available reports"""
     return render(request, "members/reports/landing.html")
 
 
-@login_required
+@staff_member_required
 def current_members_report_view(request):
     """Generate current members report with payment history"""
 
@@ -73,7 +72,7 @@ def current_members_report_view(request):
     return render(request, "members/reports/current_members.html", context)
 
 
-@login_required
+@staff_member_required
 def recent_payments_report_view(request):
     """Recent payments report (last year) with CSV export"""
     one_year_ago = date.today() - timedelta(days=365)
@@ -97,7 +96,7 @@ def recent_payments_report_view(request):
     return render(request, "members/reports/recent_payments.html", context)
 
 
-@login_required
+@staff_member_required
 def newsletter_export_view(request):
     """Generate Excel export of active members for newsletter distribution"""
     active_members = Member.objects.filter(status="active").order_by("member_id")
@@ -107,7 +106,7 @@ def newsletter_export_view(request):
     return generate_newsletter_excel(active_members)
 
 
-@login_required
+@staff_member_required
 def new_member_export_view(request):
     """
     Generate Excel export of new members (active members who joined within date range).
@@ -240,7 +239,7 @@ def milestone_falls_in_range(milestone_date, start_date, end_date, current_year=
     return start_date <= milestone_this_year <= end_date
 
 
-@login_required
+@staff_member_required
 def milestone_export_view(request):
     """
     Generate Excel export of active members whose milestone dates fall within date range.
@@ -463,7 +462,7 @@ def deactivate_expired_members_report_view(request):
     return render(request, "members/reports/deactivate_expired.html", context)
 
 
-@login_required
+@staff_member_required
 def expires_two_months_export_view(request):
     """
     Generate Excel export of active members whose expiration dates are 60+ days ago.

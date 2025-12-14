@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -9,7 +9,7 @@ from ..models import Member, PaymentMethod
 from ..services import PaymentService
 
 
-@login_required
+@staff_member_required
 def add_payment_view(request):
     """Payment entry workflow with member search, form, and confirmation"""
 

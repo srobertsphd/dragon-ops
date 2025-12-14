@@ -17,6 +17,7 @@ from .reports import (
     deactivate_expired_members_report_view,
 )
 from .health import healthz
+from .auth import login_view, logout_view
 
 __all__ = [
     "landing_view",
@@ -34,5 +35,7 @@ __all__ = [
     "milestone_export_view",
     "expires_two_months_export_view",
     "deactivate_expired_members_report_view",
+    "login_view",
+    "logout_view",
     "healthz",
 ]
