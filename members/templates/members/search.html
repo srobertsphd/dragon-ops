@@ -13,6 +13,37 @@
                         Member Search
                     </h1>
                 </div>
+                
+                <!-- Statistics Banner -->
+                <div class="bg-light border-bottom py-3">
+                    <div class="row g-3 px-3">
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div class="card-body text-center py-3">
+                                    <h2 class="mb-1 text-primary">{{ active_members_count }}</h2>
+                                    <small class="text-muted d-block">Active Members</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div class="card-body text-center py-3">
+                                    <h2 class="mb-1 text-success">{{ total_payments_count }}</h2>
+                                    <small class="text-muted d-block">Total Payments</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <div class="card-body text-center py-3">
+                                    <h2 class="mb-1 text-info">{{ available_ids_count }}</h2>
+                                    <small class="text-muted d-block">Available IDs</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="card-body">
                     <!-- Search Form -->
                     <form method="get" class="mb-4">
@@ -158,22 +189,6 @@
                                 </p>
                             </div>
                         {% endif %}
-                    {% else %}
-                        <!-- Quick Stats -->
-                        <div class="row text-center mt-4">
-                            <div class="col-md-4">
-                                <h3 class="text-primary">{{ active_members_count }}</h3>
-                                <small class="text-muted">Active Members</small>
-                            </div>
-                            <div class="col-md-4">
-                                <h3 class="text-success">{{ total_payments_count }}</h3>
-                                <small class="text-muted">Total Payments</small>
-                            </div>
-                            <div class="col-md-4">
-                                <h3 class="text-info">{{ available_ids_count }}</h3>
-                                <small class="text-muted">Available IDs</small>
-                            </div>
-                        </div>
                     {% endif %}
                 </div>
             </div>
