@@ -20,6 +20,159 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #018: Fix Test Failures After Permission System Implementation
+
+**Status:** Planned  
+**Priority:** High  
+**Estimated Effort:** 1-2 hours  
+**Created:** December 2025
+
+#### Description
+
+After implementing the three-tier permission system (Change #017), multiple test suites are failing. This change documents the investigation and fixes needed to restore test functionality. The failures fall into two categories: URL path mismatches and authentication/permission issues.
+
+#### Current Problem
+
+**Test Failures:**
+- **Edit Member Tests** (21 tests failing): All returning 404 errors instead of expected 200/403 responses
+- **Report Tests** (22 tests failing): All returning 302 redirects instead of expected 200 responses
+  - `test_expires_two_months_export.py` (8 tests)
+  - `test_milestone_export.py` (10 tests)
+  - `test_new_member_export.py` (8 tests)
+
+**Root Causes Identified:**
+
+1. **URL Path Mismatch (Edit Member Tests)**:
+   - Tests use paths like `/members/edit/` and `/members/edit/{uuid}/`
+   - Actual URL configuration mounts members URLs at root: `path("", include("members.urls"))`
+   - Expected paths should be `/edit/` and `/edit/{uuid}/` (no `/members/` prefix)
+   - Tests are getting 404 because URLs don't match
+
+2. **Authentication/Permission Issues (Report Tests)**:
+   - Report views were changed from `@login_required` to `@staff_member_required`
+   - Test fixtures create regular users (`is_staff=False`) instead of staff users
+   - When non-staff users try to access staff-only views, they get redirected to login (302)
+   - Tests expect 200 responses but get 302 redirects
+
+#### Investigation Strategy
+
+**Step 1: Verify URL Path Structure**
+- Check actual URL patterns in `members/urls.py`
+- Verify URL mounting in `alano_club_site/urls.py`
+- Run one failing test with verbose output to see exact URL being hit
+- Determine if tests need path updates or if URL structure changed
+
+**Step 2: Check Authentication Requirements**
+- Review which views have `@staff_member_required` decorator
+- Verify test fixtures create appropriate user types
+- Check if `@login_required` vs `@staff_member_required` is the issue
+
+**Step 3: Test URL Resolution**
+- Run simple test to verify URL resolution works
+- Check if URL pattern ordering is correct
+- Verify no conflicts between URL patterns
+
+**Step 4: Check Login Redirect Behavior**
+- Verify `LOGIN_URL` setting points to correct login page
+- Confirm redirect behavior for unauthenticated/non-staff users
+- Check if redirect URLs are correct
+
+#### Implementation Steps
+
+**Phase 1: Fix Edit Member Test URLs**
+
+**Step 1.1: Verify URL Path Structure**
+- Check `members/urls.py` for actual URL patterns
+- Check `alano_club_site/urls.py` for URL mounting
+- Run one test manually to see exact error
+
+**Step 1.2: Update Test Paths**
+- **File:** `tests/test_edit_member.py`
+- **Action:** Update all test URLs from `/members/edit/` to `/edit/`
+- **Details:**
+  - Change `/members/edit/` → `/edit/`
+  - Change `/members/edit/{uuid}/` → `/edit/{uuid}/`
+  - Update all `client.get()` and `client.post()` calls
+- **Lines modified:** ~20-25 lines
+
+**Phase 2: Fix Report Test Authentication**
+
+**Step 2.1: Update Test Fixtures**
+- **Files:** 
+  - `tests/test_expires_two_months_export.py`
+  - `tests/test_milestone_export.py`
+  - `tests/test_new_member_export.py`
+- **Action:** Update user fixtures to create staff users
+- **Details:**
+  - Change `is_staff=False` → `is_staff=True` in user fixtures
+  - Or add `is_staff=True` parameter to `create_user()` calls
+- **Lines modified:** ~3-6 lines per file
+
+**Step 2.2: Verify Test Expectations**
+- Check if any tests specifically test non-staff access (should expect 302/403)
+- Update test expectations if needed
+- Ensure tests verify staff-only access correctly
+
+**Phase 3: Run and Verify Tests**
+
+**Step 3.1: Run Edit Member Tests**
+- Run: `pytest tests/test_edit_member.py -v`
+- Verify all tests pass
+- Check for any remaining URL issues
+
+**Step 3.2: Run Report Tests**
+- Run: `pytest tests/test_expires_two_months_export.py -v`
+- Run: `pytest tests/test_milestone_export.py -v`
+- Run: `pytest tests/test_new_member_export.py -v`
+- Verify all tests pass
+- Check for any remaining authentication issues
+
+**Step 3.3: Run Full Test Suite**
+- Run: `pytest tests/ -v`
+- Verify no regressions
+- Check for any other test failures
+
+#### Dependencies
+
+- Change #017 must be completed (permission system implementation)
+- Test suite must be runnable
+- Database must be accessible for tests
+
+#### Testing Requirements
+
+1. **Edit Member Tests:**
+   - All 21 tests in `test_edit_member.py` should pass
+   - Verify URLs resolve correctly
+   - Verify staff-only access is enforced
+   - Verify regular users get 403/302 as expected
+
+2. **Report Tests:**
+   - All 8 tests in `test_expires_two_months_export.py` should pass
+   - All 10 tests in `test_milestone_export.py` should pass
+   - All 8 tests in `test_new_member_export.py` should pass
+   - Verify staff-only access is enforced
+   - Verify non-staff users are redirected appropriately
+
+3. **Full Test Suite:**
+   - Run complete test suite to ensure no regressions
+   - Verify all previously passing tests still pass
+
+#### Files to Modify
+
+- `tests/test_edit_member.py` (URL path updates)
+- `tests/test_expires_two_months_export.py` (user fixture updates)
+- `tests/test_milestone_export.py` (user fixture updates)
+- `tests/test_new_member_export.py` (user fixture updates)
+
+#### Notes
+
+- This is a test fix, not a code change - the application code is correct
+- The permission system implementation (Change #017) is working as intended
+- Tests need to be updated to match the new URL structure and permission requirements
+- No application functionality changes are needed
+
+---
+
 ### Change #017: Three-Tier Permission System with Unified Login Page
 
 **Status:** Planned  

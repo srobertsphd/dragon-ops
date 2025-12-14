@@ -29,10 +29,11 @@ class TestMilestoneExportView:
 
     @pytest.fixture
     def user(self, db):
-        """Create a user for authentication"""
+        """Create a staff user for authentication"""
         return User.objects.create_user(
             username="testuser",
             password="testpass",
+            is_staff=True,
         )
 
     @pytest.fixture
@@ -183,7 +184,7 @@ class TestMilestoneExportView:
         # Use a fixed date that will fall in range: today + 15 days
         milestone_day = min(today.day + 15, 28)
         milestone_in_range = date(2015, today.month, milestone_day)
-        member_in_range = Member.objects.create(
+        Member.objects.create(
             first_name="In",
             last_name="Range",
             member_type=member_type,

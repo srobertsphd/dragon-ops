@@ -27,10 +27,11 @@ class TestExpiresTwoMonthsExportView:
 
     @pytest.fixture
     def user(self, db):
-        """Create a user for authentication"""
+        """Create a staff user for authentication"""
         return User.objects.create_user(
             username="testuser",
             password="testpass",
+            is_staff=True,
         )
 
     @pytest.fixture

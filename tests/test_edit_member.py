@@ -103,32 +103,33 @@ class TestEditMemberView:
     # Search Mode Tests
     def test_search_mode_get_displays_form(self, staff_client):
         """Test that GET request to edit/ shows search form"""
-        response = staff_client.get("/members/edit/")
+        response = staff_client.get("/edit/")
         assert response.status_code == 200
         assert "Edit Member - Search" in response.content.decode()
         assert "Enter member name or ID" in response.content.decode()
 
     def test_search_mode_requires_staff(self, regular_client):
         """Test that non-staff users cannot access edit page"""
-        response = regular_client.get("/members/edit/")
-        assert response.status_code == 403  # Forbidden
+        response = regular_client.get("/edit/")
+        assert response.status_code == 302  # Redirect to admin login
+        assert "/admin/login/" in response.url
 
     def test_search_by_member_id(self, staff_client, active_member):
         """Test searching by member ID"""
-        response = staff_client.get("/members/edit/?q=100")
+        response = staff_client.get("/edit/?q=100")
         assert response.status_code == 200
         assert "John Doe" in response.content.decode()
         assert "#100" in response.content.decode()
 
     def test_search_by_first_name(self, staff_client, active_member):
         """Test searching by first name"""
-        response = staff_client.get("/members/edit/?q=John")
+        response = staff_client.get("/edit/?q=John")
         assert response.status_code == 200
         assert "John Doe" in response.content.decode()
 
     def test_search_by_last_name(self, staff_client, active_member):
         """Test searching by last name"""
-        response = staff_client.get("/members/edit/?q=Doe")
+        response = staff_client.get("/edit/?q=Doe")
         assert response.status_code == 200
         assert "John Doe" in response.content.decode()
 
@@ -136,20 +137,20 @@ class TestEditMemberView:
         self, staff_client, active_member, inactive_member
     ):
         """Test that search only returns active members"""
-        response = staff_client.get("/members/edit/?q=Jane")
+        response = staff_client.get("/edit/?q=Jane")
         assert response.status_code == 200
         assert "Jane Smith" not in response.content.decode()
 
     def test_search_no_results(self, staff_client):
         """Test search with no matching results"""
-        response = staff_client.get("/members/edit/?q=Nonexistent")
+        response = staff_client.get("/edit/?q=Nonexistent")
         assert response.status_code == 200
         assert "No active members found" in response.content.decode()
 
     # Edit Mode Tests
     def test_edit_mode_get_displays_form(self, staff_client, active_member):
         """Test that GET request to edit/<uuid>/ shows edit form"""
-        response = staff_client.get(f"/members/edit/{active_member.member_uuid}/")
+        response = staff_client.get(f"/edit/{active_member.member_uuid}/")
         assert response.status_code == 200
         assert "Edit Member" in response.content.decode()
         assert "John" in response.content.decode()
@@ -158,21 +159,22 @@ class TestEditMemberView:
 
     def test_edit_mode_requires_staff(self, regular_client, active_member):
         """Test that non-staff users cannot access edit form"""
-        response = regular_client.get(f"/members/edit/{active_member.member_uuid}/")
-        assert response.status_code == 403  # Forbidden
+        response = regular_client.get(f"/edit/{active_member.member_uuid}/")
+        assert response.status_code == 302  # Redirect to admin login
+        assert "/admin/login/" in response.url
 
-    def test_edit_mode_requires_active_member(
-        self, staff_client, inactive_member
-    ):
+    def test_edit_mode_requires_active_member(self, staff_client, inactive_member):
         """Test that inactive members cannot be edited"""
-        response = staff_client.get(f"/members/edit/{inactive_member.member_uuid}/")
+        response = staff_client.get(f"/edit/{inactive_member.member_uuid}/")
         assert response.status_code == 302  # Redirect
-        assert "/members/edit/" in response.url
+        assert "/edit/" in response.url
 
-    def test_edit_mode_post_updates_member(self, staff_client, active_member, member_type):
+    def test_edit_mode_post_updates_member(
+        self, staff_client, active_member, member_type
+    ):
         """Test that POST request updates member successfully"""
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Updated",
@@ -200,10 +202,12 @@ class TestEditMemberView:
         assert active_member.home_city == "San Francisco"
         assert active_member.home_zip == "94102"
 
-    def test_edit_mode_validates_required_fields(self, staff_client, active_member, member_type):
+    def test_edit_mode_validates_required_fields(
+        self, staff_client, active_member, member_type
+    ):
         """Test that required fields are validated"""
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "",
                 "last_name": "",
@@ -216,10 +220,12 @@ class TestEditMemberView:
         assert response.status_code == 200  # Form with errors
         assert "Required fields are missing" in response.content.decode()
 
-    def test_edit_mode_validates_member_id_range(self, staff_client, active_member, member_type):
+    def test_edit_mode_validates_member_id_range(
+        self, staff_client, active_member, member_type
+    ):
         """Test that member ID must be between 1-999"""
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -252,7 +258,7 @@ class TestEditMemberView:
 
         # Try to change active_member's ID to 200
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -268,10 +274,12 @@ class TestEditMemberView:
         assert response.status_code == 200
         assert "already in use" in response.content.decode()
 
-    def test_edit_mode_allows_same_member_id(self, staff_client, active_member, member_type):
+    def test_edit_mode_allows_same_member_id(
+        self, staff_client, active_member, member_type
+    ):
         """Test that member can keep their own member ID"""
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -286,10 +294,12 @@ class TestEditMemberView:
         )
         assert response.status_code == 302  # Success
 
-    def test_edit_mode_validates_email_format(self, staff_client, active_member, member_type):
+    def test_edit_mode_validates_email_format(
+        self, staff_client, active_member, member_type
+    ):
         """Test that email format is validated"""
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -310,10 +320,11 @@ class TestEditMemberView:
     ):
         """Test that date joined cannot be in the future"""
         from datetime import timedelta
+
         future_date = (date.today() + timedelta(days=1)).isoformat()
 
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -334,10 +345,11 @@ class TestEditMemberView:
     ):
         """Test that milestone date cannot be in the future"""
         from datetime import timedelta
+
         future_date = (date.today() + timedelta(days=1)).isoformat()
 
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -359,7 +371,7 @@ class TestEditMemberView:
         """Test that expiration date is adjusted to end of month"""
         # Submit with override_expiration set to middle of month
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -381,7 +393,7 @@ class TestEditMemberView:
     def test_edit_mode_success_message(self, staff_client, active_member, member_type):
         """Test that success message is displayed after update"""
         response = staff_client.post(
-            f"/members/edit/{active_member.member_uuid}/",
+            f"/edit/{active_member.member_uuid}/",
             {
                 "first_name": "John",
                 "last_name": "Doe",
@@ -399,4 +411,3 @@ class TestEditMemberView:
         # Follow redirect to member_detail
         detail_response = staff_client.get(response.url)
         assert "updated successfully" in detail_response.content.decode()
-
