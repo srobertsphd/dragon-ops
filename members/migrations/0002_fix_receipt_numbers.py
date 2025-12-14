@@ -6,61 +6,63 @@ from django.db import migrations
 def fix_receipt_numbers_forward(apps, schema_editor):
     """
     Remove .0 suffix from receipt numbers that end with .0
-    
+
     This fixes historic data imported from Excel where receipt numbers
     were converted to floats and stored as strings like "596246.0"
     """
-    Payment = apps.get_model('members', 'Payment')
-    
+    Payment = apps.get_model("members", "Payment")
+
     # Find all payments with receipt numbers ending in .0
-    payments_to_fix = Payment.objects.filter(receipt_number__endswith='.0')
-    
+    payments_to_fix = Payment.objects.filter(receipt_number__endswith=".0")
+
     # Count for reporting
     count = payments_to_fix.count()
     print(f"Found {count} payments with .0 suffix to fix")
-    
+
     # Update each payment by removing .0 suffix
     updated_count = 0
     for payment in payments_to_fix:
-        if payment.receipt_number and payment.receipt_number.endswith('.0'):
+        if payment.receipt_number and payment.receipt_number.endswith(".0"):
             # Remove .0 suffix (strip last 2 characters)
             payment.receipt_number = payment.receipt_number[:-2]
-            payment.save(update_fields=['receipt_number'])
+            payment.save(update_fields=["receipt_number"])
             updated_count += 1
-    
+
     print(f"Updated {updated_count} receipt numbers")
 
 
 def fix_receipt_numbers_reverse(apps, schema_editor):
     """
     Reverse migration: Restore .0 suffix to receipt numbers
-    
+
     This function restores the .0 suffix for rollback purposes.
     Only affects receipt numbers that are pure numbers (no letters).
     """
-    Payment = apps.get_model('members', 'Payment')
-    
+    Payment = apps.get_model("members", "Payment")
+
     # Find payments with numeric receipt numbers (no .0 suffix, no letters)
     # We'll add .0 back to numeric-only receipt numbers
     import re
-    payments_to_restore = Payment.objects.exclude(receipt_number='').exclude(receipt_number__endswith='.0')
-    
+
+    payments_to_restore = Payment.objects.exclude(receipt_number="").exclude(
+        receipt_number__endswith=".0"
+    )
+
     updated_count = 0
     for payment in payments_to_restore:
         if payment.receipt_number:
             # Only restore .0 if receipt number is purely numeric
-            if re.match(r'^\d+$', payment.receipt_number):
-                payment.receipt_number = payment.receipt_number + '.0'
-                payment.save(update_fields=['receipt_number'])
+            if re.match(r"^\d+$", payment.receipt_number):
+                payment.receipt_number = payment.receipt_number + ".0"
+                payment.save(update_fields=["receipt_number"])
                 updated_count += 1
-    
+
     print(f"Restored .0 suffix to {updated_count} receipt numbers")
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('members', '0001_initial'),
+        ("members", "0001_initial"),
     ]
 
     operations = [
