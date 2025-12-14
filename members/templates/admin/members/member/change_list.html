@@ -1,11 +1,2 @@
 {% extends "admin/change_list.html" %}
 
-{% block object-tools-items %}
-    {{ block.super }}
-    <li>
-        <a href="{% url 'admin:deactivate_expired_members' %}" class="addlink">
-            Deactivate Expired Members
-        </a>
-    </li>
-{% endblock %}
-

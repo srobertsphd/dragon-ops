@@ -173,6 +173,204 @@ After implementing the three-tier permission system (Change #017), multiple test
 
 ---
 
+### Change #019: Remove Admin Panel "Deactivate Expired Members" Functionality
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 30-45 minutes  
+**Created:** December 2025
+
+#### Description
+
+Remove the duplicate "Deactivate Expired Members" functionality from the Django admin panel. This functionality has been fully duplicated in the Reports section (`/reports/deactivate-expired/`) and is accessible to staff users without requiring admin panel access. Removing the admin version will simplify the codebase and eliminate duplicate code paths.
+
+**Rationale:**
+- The reports version (`deactivate_expired_members_report_view`) is fully functional and independent
+- Staff users can access the reports version without admin panel access
+- Eliminates code duplication and maintenance burden
+- Reduces confusion about which version to use
+
+#### Current Implementation
+
+**Admin Panel Version (to be removed):**
+- **View:** `members/admin_views.py` → `deactivate_expired_members_view()`
+- **URL:** `/admin/deactivate-expired-members/`
+- **Template:** `members/templates/admin/deactivate_expired.html`
+- **Registration:** `members/apps.py` → `ready()` method registers admin URL
+- **Access Points:**
+  - Member admin change list page (`change_list.html`)
+  - User dropdown menu for admin users (`base.html`)
+- **Tests:** `tests/test_admin_views.py` → `TestDeactivateExpiredMembersView`
+
+**Reports Version (to be kept):**
+- **View:** `members/views/reports.py` → `deactivate_expired_members_report_view()`
+- **URL:** `/reports/deactivate-expired/`
+- **Template:** `members/templates/members/reports/deactivate_expired.html`
+- **Access Point:** Reports landing page card
+- **Tests:** `tests/test_reports_views.py` → `TestDeactivateExpiredMembersReportView`
+
+**Shared Dependencies (to be kept):**
+- Model methods used by both versions:
+  - `Member.objects.get_expired_without_payment()`
+  - `Member.days_expired()`
+  - `Member.is_expired_for_deactivation()`
+  - `Member.deactivate()`
+
+#### Implementation Steps
+
+**Phase 1: Remove URL Registration**
+
+**Step 1.1: Remove Admin URL Registration**
+- **File:** `members/apps.py`
+- **Action:** Remove or modify the `ready()` method
+- **Details:**
+  - Remove import: `from .admin_views import deactivate_expired_members_view` (line 12)
+  - Remove URL registration code (lines 20-25)
+  - If `ready()` method becomes empty, remove entire method
+- **Impact:** Removes `/admin/deactivate-expired-members/` URL from admin panel
+- **Verification:** Admin panel should no longer have this URL accessible
+
+**Phase 2: Remove Access Points**
+
+**Step 2.1: Remove Link from Member Admin Change List**
+- **File:** `members/templates/admin/members/member/change_list.html`
+- **Action:** Remove the "Deactivate Expired Members" link
+- **Details:**
+  - Remove lines 5-9 (entire `<li>` block with link)
+  - Keep `{% extends "admin/change_list.html" %}` and `{{ block.super }}`
+- **Impact:** Link removed from Member admin list page
+- **Verification:** Member admin page should no longer show this link
+
+**Step 2.2: Remove Link from User Dropdown Menu**
+- **File:** `members/templates/members/base.html`
+- **Action:** Remove the "Deactivate Expired Members" menu item
+- **Details:**
+  - Remove lines 42-44 (entire `<li>` block with link)
+  - Keep surrounding dropdown structure intact
+- **Impact:** Link removed from admin user dropdown menu
+- **Verification:** User dropdown should no longer show this option for admin users
+
+**Phase 3: Delete Files**
+
+**Step 3.1: Delete Admin View File**
+- **File:** `members/admin_views.py`
+- **Action:** Delete entire file
+- **Details:**
+  - File contains only `deactivate_expired_members_view()` function
+  - No other functionality in this file
+- **Impact:** Admin view function removed
+- **Verification:** File should no longer exist
+
+**Step 3.2: Delete Admin Template**
+- **File:** `members/templates/admin/deactivate_expired.html`
+- **Action:** Delete entire file
+- **Details:**
+  - Admin-specific template for deactivate expired members page
+- **Impact:** Admin template removed
+- **Verification:** File should no longer exist
+
+**Step 3.3: Delete Admin Tests**
+- **File:** `tests/test_admin_views.py`
+- **Action:** Delete entire file
+- **Details:**
+  - File contains only `TestDeactivateExpiredMembersView` test class
+  - No other tests in this file
+- **Impact:** Admin tests removed
+- **Verification:** File should no longer exist
+
+**Phase 4: Verification**
+
+**Step 4.1: Verify Reports Functionality Still Works**
+- Navigate to `/reports/deactivate-expired/`
+- Verify page loads correctly
+- Verify member list displays
+- Verify deactivation functionality works
+- **Expected:** Reports version should work identically to before
+
+**Step 4.2: Verify Admin URLs Are Removed**
+- Attempt to access `/admin/deactivate-expired-members/`
+- **Expected:** Should return 404 (URL no longer exists)
+- Check admin panel for any remaining references
+- **Expected:** No links or references to deactivate expired members
+
+**Step 4.3: Run Test Suite**
+- Run: `pytest tests/test_reports_views.py::TestDeactivateExpiredMembersReportView -v`
+- **Expected:** All reports tests should pass
+- Run: `pytest tests/ -v`
+- **Expected:** No test failures related to admin deactivate functionality
+- **Note:** Admin tests will be gone, so no failures expected from that file
+
+#### Dependencies
+
+- Change #012 must be completed (Reports version must be fully functional)
+- Reports version must be tested and verified working
+- No dependencies on other changes
+
+#### Testing Requirements
+
+1. **Reports Functionality:**
+   - Navigate to Reports landing page
+   - Click "Deactivate Expired Members" card
+   - Verify page loads with member list
+   - Verify deactivation functionality works
+   - Verify success/error messages display correctly
+
+2. **Admin Panel Verification:**
+   - Access Django admin panel
+   - Navigate to Member list page
+   - Verify "Deactivate Expired Members" link is gone
+   - Check user dropdown menu
+   - Verify "Deactivate Expired Members" option is gone
+   - Attempt direct URL access: `/admin/deactivate-expired-members/`
+   - Verify 404 error (URL no longer exists)
+
+3. **Test Suite:**
+   - Run reports tests: `pytest tests/test_reports_views.py -v`
+   - Verify all tests pass
+   - Run full test suite: `pytest tests/ -v`
+   - Verify no regressions
+
+#### Files to Delete
+
+1. `members/admin_views.py` - Admin view function
+2. `members/templates/admin/deactivate_expired.html` - Admin template
+3. `tests/test_admin_views.py` - Admin tests
+
+#### Files to Modify
+
+1. `members/apps.py` - Remove URL registration (lines 12-29)
+2. `members/templates/admin/members/member/change_list.html` - Remove link (lines 5-9)
+3. `members/templates/members/base.html` - Remove dropdown menu item (lines 42-44)
+
+#### Files That Remain Unchanged
+
+These files reference the **reports version** and should NOT be modified:
+- `members/views/reports.py` - Reports view (independent implementation)
+- `members/templates/members/reports/deactivate_expired.html` - Reports template
+- `members/templates/members/reports/landing.html` - Reports landing page
+- `members/urls.py` - Reports URL route
+- `members/views/__init__.py` - Reports view export
+- `tests/test_reports_views.py` - Reports tests
+- `members/models.py` - Model methods (shared by both versions)
+
+#### Benefits
+
+- **Code Simplification:** Removes duplicate code and maintenance burden
+- **Clearer Access Path:** Single, consistent way to access functionality
+- **Reduced Confusion:** No ambiguity about which version to use
+- **Better UX:** Staff users don't need admin access for this functionality
+- **Smaller Codebase:** Fewer files to maintain
+
+#### Notes
+
+- The reports version is completely independent and does not import or call the admin version
+- Both versions share the same model methods (`get_expired_without_payment()`, `days_expired()`, etc.), which remain unchanged
+- Removing admin version has zero impact on reports functionality
+- This is a cleanup/refactoring change, not a feature change
+- Historical documentation in `docs/CHANGE_LOG.md` can remain for reference
+
+---
+
 ### Change #017: Three-Tier Permission System with Unified Login Page
 
 **Status:** Planned  
