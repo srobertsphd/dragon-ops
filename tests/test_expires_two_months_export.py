@@ -438,7 +438,7 @@ class TestExpiresTwoMonthsExcelGeneration:
             date_joined=date(2020, 1, 15),
         )
 
-        queryset = [member3, member1, member2]
+        queryset = sorted([member3, member1, member2], key=lambda m: m.member_id or 0)
         response = generate_expires_two_months_excel(queryset)
 
         wb = load_workbook(BytesIO(response.content))

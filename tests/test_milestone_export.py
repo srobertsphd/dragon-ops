@@ -209,9 +209,9 @@ class TestMilestoneExportView:
         )
 
         # Member with milestone date that falls AFTER range THIS YEAR
-        # Use a date that's after end_date: today + 50 days
-        milestone_after_day = min(today.day + 50, 28)
-        milestone_after = date(2018, today.month, milestone_after_day)
+        # Use end_date + 10 days to ensure it's after the range
+        after_date = end_date + timedelta(days=10)
+        milestone_after = date(2018, after_date.month, min(after_date.day, 28))
         Member.objects.create(
             first_name="After",
             last_name="Range",
