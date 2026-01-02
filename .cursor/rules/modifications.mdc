@@ -4,6 +4,6 @@ alwaysApply: true
 
 when asked to modify the code or make changes you should always ask to make changes before making any changes
 - first list a plan for what files will changes and how many lines of code might be change
-- then list a step by step plan for what modifications you are porposing
+- then list a step by step plan for what modifications you are purposing
 - always outline well what you are about to execute
 - always wait for permission before executing the code
