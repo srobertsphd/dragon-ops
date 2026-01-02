@@ -4,14 +4,8 @@ asgiref==3.11.0
     # via django
 asttokens==3.0.1
     # via stack-data
-brotli==1.2.0
-    # via fonttools
-cffi==2.0.0
-    # via weasyprint
 comm==0.2.3
     # via ipykernel
-cssselect2==0.8.0
-    # via weasyprint
 debugpy==1.8.17
     # via ipykernel
 decorator==5.2.1
@@ -26,8 +20,6 @@ et-xmlfile==2.0.0
     # via openpyxl
 executing==2.2.1
     # via stack-data
-fonttools==4.61.0
-    # via weasyprint
 gunicorn==23.0.0
     # via alano-club (pyproject.toml)
 ipykernel==7.1.0
@@ -64,8 +56,6 @@ parso==0.8.5
     # via jedi
 pexpect==4.9.0
     # via ipython
-pillow==12.0.0
-    # via weasyprint
 platformdirs==4.5.0
     # via jupyter-core
 prompt-toolkit==3.0.52
@@ -78,16 +68,10 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
-pycparser==2.23
-    # via cffi
-pydyf==0.11.0
-    # via weasyprint
 pygments==2.19.2
     # via
     #   ipython
     #   ipython-pygments-lexers
-pyphen==0.17.2
-    # via weasyprint
 python-dateutil==2.9.0.post0
     # via
     #   jupyter-client
@@ -106,12 +90,6 @@ sqlparse==0.5.4
     # via django
 stack-data==0.6.3
     # via ipython
-tinycss2==1.5.1
-    # via
-    #   cssselect2
-    #   weasyprint
-tinyhtml5==2.0.0
-    # via weasyprint
 tornado==6.5.2
     # via
     #   ipykernel
@@ -127,14 +105,5 @@ tzdata==2025.2
     # via pandas
 wcwidth==0.2.14
     # via prompt-toolkit
-weasyprint==66.0
-    # via alano-club (pyproject.toml)
-webencodings==0.5.1
-    # via
-    #   cssselect2
-    #   tinycss2
-    #   tinyhtml5
 whitenoise==6.11.0
     # via alano-club (pyproject.toml)
-zopfli==0.4.0
-    # via fonttools

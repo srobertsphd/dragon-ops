@@ -62,13 +62,6 @@ def current_members_report_view(request):
         "total_members": len(regular_members) + len(life_members),
     }
 
-    # Check if PDF is requested
-    if request.GET.get("format") == "pdf":
-        from ..reports.pdf import generate_members_pdf
-
-        return generate_members_pdf(request, context)
-
-    # Otherwise return HTML version for preview
     return render(request, "members/reports/current_members.html", context)
 
 
