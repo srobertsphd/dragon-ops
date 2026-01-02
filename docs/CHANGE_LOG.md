@@ -20,6 +20,131 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #021: Replace Server-Side PDF Generation with Browser Print (Current Members Report)
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 30-45 minutes  
+**Created:** January 2025
+
+#### Description
+
+Replace the server-side PDF generation (WeasyPrint) for the Current Members Report with browser-based print functionality using CSS `@media print` rules. This simplifies the codebase by removing the WeasyPrint dependency and provides better formatting that matches what users see on screen.
+
+**Current Situation:**
+- Server-side PDF generation uses WeasyPrint (`members/reports/pdf.py`)
+- Separate PDF template (`current_members_pdf.html`) with minimal formatting
+- PDF output doesn't match the nicely formatted HTML report
+- WeasyPrint dependency adds complexity and maintenance overhead
+
+**Goal:**
+- Use browser's native print-to-PDF functionality
+- Hide navigation/sidebar when printing using CSS print rules
+- Single template for both screen and print views
+- Remove server-side PDF generation code
+
+**Benefits:**
+- Simpler codebase (remove WeasyPrint dependency)
+- Better formatting (matches HTML report exactly)
+- Less maintenance (one template instead of two)
+- No server-side PDF generation overhead
+
+#### Implementation Steps
+
+**Step 1: Enable Print CSS (Test First)**
+
+**File:** `members/templates/members/reports/current_members.html`
+
+**Action:** Add `{% block extra_css %}` block after `{% block title %}` with `@media print` CSS rules
+
+**Changes:**
+- Add CSS block (~20-25 lines) to hide:
+  - `.navbar` (top navigation)
+  - `.sidebar` (desktop sidebar)
+  - `.offcanvas` (mobile sidebar)
+  - `.btn` (buttons)
+- Make content full-width
+- Clean up card styling for print
+
+**Testing (Before Proceeding):**
+1. View report in browser (should look normal)
+2. Open print preview (Ctrl+P / Cmd+P)
+3. Verify: navbar hidden, sidebar hidden, buttons hidden, content full-width
+4. Print to PDF and verify output
+
+**Step 2: Modify Button Behavior**
+
+**File:** `members/templates/members/reports/current_members.html`
+
+**Action:** Replace "Download PDF" button with "Print Report" button
+
+**Changes:**
+- Line 16-19: Change `<a href="?format=pdf">` to `<button onclick="window.print()">`
+- Update button text and icon (download → printer)
+
+**Testing:**
+1. Click "Print Report" button
+2. Verify browser print dialog opens
+3. Verify print preview shows correct formatting
+
+**Step 3: Remove Server-Side PDF Code (Cleanup)**
+
+**Files to Modify:**
+1. `members/views/reports.py` - Remove PDF check code (lines 65-69)
+2. `pyproject.toml` - Remove WeasyPrint dependency (line 17, optional)
+
+**Files to Delete (Optional Cleanup):**
+3. `members/reports/pdf.py` (entire file, 46 lines)
+4. `members/templates/members/reports/current_members_pdf.html` (entire file, 189 lines)
+5. `tests/test_pdf_generation.py` (entire file, 20 lines)
+
+**Changes:**
+- Remove `if request.GET.get("format") == "pdf":` block from `current_members_report_view()`
+- Remove `"weasyprint>=66.0"` from `pyproject.toml` dependencies
+- Delete unused PDF generation files
+
+**Testing:**
+1. Verify report page loads normally
+2. Verify "Print Report" button works
+3. Verify `?format=pdf` no longer generates PDF (should show HTML)
+4. Run tests to ensure nothing breaks
+
+#### Dependencies
+
+None - This is a standalone change that doesn't depend on other features.
+
+#### Testing Requirements
+
+**After Step 1:**
+- [ ] Page displays normally in browser
+- [ ] Print preview hides navbar
+- [ ] Print preview hides sidebar
+- [ ] Print preview hides buttons
+- [ ] Content is full-width
+- [ ] Tables are readable
+- [ ] PDF output looks correct
+
+**After Step 2:**
+- [ ] Button says "Print Report"
+- [ ] Button triggers print dialog
+- [ ] Print preview still works correctly
+
+**After Step 3:**
+- [ ] Report page loads normally
+- [ ] No errors in console/logs
+- [ ] `?format=pdf` no longer generates PDF
+- [ ] All tests pass (if applicable)
+
+#### Order of Operations
+
+1. **Step 1** → Add print CSS → Test print preview → **STOP and verify**
+2. **Step 2** → Modify button → Test button click → **STOP and verify**
+3. **Step 3** → Remove server PDF code → Final cleanup → **Complete**
+
+**Important:** Test after each step before proceeding to the next step.
+
+---
+
 ### Change #020: Fix Receipt Numbers - Remove Decimal Suffix from Historic Data
 
 **Status:** Completed  
