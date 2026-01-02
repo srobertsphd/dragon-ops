@@ -46,6 +46,20 @@
     width: 25% !important;
     max-width: 25% !important;
 }
+
+/* Highlight expired rows in yellow (Regular Members only) */
+.table tbody tr.expired-row {
+    background-color: #ffff99 !important; /* Standard highlight yellow */
+    -webkit-print-color-adjust: exact; /* Fallback for older browsers */
+    print-color-adjust: exact; /* Force background colors to print */
+}
+
+.table-striped tbody tr.expired-row:nth-of-type(odd),
+.table-striped tbody tr.expired-row:nth-of-type(even) {
+    background-color: #ffff99 !important; /* Override Bootstrap striped colors */
+    -webkit-print-color-adjust: exact; /* Fallback for older browsers */
+    print-color-adjust: exact; /* Force background colors to print */
+}
 </style>
 {% endblock %}
 
@@ -113,7 +127,7 @@
                             </thead>
                             <tbody>
                                 {% for member_data in regular_members %}
-                                <tr>
+                                <tr {% if member_data.member.expiration_date < report_date %}class="expired-row"{% endif %}>
                                     <td><strong>{{ member_data.member.last_name }}, {{ member_data.member.first_name }}</strong></td>
                                     <td>{{ member_data.member.member_id|default:"—" }}</td>
                                     <td>{{ member_data.member.member_type.member_type|default:"—" }}</td>
