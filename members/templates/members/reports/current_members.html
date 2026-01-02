@@ -27,6 +27,24 @@
     
     /* Ensure tables print properly */
     .table-responsive { overflow: visible !important; }
+    
+    /* Fix summary cards to print full width */
+    .row.justify-content-center {
+        justify-content: flex-start !important;
+    }
+    
+    .row .col-md-4 {
+        width: 33.333% !important;
+        flex: 0 0 33.333% !important;
+        max-width: 33.333% !important;
+    }
+}
+
+/* Set Name column to 25% width */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 25% !important;
+    max-width: 25% !important;
 }
 </style>
 {% endblock %}
