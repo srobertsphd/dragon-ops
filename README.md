@@ -56,7 +56,8 @@ Dragon Ops includes a comprehensive suite of reporting tools for data analysis, 
    ``` bash
    uv venv
    ```
-   3. **Activate virtual environment:**
+
+3. **Activate virtual environment:**
    ``` bash
    source .venv/bin/activate
    ```
@@ -65,7 +66,7 @@ Dragon Ops includes a comprehensive suite of reporting tools for data analysis, 
    ``` bash
    uv sync
    ```
-   5. **Configure environment variables:**
+5. **Configure environment variables:**
    
    Create a `.env` file in the project root with:
    ``` python
@@ -73,19 +74,19 @@ Dragon Ops includes a comprehensive suite of reporting tools for data analysis, 
    SECRET_KEY=your_django_secret_key
    DEBUG=True
    ```
-   6. **Run migrations:**
+6. **Run migrations:**
    ``` bash
    python manage.py migrate
    ```
-   7. **Create superuser (optional):**  
+7. **Create superuser (optional):**  
    ``` bash
    python manage.py createsuperuser
    ```
-   8. **Run development server:**
+8. **Run development server:**
    ``` bash
    python manage.py runserver 8001
    ```
-   9. **Access the application:**
+9. **Access the application:**
    - Web interface: http://127.0.0.1:8001/
    - Admin interface: http://127.0.0.1:8001/admin/
 
