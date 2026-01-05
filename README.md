@@ -20,19 +20,12 @@ A Django-based web application for managing records, payments, and organizationa
 Dragon Ops includes a comprehensive suite of reporting tools for data analysis, exports, and member management:
 
 - **Current Members Report**: View all active members with their payment history. Supports sorting by name or ID, separates regular and life members, and includes PDF download capability.
-
 - **Recent Payments Report**: View all payments from the last year (365 days) with detailed payment information. Export to CSV format for accounting and record-keeping.
-
 - **Newsletter Export**: Generate Excel file with active member data formatted for newsletter distribution. Includes member contact information and membership details.
-
 - **New Member Export**: Export new members (active members who joined within a selected date range) to Excel. Customizable date range selection with validation (up to 6 months).
-
 - **Milestone Export**: Export active members whose milestone dates (anniversaries) fall within a selected date range to Excel. Useful for recognizing member anniversaries and special occasions.
-
 - **Expires Two Months Export**: Export active members whose expiration dates are 60+ days ago (expired 2+ months ago) to Excel. Helps identify members who need renewal reminders.
-
 - **Deactivate Expired Members**: Review and deactivate members expired 90+ days with no payment after expiration. Interactive interface with member selection and bulk deactivation capabilities.
-
 - **Database Backup**: Create and download database backup files. Includes database type and timestamp in filename for easy version tracking.
 
 ## Quick Start
