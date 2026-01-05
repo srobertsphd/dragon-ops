@@ -1,4 +1,4 @@
-# Alano Club Member Management System
+# DRAGON-Ops Member Management System
 
 ## Setup Instructions
 
