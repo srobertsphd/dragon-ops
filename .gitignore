@@ -26,3 +26,5 @@ logs/
 # SQLite database (we use PostgreSQL)
 *.sqlite3
 *.db
+
+.cursor/

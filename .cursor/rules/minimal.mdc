@@ -1,5 +1,0 @@
----
-alwaysApply: true
----
-- I always want you to use the leanest most minimal code to make any changes. we want lean code that only adds what is asked for and no extras
-- Do not add emojis or excess print statements.  Use print statements minimally only when needing to output statements in log files or writing test code.
