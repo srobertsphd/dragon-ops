@@ -47,18 +47,17 @@
     max-width: 25% !important;
 }
 
-/* Highlight expired rows in yellow (Regular Members only) */
-.table tbody tr.expired-row {
-    background-color: #ffff99 !important; /* Standard highlight yellow */
-    -webkit-print-color-adjust: exact; /* Fallback for older browsers */
-    print-color-adjust: exact; /* Force background colors to print */
+/* Horizontal lines between rows */
+.table tbody tr {
+    border-bottom: 1px solid #dee2e6;
 }
 
-.table-striped tbody tr.expired-row:nth-of-type(odd),
-.table-striped tbody tr.expired-row:nth-of-type(even) {
-    background-color: #ffff99 !important; /* Override Bootstrap striped colors */
-    -webkit-print-color-adjust: exact; /* Fallback for older browsers */
-    print-color-adjust: exact; /* Force background colors to print */
+/* Highlight expired rows in yellow (Regular Members only) */
+.table tbody tr.expired-row,
+.table tbody tr.expired-row td {
+    background-color: #ffff99 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 </style>
 {% endblock %}
@@ -119,11 +118,10 @@
                         </div>
                     </div>
 
-                    <!-- Regular Members Section -->
-                    {% if regular_members %}
-                    <h3 class="mb-3">Regular Members</h3>
-                    <div class="table-responsive mb-5">
-                        <table class="table table-striped table-sm">
+                    <!-- All Members -->
+                    {% if members %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
                             <thead class="table-dark">
                                 <tr>
                                     <th>Name</th>
@@ -135,8 +133,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for member_data in regular_members %}
-                                <tr {% if member_data.member.expiration_date < report_date %}class="expired-row"{% endif %}>
+                                {% for member_data in members %}
+                                <tr {% if member_data.member.expiration_date < report_date and member_data.member.member_type.member_type|lower != "life" %}class="expired-row"{% endif %}>
                                     <td><strong>{{ member_data.member.last_name }}, {{ member_data.member.first_name }}</strong></td>
                                     <td>{{ member_data.member.member_id|default:"—" }}</td>
                                     <td>{{ member_data.member.member_type.member_type|default:"—" }}</td>
@@ -155,35 +153,6 @@
                                             <em class="text-muted">No payments</em>
                                         {% endif %}
                                     </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% endif %}
-
-                    <!-- Life Members Section -->
-                    {% if life_members %}
-                    <h3 class="mb-3">Life Members</h3>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm">
-                            <thead class="table-success">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>ID</th>
-                                    <th>Type</th>
-                                    <th>Date Joined</th>
-                                    <th>Expires</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for member_data in life_members %}
-                                <tr>
-                                    <td><strong>{{ member_data.member.last_name }}, {{ member_data.member.first_name }}</strong></td>
-                                    <td>{{ member_data.member.member_id|default:"—" }}</td>
-                                    <td>{{ member_data.member.member_type.member_type|default:"—" }}</td>
-                                    <td>{{ member_data.member.date_joined|date:"n/j/Y" }}</td>
-                                    <td>{{ member_data.member.expiration_date|date:"n/j/Y" }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

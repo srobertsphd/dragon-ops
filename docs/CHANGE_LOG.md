@@ -20,6 +20,49 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #023: Current Members Report - Styling and Layout Improvements
+
+**Status:** ✅ Completed  
+**Priority:** Medium  
+**Estimated Effort:** 30 minutes  
+**Created:** January 31, 2026  
+**Completed:** January 31, 2026
+
+#### Description
+
+Two improvements to the Current Members Report:
+
+1. **Table Styling Fix**: Changed table styling from striped rows to horizontal lines between rows, with white backgrounds. This fixes an issue where delinquent member highlighting (yellow) was being overridden by Bootstrap's striped table styling, causing some rows to appear gray instead of yellow when printing.
+
+2. **Combined Member List**: Removed the separation between Regular Members and Life Members sections. All active members are now displayed in a single unified table, sorted together by name or ID. Life members are identified by their "Life" type in the Type column and are excluded from the yellow delinquent highlighting (since they never expire).
+
+#### Files Modified
+
+**`members/templates/members/reports/current_members.html`**
+- Removed `table-striped` class from tables
+- Added CSS rule for horizontal lines between rows (`border-bottom: 1px solid #dee2e6`)
+- Simplified expired-row CSS (no longer fighting striped table specificity)
+- Removed separate "Life Members" section
+- Combined into single table using `members` context variable
+- Updated expired-row condition to exclude life members: `{% if member_data.member.expiration_date < report_date and member_data.member.member_type.member_type|lower != "life" %}`
+
+**`members/views/reports.py`**
+- Removed logic that separated members into `regular_members` and `life_members` lists
+- Now passes single `members` list to template
+- Still counts life members for summary cards display
+
+#### Testing
+
+1. Navigate to Reports > Current Members Report
+2. Verify all members appear in a single table (regular and life members together)
+3. Verify rows have horizontal lines between them (not striped backgrounds)
+4. Verify expired non-life members are highlighted in yellow
+5. Verify life members are NOT highlighted in yellow (regardless of expiration date)
+6. Test Print Preview - verify yellow highlighting appears correctly
+7. Test sorting by Name and by ID - both should work with combined list
+
+---
+
 ### Change #022: Add Sorting Functionality to Current Members Report
 
 **Status:** ✅ Completed  

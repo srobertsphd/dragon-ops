@@ -43,9 +43,9 @@ def current_members_report_view(request):
     else:  # default to "name"
         active_members = active_members.order_by("last_name", "first_name")
 
-    # Separate regular members and life members
-    regular_members = []
-    life_members = []
+    # Build members list with payment data
+    members = []
+    total_life = 0
 
     for member in active_members:
         # Get last 3 payments (already prefetched)
@@ -54,20 +54,18 @@ def current_members_report_view(request):
         )
 
         member_data = {"member": member, "payments": recent_payments}
+        members.append(member_data)
 
-        # Separate by member type
+        # Count life members
         if member.member_type and member.member_type.member_type.lower() == "life":
-            life_members.append(member_data)
-        else:
-            regular_members.append(member_data)
+            total_life += 1
 
     context = {
-        "regular_members": regular_members,
-        "life_members": life_members,
+        "members": members,
         "report_date": date.today(),
-        "total_regular": len(regular_members),
-        "total_life": len(life_members),
-        "total_members": len(regular_members) + len(life_members),
+        "total_regular": len(members) - total_life,
+        "total_life": total_life,
+        "total_members": len(members),
         "current_sort": sort_by,
     }
 
