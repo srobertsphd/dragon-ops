@@ -50,7 +50,7 @@ def current_members_report_view(request):
     for member in active_members:
         # Get last 3 payments (already prefetched)
         recent_payments = (
-            member.recent_payments[:3] if hasattr(member, "recent_payments") else []
+            member.recent_payments[:1] if hasattr(member, "recent_payments") else []
         )
 
         member_data = {"member": member, "payments": recent_payments}
