@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
-from django.db.models import Prefetch
-from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib import messages
-from django.db import transaction
 from datetime import date, timedelta
+
+from django.db import transaction
+from django.db.models import Prefetch
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 
 from ..models import Member, Payment
 from ..reports.excel import generate_expires_two_months_excel
+from ..reports.csv_backup import get_export_schema, build_csv_backup_zip
 
 
 @staff_member_required
@@ -486,3 +489,20 @@ def expires_two_months_export_view(request):
 
     # GET request - display simple export page
     return render(request, "members/reports/expires_two_months_export.html")
+
+
+@staff_member_required
+def csv_backup_export_view(request):
+    """CSV backup export: schema page with ZIP download (CSVs + schema JSON)."""
+    if request.GET.get("download") == "zip":
+        response = HttpResponse(
+            build_csv_backup_zip(),
+            content_type="application/zip",
+        )
+        response["Content-Disposition"] = f'attachment; filename="csv_backup_{date.today().isoformat()}.zip"'
+        return response
+    return render(
+        request,
+        "members/reports/csv_backup_export.html",
+        {"schema": get_export_schema()},
+    )

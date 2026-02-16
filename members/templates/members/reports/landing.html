@@ -134,6 +134,23 @@
                             </div>
                         </div>
 
+                        <!-- CSV Backup Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-secondary">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-file-earmark-zip text-secondary" style="font-size: 3rem;"></i>
+                                    <h3 class="card-title mt-3">Back up to CSVs</h3>
+                                    <p class="card-text text-muted">
+                                        View schema and download all member tables as CSV files in a ZIP. Includes member types, payment methods, members, and payments.
+                                    </p>
+                                    <a href="{% url 'members:csv_backup_export' %}" class="btn btn-secondary">
+                                        <i class="bi bi-file-earmark-zip me-2"></i>
+                                        Back up to CSVs
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Database Backup Card -->
                         <div class="col-md-6">
                             <div class="card h-100 border-danger">

@@ -20,6 +20,105 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #024: CSV Backup on Reports Page (Schema + ZIP Download)
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** 2–3 hours  
+**Created:** February 16, 2026  
+
+#### Description
+
+Add a second backup option on the Reports page: “Back up to CSVs.” When clicked, the user is taken to a dedicated page that (1) displays the export schema, (2) offers a download for the schema file, and (3) offers a download for a ZIP containing four CSV files (MemberType, PaymentMethod, Members with joined type, Payments with joined member and payment method). No change to the existing JSON backup download; this is an additional button and flow.
+
+**Goal:**
+- New button on Reports landing: “Back up to CSVs” (or similar).
+- Button links to a new page (e.g. `/reports/csv-backup/`).
+- That page shows the schema (tables and columns) so the user can review before downloading.
+- On the same page: “Download schema” (e.g. schema as JSON or Markdown) and “Download CSV backup” (ZIP with four CSVs).
+- ZIP contains: `member_types.csv`, `payment_methods.csv`, `members.csv` (with joined MemberType fields), `payments.csv` (with joined Member + PaymentMethod fields; include `member_uuid` and `member_id` for linking).
+
+#### Implementation Steps (Execution Order)
+
+**Step 1: Define export schema (data structure for “schema” view and file)**  
+- Document the four tables and their columns (including joined columns) in code or config so the schema page and schema download use one source of truth.  
+- Suggested columns:  
+  - **member_types**: id, member_type, member_dues, num_months  
+  - **payment_methods**: id, payment_method  
+  - **members**: member_uuid, member_id, preferred_member_id, first_name, last_name, email, member_type_id, member_type (joined), member_dues (joined), num_months (joined), status, expiration_date, milestone_date, date_joined, date_inactivated, home_address, home_city, home_state, home_zip, home_phone, created_at, updated_at  
+  - **payments**: id, member_uuid (from member), member_id (from member), member last_name, member first_name (optional), payment_method_id, payment_method (joined), amount, date, receipt_number, created_at, updated_at  
+- No UI yet; just the schema definition (e.g. in `members/reports/csv_backup.py` or similar as constants/dataclass).
+
+**Step 2: CSV generation helpers**  
+- **File:** `members/reports/csv_backup.py` (or extend `members/reports/csv.py`).  
+- Add functions that return `HttpResponse` or in-memory file-like for:  
+  - `generate_member_types_csv()`  
+  - `generate_payment_methods_csv()`  
+  - `generate_members_csv()` (Member queryset with `select_related("member_type")`; include member_uuid, member_id, and joined MemberType columns)  
+  - `generate_payments_csv_backup()` (Payment queryset with `select_related("member", "payment_method")`; include member_uuid, member_id, and joined PaymentMethod)  
+- Use `csv.writer` and consistent escaping; include headers. No ZIP yet.
+
+**Step 3: ZIP assembly**  
+- In same module or view layer: one function that builds the four CSVs (using the helpers from Step 2), adds them to a `zipfile.ZipFile` (in-memory or temp), and returns the ZIP bytes or an `HttpResponse` with `Content-Type: application/zip` and `Content-Disposition: attachment; filename="csv_backup_YYYY-MM-DD.zip"`.
+
+**Step 4: Schema view and template**  
+- New view (e.g. `csv_backup_export_view`) that:  
+  - Renders a template showing the schema (four tables, column names, brief description).  
+  - Context: schema structure (from Step 1) so the template can loop over tables/columns.  
+- New template: `members/reports/csv_backup_export.html` (or similar).  
+- Template content:  
+  - Heading “CSV backup export” (or similar).  
+  - Rendered schema (tables/sections per CSV).  
+  - Button/link: “Download schema” → triggers schema file download (Step 5).  
+  - Button/link: “Download CSV backup” → triggers ZIP download (uses Step 3).  
+- View must be `@staff_member_required` and only GET for display; downloads can be GET with a query param (e.g. `?download=schema` or `?download=zip`) or separate URL names.
+
+**Step 5: Schema file download**  
+- Same view or a small helper: when `?download=schema` (or dedicated URL), return an `HttpResponse` with the schema as a file (e.g. `schema.json` or `schema.md`).  
+- Content should match what’s shown on the page (table names + column names; optional short descriptions).  
+- `Content-Disposition: attachment; filename="csv_export_schema.json"` (or `.md`).
+
+**Step 6: URL and Reports landing link**  
+- **File:** `members/urls.py`  
+  - Add path for the new page, e.g. `path("reports/csv-backup/", views.csv_backup_export_view, name="csv_backup_export")`.  
+- **File:** Reports landing template (e.g. `members/templates/members/reports/landing.html`)  
+  - Add a card/button “Back up to CSVs” that links to the new route (e.g. `{% url 'members:csv_backup_export' %}`).
+
+**Step 7: Tests**  
+- **View/routing:**  
+  - Staff user GET to `/reports/csv-backup/` returns 200 and schema content in HTML.  
+  - Anonymous or non-staff GET returns 302 (or 403).  
+- **Schema download:**  
+  - GET with `?download=schema` returns attachment with expected filename and body containing table/column names.  
+- **ZIP download:**  
+  - GET with `?download=zip` (or equivalent) returns `application/zip`, `Content-Disposition` with `.zip` filename, and ZIP containing exactly four files: `member_types.csv`, `payment_methods.csv`, `members.csv`, `payments.csv`.  
+  - Optional: open ZIP in test, parse one or two CSVs and assert header row and at least one data row where fixtures exist.  
+- **CSV content (optional but recommended):**  
+  - Unit tests for each of the four CSV generators: run with known querysets (or fixtures), assert header row and that joined columns (e.g. member_type, payment_method, member_uuid on payments) appear in output.
+
+#### Dependencies
+
+- None; existing Reports landing and staff auth are sufficient.
+
+#### Testing Requirements
+
+- Staff can open Reports → “Back up to CSVs” → see schema page.  
+- “Download schema” yields a schema file (JSON or MD) with all four tables and columns.  
+- “Download CSV backup” yields a ZIP with four CSVs; Members CSV includes member_uuid, member_id, and joined MemberType fields; Payments CSV includes member_uuid, member_id (or equivalent), and joined PaymentMethod.  
+- Non-staff cannot access the page or downloads.  
+- Existing JSON backup button and behavior unchanged.
+
+#### Files to Add/Modify (Summary)
+
+- **Add:** `members/reports/csv_backup.py` (or similar): schema definition, four CSV generators, ZIP builder.  
+- **Add:** `members/templates/members/reports/csv_backup_export.html`: schema display + two download buttons/links.  
+- **Modify:** `members/views/reports.py` (or new `views/csv_backup.py`): new view for schema page + schema/ZIP download.  
+- **Modify:** `members/urls.py`: new route for `reports/csv-backup/`.  
+- **Modify:** `members/templates/members/reports/landing.html`: add “Back up to CSVs” button.  
+- **Add:** tests (e.g. in `tests/test_csv_backup_export.py`): view access, schema download, ZIP download, optional CSV content checks.
+
+---
+
 ### Change #023: Current Members Report - Styling and Layout Improvements
 
 **Status:** ✅ Completed  

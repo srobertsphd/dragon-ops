@@ -61,6 +61,11 @@ urlpatterns = [
         views.download_backup_view,
         name="download_backup",
     ),
+    path(
+        "reports/csv-backup/",
+        views.csv_backup_export_view,
+        name="csv_backup_export",
+    ),
     # Payment functionality
     path("payments/add/", views.add_payment_view, name="add_payment"),
     # Member detail (must come after edit routes to avoid conflicts)
