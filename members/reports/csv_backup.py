@@ -104,7 +104,7 @@ def generate_member_types_csv(queryset=None) -> str:
     if queryset is None:
         queryset = MemberType.objects.all()
     out = io.StringIO()
-    writer = csv.writer(out)
+    writer = csv.writer(out, delimiter=";")
     writer.writerow([c[0] for c in CSV_EXPORT_SCHEMA[0]["columns"]])
     for row in queryset:
         writer.writerow([
@@ -121,7 +121,7 @@ def generate_payment_methods_csv(queryset=None) -> str:
     if queryset is None:
         queryset = PaymentMethod.objects.all()
     out = io.StringIO()
-    writer = csv.writer(out)
+    writer = csv.writer(out, delimiter=";")
     writer.writerow([c[0] for c in CSV_EXPORT_SCHEMA[1]["columns"]])
     for row in queryset:
         writer.writerow([
@@ -136,7 +136,7 @@ def generate_members_csv(queryset=None) -> str:
     if queryset is None:
         queryset = Member.objects.select_related("member_type").all()
     out = io.StringIO()
-    writer = csv.writer(out)
+    writer = csv.writer(out, delimiter=";")
     writer.writerow([c[0] for c in CSV_EXPORT_SCHEMA[2]["columns"]])
     for m in queryset:
         mt = m.member_type
@@ -172,7 +172,7 @@ def generate_payments_csv_backup(queryset=None) -> str:
     if queryset is None:
         queryset = Payment.objects.select_related("member", "payment_method").all()
     out = io.StringIO()
-    writer = csv.writer(out)
+    writer = csv.writer(out, delimiter=";")
     writer.writerow([c[0] for c in CSV_EXPORT_SCHEMA[3]["columns"]])
     for p in queryset:
         writer.writerow([
