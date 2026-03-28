@@ -4,6 +4,8 @@ asgiref==3.11.0
     # via django
 asttokens==3.0.1
     # via stack-data
+charset-normalizer==3.4.6
+    # via reportlab
 comm==0.2.3
     # via ipykernel
 debugpy==1.8.17
@@ -56,6 +58,8 @@ parso==0.8.5
     # via jedi
 pexpect==4.9.0
     # via ipython
+pillow==12.1.1
+    # via reportlab
 platformdirs==4.5.0
     # via jupyter-core
 prompt-toolkit==3.0.52
@@ -84,6 +88,8 @@ pyzmq==27.1.0
     # via
     #   ipykernel
     #   jupyter-client
+reportlab==4.4.10
+    # via alano-club (pyproject.toml)
 six==1.17.0
     # via python-dateutil
 sqlparse==0.5.4
