@@ -20,6 +20,90 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #026: Address Labels PDF for Milestone Members
+
+**Status:** In Progress  
+**Priority:** Medium  
+**Estimated Effort:** ~30 minutes  
+**Created:** March 28, 2026  
+
+#### Description
+
+Add a report that generates a printable PDF of address labels for active members whose milestone (sobriety anniversary) falls in a selected month and who have a physical address on file. The PDF is formatted for **U-line S-5042** label sheets (equivalent to Avery 5160): 3 columns x 10 rows = 30 labels per US Letter sheet.
+
+**Label sheet specs (U-line S-5042 / Avery 5160):**
+- Label size: 2-5/8" x 1" (2.625" x 1.0")
+- Top margin: 0.5"
+- Side margin: 0.1875"
+- Horizontal pitch: 2.75" (label width + gap)
+- Vertical pitch: 1.0" (no vertical gap)
+- Layout: 3 across, 10 down, 30 per sheet
+- Paper: US Letter (8.5" x 11")
+
+**Each label contains 3 lines:**
+```
+Last, First          MM/DD/YYYY
+Street Address
+City, ST ZIP
+```
+
+**Filter criteria:**
+- Active members only
+- `milestone_date` month matches selected month
+- `home_address` is not blank
+
+#### Implementation Steps
+
+1. ~~Add `reportlab` dependency via `uv add reportlab`~~ **DONE**
+2. ~~Create `members/reports/address_labels.py` (~80 lines) — PDF generation function using ReportLab canvas with precise Avery 5160 coordinates~~ **DONE**
+3. ~~Add `address_labels_view` to `members/views/reports.py` (~60 lines) — GET shows month picker form, POST generates PDF~~ **DONE**
+4. ~~Create template `members/templates/members/reports/address_labels.html` (~40 lines) — month selection form~~ **DONE**
+5. ~~Add URL pattern `reports/address-labels/` to `members/urls.py`~~ **DONE**
+6. ~~Add report card to `members/templates/members/reports/landing.html`~~ **DONE**
+7. Add preview step before PDF generation (~60 lines across 2 files)
+
+#### Step 7 Detail: Preview Step
+
+**User flow:**
+1. User selects month, clicks "Preview"
+2. View queries all active members with milestone in that month, splits into two groups
+3. Template renders two tables:
+   - **Group 1: "Members with Addresses"** — Name, Milestone Date, Address (these will get labels)
+   - **Group 2: "Members without Addresses"** — Name, Milestone Date (shown for awareness only)
+4. A "Generate PDF" button appears below the preview (only generates labels for Group 1)
+5. Month dropdown stays visible and pre-selected so user can change and preview again
+
+**Changes:**
+- `members/views/reports.py` — Modify `address_labels_view` POST to handle two actions: `action=preview` (query + render list) and `action=generate` (produce PDF). ~30 lines changed.
+- `members/templates/members/reports/address_labels.html` — Add preview results section with two Bootstrap tables and a "Generate PDF" button. ~30 lines added.
+
+#### Files Changed
+
+| File | Action | ~Lines |
+|------|--------|--------|
+| `pyproject.toml` | Add `reportlab` dependency | 1 |
+| `members/reports/address_labels.py` | New — PDF generation | ~80 |
+| `members/views/reports.py` | Add view function + preview logic | ~90 |
+| `members/templates/members/reports/address_labels.html` | New — month picker + preview tables | ~70 |
+| `members/urls.py` | Add URL pattern | ~4 |
+| `members/templates/members/reports/landing.html` | Add report card | ~15 |
+
+#### Dependencies
+
+- `reportlab` Python package (for precise PDF coordinate-based layout)
+
+#### Testing Requirements
+
+- Verify PDF downloads with correct filename
+- Print test page on plain paper and hold against label sheet to verify alignment
+- Confirm only active members with milestone in selected month and a physical address appear
+- Confirm labels spill correctly to additional pages when more than 30 members match
+- Verify font size fits all 3 lines within the 1" label height
+- Verify preview shows two groups: members with addresses and members without addresses
+- Verify "Generate PDF" button only appears after preview and only includes members with addresses
+
+---
+
 ### Change #025: Fix "models have changes not yet reflected in a migration" (home_state)
 
 **Status:** Planned  

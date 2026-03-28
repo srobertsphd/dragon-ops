@@ -52,6 +52,11 @@ urlpatterns = [
         name="expires_two_months",
     ),
     path(
+        "reports/address-labels/",
+        views.address_labels_view,
+        name="address_labels",
+    ),
+    path(
         "reports/deactivate-expired/",
         views.deactivate_expired_members_report_view,
         name="deactivate_expired_members",

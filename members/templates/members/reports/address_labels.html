@@ -1,0 +1,65 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Address Labels - ALANO CLUB{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header text-center bg-info text-white">
+                    <h1 class="mb-0">
+                        <i class="bi bi-printer me-2"></i>
+                        Address Labels
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Generate a PDF of address labels for active members whose milestone (sobriety anniversary)
+                        falls in the selected month. Formatted for U-line S-5042 / Avery 5160 label sheets
+                        (30 labels per page).
+                    </p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="month" class="form-label">Select Month *</label>
+                                    <select class="form-select" id="month" name="month" required>
+                                        {% for value, name in months %}
+                                        <option value="{{ value }}" {% if value == default_month %}selected{% endif %}>{{ name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-between">
+                                <a href="{% url 'members:reports_landing' %}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-info">
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>
+                                    Generate PDF
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

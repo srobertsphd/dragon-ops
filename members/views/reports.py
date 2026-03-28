@@ -491,6 +491,54 @@ def expires_two_months_export_view(request):
     return render(request, "members/reports/expires_two_months_export.html")
 
 
+MONTH_NAMES = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+]
+
+
+@staff_member_required
+def address_labels_view(request):
+    """Generate PDF address labels for milestone members in a selected month."""
+    today = date.today()
+
+    if request.method == "POST":
+        try:
+            month = int(request.POST.get("month", 0))
+            if not 1 <= month <= 12:
+                raise ValueError
+        except (ValueError, TypeError):
+            messages.error(request, "Please select a valid month.")
+            return redirect("members:address_labels")
+
+        members = list(
+            Member.objects.filter(
+                status="active",
+                milestone_date__isnull=False,
+                milestone_date__month=month,
+            )
+            .exclude(home_address="")
+            .order_by("last_name", "first_name")
+        )
+
+        if not members:
+            messages.warning(
+                request,
+                f"No active members with addresses have milestones in {MONTH_NAMES[month - 1]}.",
+            )
+            return redirect("members:address_labels")
+
+        from ..reports.address_labels import generate_address_labels_pdf
+
+        return generate_address_labels_pdf(members, MONTH_NAMES[month - 1], today.year)
+
+    context = {
+        "months": [(i, name) for i, name in enumerate(MONTH_NAMES, 1)],
+        "default_month": today.month,
+    }
+    return render(request, "members/reports/address_labels.html", context)
+
+
 @staff_member_required
 def csv_backup_export_view(request):
     """CSV backup export: schema page with ZIP download (CSVs + schema JSON)."""
