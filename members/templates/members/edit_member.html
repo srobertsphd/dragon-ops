@@ -46,17 +46,15 @@
                                             <th>Name</th>
                                             <th>Member Type</th>
                                             <th>Expires</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for m in members %}
-                                        <tr>
+                                        <tr onclick="window.location='{% url 'members:edit_member' m.member_uuid %}'" style="cursor: pointer">
                                             <td><strong>#{{ m.member_id }}</strong></td>
                                             <td>{{ m.full_name }}</td>
                                             <td>{{ m.member_type.member_type }}</td>
                                             <td>{{ m.expiration_date|date:"M j, Y" }}</td>
-                                            <td><a href="{% url 'members:edit_member' m.member_uuid %}" class="btn btn-sm btn-primary">Edit</a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
