@@ -499,8 +499,12 @@ MONTH_NAMES = [
 
 @staff_member_required
 def address_labels_view(request):
-    """Generate PDF address labels for milestone members in a selected month."""
+    """Preview and generate PDF address labels for milestone members."""
     today = date.today()
+    context = {
+        "months": [(i, name) for i, name in enumerate(MONTH_NAMES, 1)],
+        "default_month": today.month,
+    }
 
     if request.method == "POST":
         try:
@@ -511,31 +515,40 @@ def address_labels_view(request):
             messages.error(request, "Please select a valid month.")
             return redirect("members:address_labels")
 
-        members = list(
-            Member.objects.filter(
-                status="active",
-                milestone_date__isnull=False,
-                milestone_date__month=month,
-            )
-            .exclude(home_address="")
-            .order_by("last_name", "first_name")
-        )
+        action = request.POST.get("action", "preview")
+        month_name = MONTH_NAMES[month - 1]
 
-        if not members:
-            messages.warning(
-                request,
-                f"No active members with addresses have milestones in {MONTH_NAMES[month - 1]}.",
-            )
+        all_members = Member.objects.filter(
+            status="active",
+            milestone_date__isnull=False,
+            milestone_date__month=month,
+        ).order_by("last_name", "first_name")
+
+        with_address = [m for m in all_members if m.home_address.strip()]
+        without_address = [m for m in all_members if not m.home_address.strip()]
+
+        if action == "generate":
+            if not with_address:
+                messages.warning(request, f"No members with addresses for {month_name}.")
+                return redirect("members:address_labels")
+
+            from ..reports.address_labels import generate_address_labels_pdf
+
+            return generate_address_labels_pdf(with_address, month_name, today.year)
+
+        # Preview
+        if not with_address and not without_address:
+            messages.warning(request, f"No active members have milestones in {month_name}.")
             return redirect("members:address_labels")
 
-        from ..reports.address_labels import generate_address_labels_pdf
+        context.update({
+            "with_address": with_address,
+            "without_address": without_address,
+            "selected_month": month,
+            "selected_month_name": month_name,
+            "default_month": month,
+        })
 
-        return generate_address_labels_pdf(members, MONTH_NAMES[month - 1], today.year)
-
-    context = {
-        "months": [(i, name) for i, name in enumerate(MONTH_NAMES, 1)],
-        "default_month": today.month,
-    }
     return render(request, "members/reports/address_labels.html", context)
 
 

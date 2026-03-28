@@ -16,9 +16,10 @@ ROWS = 10
 
 # Text positioning within each label
 FONT_NAME = "Helvetica"
-FONT_SIZE = 8
-LEFT_PAD = 0.1 * inch
+FONT_SIZE = 10
+LEFT_PAD = 0.18 * inch
 LINE_HEIGHT = FONT_SIZE + 2  # points
+NUM_LINES = 3
 
 
 def _label_origin(col, row):
@@ -43,8 +44,8 @@ def generate_address_labels_pdf(members, month_name, year):
 
         x, y = _label_origin(col, row)
         tx = x + LEFT_PAD
-        # First line starts slightly below the top edge of the label
-        ty = y - 0.25 * inch
+        text_block_height = NUM_LINES * LINE_HEIGHT
+        ty = y - (LABEL_HEIGHT - text_block_height) / 2 - FONT_SIZE
 
         c.setFont(FONT_NAME, FONT_SIZE)
 

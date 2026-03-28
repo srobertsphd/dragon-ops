@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <div class="card">
                 <div class="card-header text-center bg-info text-white">
                     <h1 class="mb-0">
@@ -31,6 +31,7 @@
 
                     <form method="post">
                         {% csrf_token %}
+                        <input type="hidden" name="action" value="preview">
                         <div class="row justify-content-center">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -51,12 +52,81 @@
                                     Cancel
                                 </a>
                                 <button type="submit" class="btn btn-info">
-                                    <i class="bi bi-file-earmark-pdf me-2"></i>
-                                    Generate PDF
+                                    <i class="bi bi-search me-2"></i>
+                                    Preview
                                 </button>
                             </div>
                         </div>
                     </form>
+
+                    {% if with_address is not None %}
+                    <hr class="my-4">
+
+                    {% if with_address %}
+                    <h5 class="text-success">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Members with Addresses ({{ with_address|length }}) — {{ selected_month_name }}
+                    </h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-sm table-striped">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Milestone Date</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in with_address %}
+                                <tr>
+                                    <td>{{ member.last_name }}, {{ member.first_name }}</td>
+                                    <td>{{ member.milestone_date|date:"n/j/Y" }}</td>
+                                    <td>{{ member.home_address }}, {{ member.home_city }} {{ member.home_state }} {{ member.home_zip }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="generate">
+                        <input type="hidden" name="month" value="{{ selected_month }}">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-pdf me-2"></i>
+                                Generate PDF ({{ with_address|length }} labels)
+                            </button>
+                        </div>
+                    </form>
+                    {% endif %}
+
+                    {% if without_address %}
+                    <h5 class="text-warning mt-4">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        Members without Addresses ({{ without_address|length }}) — {{ selected_month_name }}
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Milestone Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in without_address %}
+                                <tr>
+                                    <td>{{ member.last_name }}, {{ member.first_name }}</td>
+                                    <td>{{ member.milestone_date|date:"n/j/Y" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+
+                    {% endif %}
                 </div>
             </div>
         </div>
