@@ -20,6 +20,46 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #025: Fix "models have changes not yet reflected in a migration" (home_state)
+
+**Status:** Planned  
+**Priority:** Low  
+**Estimated Effort:** ~5 minutes  
+**Created:** February 17, 2026  
+
+#### Description
+
+On deploy (e.g. Render), Django reports: "Your models in app(s): 'members' have changes that are not yet reflected in a migration, and so won't be applied." The app and DB work; the warning is from migration state being out of date. The drift is the `Member.home_state` field: the model has `choices=STATE_CHOICES` but the initial migration (0001) did not record that. Creating and applying a small migration clears the warning.
+
+#### Implementation Steps
+
+1. **Create the migration (local):**
+   ```bash
+   source .venv/bin/activate
+   python manage.py makemigrations members
+   ```
+   This will create `members/migrations/0003_alter_member_home_state.py` (Alter field home_state on member).
+
+2. **Apply locally (optional):**
+   ```bash
+   python manage.py migrate
+   ```
+
+3. **Commit** the new migration file and push.
+
+4. **Redeploy** (e.g. Render) so the deploy runs `migrate` with the new migration.
+
+#### Dependencies
+
+None.
+
+#### Testing Requirements
+
+- After deploy, the "models have changes not yet reflected in a migration" warning should no longer appear.
+- `python manage.py makemigrations` should report "No changes detected."
+
+---
+
 ### Change #024: CSV Backup on Reports Page (Schema + ZIP Download)
 
 **Status:** Planned  
