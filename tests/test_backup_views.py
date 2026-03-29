@@ -200,8 +200,8 @@ class TestReportsLandingPageTemplate:
         response = client.get("/reports/")
         assert response.status_code == 200
         # Check that backup card elements are present
-        assert b"Database Backup" in response.content
-        assert b"download database backup" in response.content.lower()
+        assert b"Backup to JSON" in response.content
+        assert b"download backup" in response.content.lower()
         # Check that download backup link is present
         assert (
             b"download_backup" in response.content
