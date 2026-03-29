@@ -88,6 +88,16 @@ def add_payment_view(request):
         # Don't calculate new expiration here - it will be calculated dynamically
         # based on the actual payment amount entered by the user
 
+        # Build duration options from member type discount fields
+        duration_options = []
+        mt = member.member_type
+        if mt and mt.six_month_charge is not None:
+            duration_options = [
+                {"key": "monthly", "label": "Monthly", "charge_months": 1, "duration_months": 1},
+                {"key": "6month", "label": "6 Months", "charge_months": mt.six_month_charge, "duration_months": mt.six_month_duration},
+                {"key": "yearly", "label": "Year + 1 Bonus Month", "charge_months": mt.yearly_charge, "duration_months": mt.yearly_duration},
+            ]
+
         saved = {}
         if request.GET.get("edit"):
             saved = request.session.get("payment_data", {})
@@ -99,11 +109,13 @@ def add_payment_view(request):
             "member": member,
             "payment_methods": payment_methods,
             "suggested_amount": suggested_amount,
+            "duration_options": duration_options,
             "today": date.today(),
             "saved_amount": saved.get("amount"),
             "saved_payment_date": saved.get("payment_date"),
             "saved_payment_method_id": saved.get("payment_method_id"),
             "saved_receipt_number": saved.get("receipt_number"),
+            "saved_duration": saved.get("payment_duration", "monthly"),
         }
         return render(request, "members/add_payment.html", context)
 
@@ -115,6 +127,7 @@ def add_payment_view(request):
             payment_date = request.POST.get("payment_date")
             payment_method_id = request.POST.get("payment_method")
             receipt_number = request.POST.get("receipt_number", "").strip()
+            payment_duration = request.POST.get("payment_duration", "monthly")
 
             # Validate form data
             try:
@@ -125,10 +138,7 @@ def add_payment_view(request):
                     raise ValueError("Cannot add payments for deceased members")
 
                 # Check for date override (populated by month/year dropdowns via JavaScript)
-                # JavaScript calculates end-of-month date and populates override_expiration hidden field
                 override_expiration = request.POST.get("override_expiration")
-
-                amount = Decimal(amount)
 
                 payment_date = datetime.strptime(payment_date, "%Y-%m-%d").date()
                 payment_method = get_object_or_404(PaymentMethod, pk=payment_method_id)
@@ -137,14 +147,24 @@ def add_payment_view(request):
                 if not receipt_number:
                     raise ValueError("Receipt number is required")
 
-                # Calculate or use override expiration date using PaymentService
-                # override_expiration is already calculated as end-of-month by JavaScript
+                # Resolve duration-based charge and expiration months
+                mt = member.member_type
+                duration_months = None
+                if payment_duration == "6month" and mt and mt.six_month_charge:
+                    amount = mt.member_dues * mt.six_month_charge
+                    duration_months = mt.six_month_duration
+                elif payment_duration == "yearly" and mt and mt.yearly_charge:
+                    amount = mt.member_dues * mt.yearly_charge
+                    duration_months = mt.yearly_duration
+                else:
+                    amount = Decimal(amount)
+
+                # Calculate or use override expiration date
                 override_expiration_date = None
                 if override_expiration:
                     override_expiration_date = datetime.strptime(
                         override_expiration, "%Y-%m-%d"
                     ).date()
-                    # Ensure it's end of month (safety check, though JavaScript should handle this)
                     from ..utils import ensure_end_of_month
 
                     override_expiration_date = ensure_end_of_month(
@@ -152,7 +172,7 @@ def add_payment_view(request):
                     )
 
                 new_expiration = PaymentService.calculate_expiration(
-                    member, amount, override_expiration_date
+                    member, amount, override_expiration_date, duration_months
                 )
 
                 # Store in session for final processing
@@ -163,6 +183,7 @@ def add_payment_view(request):
                     "payment_method_id": payment_method_id,
                     "receipt_number": receipt_number,
                     "new_expiration": new_expiration.isoformat(),
+                    "payment_duration": payment_duration,
                 }
 
                 # Check for duplicate receipt number (global)

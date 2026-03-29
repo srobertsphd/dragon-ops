@@ -65,6 +65,10 @@ class MemberType(models.Model):
         max_digits=8, decimal_places=2
     )  # From CSV: member_dues
     num_months = models.IntegerField()  # From CSV: num_months
+    six_month_charge = models.IntegerField(null=True, blank=True)
+    six_month_duration = models.IntegerField(null=True, blank=True)
+    yearly_charge = models.IntegerField(null=True, blank=True)
+    yearly_duration = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ["member_type"]

@@ -200,7 +200,33 @@
                         <form method="post" action="?step=confirm">
                             {% csrf_token %}
                             <input type="hidden" name="member_uuid" value="{{ member.member_uuid }}">
+                            <input type="hidden" name="payment_duration" id="payment-duration" value="{{ saved_duration|default:'monthly' }}">
                             
+                            {% if duration_options %}
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Payment Duration</label>
+                                <div class="d-flex gap-3">
+                                    {% for opt in duration_options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="duration_radio" 
+                                               id="duration-{{ opt.key }}" value="{{ opt.key }}"
+                                               data-charge-months="{{ opt.charge_months }}"
+                                               data-duration-months="{{ opt.duration_months }}"
+                                               {% if saved_duration == opt.key or saved_duration == None and opt.key == 'monthly' %}checked{% endif %}>
+                                        <label class="form-check-label" for="duration-{{ opt.key }}">
+                                            {{ opt.label }}
+                                            {% if opt.key == '6month' %}
+                                            <small class="text-muted">({{ opt.charge_months }} mo. charge)</small>
+                                            {% elif opt.key == 'yearly' %}
+                                            <small class="text-muted">({{ opt.charge_months }} mo. charge)</small>
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -521,8 +547,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function resetToMonthly() {
+        var monthlyRadio = document.getElementById('duration-monthly');
+        if (monthlyRadio) {
+            monthlyRadio.checked = true;
+        }
+        var dh = document.getElementById('payment-duration');
+        if (dh) dh.value = 'monthly';
+    }
+
     // Plus button - add one month's dues
     plusButton.addEventListener('click', function() {
+        resetToMonthly();
         const currentAmount = parseFloat(amountInput.value) || 0;
         const newAmount = currentAmount + monthlyDues;
         amountInput.value = newAmount.toFixed(2);
@@ -531,6 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Minus button - subtract one month's dues (minimum 1 month)
     minusButton.addEventListener('click', function() {
+        resetToMonthly();
         const currentAmount = parseFloat(amountInput.value) || 0;
         const newAmount = Math.max(monthlyDues, currentAmount - monthlyDues);
         amountInput.value = newAmount.toFixed(2);
@@ -538,11 +575,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Update expiration when amount is manually changed
-    amountInput.addEventListener('input', updateExpirationDate);
-    amountInput.addEventListener('change', updateExpirationDate);
+    amountInput.addEventListener('input', function() { resetToMonthly(); updateExpirationDate(); });
+    amountInput.addEventListener('change', function() { resetToMonthly(); updateExpirationDate(); });
     
+    // Duration radio button handling
+    const durationRadios = document.querySelectorAll('input[name="duration_radio"]');
+    const durationHidden = document.getElementById('payment-duration');
+
+    function calculateExpirationForDuration(durationMonths) {
+        const currentExpiration = new Date(currentExpirationStr + 'T00:00:00');
+        let month = currentExpiration.getMonth() + durationMonths;
+        let year = currentExpiration.getFullYear() + Math.floor(month / 12);
+        month = month % 12;
+        const lastDay = new Date(year, month + 1, 0).getDate();
+        return new Date(year, month, lastDay);
+    }
+
+    durationRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            durationHidden.value = this.value;
+            const chargeMonths = parseInt(this.dataset.chargeMonths);
+            const durationMonths = parseInt(this.dataset.durationMonths);
+            const newAmount = (monthlyDues * chargeMonths).toFixed(2);
+            amountInput.value = newAmount;
+
+            if (this.value === 'monthly') {
+                updateExpirationDate();
+            } else {
+                newExpirationSpan.textContent = formatDate(calculateExpirationForDuration(durationMonths));
+            }
+        });
+    });
+
     // Initial calculation
-    updateExpirationDate();
+    var checkedRadio = document.querySelector('input[name="duration_radio"]:checked');
+    if (checkedRadio && checkedRadio.value !== 'monthly') {
+        var dm = parseInt(checkedRadio.dataset.durationMonths);
+        newExpirationSpan.textContent = formatDate(calculateExpirationForDuration(dm));
+    } else {
+        updateExpirationDate();
+    }
 });
 
 // Enhanced date override for confirmation page with month/year dropdowns

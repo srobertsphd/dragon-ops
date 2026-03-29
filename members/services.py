@@ -15,7 +15,9 @@ class PaymentService:
     """Service class for payment-related business logic"""
 
     @staticmethod
-    def calculate_expiration(member, payment_amount, override_expiration=None):
+    def calculate_expiration(
+        member, payment_amount, override_expiration=None, duration_months=None
+    ):
         """
         Calculate new expiration date based on payment amount.
 
@@ -23,12 +25,16 @@ class PaymentService:
             member: Member instance
             payment_amount: Decimal payment amount
             override_expiration: Optional date to override calculation
+            duration_months: Optional explicit months to add (for multi-period discounts)
 
         Returns:
             date: New expiration date
         """
         if override_expiration:
             return override_expiration
+
+        if duration_months:
+            return add_months_to_date(member.expiration_date, duration_months)
 
         if member.member_type and member.member_type.member_dues > 0:
             months_paid = float(payment_amount) / float(member.member_type.member_dues)

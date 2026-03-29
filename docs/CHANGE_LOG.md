@@ -22,10 +22,11 @@ Each change entry includes:
 
 ### Change #029: Multi-Period Payment Discounts (Monthly / 6-Month / Yearly)
 
-**Status:** Planned  
+**Status:** Completed  
 **Priority:** Medium  
 **Estimated Effort:** ~2 hours  
 **Created:** March 29, 2026  
+**Completed:** March 29, 2026  
 
 #### Description
 
