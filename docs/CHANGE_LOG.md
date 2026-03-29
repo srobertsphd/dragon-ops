@@ -20,6 +20,83 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #029: Multi-Period Payment Discounts (Monthly / 6-Month / Yearly)
+
+**Status:** Planned  
+**Priority:** Medium  
+**Estimated Effort:** ~2 hours  
+**Created:** March 29, 2026  
+
+#### Description
+
+Add radio buttons on the payment form (Step 2) that let the user select a payment duration: Monthly, 6 Months, or Year + 1 Bonus Month. Selecting a duration auto-fills the payment amount and adjusts the expiration date accordingly.
+
+**Business rules:**
+
+| Option | Months Charged | Months Added to Expiration |
+|--------|---------------|---------------------------|
+| Monthly | 1 | 1 |
+| 6 Months | 5 | 6 |
+| Year + 1 Bonus Month | 10 | 13 |
+
+Example for Regular member ($30/mo): Monthly = $30, 6 Months = $150, Year + Bonus = $300.
+
+The discount parameters are stored on the `MemberType` table so they can vary per type. Types that don't support multi-period options (Life, Honorary, 500 Club) have NULL values and the radio buttons won't appear.
+
+#### Phase 1: Database Migration — Add columns to MemberType
+
+Add four nullable integer columns to `MemberType`:
+- `six_month_charge` — months to charge for the 6-month option
+- `six_month_duration` — months added to expiration for the 6-month option
+- `yearly_charge` — months to charge for the yearly option
+- `yearly_duration` — months added to expiration for the yearly option
+
+Populate values for qualifying types (Couple, FarAway Friends, Fixed/Income, Regular, Senior): 5/6/10/13. Leave Life, Honorary, and 500 Club as NULL.
+
+**Files changed:**
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/models.py` | Add 4 nullable IntegerField columns to MemberType | ~8 |
+| New migration file | Schema + data migration | ~30 |
+
+#### Phase 2: Backend — View and service logic
+
+Update the payment form view to pass the member's discount options to the template context. Update the confirm step to receive the selected duration, calculate the correct amount (`member_dues × charge_months`), and calculate the correct expiration extension (`duration_months`).
+
+Store the selected duration in the session so it flows through confirm → process.
+
+**Files changed:**
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/views/payments.py` | Pass discount options to form context; read duration on confirm; calculate amount and expiration using duration fields | ~20 |
+| `members/services.py` | Update `calculate_expiration` to accept optional duration_months override | ~5 |
+
+#### Phase 3: Frontend — Radio buttons and JavaScript
+
+Add a radio button group to the payment form (Step 2) below the member info summary. Options: Monthly (default), 6 Months, Year + 1 Bonus Month. Only shown when the member type has non-NULL discount columns.
+
+JavaScript: when a radio button is selected, update the payment amount field and recalculate the displayed "New Expiration" date.
+
+**Files changed:**
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/templates/members/add_payment.html` | Add radio button group; add JS to update amount and expiration on selection change | ~40 |
+
+#### Phase 4: Testing
+
+- Verify radio buttons appear for Regular, Senior, Couple, Fixed/Income, FarAway Friends
+- Verify radio buttons do NOT appear for Life, Honorary, 500 Club
+- Verify selecting 6 Months sets amount to `dues × 5` and expiration extends by 6 months
+- Verify selecting Year + Bonus sets amount to `dues × 10` and expiration extends by 13 months
+- Verify Monthly remains the default and behaves as before
+- Verify the confirmation page shows the correct amount and new expiration
+- Verify the payment processes correctly and member expiration is updated
+
+---
+
 ### Change #028: Duplicate Payment Detection Warnings
 
 **Status:** In Progress  
