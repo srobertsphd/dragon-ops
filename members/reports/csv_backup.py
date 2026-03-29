@@ -76,6 +76,7 @@ CSV_EXPORT_SCHEMA = [
             ("amount", "Payment amount"),
             ("date", "Payment date"),
             ("receipt_number", "Receipt number"),
+            ("new_expiration_date", "Expiration date this payment extended to"),
             ("created_at", "Record created"),
             ("updated_at", "Record updated"),
         ],
@@ -188,6 +189,7 @@ def generate_payments_csv_backup(queryset=None) -> str:
             _csv_value(p.amount),
             _csv_value(p.date),
             _csv_value(p.receipt_number),
+            _csv_value(p.new_expiration_date),
             _csv_value(p.created_at),
             _csv_value(p.updated_at),
         ])

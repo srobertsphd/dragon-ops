@@ -20,6 +20,52 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #027: Payment Expiration Tracking
+
+**Status:** In Progress  
+**Priority:** Medium  
+**Estimated Effort:** ~45 minutes  
+**Created:** March 29, 2026  
+
+#### Description
+
+Store the expiration date each payment extended the membership to (`new_expiration_date`) on the `Payment` model, and display it as an "Extended To" column in the payment history on the member detail page. The value is already calculated in `process_payment()` but currently discarded.
+
+- `null=True, blank=True` so historical/imported payments without this data are valid.
+- One-time backfill command sets the field on the most recent payment for each active non-Life member.
+
+#### Implementation Steps
+
+1. Add `new_expiration_date = models.DateField(null=True, blank=True)` to `Payment` model
+2. Generate and run migration
+3. Create backfill management command (`backfill_payment_expiration`)
+4. Set `new_expiration_date` in `PaymentService.process_payment()` (~1 line)
+5. Add "Extended To" column to member detail payment history template
+6. Add `new_expiration_date` to CSV backup export schema and generator
+7. Add pytest tests for new field, service, backfill, and CSV export
+
+#### Files Changed
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/models.py` | Add field | 1 |
+| migration (auto-generated) | Schema change | auto |
+| `members/management/commands/backfill_payment_expiration.py` | New command | ~20 |
+| `members/services.py` | Set field in `process_payment()` | 2 |
+| `members/templates/members/member_detail.html` | Add column | ~5 |
+| `members/reports/csv_backup.py` | Add field to export | ~4 |
+| `tests/test_payment_expiration.py` | New tests | ~60 |
+
+#### Testing Requirements
+
+- `new_expiration_date` field exists on Payment model
+- `process_payment()` stores the value from `payment_data["new_expiration"]`
+- Backfill command populates most recent payment per active non-Life member
+- CSV export includes the new field
+- Member detail template shows "Extended To" column
+
+---
+
 ### Change #026: Address Labels PDF for Milestone Members
 
 **Status:** In Progress  

@@ -323,6 +323,7 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # "Amount"
     date = models.DateField()  # "Date"
     receipt_number = models.CharField(max_length=50, blank=True)  # "Reciept No."
+    new_expiration_date = models.DateField(null=True, blank=True)
 
     # Audit Fields
     created_at = models.DateTimeField(auto_now_add=True)

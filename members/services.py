@@ -138,10 +138,11 @@ class PaymentService:
             receipt_number=payment_data["receipt_number"],
         )
 
-        # Update member expiration
-        member.expiration_date = datetime.fromisoformat(
-            payment_data["new_expiration"]
-        ).date()
+        new_exp = datetime.fromisoformat(payment_data["new_expiration"]).date()
+        payment.new_expiration_date = new_exp
+        payment.save(update_fields=["new_expiration_date"])
+
+        member.expiration_date = new_exp
 
         # Reactivate if inactive
         was_inactive = member.status == "inactive"

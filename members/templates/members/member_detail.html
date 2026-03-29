@@ -254,6 +254,7 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Amount</th>
+                                        <th>Extended To</th>
                                         <th>Payment Method</th>
                                         <th>Receipt #</th>
                                     </tr>
@@ -270,6 +271,13 @@
                                             <span class="payment-amount text-success">
                                                 ${{ payment.amount|floatformat:2 }}
                                             </span>
+                                        </td>
+                                        <td>
+                                            {% if payment.new_expiration_date %}
+                                                {{ payment.new_expiration_date|date:"M j, Y" }}
+                                            {% else %}
+                                                <span class="text-muted">&mdash;</span>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             {% if payment.payment_method %}
