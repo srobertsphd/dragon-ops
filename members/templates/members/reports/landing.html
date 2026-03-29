@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row g-4 mt-2">
-                        <!-- Current Members Report Card -->
+                        <!-- === BLUE: View/Print === -->
                         <div class="col-md-6">
                             <div class="card h-100 border-primary">
                                 <div class="card-body text-center">
@@ -32,33 +32,32 @@
                             </div>
                         </div>
 
-                        <!-- Recent Payments Report Card -->
                         <div class="col-md-6">
-                            <div class="card h-100 border-success">
+                            <div class="card h-100 border-primary">
                                 <div class="card-body text-center">
-                                    <i class="bi bi-cash-stack text-success" style="font-size: 3rem;"></i>
-                                    <h3 class="card-title mt-3">Recent Payments Report</h3>
+                                    <i class="bi bi-printer text-primary" style="font-size: 3rem;"></i>
+                                    <h3 class="card-title mt-3">Print Address Labels</h3>
                                     <p class="card-text text-muted">
-                                        View all payments from the last year. Download as CSV for accounting.
+                                        Generate printable PDF address labels for milestone members by month. Formatted for U-line S-5042 / Avery 5160 sheets.
                                     </p>
-                                    <a href="{% url 'members:recent_payments_report' %}" class="btn btn-success">
-                                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>
-                                        View Report
+                                    <a href="{% url 'members:address_labels' %}" class="btn btn-primary">
+                                        <i class="bi bi-file-earmark-pdf me-2"></i>
+                                        Print Address Labels
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Newsletter Export Card -->
+                        <!-- === GREEN: Data Exports === -->
                         <div class="col-md-6">
-                            <div class="card h-100 border-info">
+                            <div class="card h-100 border-success">
                                 <div class="card-body text-center">
-                                    <i class="bi bi-envelope text-info" style="font-size: 3rem;"></i>
+                                    <i class="bi bi-envelope text-success" style="font-size: 3rem;"></i>
                                     <h3 class="card-title mt-3">Newsletter Export</h3>
                                     <p class="card-text text-muted">
                                         Generate Excel file with active member data formatted for newsletter distribution.
                                     </p>
-                                    <a href="{% url 'members:newsletter_export' %}" class="btn btn-info">
+                                    <a href="{% url 'members:newsletter_export' %}" class="btn btn-success">
                                         <i class="bi bi-file-earmark-spreadsheet-fill me-2"></i>
                                         Download Excel
                                     </a>
@@ -66,7 +65,6 @@
                             </div>
                         </div>
 
-                        <!-- New Member Export Card -->
                         <div class="col-md-6">
                             <div class="card h-100 border-success">
                                 <div class="card-body text-center">
@@ -83,16 +81,15 @@
                             </div>
                         </div>
 
-                        <!-- Milestone Export Card -->
                         <div class="col-md-6">
-                            <div class="card h-100 border-info">
+                            <div class="card h-100 border-success">
                                 <div class="card-body text-center">
-                                    <i class="bi bi-calendar-event text-info" style="font-size: 3rem;"></i>
+                                    <i class="bi bi-calendar-event text-success" style="font-size: 3rem;"></i>
                                     <h3 class="card-title mt-3">Milestone Export</h3>
                                     <p class="card-text text-muted">
                                         Export active members whose milestone dates (anniversaries) fall within a selected date range to Excel.
                                     </p>
-                                    <a href="{% url 'members:milestone_export' %}" class="btn btn-info">
+                                    <a href="{% url 'members:milestone_export' %}" class="btn btn-success">
                                         <i class="bi bi-file-earmark-spreadsheet-fill me-2"></i>
                                         Export Milestones
                                     </a>
@@ -100,33 +97,15 @@
                             </div>
                         </div>
 
-                        <!-- Address Labels Card -->
                         <div class="col-md-6">
-                            <div class="card h-100 border-info">
+                            <div class="card h-100 border-success">
                                 <div class="card-body text-center">
-                                    <i class="bi bi-printer text-info" style="font-size: 3rem;"></i>
-                                    <h3 class="card-title mt-3">Address Labels</h3>
-                                    <p class="card-text text-muted">
-                                        Generate printable PDF address labels for milestone members by month. Formatted for U-line S-5042 / Avery 5160 sheets.
-                                    </p>
-                                    <a href="{% url 'members:address_labels' %}" class="btn btn-info">
-                                        <i class="bi bi-file-earmark-pdf me-2"></i>
-                                        Generate Labels
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Expires Two Months Card -->
-                        <div class="col-md-6">
-                            <div class="card h-100 border-warning">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-calendar-x text-warning" style="font-size: 3rem;"></i>
+                                    <i class="bi bi-calendar-x text-success" style="font-size: 3rem;"></i>
                                     <h3 class="card-title mt-3">Expires Two Months</h3>
                                     <p class="card-text text-muted">
                                         Export active members whose expiration dates are 60+ days ago (expired 2+ months ago).
                                     </p>
-                                    <a href="{% url 'members:expires_two_months' %}" class="btn btn-warning">
+                                    <a href="{% url 'members:expires_two_months' %}" class="btn btn-success">
                                         <i class="bi bi-file-earmark-spreadsheet-fill me-2"></i>
                                         Export Expired
                                     </a>
@@ -134,7 +113,23 @@
                             </div>
                         </div>
 
-                        <!-- Deactivate Expired Members Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-cash-stack text-success" style="font-size: 3rem;"></i>
+                                    <h3 class="card-title mt-3">Recent Payments Report</h3>
+                                    <p class="card-text text-muted">
+                                        View all payments from the last year. Download as CSV for accounting.
+                                    </p>
+                                    <a href="{% url 'members:recent_payments_report' %}" class="btn btn-success">
+                                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+                                        View Report
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- === ORANGE: Member Actions === -->
                         <div class="col-md-6">
                             <div class="card h-100 border-warning">
                                 <div class="card-body text-center">
@@ -151,16 +146,16 @@
                             </div>
                         </div>
 
-                        <!-- CSV Backup Card -->
+                        <!-- === RED: Backups === -->
                         <div class="col-md-6">
-                            <div class="card h-100 border-secondary">
+                            <div class="card h-100 border-danger">
                                 <div class="card-body text-center">
-                                    <i class="bi bi-file-earmark-zip text-secondary" style="font-size: 3rem;"></i>
+                                    <i class="bi bi-file-earmark-zip text-danger" style="font-size: 3rem;"></i>
                                     <h3 class="card-title mt-3">Back up to CSVs</h3>
                                     <p class="card-text text-muted">
-                                        View schema and download all member tables as CSV files in a ZIP. Includes member types, payment methods, members, and payments.
+                                        Download member and payment data as CSV files in a ZIP.
                                     </p>
-                                    <a href="{% url 'members:csv_backup_export' %}" class="btn btn-secondary">
+                                    <a href="{% url 'members:csv_backup_export' %}" class="btn btn-danger">
                                         <i class="bi bi-file-earmark-zip me-2"></i>
                                         Back up to CSVs
                                     </a>
@@ -168,14 +163,13 @@
                             </div>
                         </div>
 
-                        <!-- Database Backup Card -->
                         <div class="col-md-6">
                             <div class="card h-100 border-danger">
                                 <div class="card-body text-center">
                                     <i class="bi bi-server text-danger" style="font-size: 3rem;"></i>
-                                    <h3 class="card-title mt-3">Database Backup</h3>
+                                    <h3 class="card-title mt-3">Backup to JSON</h3>
                                     <p class="card-text text-muted">
-                                        Create and download database backup to your computer. Filename includes database type and timestamp.
+                                        Download member and payment data as a JSON file.
                                     </p>
                                     <a href="{% url 'members:download_backup' %}" class="btn btn-danger">
                                         <i class="bi bi-download me-2"></i>
