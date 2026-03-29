@@ -20,6 +20,77 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #030: Payment Screen Enhancements — Months Input, "Other" Option, Expiration Message
+
+**Status:** In Progress  
+**Priority:** Medium  
+**Estimated Effort:** ~1.5 hours  
+**Created:** March 29, 2026  
+
+#### Description
+
+Three enhancements to the payment form (Step 2) that refine how users enter payment amounts:
+
+**9a.** Replace the +/- increment buttons with a "Number of Months" integer field (1–10, default 1) when Monthly is selected. Changing the months value auto-updates the payment amount (`months × monthly_dues`) and the new expiration date.
+
+**9b.** Add a new "Other" payment duration option. When selected, the amount field is cleared and editable for a custom amount. The months input is hidden.
+
+**9c.** When "Other" is selected, display an info message: *"Expiration date can be selected on the next screen."*
+
+No model changes required — this builds on the existing duration/amount/expiration override infrastructure from Change #029.
+
+#### Phase 1: Replace +/- buttons with Number of Months field
+
+Remove the +/- buttons from the amount input group. Add a "Number of Months" input (integer, 1–10, default 1) that is visible only when Monthly is selected. JavaScript updates `amount = months × monthly_dues` and recalculates the expiration date when the months value changes.
+
+**Files changed:**
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/templates/members/add_payment.html` | Remove +/- buttons; add months input field with conditional visibility | ~20 |
+| `members/templates/members/add_payment.html` (JS) | Replace +/- listeners with months input listener; calculate amount and expiration | ~25 |
+| `members/views/payments.py` | Pass saved months value through session for "Back to Edit" round-trip | ~5 |
+
+#### Phase 2: Add "Other" duration option
+
+Add an "Other" radio button to the duration options (always present when duration options exist). When selected: clear the amount field, hide the months input, and allow free-form amount entry. Backend treats `payment_duration == "other"` like monthly — uses the raw amount for expiration calculation.
+
+**Files changed:**
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/views/payments.py` | Append "Other" to duration_options; handle "other" duration in confirm step | ~8 |
+| `members/templates/members/add_payment.html` | Add "Other" radio; JS to clear amount and hide months on selection | ~15 |
+
+#### Phase 3: Expiration date info message for "Other"
+
+Add a small info message near the "Other" option that reads: *"Expiration date can be selected on the next screen."* Visible only when "Other" is selected, toggled via JavaScript.
+
+**Files changed:**
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/templates/members/add_payment.html` | Add conditional info text element; JS show/hide on radio change | ~8 |
+
+#### Implementation Order
+
+1. Phase 1 — Months input (biggest structural change to the form)
+2. Phase 2 — "Other" option (builds on existing radio pattern)
+3. Phase 3 — Info message (small conditional text addition)
+
+#### Testing Requirements
+
+- Select Monthly → months field visible, defaults to 1, amount = 1 × dues
+- Change months to 3 → amount = 3 × dues, expiration moves 3 months
+- Select 6 Months or Yearly → months field hidden, amount set by discount
+- Select Other → months field hidden, amount field cleared and editable
+- Other selected → info message about expiration visible
+- Switch away from Other → info message hidden, amount recalculated
+- "Back to Edit" round-trip preserves selected duration and months value
+- Confirm step processes all duration types correctly
+
+---
+
 ### Change #029: Multi-Period Payment Discounts (Monthly / 6-Month / Yearly)
 
 **Status:** Completed  

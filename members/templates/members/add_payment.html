@@ -205,9 +205,9 @@
                             {% if duration_options %}
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Payment Duration</label>
-                                <div class="d-flex gap-3">
+                                <div class="d-flex gap-3 flex-wrap">
                                     {% for opt in duration_options %}
-                                    <div class="form-check">
+                                    <div class="form-check d-flex align-items-center">
                                         <input class="form-check-input" type="radio" name="duration_radio" 
                                                id="duration-{{ opt.key }}" value="{{ opt.key }}"
                                                data-charge-months="{{ opt.charge_months }}"
@@ -221,8 +221,26 @@
                                             <small class="text-muted">({{ opt.charge_months }} mo. charge)</small>
                                             {% endif %}
                                         </label>
+                                        {% if opt.key == 'monthly' %}
+                                        <span id="months-input-wrapper" class="ms-2 d-inline-flex align-items-center">
+                                            <input type="number" class="form-control form-control-sm months-input-blue" id="num_months" name="num_months"
+                                                   min="1" max="10" value="{{ saved_months|default:'1' }}" style="width: 60px;">
+                                            <span class="ms-1 text-muted">mo.</span>
+                                        </span>
+                                        {% endif %}
                                     </div>
                                     {% endfor %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="duration_radio"
+                                               id="duration-other" value="other"
+                                               data-charge-months="0"
+                                               data-duration-months="0"
+                                               {% if saved_duration == 'other' %}checked{% endif %}>
+                                        <label class="form-check-label" for="duration-other">Other</label>
+                                    </div>
+                                </div>
+                                <div id="other-expiration-notice" class="form-text text-primary fw-semibold mt-2" style="display: none;">
+                                    <i class="bi bi-info-circle"></i> Expiration date can be selected on the next screen.
                                 </div>
                             </div>
                             {% endif %}
@@ -230,7 +248,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="amount" class="form-label">Payment Amount * <small class="text-muted">(Monthly increments: ${{ suggested_amount }})</small></label>
+                                        <label for="amount" class="form-label">Payment Amount * <small id="amount-monthly-hint" class="text-primary fw-semibold">— Select # of months above</small></label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <input type="number" 
@@ -243,16 +261,6 @@
                                                    data-monthly-dues="{{ suggested_amount }}"
                                                    data-current-expiration="{{ member.expiration_date|date:'Y-m-d' }}"
                                                    required>
-                                            <button class="btn btn-outline-secondary" type="button" id="amount-minus">
-                                                <i class="bi bi-dash"></i>
-                                            </button>
-                                            <button class="btn btn-outline-secondary" type="button" id="amount-plus">
-                                                <i class="bi bi-plus"></i>
-                                            </button>
-                                        </div>
-                                        <small class="form-text text-muted">Use +/- buttons for monthly increments. Custom amounts can be adjusted on confirmation page.</small>
-                                        <div id="custom-amount-notice" class="form-text text-info mt-1" style="display: none;">
-                                            <i class="bi bi-info-circle"></i> Custom amount entered. End date can be modified on confirmation page.
                                         </div>
                                     </div>
                                 </div>
@@ -492,6 +500,21 @@
     font-size: 0.9rem;
     font-weight: 500;
 }
+
+.months-input-blue {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary);
+    font-weight: 600;
+}
+.months-input-blue:focus {
+    border-color: var(--bs-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+/* Always show number spinner arrows */
+.months-input-blue::-webkit-inner-spin-button,
+.months-input-blue::-webkit-outer-spin-button {
+    opacity: 1;
+}
 </style>
 {% endblock %}
 
@@ -499,121 +522,115 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
-    const plusButton = document.getElementById('amount-plus');
-    const minusButton = document.getElementById('amount-minus');
     const newExpirationSpan = document.getElementById('new-expiration');
-    
-    if (!amountInput || !plusButton || !minusButton || !newExpirationSpan) {
-        return; // Not on payment form step
-    }
-    
+    const monthsInput = document.getElementById('num_months');
+    const monthsWrapper = document.getElementById('months-input-wrapper');
+    const otherNotice = document.getElementById('other-expiration-notice');
+    const amountMonthlyHint = document.getElementById('amount-monthly-hint');
+
+    if (!amountInput || !newExpirationSpan) return;
+
     const monthlyDues = parseFloat(amountInput.dataset.monthlyDues);
     const currentExpirationStr = amountInput.dataset.currentExpiration;
-    
-    // Function to calculate new expiration date (matches Python logic exactly)
-    function calculateNewExpiration(paymentAmount) {
-        const monthsPaid = Math.floor(paymentAmount / monthlyDues);
+    const durationRadios = document.querySelectorAll('input[name="duration_radio"]');
+    const durationHidden = document.getElementById('payment-duration');
+
+    function calculateExpirationForMonths(months) {
         const currentExpiration = new Date(currentExpirationStr + 'T00:00:00');
-        
-        // Use the same logic as Python add_months_to_date function
-        let month = currentExpiration.getMonth() + monthsPaid;  // 0-based months
+        let month = currentExpiration.getMonth() + months;
         let year = currentExpiration.getFullYear() + Math.floor(month / 12);
         month = month % 12;
-        
-        // Get last day of the target month
         const lastDay = new Date(year, month + 1, 0).getDate();
-        
-        // Create new date with last day of target month
         return new Date(year, month, lastDay);
     }
-    
-    // Function to format date for display
+
     function formatDate(date) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleDateString('en-US', options);
     }
-    
-    // Function to update expiration date display
-    function updateExpirationDate() {
-        const paymentAmount = parseFloat(amountInput.value) || 0;
-        const newExpiration = calculateNewExpiration(paymentAmount);
-        newExpirationSpan.textContent = formatDate(newExpiration);
-        
-        // Show/hide custom amount notice
-        const customNotice = document.getElementById('custom-amount-notice');
-        const isCustomAmount = (paymentAmount % monthlyDues) !== 0;
-        if (customNotice) {
-            customNotice.style.display = isCustomAmount ? 'block' : 'none';
-        }
-    }
-    
-    function resetToMonthly() {
-        var monthlyRadio = document.getElementById('duration-monthly');
-        if (monthlyRadio) {
-            monthlyRadio.checked = true;
-        }
-        var dh = document.getElementById('payment-duration');
-        if (dh) dh.value = 'monthly';
+
+    function updateForMonthly() {
+        var months = parseInt(monthsInput.value) || 1;
+        months = Math.max(1, Math.min(10, months));
+        amountInput.value = (monthlyDues * months).toFixed(2);
+        newExpirationSpan.textContent = formatDate(calculateExpirationForMonths(months));
     }
 
-    // Plus button - add one month's dues
-    plusButton.addEventListener('click', function() {
-        resetToMonthly();
-        const currentAmount = parseFloat(amountInput.value) || 0;
-        const newAmount = currentAmount + monthlyDues;
-        amountInput.value = newAmount.toFixed(2);
-        updateExpirationDate();
-    });
-    
-    // Minus button - subtract one month's dues (minimum 1 month)
-    minusButton.addEventListener('click', function() {
-        resetToMonthly();
-        const currentAmount = parseFloat(amountInput.value) || 0;
-        const newAmount = Math.max(monthlyDues, currentAmount - monthlyDues);
-        amountInput.value = newAmount.toFixed(2);
-        updateExpirationDate();
-    });
-    
-    // Update expiration when amount is manually changed
-    amountInput.addEventListener('input', function() { resetToMonthly(); updateExpirationDate(); });
-    amountInput.addEventListener('change', function() { resetToMonthly(); updateExpirationDate(); });
-    
+    function setUIForDuration(durationKey) {
+        if (monthsWrapper) monthsWrapper.style.display = (durationKey === 'monthly') ? 'inline-flex' : 'none';
+        if (otherNotice) otherNotice.style.display = (durationKey === 'other') ? 'block' : 'none';
+        if (amountMonthlyHint) amountMonthlyHint.style.display = (durationKey === 'monthly') ? 'inline' : 'none';
+        amountInput.readOnly = (durationKey !== 'other');
+        if (durationKey === 'monthly') {
+            if (monthsInput) monthsInput.value = monthsInput.value || '1';
+            amountInput.placeholder = '';
+        } else if (durationKey === 'other') {
+            if (monthsInput) monthsInput.value = '';
+            amountInput.value = '';
+            amountInput.placeholder = 'Enter custom amount';
+            newExpirationSpan.textContent = '—';
+        } else {
+            if (monthsInput) monthsInput.value = '';
+            amountInput.placeholder = '';
+        }
+    }
+
+    // Months input change
+    if (monthsInput) {
+        monthsInput.addEventListener('input', function() {
+            if (durationHidden) durationHidden.value = 'monthly';
+            var monthlyRadio = document.getElementById('duration-monthly');
+            if (monthlyRadio) monthlyRadio.checked = true;
+            updateForMonthly();
+        });
+    }
+
     // Duration radio button handling
-    const durationRadios = document.querySelectorAll('input[name="duration_radio"]');
-    const durationHidden = document.getElementById('payment-duration');
-
-    function calculateExpirationForDuration(durationMonths) {
-        const currentExpiration = new Date(currentExpirationStr + 'T00:00:00');
-        let month = currentExpiration.getMonth() + durationMonths;
-        let year = currentExpiration.getFullYear() + Math.floor(month / 12);
-        month = month % 12;
-        const lastDay = new Date(year, month + 1, 0).getDate();
-        return new Date(year, month, lastDay);
-    }
-
     durationRadios.forEach(function(radio) {
         radio.addEventListener('change', function() {
-            durationHidden.value = this.value;
-            const chargeMonths = parseInt(this.dataset.chargeMonths);
-            const durationMonths = parseInt(this.dataset.durationMonths);
-            const newAmount = (monthlyDues * chargeMonths).toFixed(2);
-            amountInput.value = newAmount;
+            if (durationHidden) durationHidden.value = this.value;
+            setUIForDuration(this.value);
 
             if (this.value === 'monthly') {
-                updateExpirationDate();
-            } else {
-                newExpirationSpan.textContent = formatDate(calculateExpirationForDuration(durationMonths));
+                updateForMonthly();
+            } else if (this.value !== 'other') {
+                var chargeMonths = parseInt(this.dataset.chargeMonths);
+                var durationMonths = parseInt(this.dataset.durationMonths);
+                amountInput.value = (monthlyDues * chargeMonths).toFixed(2);
+                newExpirationSpan.textContent = formatDate(calculateExpirationForMonths(durationMonths));
             }
         });
     });
 
-    // Initial calculation
+    // For "other" mode, update expiration based on free-form amount
+    amountInput.addEventListener('input', function() {
+        var checkedRadio = document.querySelector('input[name="duration_radio"]:checked');
+        if (checkedRadio && checkedRadio.value === 'other') {
+            var amt = parseFloat(amountInput.value) || 0;
+            if (amt > 0 && monthlyDues > 0) {
+                var months = Math.floor(amt / monthlyDues);
+                if (months > 0) {
+                    newExpirationSpan.textContent = formatDate(calculateExpirationForMonths(months));
+                } else {
+                    newExpirationSpan.textContent = '—';
+                }
+            } else {
+                newExpirationSpan.textContent = '—';
+            }
+        }
+    });
+
+    // Initial state
     var checkedRadio = document.querySelector('input[name="duration_radio"]:checked');
-    if (checkedRadio && checkedRadio.value !== 'monthly') {
+    var initialDuration = checkedRadio ? checkedRadio.value : 'monthly';
+    setUIForDuration(initialDuration);
+    if (initialDuration === 'monthly') {
+        updateForMonthly();
+    } else if (initialDuration === 'other') {
+        // Keep amount as-is from saved state
+    } else if (checkedRadio) {
         var dm = parseInt(checkedRadio.dataset.durationMonths);
-        newExpirationSpan.textContent = formatDate(calculateExpirationForDuration(dm));
-    } else {
-        updateExpirationDate();
+        newExpirationSpan.textContent = formatDate(calculateExpirationForMonths(dm));
     }
 });
 

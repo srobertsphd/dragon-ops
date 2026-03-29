@@ -116,6 +116,7 @@ def add_payment_view(request):
             "saved_payment_method_id": saved.get("payment_method_id"),
             "saved_receipt_number": saved.get("receipt_number"),
             "saved_duration": saved.get("payment_duration", "monthly"),
+            "saved_months": saved.get("num_months", "1"),
         }
         return render(request, "members/add_payment.html", context)
 
@@ -128,6 +129,7 @@ def add_payment_view(request):
             payment_method_id = request.POST.get("payment_method")
             receipt_number = request.POST.get("receipt_number", "").strip()
             payment_duration = request.POST.get("payment_duration", "monthly")
+            num_months = request.POST.get("num_months", "1")
 
             # Validate form data
             try:
@@ -184,6 +186,7 @@ def add_payment_view(request):
                     "receipt_number": receipt_number,
                     "new_expiration": new_expiration.isoformat(),
                     "payment_duration": payment_duration,
+                    "num_months": num_months,
                 }
 
                 # Check for duplicate receipt number (global)
