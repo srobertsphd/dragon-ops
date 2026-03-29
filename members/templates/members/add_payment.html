@@ -213,7 +213,7 @@
                                                data-charge-months="{{ opt.charge_months }}"
                                                data-duration-months="{{ opt.duration_months }}"
                                                {% if saved_duration == opt.key or saved_duration == None and opt.key == 'monthly' %}checked{% endif %}>
-                                        <label class="form-check-label" for="duration-{{ opt.key }}">
+                                        <label class="form-check-label ms-1" for="duration-{{ opt.key }}">
                                             {{ opt.label }}
                                             {% if opt.key == '6month' %}
                                             <small class="text-muted">({{ opt.charge_months }} mo. charge)</small>
