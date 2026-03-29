@@ -88,7 +88,11 @@ def add_payment_view(request):
         # Don't calculate new expiration here - it will be calculated dynamically
         # based on the actual payment amount entered by the user
 
-        saved = request.session.get("payment_data", {})
+        saved = {}
+        if request.GET.get("edit"):
+            saved = request.session.get("payment_data", {})
+        else:
+            request.session.pop("payment_data", None)
 
         context = {
             "step": "form",
