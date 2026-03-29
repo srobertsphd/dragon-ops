@@ -291,6 +291,8 @@
                             Please review the payment details below and confirm to process the payment.
                         </div>
 
+                        {% include "members/includes/payment_warnings.html" with warning_member_name=member.full_name %}
+
                         <!-- Payment Summary -->
                         <div class="row">
                             <div class="col-12 col-lg-6 mb-3">

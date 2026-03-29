@@ -5,7 +5,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, date
 from decimal import Decimal
 
-from ..models import Member, PaymentMethod
+from ..models import Member, Payment, PaymentMethod
 from ..services import PaymentService
 
 
@@ -165,6 +165,29 @@ def add_payment_view(request):
                     "new_expiration": new_expiration.isoformat(),
                 }
 
+                # Check for duplicate receipt number (global)
+                receipt_warnings = list(
+                    Payment.objects.filter(receipt_number=receipt_number)
+                    .select_related("member")
+                    .values_list(
+                        "member__first_name",
+                        "member__last_name",
+                        "date",
+                        "amount",
+                    )
+                )
+
+                # Check for same member + same date
+                date_warnings = list(
+                    Payment.objects.filter(member=member, date=payment_date)
+                    .select_related("payment_method")
+                    .values_list(
+                        "receipt_number",
+                        "amount",
+                        "payment_method__payment_method",
+                    )
+                )
+
                 context = {
                     "step": "confirm",
                     "member": member,
@@ -174,6 +197,8 @@ def add_payment_view(request):
                     "receipt_number": receipt_number,
                     "current_expiration": member.expiration_date,
                     "new_expiration": new_expiration,
+                    "receipt_warnings": receipt_warnings,
+                    "date_warnings": date_warnings,
                 }
                 return render(request, "members/add_payment.html", context)
 

@@ -560,7 +560,9 @@
                             Please review the payment details below and confirm to create the member with initial payment.
                         </div>
                         {% endif %}
-                        
+
+                        {% include "members/includes/payment_warnings.html" with warning_member_name=reactivate_member.full_name %}
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="card">

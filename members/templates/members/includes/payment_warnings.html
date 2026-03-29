@@ -1,0 +1,23 @@
+{% if receipt_warnings %}
+<div class="alert alert-warning">
+    <h6 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Duplicate Receipt Number</h6>
+    <p>Receipt number <strong>{{ receipt_number }}</strong> has already been used:</p>
+    <ul class="mb-0">
+        {% for first, last, pdate, amt in receipt_warnings %}
+        <li>{{ first }} {{ last }} — {{ pdate|date:"M j, Y" }} — ${{ amt }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if date_warnings %}
+<div class="alert alert-warning">
+    <h6 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Existing Payment on This Date</h6>
+    <p>{{ warning_member_name }} already has payment(s) on {{ payment_date|date:"M j, Y" }}:</p>
+    <ul class="mb-0">
+        {% for receipt, amt, method in date_warnings %}
+        <li>Receipt #{{ receipt }} — ${{ amt }} — {{ method }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

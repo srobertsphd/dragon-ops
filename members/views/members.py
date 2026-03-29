@@ -8,7 +8,7 @@ from django.db.models import Q
 from datetime import datetime, date
 from decimal import Decimal
 
-from ..models import Member, MemberType, PaymentMethod, STATE_CHOICES
+from ..models import Member, MemberType, Payment, PaymentMethod, STATE_CHOICES
 from ..utils import ensure_end_of_month
 from ..services import MemberService, PaymentService
 
@@ -719,7 +719,33 @@ def add_member_view(request):
                         Member, member_uuid=reactivate_uuid
                     )
 
-                # Show payment confirmation
+                # Check for duplicate receipt number (global)
+                receipt_warnings = list(
+                    Payment.objects.filter(receipt_number=receipt_number)
+                    .select_related("member")
+                    .values_list(
+                        "member__first_name",
+                        "member__last_name",
+                        "date",
+                        "amount",
+                    )
+                )
+
+                # Check for same member + same date (reactivations only)
+                date_warnings = []
+                if reactivate_member:
+                    date_warnings = list(
+                        Payment.objects.filter(
+                            member=reactivate_member, date=payment_date_obj
+                        )
+                        .select_related("payment_method")
+                        .values_list(
+                            "receipt_number",
+                            "amount",
+                            "payment_method__payment_method",
+                        )
+                    )
+
                 context = {
                     "step": "payment_confirm",
                     "amount": amount,
@@ -728,6 +754,8 @@ def add_member_view(request):
                     "receipt_number": receipt_number,
                     "new_expiration": new_expiration,
                     "reactivate_member": reactivate_member,
+                    "receipt_warnings": receipt_warnings,
+                    "date_warnings": date_warnings,
                 }
                 return render(request, "members/add_member.html", context)
 

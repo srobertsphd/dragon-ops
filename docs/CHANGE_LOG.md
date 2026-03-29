@@ -20,6 +20,48 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #028: Duplicate Payment Detection Warnings
+
+**Status:** In Progress  
+**Priority:** Medium  
+**Estimated Effort:** ~45 minutes  
+**Created:** March 29, 2026  
+
+#### Description
+
+Add server-side duplicate detection checks when adding payments. Two checks run when the form POSTs to the confirmation step:
+
+1. **Duplicate receipt number** — If the receipt number already exists in the `Payment` table, show a warning with details (member name, date, amount) for each matching payment.
+2. **Same member + same date** — If the member already has a payment on the given date, show a warning with those payment details (receipt number, amount, method).
+
+Warnings appear as alert boxes on the confirmation page. They are informational, not blocking — the user reads them and decides whether to proceed. Applies to both the "add payment" flow and the "add/reactivate member" flow.
+
+#### Implementation Steps
+
+1. In `payments.py` confirm step: query for existing payments matching the receipt number (global) and matching the member+date (per-member). Pass warning lists to template context.
+2. In `members.py` payment_confirm step: same receipt check (global). Date check only for reactivations (new members don't exist yet to check against).
+3. In `add_payment.html` confirm section: render warning alert boxes above the payment summary when `receipt_warnings` or `date_warnings` are present.
+4. In `add_member.html` payment_confirm section: render the same warning alert boxes.
+
+#### Files Changed
+
+| File | Change | ~Lines |
+|------|--------|--------|
+| `members/views/payments.py` | Add duplicate queries in confirm step, pass to context | ~15 |
+| `members/views/members.py` | Add duplicate queries in payment_confirm step, pass to context | ~15 |
+| `members/templates/members/add_payment.html` | Add warning alert boxes in confirm section | ~25 |
+| `members/templates/members/add_member.html` | Add warning alert boxes in payment_confirm section | ~25 |
+
+#### Testing Requirements
+
+- Duplicate receipt number shows warning with correct details on confirmation page
+- Same member + same date shows warning with correct details on confirmation page
+- Warnings do not block payment processing (user can still confirm)
+- No warnings shown when receipt number and member+date are unique
+- Reactivation flow shows warnings; new member flow shows receipt warning only
+
+---
+
 ### Change #027: Payment Expiration Tracking
 
 **Status:** In Progress  
