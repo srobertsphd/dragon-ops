@@ -366,20 +366,26 @@
                                             
                                             <dt class="col-sm-5">New Expires:</dt>
                                             <dd class="col-sm-7">
-                                                <div class="row g-2 mb-2">
-                                                    <div class="col-6">
-                                                        <select class="form-select" id="override-month-select" name="override_month">
-                                                            <!-- Options will be populated by JavaScript -->
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <select class="form-select" id="override-year-select" name="override_year">
-                                                            <!-- Options will be populated by JavaScript -->
-                                                        </select>
+                                                <div id="new-expires-static">
+                                                    <strong class="text-primary">{{ new_expiration|date:"F j, Y" }}</strong>
+                                                    <div class="mt-2">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm fw-bold" id="change-expire-btn">Change new expire date</button>
                                                     </div>
                                                 </div>
+                                                <div id="new-expires-edit" style="display: none;">
+                                                    <div class="row g-2 mb-2">
+                                                        <div class="col-6">
+                                                            <select class="form-select" id="override-month-select" name="override_month">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <select class="form-select" id="override-year-select" name="override_year">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <small class="form-text text-muted">All dates are automatically set to the last day of the selected month</small>
+                                                </div>
                                                 <input type="hidden" id="override-expiration-calculated" name="override_expiration">
-                                                <small class="form-text text-muted">All dates are automatically set to the last day of the selected month</small>
                                             </dd>
                                         </dl>
                                     </div>
@@ -731,6 +737,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize with calculated expiration date
     updateCalculatedDate();
+    
+    // Toggle between static text and edit dropdowns
+    const changeBtn = document.getElementById('change-expire-btn');
+    const staticDiv = document.getElementById('new-expires-static');
+    const editDiv = document.getElementById('new-expires-edit');
+    if (changeBtn) {
+        changeBtn.addEventListener('click', function() {
+            staticDiv.style.display = 'none';
+            editDiv.style.display = 'block';
+        });
+    }
     
     // Copy override_expiration value to hidden fields when forms are submitted
     const confirmFormMobile = document.getElementById('confirm-form-mobile');
