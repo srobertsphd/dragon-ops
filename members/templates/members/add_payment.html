@@ -213,7 +213,7 @@
                                                    name="amount" 
                                                    step="any" 
                                                    min="0.01" 
-                                                   value="{{ suggested_amount }}" 
+                                                   value="{{ saved_amount|default:suggested_amount }}" 
                                                    data-monthly-dues="{{ suggested_amount }}"
                                                    data-current-expiration="{{ member.expiration_date|date:'Y-m-d' }}"
                                                    required>
@@ -237,7 +237,7 @@
                                                class="form-control" 
                                                id="payment_date" 
                                                name="payment_date" 
-                                               value="{{ today|date:'Y-m-d' }}" 
+                                               value="{% if saved_payment_date %}{{ saved_payment_date }}{% else %}{{ today|date:'Y-m-d' }}{% endif %}" 
                                                required>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@
                                         <select class="form-select" id="payment_method" name="payment_method" required>
                                             <option value="">Select payment method...</option>
                                             {% for method in payment_methods %}
-                                            <option value="{{ method.pk }}">
+                                            <option value="{{ method.pk }}" {% if saved_payment_method_id == method.pk|stringformat:"d" %}selected{% endif %}>
                                                 {{ method.payment_method }}
                                             </option>
                                             {% endfor %}
@@ -264,7 +264,8 @@
                                                class="form-control" 
                                                id="receipt_number" 
                                                name="receipt_number" 
-                                               placeholder="e.g., 123456, R-2024-001" 
+                                               placeholder="e.g., 123456, R-2024-001"
+                                               value="{{ saved_receipt_number }}" 
                                                required>
                                         <small class="form-text text-muted">Enter the receipt or transaction number for this payment</small>
                                     </div>

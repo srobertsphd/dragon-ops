@@ -88,12 +88,18 @@ def add_payment_view(request):
         # Don't calculate new expiration here - it will be calculated dynamically
         # based on the actual payment amount entered by the user
 
+        saved = request.session.get("payment_data", {})
+
         context = {
             "step": "form",
             "member": member,
             "payment_methods": payment_methods,
             "suggested_amount": suggested_amount,
             "today": date.today(),
+            "saved_amount": saved.get("amount"),
+            "saved_payment_date": saved.get("payment_date"),
+            "saved_payment_method_id": saved.get("payment_method_id"),
+            "saved_receipt_number": saved.get("receipt_number"),
         }
         return render(request, "members/add_payment.html", context)
 
