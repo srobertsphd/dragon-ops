@@ -143,6 +143,8 @@ def add_payment_view(request):
                 override_expiration = request.POST.get("override_expiration")
 
                 payment_date = datetime.strptime(payment_date, "%Y-%m-%d").date()
+                if payment_date > date.today():
+                    raise ValueError("Payment date cannot be in the future")
                 payment_method = get_object_or_404(PaymentMethod, pk=payment_method_id)
 
                 # Validate receipt number is provided

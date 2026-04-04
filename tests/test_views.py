@@ -120,9 +120,8 @@ class TestPaymentViewWithOverride:
         )
         assert response.status_code == 200  # Should show confirmation page
 
-        # Step 2: Confirm payment with override expiration (confirm step)
-        # Simulate JavaScript populating override_expiration from month/year dropdowns
-        override_expiration = date(2025, 12, 31)  # December 31, 2025
+        # Step 2: Submit form to confirm step with override expiration
+        override_expiration = date(2025, 12, 31)
 
         confirm_data = {
             "member_uuid": str(member.member_uuid),
@@ -130,18 +129,15 @@ class TestPaymentViewWithOverride:
             "payment_date": "2025-04-15",
             "payment_method": str(payment_method.pk),
             "receipt_number": "TEST-OVERRIDE-001",
-            "override_expiration": override_expiration.isoformat(),  # From JavaScript
+            "override_expiration": override_expiration.isoformat(),
         }
 
         response = client.post("/payments/add/?step=confirm", confirm_data)
-        assert (
-            response.status_code == 200
-        )  # Should show confirmation page with override
+        assert response.status_code == 200
 
-        # Step 3: Process payment (process step)
+        # Step 3: Process payment (override already stored in session)
         process_data = {
             "confirm": "yes",
-            "override_expiration": override_expiration.isoformat(),  # From confirmation form
         }
 
         response = client.post("/payments/add/?step=process", process_data)
@@ -161,6 +157,77 @@ class TestPaymentViewWithOverride:
         member.refresh_from_db()
         assert member.expiration_date == override_expiration
         assert member.expiration_date != initial_expiration
+
+    def test_override_expiration_shown_on_confirmation(
+        self, client, member, payment_method
+    ):
+        """Test that override expiration appears in confirmation page context"""
+        override_date = date(2026, 6, 30)
+        data = {
+            "member_uuid": str(member.member_uuid),
+            "amount": "30.00",
+            "payment_date": "2025-04-15",
+            "payment_method": str(payment_method.pk),
+            "receipt_number": "TEST-CONFIRM-001",
+            "override_expiration": override_date.isoformat(),
+        }
+        response = client.post("/payments/add/?step=confirm", data)
+        assert response.status_code == 200
+        assert response.context["new_expiration"] == override_date
+
+    def test_empty_override_uses_default_calculation(
+        self, client, member, payment_method
+    ):
+        """Test that empty override falls back to amount-based calculation"""
+        data = {
+            "member_uuid": str(member.member_uuid),
+            "amount": "30.00",
+            "payment_date": "2025-04-15",
+            "payment_method": str(payment_method.pk),
+            "receipt_number": "TEST-DEFAULT-001",
+            "override_expiration": "",
+        }
+        response = client.post("/payments/add/?step=confirm", data)
+        assert response.status_code == 200
+        # $30 / $30 dues = 1 month: March 31 + 1 = April 30
+        assert response.context["new_expiration"] == date(2025, 4, 30)
+
+    def test_override_stored_in_session(self, client, member, payment_method):
+        """Test that override expiration is stored in session for processing"""
+        override_date = date(2026, 6, 30)
+        data = {
+            "member_uuid": str(member.member_uuid),
+            "amount": "30.00",
+            "payment_date": "2025-04-15",
+            "payment_method": str(payment_method.pk),
+            "receipt_number": "TEST-SESSION-001",
+            "override_expiration": override_date.isoformat(),
+        }
+        client.post("/payments/add/?step=confirm", data)
+        session_data = client.session["payment_data"]
+        assert session_data["new_expiration"] == override_date.isoformat()
+
+    def test_back_to_edit_returns_saved_expiration(
+        self, client, member, payment_method
+    ):
+        """Test that Back to Edit populates saved_new_expiration in context"""
+        override_date = date(2026, 6, 30)
+        data = {
+            "member_uuid": str(member.member_uuid),
+            "amount": "30.00",
+            "payment_date": "2025-04-15",
+            "payment_method": str(payment_method.pk),
+            "receipt_number": "TEST-BACK-001",
+            "override_expiration": override_date.isoformat(),
+        }
+        client.post("/payments/add/?step=confirm", data)
+
+        # Simulate "Back to Edit" link
+        response = client.get(
+            f"/payments/add/?step=form&member={member.member_uuid}&edit=1"
+        )
+        assert response.status_code == 200
+        assert response.context["saved_new_expiration"] == override_date.isoformat()
 
 
 @pytest.mark.django_db

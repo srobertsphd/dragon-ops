@@ -286,6 +286,7 @@
                                                class="form-control" 
                                                id="payment_date" 
                                                name="payment_date" 
+                                               max="{{ today|date:'Y-m-d' }}"
                                                value="{% if saved_payment_date %}{{ saved_payment_date }}{% else %}{{ today|date:'Y-m-d' }}{% endif %}" 
                                                required>
                                     </div>
