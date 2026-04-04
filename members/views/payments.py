@@ -114,7 +114,7 @@ def add_payment_view(request):
             "saved_amount": saved.get("amount"),
             "saved_payment_date": saved.get("payment_date"),
             "saved_payment_method_id": saved.get("payment_method_id"),
-            "saved_receipt_number": saved.get("receipt_number"),
+            "saved_receipt_number": saved.get("receipt_number") or "",
             "saved_duration": saved.get("payment_duration", "monthly"),
             "saved_months": saved.get("num_months", "1"),
         }
