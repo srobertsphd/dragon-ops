@@ -12,7 +12,8 @@ from pathlib import Path
 from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
-from django.db import connection
+
+from members.bulk_restore import bulk_load_from_json
 
 
 class Command(BaseCommand):
@@ -72,21 +73,9 @@ class Command(BaseCommand):
         call_command("flush", "--noinput", verbosity=0)
         self.stdout.write(self.style.SUCCESS("  Done."))
 
-        # Load backup directly (no subprocess)
-        self.stdout.write("Loading backup data (this may take a few minutes)...")
-        call_command("loaddata", str(backup_path), verbosity=1)
-        self.stdout.write(self.style.SUCCESS("  Done."))
-
-        # Reset sequences
-        self.stdout.write("Resetting sequences...")
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                SELECT setval(
-                    'members_payment_id_seq',
-                    COALESCE((SELECT MAX(id) FROM members_payment), 1),
-                    true
-                )
-            """)
+        # Bulk load data
+        self.stdout.write("Loading backup data...")
+        bulk_load_from_json(str(backup_path), log=self.stdout.write)
         self.stdout.write(self.style.SUCCESS("  Done."))
 
         self.stdout.write(self.style.SUCCESS("\nRestore completed successfully."))

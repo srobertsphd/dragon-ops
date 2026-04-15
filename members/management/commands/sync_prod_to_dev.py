@@ -23,6 +23,8 @@ import os
 import sys
 from dotenv import load_dotenv
 
+from members.bulk_restore import bulk_load_from_json
+
 
 class Command(BaseCommand):
     help = "Sync production data to development database"
@@ -164,82 +166,16 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"Clear failed: {e}"))
             return
 
-        # Step 3: Import into development database
+        # Step 3: Bulk import into development database
         self.stdout.write("Step 3: Importing data into development database...")
-        self.stdout.write("  This may take a few minutes for large datasets...")
-        self.stdout.write(f"  Loading from: {dump_file.name}")
         try:
-            # Use subprocess for loaddata to have better control and see real-time output
-            import subprocess
-
-            self.stdout.write("  Starting import process...")
-
-            process = subprocess.Popen(
-                [
-                    sys.executable,
-                    "manage.py",
-                    "loaddata",
-                    dump_file.name,
-                    "--verbosity=2",
-                ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                bufsize=1,
-                universal_newlines=True,
-                env={
-                    **os.environ,
-                    "DJANGO_SETTINGS_MODULE": "alano_club_site.settings",
-                },
-            )
-
-            # Stream output in real-time
-            for line in process.stdout:
-                self.stdout.write(f"  {line.rstrip()}")
-
-            process.wait()
-
-            if process.returncode != 0:
-                raise Exception(f"loaddata exited with code {process.returncode}")
-
+            bulk_load_from_json(dump_file.name, log=self.stdout.write)
             self.stdout.write(
-                self.style.SUCCESS("  ✓ Data imported into development database")
+                self.style.SUCCESS("  Data imported into development database")
             )
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Import failed: {e}"))
-            self.stdout.write(f"  Error details: {str(e)}")
-            # Check if file exists and show size
-            try:
-                if os.path.exists(dump_file.name):
-                    size = os.path.getsize(dump_file.name)
-                    self.stdout.write(f"  Dump file size: {size:,} bytes")
-            except Exception:
-                pass
             return
-
-        # Step 4: Reset sequences
-        # Note: member_id is NOT an auto-increment field, so it has no sequence
-        # Only reset sequences that actually exist (like payment.id)
-        self.stdout.write("Step 4: Resetting sequences...")
-        try:
-            from django.db import connection
-
-            with connection.cursor() as cursor:
-                # Reset payment sequence (the only critical one)
-                cursor.execute(
-                    """
-                    SELECT setval(
-                        'members_payment_id_seq',
-                        COALESCE((SELECT MAX(id) FROM members_payment), 1),
-                        true
-                    )
-                    """
-                )
-                self.stdout.write("  ✓ Reset members_payment_id_seq")
-
-            self.stdout.write(self.style.SUCCESS("  ✓ Sequences reset"))
-        except Exception as e:
-            self.stdout.write(self.style.WARNING(f"Sequence reset had issues: {e}"))
 
         # Cleanup
         try:
