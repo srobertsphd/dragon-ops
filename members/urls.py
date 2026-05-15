@@ -73,6 +73,7 @@ urlpatterns = [
     ),
     # Payment functionality
     path("payments/add/", views.add_payment_view, name="add_payment"),
+    path("payments/edit/<int:payment_id>/", views.edit_payment_view, name="edit_payment"),
     # Member detail (must come after edit routes to avoid conflicts)
     path("<uuid:member_uuid>/", views.member_detail_view, name="member_detail"),
 ]

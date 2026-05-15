@@ -1,3 +1,27 @@
+May 15, 2026. Edit Payment Feature Plan.
+
+1. Add URL route: `payments/edit/<int:payment_id>/` → `edit_payment_view`
+2. Create `edit_payment_view` in `members/views/payments.py`
+    a. GET: Load payment by ID, render form pre-populated with date, amount, payment method, receipt number
+    b. POST: Validate and update only those four fields — do NOT recalculate member expiration
+    c. Staff-only access via @staff_member_required
+3. Export new view in `members/views/__init__.py`
+4. Create `edit_payment.html` template
+    a. Member info header (name, ID, type, expiration) — read-only
+    b. Payment list table for the member — selected payment highlighted, each row links to edit that payment
+    c. Edit form with date, amount, payment method dropdown, receipt number
+    d. Save and Cancel buttons
+5. Add "Edit Payment" button to `member_detail.html` in the Payment History card header (next to Filters)
+6. Create `tests/test_edit_payment.py` covering:
+    a. Access control (staff required)
+    b. GET renders form with correct pre-populated data
+    c. POST updates payment fields successfully
+    d. POST does NOT change member expiration or payment.new_expiration_date
+    e. Validation errors (future date, empty receipt, invalid amount)
+    f. Edge cases (deceased member, nonexistent payment)
+
+---
+
 March 28, 2026. Things left to do for Tony.
 
 1. Create member reports with three past payments.

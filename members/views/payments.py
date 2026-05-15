@@ -3,10 +3,11 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, date
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 from ..models import Member, Payment, PaymentMethod
 from ..services import PaymentService
+from ..utils import ensure_end_of_month
 
 
 @staff_member_required
@@ -284,3 +285,104 @@ def add_payment_view(request):
     else:
         # Invalid step
         return redirect("members:add_payment")
+
+
+@staff_member_required
+def edit_payment_view(request, payment_id):
+    """Edit an existing payment's date, amount, payment method, and receipt number."""
+    payment = get_object_or_404(
+        Payment.objects.select_related("member", "payment_method", "member__member_type"),
+        pk=payment_id,
+    )
+    member = payment.member
+
+    if member.status == "deceased":
+        messages.error(request, "Cannot edit payments for deceased members.")
+        return redirect("members:member_detail", member_uuid=member.member_uuid)
+
+    payment_methods = PaymentMethod.objects.all().order_by("payment_method")
+    member_payments = member.payments.select_related("payment_method").order_by("-date")
+
+    if request.method == "POST":
+        payment_date = request.POST.get("payment_date", "").strip()
+        amount = request.POST.get("amount", "").strip()
+        payment_method_id = request.POST.get("payment_method", "").strip()
+        receipt_number = request.POST.get("receipt_number", "").strip()
+        new_expiration = request.POST.get("new_expiration_date", "").strip()
+
+        errors = []
+
+        # Validate date
+        try:
+            parsed_date = datetime.strptime(payment_date, "%Y-%m-%d").date()
+            if parsed_date > date.today():
+                errors.append("Payment date cannot be in the future.")
+        except (ValueError, TypeError):
+            errors.append("Invalid payment date.")
+            parsed_date = None
+
+        # Validate new_expiration_date (optional)
+        parsed_new_expiration = None
+        if new_expiration:
+            try:
+                parsed_new_expiration = ensure_end_of_month(
+                    datetime.strptime(new_expiration, "%Y-%m-%d").date()
+                )
+            except (ValueError, TypeError):
+                errors.append("Invalid expiration date.")
+
+        # Validate amount
+        try:
+            parsed_amount = Decimal(amount)
+            if parsed_amount <= 0:
+                errors.append("Amount must be greater than zero.")
+        except (InvalidOperation, ValueError, TypeError):
+            errors.append("Invalid payment amount.")
+            parsed_amount = None
+
+        # Validate payment method
+        try:
+            method = PaymentMethod.objects.get(pk=payment_method_id)
+        except (PaymentMethod.DoesNotExist, ValueError):
+            errors.append("Invalid payment method.")
+            method = None
+
+        # Validate receipt number
+        if not receipt_number:
+            errors.append("Receipt number is required.")
+
+        if errors:
+            context = {
+                "payment": payment,
+                "member": member,
+                "payment_methods": payment_methods,
+                "member_payments": member_payments,
+                "errors": errors,
+                "form_date": payment_date,
+                "form_amount": amount,
+                "form_method_id": payment_method_id,
+                "form_receipt": receipt_number,
+                "form_new_expiration": new_expiration,
+            }
+            return render(request, "members/edit_payment.html", context)
+
+        payment.date = parsed_date
+        payment.amount = parsed_amount
+        payment.payment_method = method
+        payment.receipt_number = receipt_number
+        payment.new_expiration_date = parsed_new_expiration
+        payment.save(update_fields=["date", "amount", "payment_method", "receipt_number", "new_expiration_date", "updated_at"])
+
+        messages.success(
+            request,
+            f"Payment updated for {member.full_name} — ${parsed_amount} on {parsed_date.strftime('%B %d, %Y')}.",
+        )
+        return redirect("members:member_detail", member_uuid=member.member_uuid)
+
+    context = {
+        "payment": payment,
+        "member": member,
+        "payment_methods": payment_methods,
+        "member_payments": member_payments,
+    }
+    return render(request, "members/edit_payment.html", context)

@@ -1,0 +1,215 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Edit Payment - {{ member.full_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payment-row { cursor: pointer; }
+    .payment-row.table-primary { font-weight: 600; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Edit Payment</h2>
+        <a href="{% url 'members:member_detail' member.member_uuid %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to {{ member.full_name }}
+        </a>
+    </div>
+
+    <!-- Member Summary -->
+    <div class="card mb-4">
+        <div class="card-body py-2">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3"><strong>{{ member.full_name }}</strong> (#{{ member.member_id|default:"N/A" }})</div>
+                <div class="col-md-3">{{ member.member_type }}</div>
+                <div class="col-md-3">
+                    <span class="badge badge-status status-{{ member.status|lower }}">{{ member.get_status_display }}</span>
+                </div>
+                <div class="col-md-3">Expires: {{ member.expiration_date|date:"M j, Y" }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Errors -->
+    {% if errors %}
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <!-- Payment List -->
+        <div class="col-md-5 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Select Payment</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Receipt #</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in member_payments %}
+                                <tr class="payment-row {% if p.pk == payment.pk %}table-primary{% endif %}"
+                                    onclick="window.location='{% url 'members:edit_payment' p.pk %}'">
+                                    <td>{{ p.date|date:"M j, Y" }}</td>
+                                    <td>${{ p.amount|floatformat:2 }}</td>
+                                    <td>{{ p.receipt_number|default:"—" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Edit Payment Details</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="payment_date" class="form-label">Payment Date</label>
+                            <input type="date" class="form-control" id="payment_date" name="payment_date"
+                                   value="{{ form_date|default:payment.date|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" step="0.01" min="0.01" class="form-control" id="amount" name="amount"
+                                       value="{{ form_amount|default:payment.amount }}" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Payment Method</label>
+                            <select class="form-select" id="payment_method" name="payment_method" required>
+                                {% for method in payment_methods %}
+                                <option value="{{ method.pk }}"
+                                    {% if form_method_id %}
+                                        {% if form_method_id == method.pk|stringformat:"d" %}selected{% endif %}
+                                    {% elif payment.payment_method_id == method.pk %}
+                                        selected
+                                    {% endif %}>
+                                    {{ method.payment_method }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="receipt_number" class="form-label">Receipt Number</label>
+                            <input type="text" class="form-control" id="receipt_number" name="receipt_number"
+                                   value="{{ form_receipt|default:payment.receipt_number }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Expiration Date Set by Payment</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <select class="form-select" id="exp-month-select"></select>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" id="exp-year-select"></select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="new_expiration_date" id="exp-hidden">
+                            <div class="form-text">Dates set to last day of selected month. Does not change the member's current expiration.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'members:member_detail' member.member_uuid %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pb-5 mb-4"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const monthSelect = document.getElementById('exp-month-select');
+    const yearSelect = document.getElementById('exp-year-select');
+    const hiddenInput = document.getElementById('exp-hidden');
+    if (!monthSelect || !yearSelect || !hiddenInput) return;
+
+    const monthData = [
+        {name: 'January', lastDay: 31},
+        {name: 'February', lastDay: '28/29'},
+        {name: 'March', lastDay: 31},
+        {name: 'April', lastDay: 30},
+        {name: 'May', lastDay: 31},
+        {name: 'June', lastDay: 30},
+        {name: 'July', lastDay: 31},
+        {name: 'August', lastDay: 31},
+        {name: 'September', lastDay: 30},
+        {name: 'October', lastDay: 31},
+        {name: 'November', lastDay: 30},
+        {name: 'December', lastDay: 31},
+    ];
+
+    for (let m = 1; m <= 12; m++) {
+        const opt = document.createElement('option');
+        opt.value = m;
+        const info = monthData[m - 1];
+        opt.textContent = info.lastDay === '28/29'
+            ? info.name + ' 28/29'
+            : info.name + ' ' + info.lastDay;
+        monthSelect.appendChild(opt);
+    }
+
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear - 5; y <= currentYear + 4; y++) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSelect.appendChild(opt);
+    }
+
+    function updateHidden() {
+        const m = parseInt(monthSelect.value);
+        const y = parseInt(yearSelect.value);
+        const lastDay = new Date(y, m, 0).getDate();
+        hiddenInput.value = y + '-' + String(m).padStart(2, '0') + '-' + String(lastDay).padStart(2, '0');
+    }
+
+    monthSelect.addEventListener('change', updateHidden);
+    yearSelect.addEventListener('change', updateHidden);
+
+    // Pre-select from existing payment expiration
+    {% if form_new_expiration %}
+    const parts = "{{ form_new_expiration }}".split('-');
+    monthSelect.value = parseInt(parts[1]);
+    yearSelect.value = parseInt(parts[0]);
+    {% elif payment.new_expiration_date %}
+    monthSelect.value = {{ payment.new_expiration_date|date:"n" }};
+    yearSelect.value = {{ payment.new_expiration_date|date:"Y" }};
+    {% else %}
+    monthSelect.value = new Date().getMonth() + 1;
+    yearSelect.value = currentYear;
+    {% endif %}
+    updateHidden();
+});
+</script>
+{% endblock %}

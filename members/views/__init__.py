@@ -5,7 +5,7 @@ from .members import (
     reactivate_member_view,
     edit_member_view,
 )
-from .payments import add_payment_view
+from .payments import add_payment_view, edit_payment_view
 from .reports import (
     current_members_report_view,
     csv_backup_export_view,
@@ -30,6 +30,7 @@ __all__ = [
     "reactivate_member_view",
     "edit_member_view",
     "add_payment_view",
+    "edit_payment_view",
     "current_members_report_view",
     "csv_backup_export_view",
     "reports_landing_view",

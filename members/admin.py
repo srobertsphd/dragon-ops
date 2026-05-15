@@ -155,6 +155,7 @@ class PaymentAdmin(admin.ModelAdmin):
         "date",
         "payment_method",
         "receipt_number",
+        "new_expiration_date",
     ]
     list_filter = ["payment_method", "date"]
     search_fields = [
@@ -178,6 +179,7 @@ class PaymentAdmin(admin.ModelAdmin):
                     "date",
                     "payment_method",
                     "receipt_number",
+                    "new_expiration_date",
                 ),
             },
         ),
