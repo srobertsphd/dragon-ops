@@ -1,7 +1,7 @@
 {% extends "members/base.html" %}
 {% load static %}
 
-{% block title %}{% if mode == 'edit' %}Edit Member{% else %}Edit Member - Search{% endif %}{% endblock %}
+{% block title %}Edit Member{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -11,7 +11,7 @@
                 <div class="card-header bg-primary text-white">
                     <h1 class="h3 mb-0">
                         <i class="bi bi-pencil-square me-2"></i>
-                        {% if mode == 'edit' %}Edit Member{% else %}Edit Member - Search{% endif %}
+                        Edit Member
                     </h1>
                 </div>
                 <div class="card-body">
@@ -24,47 +24,6 @@
                         {% endfor %}
                     {% endif %}
 
-                    {% if mode == 'search' %}
-                        <div class="alert alert-danger mb-4">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            <strong>Warning: You are in the Edit Member section.</strong> Please be careful when making changes to member records.
-                        </div>
-                        <form method="get" class="mb-4">
-                            <div class="input-group input-group-lg">
-                                <input type="text" name="q" class="form-control" placeholder="Enter member name or ID..." value="{{ query }}" autofocus>
-                                <button class="btn btn-primary" type="submit"><i class="bi bi-search me-1"></i>Search</button>
-                            </div>
-                            <small class="form-text text-muted mt-2">Search by first name, last name, or member ID number (active members only)</small>
-                        </form>
-
-                        {% if members %}
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Member ID</th>
-                                            <th>Name</th>
-                                            <th>Member Type</th>
-                                            <th>Expires</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for m in members %}
-                                        <tr onclick="window.location='{% url 'members:edit_member' m.member_uuid %}'" style="cursor: pointer">
-                                            <td><strong>#{{ m.member_id }}</strong></td>
-                                            <td>{{ m.full_name }}</td>
-                                            <td>{{ m.member_type.member_type }}</td>
-                                            <td>{{ m.expiration_date|date:"M j, Y" }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% elif query %}
-                            <p class="text-muted">No active members found matching "{{ query }}".</p>
-                        {% endif %}
-
-                    {% elif mode == 'edit' %}
                         <div class="alert alert-danger mb-4">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             <strong>Edit Mode Active</strong> — You are making changes to member records. Please verify all information before saving.
@@ -243,7 +202,6 @@
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </div>
                         </form>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -252,7 +210,6 @@
 {% endblock %}
 
 {% block extra_js %}
-{% if mode == 'edit' %}
 <script src="{% static 'members/js/phone_format.js' %}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -314,6 +271,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{% endif %}
 {% endblock %}
 

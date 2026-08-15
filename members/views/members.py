@@ -102,7 +102,6 @@ def edit_member_view(request, member_uuid=None):
                 "today": date.today(),
                 "suggested_ids": suggested_ids[:50],
                 "state_choices": STATE_CHOICES,
-                "mode": "edit",
             },
         )
 
@@ -178,7 +177,6 @@ def edit_member_view(request, member_uuid=None):
                 "today": date.today(),
                 "suggested_ids": suggested_ids[:50],
                 "state_choices": STATE_CHOICES,
-                "mode": "edit",
                 "member_data": {
                     "first_name": first_name,
                     "last_name": last_name,

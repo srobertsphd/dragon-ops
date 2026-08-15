@@ -2,7 +2,7 @@
 Tests for Edit Member functionality
 
 Tests the edit_member_view:
-- Search mode (GET/POST with query)
+- No UUID redirects to Member Search
 - Edit mode (GET/POST with member_uuid)
 - Staff-only access
 - Active member restriction

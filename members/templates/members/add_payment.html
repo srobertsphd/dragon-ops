@@ -10,10 +10,6 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="step-indicator {% if step == 'search' %}active{% elif step == 'form' or step == 'confirm' or step == 'life_member' %}completed{% endif %}">
-                            <span class="step-number">1</span>
-                            <span class="step-label">Find Member</span>
-                        </div>
                         {% if step == 'life_member' %}
                         <div class="step-indicator active">
                             <span class="step-number"><i class="bi bi-award-fill"></i></span>
@@ -25,11 +21,11 @@
                         </div>
                         {% else %}
                         <div class="step-indicator {% if step == 'form' %}active{% elif step == 'confirm' %}completed{% endif %}">
-                            <span class="step-number">2</span>
+                            <span class="step-number">1</span>
                             <span class="step-label">Payment Details</span>
                         </div>
                         <div class="step-indicator {% if step == 'confirm' %}active{% endif %}">
-                            <span class="step-number">3</span>
+                            <span class="step-number">2</span>
                             <span class="step-label">Confirm</span>
                         </div>
                         {% endif %}
@@ -46,9 +42,7 @@
                             Lifetime Member - {{ member.full_name }}
                         {% else %}
                             <i class="bi bi-cash-coin me-2"></i>
-                            {% if step == 'search' %}
-                                Find Member for Payment
-                            {% elif step == 'form' %}
+                            {% if step == 'form' %}
                                 Add Payment for {{ member.full_name }}
                             {% elif step == 'confirm' %}
                                 Confirm Payment
@@ -58,74 +52,7 @@
                 </div>
                 <div class="card-body">
                     
-                    <!-- Step 1: Member Search -->
-                    {% if step == 'search' %}
-                        <form method="get" class="mb-4">
-                            <input type="hidden" name="step" value="search">
-                            <div class="input-group input-group-lg">
-                                <input type="text" 
-                                       name="q" 
-                                       class="form-control" 
-                                       placeholder="Enter member name or ID..."
-                                       value="{{ query }}"
-                                       autofocus>
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="bi bi-search me-1"></i>
-                                    Search
-                                </button>
-                            </div>
-                            <small class="form-text text-muted mt-2">
-                                Search by first name, last name, or member ID number (includes active and inactive members)
-                            </small>
-                        </form>
-
-                        {% if query %}
-                            {% if members %}
-                                <h5>Select Member:</h5>
-                                <div class="list-group">
-                                    {% for member in members %}
-                                    <a href="?step=form&member={{ member.member_uuid }}" 
-                                       class="list-group-item list-group-item-action">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="mb-1">
-                                                    {{ member.full_name }}
-                                                    <span class="badge bg-secondary ms-2">#{{ member.member_id }}</span>
-                                                </h6>
-                                                <small class="text-muted">
-                                                    {{ member.member_type.member_type }} • Expires: {{ member.expiration_date|date:"M j, Y" }}
-                                                </small>
-                                            </div>
-                                            <div class="text-end">
-                                                <span class="badge badge-status status-{{ member.status|lower }}">
-                                                    {{ member.get_status_display }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <div class="text-center py-4">
-                                    <i class="bi bi-search text-muted" style="font-size: 3rem;"></i>
-                                    <h5 class="text-muted mt-3">No members found</h5>
-                                    <p class="text-muted">
-                                        Try searching for a different name or member ID.
-                                    </p>
-                                </div>
-                            {% endif %}
-                        {% else %}
-                            <div class="text-center py-5">
-                                <i class="bi bi-person-search text-muted" style="font-size: 4rem;"></i>
-                                <h4 class="text-muted mt-3">Search for Member</h4>
-                                <p class="text-muted">
-                                    Enter a member's name or ID number to begin payment entry.
-                                </p>
-                            </div>
-                        {% endif %}
-
-                    <!-- Step 2a: Life Member Notice -->
-                    {% elif step == 'life_member' %}
+                    {% if step == 'life_member' %}
                         <div class="text-center py-5">
                             <div class="mb-4">
                                 <i class="bi bi-award-fill text-warning" style="font-size: 5rem;"></i>

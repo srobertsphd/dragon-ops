@@ -17,17 +17,15 @@ def _back_from_payment(member_uuid=None):
 
 @staff_member_required
 def add_payment_view(request):
-    """Payment entry workflow with member search, form, and confirmation"""
+    """Payment entry workflow: form, confirmation, and processing."""
 
-    # Get workflow step
-    step = request.GET.get("step", "search")
+    step = request.GET.get("step", "form")
     member_uuid = request.GET.get("member", "")
 
-    # If member UUID is provided, skip search and go to form
+    # Old search landing / bookmarks: skip to form if member is known, else Member Search
     if member_uuid and step == "search":
         try:
-            member = get_object_or_404(Member, member_uuid=member_uuid)
-            # Redirect to form step with the member
+            get_object_or_404(Member, member_uuid=member_uuid)
             return redirect(f"{request.path}?step=form&member={member_uuid}")
         except:  # noqa: E722
             return redirect("members:search")
@@ -36,9 +34,7 @@ def add_payment_view(request):
         return redirect("members:search")
 
     elif step == "form":
-        # Step 2: Payment Form (member selected)
         if not member_uuid:
-            messages.error(request, "Please select a member first.")
             return redirect("members:search")
 
         member = get_object_or_404(Member, member_uuid=member_uuid)

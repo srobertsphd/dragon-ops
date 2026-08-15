@@ -20,6 +20,67 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #033: Remove Dead Edit Member / Add Payment Search Landings
+
+**Status:** Completed  
+**Priority:** Medium  
+**Estimated Effort:** ~30–45 minutes  
+**Created:** August 15, 2026  
+**Completed:** August 15, 2026  
+
+#### Description
+
+Follow-up to Change #032. Bare `/edit/` and `/payments/add/` already redirect to Member Search. Delete the unreachable search-landing UI and unused `mode`/`step=search` template logic so only live flows remain: edit a known member; add payment for a known member (form → confirm → process); life-member notice.
+
+Do **not** change member-first nav, back-links, or the home Reports card. Keep URL paths `edit/` and `payments/add/` so bookmarks still redirect. Do not restore old search-landing tests.
+
+#### Behavior
+
+- Edit Member page is always the edit form (no `mode == 'search'` block; no `mode` in title/header)
+- Add Payment page no longer has a Find Member step; progress is Details → Confirm (life-member variant unchanged aside from dropping Find Member)
+- `/edit/` (no UUID) and `/payments/add/` (no member / `step=search`) still redirect to `/search/`
+- `?member=<uuid>` still skips to the payment form
+- Back-to-member buttons, Edit Payment back, Member Search, Add Member, and member-detail actions stay as they are
+
+#### To Do
+
+- [x] Add this changelog entry; note #032 follow-up
+- [x] `edit_member.html`: delete search block; drop `mode` conditionals; keep edit form and Back to member
+- [x] `edit_member_view`: stop passing `mode`; keep no-UUID → search and inactive → member detail
+- [x] `add_payment.html`: delete `step == 'search'` block; drop Find Member from progress; renumber Details → Confirm
+- [x] `add_payment_view`: default step `form`; keep no-member / `step=search` → search; keep `?member=` skip-to-form
+- [x] Tests: keep redirect + UUID/member flows; do not restore search-landing tests
+- [x] Verify: `rg` has no leftover landing UI; pytest list below passes
+
+#### Files
+
+| File | Action | ~Lines |
+|------|--------|--------|
+| `docs/CHANGE_LOG.md` | Add #033; note on #032 | ~60 |
+| `members/templates/members/edit_member.html` | Delete search UI; unwrap `mode` | ~50 |
+| `members/views/members.py` | Drop `"mode": "edit"` (2 places) | ~2 |
+| `members/templates/members/add_payment.html` | Delete search UI; drop/renumber step 1 | ~80 |
+| `members/views/payments.py` | Default step `form`; keep redirects | ~8 |
+| `tests/test_edit_member.py` | Docstring only (search mode is gone) | ~2 |
+
+#### Testing Requirements
+
+- `rg "mode == 'search'|step == 'search'|Find Member for Payment|Edit Member - Search" members/` — no leftover landing UI (view redirects OK)
+- Sidebar: Home, Member Search, Add Member, Reports — no Add Payment / Edit Member
+- Home has Reports, not Add Payment
+- `/edit/` and `/payments/add/` → `/search/` (302)
+- Search → member → Edit Member Information → form (not search) → Back to that member
+- Member page → Add Payment → payment form (not Find Member) → Back to that member; confirm/process still works
+- Life member → add payment still shows lifetime notice, back to member
+- Edit Payment still backs to the member
+
+```bash
+source .venv/bin/activate
+uv run pytest tests/test_edit_member.py tests/test_edit_payment.py tests/test_views.py tests/test_duplicate_payment_warnings.py tests/test_multiperiod_payment.py -v
+```
+
+---
+
 ### Change #032: Member-First Navigation (Nav, Back Links, Home Card)
 
 **Status:** Completed  
@@ -33,6 +94,8 @@ Each change entry includes:
 Force a member-first workflow: find the member, then edit / add payment / edit payment from the member page. Remove standalone Add Payment and Edit Member entry points from the sidebar and home page. Back/cancel from those flows returns to the member being edited, not a search landing.
 
 **Out of scope (later):** Deleting the Add Payment / Edit Member search-landing templates and unused search-step code. Those pages will already be unreachable via redirect.
+
+**Follow-up:** Leftover search landings were removed in Change #033.
 
 #### Behavior
 
