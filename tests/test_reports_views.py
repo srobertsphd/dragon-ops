@@ -326,3 +326,83 @@ class TestAddressLabelsView:
             ("Davis", "Dana", 12),
             ("Adams", "Ann", 28),
         ]
+
+
+@pytest.mark.django_db
+@pytest.mark.integration
+class TestAvailableBadgeNumbersView:
+    @pytest.fixture
+    def client(self, db):
+        User.objects.create_user(
+            username="admin",
+            password="testpass",
+            is_staff=True,
+        )
+        client = Client()
+        client.login(username="admin", password="testpass")
+        return client
+
+    @pytest.fixture
+    def member_type(self, db):
+        return MemberType.objects.create(
+            member_type="Regular",
+            member_dues=Decimal("30.00"),
+            num_months=1,
+        )
+
+    def _make_member(self, member_type, member_id, status="active"):
+        return Member.objects.create(
+            first_name="Test",
+            last_name=f"Id{member_id}",
+            member_type=member_type,
+            status=status,
+            member_id=member_id,
+            expiration_date=date.today() + timedelta(days=90),
+            date_joined=date(2020, 1, 1),
+        )
+
+    def test_shows_next_20_unused_ids(self, client, member_type):
+        self._make_member(member_type, 1)
+        self._make_member(member_type, 3)
+
+        response = client.get("/reports/available-badge-numbers/")
+        assert response.status_code == 200
+        numbers = response.context["badge_numbers"]
+        assert len(numbers) == 20
+        assert numbers[0] == 2
+        assert 1 not in numbers
+        assert 3 not in numbers
+        assert 4 in numbers
+
+        content = response.content.decode()
+        assert "Available Badge Numbers" in content
+        assert "Badge Number" in content
+        assert "Name" in content
+        assert "Receipt Number" in content
+        assert "Notes" in content
+        assert "Page 1 of 1" in content
+        assert response.context["report_date"] == date.today()
+
+    def test_inactive_ids_are_available(self, client, member_type):
+        self._make_member(member_type, 1, status="inactive")
+
+        response = client.get("/reports/available-badge-numbers/")
+        assert response.status_code == 200
+        numbers = response.context["badge_numbers"]
+        assert numbers[0] == 1
+
+    def test_requires_authentication(self, db):
+        client = Client()
+        response = client.get("/reports/available-badge-numbers/")
+        assert response.status_code == 302
+
+    def test_requires_staff(self, db):
+        User.objects.create_user(
+            username="regular",
+            password="testpass",
+            is_staff=False,
+        )
+        client = Client()
+        client.login(username="regular", password="testpass")
+        response = client.get("/reports/available-badge-numbers/")
+        assert response.status_code in [302, 403]

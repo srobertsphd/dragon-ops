@@ -1,0 +1,150 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Available Badge Numbers - ALANO CLUB{% endblock %}
+
+{% block extra_css %}
+<style>
+.paper-stage {
+    background: #e9ecef;
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+.paper {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 0.15rem 0.6rem rgba(0, 0, 0, 0.18);
+    padding: 0.5in 0.65in;
+}
+.worksheet {
+    height: 10in;
+    display: flex;
+    flex-direction: column;
+}
+.worksheet h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+}
+.worksheet-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.worksheet-table th {
+    text-align: center;
+    font-weight: 600;
+    padding: 0.2rem 0.4rem 0.4rem 0;
+    border-bottom: 2px solid #000;
+}
+.worksheet-table td {
+    height: 0.42in;
+    padding: 0 0.4rem 0 0;
+    border: none;
+    vertical-align: bottom;
+}
+.worksheet-table th:nth-child(1),
+.worksheet-table td:nth-child(1) {
+    width: 13%;
+    text-align: center;
+}
+.worksheet-table th:nth-child(2),
+.worksheet-table td:nth-child(2),
+.worksheet-table th:nth-child(3),
+.worksheet-table td:nth-child(3),
+.worksheet-table th:nth-child(4),
+.worksheet-table td:nth-child(4) {
+    width: 29%;
+}
+.worksheet-table th:nth-child(4),
+.worksheet-table td:nth-child(4) {
+    padding-right: 0;
+}
+.write-line {
+    display: block;
+    border-bottom: 1px solid #000;
+    height: 1.15em;
+}
+.worksheet-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #000;
+    margin-top: auto;
+    padding-top: 0.4rem;
+}
+
+@media print {
+    @page { size: letter; margin: 0.5in 0.65in; }
+
+    .navbar, .sidebar, .offcanvas, .btn, .no-print { display: none !important; }
+
+    .container-fluid { padding: 0 !important; margin: 0 !important; }
+    .row { margin: 0 !important; }
+    main {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    main > .pt-3 { padding: 0 !important; }
+
+    .card { border: none !important; box-shadow: none !important; }
+    .card-header { display: none !important; }
+    .paper-stage { background: none; padding: 0; overflow: visible; }
+    .paper {
+        width: auto;
+        min-height: 0;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+    }
+    .mt-4 { margin-top: 0 !important; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center no-print">
+            <h1 class="mb-0">Available Badge Numbers</h1>
+            <button type="button" class="btn btn-light" onclick="window.print()">
+                <i class="bi bi-printer me-1"></i>
+                Print Report
+            </button>
+        </div>
+        <div class="card-body paper-stage">
+            <div class="paper">
+                <div class="worksheet">
+                    <h1 class="text-center">Available Badge Numbers</h1>
+                    <table class="worksheet-table">
+                        <thead>
+                            <tr>
+                                <th>Badge Number</th>
+                                <th>Name</th>
+                                <th>Receipt Number</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for badge_number in badge_numbers %}
+                            <tr>
+                                <td>{{ badge_number }}</td>
+                                <td><span class="write-line"></span></td>
+                                <td><span class="write-line"></span></td>
+                                <td><span class="write-line"></span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="worksheet-footer">
+                        <span>{{ report_date|date:"F j, Y" }}</span>
+                        <span>Page 1 of 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

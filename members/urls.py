@@ -32,6 +32,11 @@ urlpatterns = [
         name="member_report_one_line",
     ),
     path(
+        "reports/available-badge-numbers/",
+        views.available_badge_numbers_view,
+        name="available_badge_numbers",
+    ),
+    path(
         "reports/recent-payments/",
         views.recent_payments_report_view,
         name="recent_payments_report",

@@ -20,6 +20,72 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #034: Available Badge Numbers Printable Worksheet
+
+**Status:** Completed  
+**Priority:** Medium  
+**Estimated Effort:** ~1 hour  
+**Created:** August 15, 2026  
+**Completed:** August 15, 2026  
+
+#### Description
+
+Add a printable Reports page that recreates the clipboard worksheet titled **Available Badge Numbers**. Pre-print the next unused badge numbers (`member_id`) with blank lines for handwritten Name, Receipt Number, and Notes. Date printed and page number go in the footer.
+
+Reuse existing next-available-ID logic (`MemberService.get_suggested_ids`). Same recycling rule as Add Member: only **active** member IDs are taken; inactive IDs are available. Default **20 rows** so it fits one letter page with room to write. Do **not** dump every free ID. No `?count=` param on v1.
+
+Print via browser Print Report (`window.print()`), same approach as Current Members / Member Report One Line. Staff-only.
+
+**Follow-up:** Print layout match to the clipboard form — short Name / Receipt / Notes write-in lines (not full-width row rules); footer pinned to page 1 with a 10in page height instead of `100vh`. Screen shows an 8.5×11 paper preview; Name / Receipt / Notes are equal width; badge column is tighter (13%).
+
+#### Behavior
+
+- Reports landing (blue View/Print): new **Available Badge Numbers** card
+- Page lists the next 20 unused IDs, lowest first, skipping IDs in use by active members
+- Columns: **Badge Number** (pre-filled), **Name**, **Receipt Number**, **Notes** (blank ruled lines)
+- Centered title: Available Badge Numbers
+- Footer: date printed (left), **Page 1 of 1** (right)
+- Print hides nav, buttons, and card chrome
+
+#### To Do
+
+- [x] Add this changelog entry
+- [x] Add `available_badge_numbers_view` using `MemberService.get_suggested_ids(count=20)`
+- [x] Create template `members/templates/members/reports/available_badge_numbers.html`
+- [x] Wire URL `reports/available-badge-numbers/` and export the view
+- [x] Add reports landing card (blue View/Print section)
+- [x] Tests: staff-only, 20 IDs, skips used active IDs, title/columns/footer present
+- [x] Do not change `get_suggested_ids` or Add Member Quick Select
+
+#### Files
+
+| File | Action | ~Lines |
+|------|--------|--------|
+| `docs/CHANGE_LOG.md` | Add #034 | ~60 |
+| `members/views/reports.py` | Add `available_badge_numbers_view` | ~15 |
+| `members/templates/members/reports/available_badge_numbers.html` | New print worksheet | ~100 |
+| `members/urls.py` | Add URL pattern | ~4 |
+| `members/views/__init__.py` | Export new view | ~2 |
+| `members/templates/members/reports/landing.html` | Add report card | ~20 |
+| `tests/test_reports_views.py` | Add view tests | ~70 |
+
+#### Testing Requirements
+
+- Report shows 20 badge numbers, starting at the lowest unused ID
+- Active member IDs are skipped; inactive member IDs are included
+- Columns: Badge Number, Name, Receipt Number, Notes
+- Footer has today's date and Page 1 of 1
+- Print Report opens browser print dialog
+- Staff-only; unauthenticated users redirect to login
+- Add Member Quick Select is unchanged
+
+```bash
+source .venv/bin/activate
+uv run pytest tests/test_reports_views.py tests/test_member_service.py -v
+```
+
+---
+
 ### Change #033: Remove Dead Edit Member / Add Payment Search Landings
 
 **Status:** Completed  

@@ -11,13 +11,27 @@ from django.contrib.admin.views.decorators import staff_member_required
 from ..models import Member, Payment
 from ..reports.excel import generate_expires_two_months_excel
 from ..reports.csv_backup import get_export_schema, build_csv_backup_zip
-from ..services import PaymentService
+from ..services import MemberService, PaymentService
 
 
 @staff_member_required
 def reports_landing_view(request):
     """Reports landing page with links to available reports"""
     return render(request, "members/reports/landing.html")
+
+
+@staff_member_required
+def available_badge_numbers_view(request):
+    """Printable worksheet of the next available member IDs (badge numbers)."""
+    _, badge_numbers = MemberService.get_suggested_ids(count=20)
+    return render(
+        request,
+        "members/reports/available_badge_numbers.html",
+        {
+            "badge_numbers": badge_numbers,
+            "report_date": date.today(),
+        },
+    )
 
 
 @staff_member_required
