@@ -2,6 +2,7 @@ from datetime import date, timedelta
 
 from django.db import transaction
 from django.db.models import Prefetch
+from django.db.models.functions import ExtractDay
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -518,11 +519,15 @@ def address_labels_view(request):
         action = request.POST.get("action", "preview")
         month_name = MONTH_NAMES[month - 1]
 
-        all_members = Member.objects.filter(
-            status="active",
-            milestone_date__isnull=False,
-            milestone_date__month=month,
-        ).order_by("last_name", "first_name")
+        all_members = (
+            Member.objects.filter(
+                status="active",
+                milestone_date__isnull=False,
+                milestone_date__month=month,
+            )
+            .annotate(ms_day=ExtractDay("milestone_date"))
+            .order_by("ms_day", "last_name", "first_name")
+        )
 
         with_address = [m for m in all_members if m.home_address.strip()]
         without_address = [m for m in all_members if not m.home_address.strip()]

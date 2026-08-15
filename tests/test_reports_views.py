@@ -267,3 +267,62 @@ class TestDeactivateExpiredMembersReportView:
         response = client.get("/reports/deactivate-expired/")
         # Should redirect to login
         assert response.status_code == 302
+
+
+@pytest.mark.django_db
+@pytest.mark.integration
+class TestAddressLabelsView:
+    """Test address_labels_view sort order"""
+
+    @pytest.fixture
+    def client(self, db):
+        User.objects.create_user(
+            username="admin",
+            password="testpass",
+            is_staff=True,
+        )
+        client = Client()
+        client.login(username="admin", password="testpass")
+        return client
+
+    @pytest.fixture
+    def member_type(self, db):
+        return MemberType.objects.create(
+            member_type="Regular",
+            member_dues=Decimal("30.00"),
+            num_months=1,
+        )
+
+    def _make_member(self, member_type, first, last, milestone, address="123 Main St"):
+        return Member.objects.create(
+            first_name=first,
+            last_name=last,
+            member_type=member_type,
+            status="active",
+            expiration_date=date.today() + timedelta(days=90),
+            date_joined=date(2010, 1, 1),
+            milestone_date=milestone,
+            home_address=address,
+        )
+
+    def test_preview_orders_by_milestone_day_then_name(self, client, member_type):
+        self._make_member(member_type, "Ann", "Adams", date(2010, 6, 28))
+        self._make_member(member_type, "Bob", "Baker", date(2020, 6, 3))
+        self._make_member(member_type, "Cara", "Clark", date(2015, 6, 12))
+        self._make_member(member_type, "Dana", "Davis", date(2018, 6, 12))
+
+        response = client.post(
+            "/reports/address-labels/",
+            {"month": "6", "action": "preview"},
+        )
+        assert response.status_code == 200
+        names = [
+            (m.last_name, m.first_name, m.milestone_date.day)
+            for m in response.context["with_address"]
+        ]
+        assert names == [
+            ("Baker", "Bob", 3),
+            ("Clark", "Cara", 12),
+            ("Davis", "Dana", 12),
+            ("Adams", "Ann", 28),
+        ]
