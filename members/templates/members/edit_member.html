@@ -239,7 +239,7 @@
                             </div>
                             
                             <div class="d-flex justify-content-between mt-4">
-                                <a href="{% url 'members:edit_member' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back to Search</a>
+                                <a href="{% url 'members:member_detail' member.member_uuid %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back to {{ member.full_name }}</a>
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </div>
                         </form>

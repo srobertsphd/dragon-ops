@@ -160,13 +160,9 @@
                             </div>
                             
                             <div class="mt-4">
-                                <a href="{% url 'members:add_payment' %}" class="btn btn-primary me-2">
+                                <a href="{% url 'members:member_detail' member.member_uuid %}" class="btn btn-primary">
                                     <i class="bi bi-arrow-left me-1"></i>
-                                    Search Another Member
-                                </a>
-                                <a href="{% url 'members:member_detail' member.member_uuid %}" class="btn btn-outline-primary">
-                                    <i class="bi bi-person me-1"></i>
-                                    View Member Details
+                                    Back to {{ member.full_name }}
                                 </a>
                             </div>
                         </div>
@@ -323,9 +319,9 @@
                             </div>
                             
                             <div class="d-flex justify-content-between">
-                                <a href="{% url 'members:add_payment' %}" class="btn btn-outline-secondary">
+                                <a href="{% url 'members:member_detail' member.member_uuid %}" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left me-1"></i>
-                                    Back to Search
+                                    Back to {{ member.full_name }}
                                 </a>
                                 <button type="submit" class="btn btn-primary">
                                     Continue to Confirmation

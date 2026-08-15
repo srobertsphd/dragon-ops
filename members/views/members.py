@@ -4,7 +4,6 @@ from django.core.validators import EmailValidator, ValidationError
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models import Q
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -78,31 +77,9 @@ def member_detail_view(request, member_uuid):
 
 @staff_member_required
 def edit_member_view(request, member_uuid=None):
-    """Edit member page: search mode (member_uuid=None) or edit mode (member_uuid provided)"""
+    """Edit member page: requires a member UUID; otherwise redirect to search."""
     if member_uuid is None:
-        query = request.GET.get("q", "").strip()
-        members = None
-        if query:
-            try:
-                members = (
-                    Member.objects.filter(status="active", member_id=int(query))
-                    .select_related("member_type")
-                    .order_by("last_name", "first_name")
-                )
-            except ValueError:
-                members = (
-                    Member.objects.filter(status="active")
-                    .filter(
-                        Q(first_name__icontains=query) | Q(last_name__icontains=query)
-                    )
-                    .select_related("member_type")
-                    .order_by("last_name", "first_name")
-                )
-        return render(
-            request,
-            "members/edit_member.html",
-            {"query": query, "members": members, "mode": "search"},
-        )
+        return redirect("members:search")
 
     member = get_object_or_404(Member, member_uuid=member_uuid)
     if member.status != "active":
@@ -110,7 +87,7 @@ def edit_member_view(request, member_uuid=None):
             request,
             "Only active members can be edited. Use 'Reactivate Member' to reactivate an inactive member.",
         )
-        return redirect("members:edit_member")
+        return redirect("members:member_detail", member_uuid=member.member_uuid)
 
     if request.method == "GET":
         _, suggested_ids = MemberService.get_suggested_ids(count=50)

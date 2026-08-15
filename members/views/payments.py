@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime, date
@@ -8,6 +7,12 @@ from decimal import Decimal, InvalidOperation
 from ..models import Member, Payment, PaymentMethod
 from ..services import PaymentService
 from ..utils import ensure_end_of_month
+
+
+def _back_from_payment(member_uuid=None):
+    if member_uuid:
+        return redirect("members:member_detail", member_uuid=member_uuid)
+    return redirect("members:search")
 
 
 @staff_member_required
@@ -25,51 +30,23 @@ def add_payment_view(request):
             # Redirect to form step with the member
             return redirect(f"{request.path}?step=form&member={member_uuid}")
         except:  # noqa: E722
-            # If invalid UUID, continue with search
-            pass
+            return redirect("members:search")
 
     if step == "search":
-        # Step 1: Member Search
-        query = request.GET.get("q", "").strip()
-        members = None
-
-        if query:
-            try:
-                # Try to parse as member ID
-                member_id = int(query)
-                members = Member.objects.filter(member_id=member_id).exclude(
-                    status="deceased"
-                )
-            except ValueError:
-                # Search by name
-                members = (
-                    Member.objects.filter(
-                        Q(first_name__icontains=query) | Q(last_name__icontains=query)
-                    )
-                    .exclude(status="deceased")
-                    .select_related("member_type")
-                    .order_by("last_name", "first_name")
-                )
-
-        context = {
-            "step": "search",
-            "query": query,
-            "members": members,
-        }
-        return render(request, "members/add_payment.html", context)
+        return redirect("members:search")
 
     elif step == "form":
         # Step 2: Payment Form (member selected)
         if not member_uuid:
             messages.error(request, "Please select a member first.")
-            return redirect("members:add_payment")
+            return redirect("members:search")
 
         member = get_object_or_404(Member, member_uuid=member_uuid)
 
         # Don't allow payments for deceased members
         if member.status == "deceased":
             messages.error(request, "Cannot add payments for deceased members.")
-            return redirect("members:add_payment")
+            return _back_from_payment(member.member_uuid)
 
         # Check if this is a Life member - no payments allowed
         if member.member_type and member.member_type.member_type == "Life":
@@ -235,11 +212,11 @@ def add_payment_view(request):
                 if member_uuid:
                     return redirect(f"/payments/add/?step=form&member={member_uuid}")
                 else:
-                    return redirect("members:add_payment")
+                    return redirect("members:search")
 
         else:
             messages.error(request, "Invalid request.")
-            return redirect("members:add_payment")
+            return redirect("members:search")
 
     elif step == "process":
         # Step 4: Final Processing
@@ -247,7 +224,7 @@ def add_payment_view(request):
             payment_data = request.session.get("payment_data")
             if not payment_data:
                 messages.error(request, "Payment session expired. Please try again.")
-                return redirect("members:add_payment")
+                return redirect("members:search")
 
             try:
                 # Get member and process payment using PaymentService
@@ -274,17 +251,16 @@ def add_payment_view(request):
 
             except Exception as e:
                 messages.error(request, f"Error processing payment: {e}")
-                return redirect("members:add_payment")
+                return _back_from_payment(payment_data.get("member_uuid"))
         else:
             # User cancelled or invalid request
-            if "payment_data" in request.session:
-                del request.session["payment_data"]
+            payment_data = request.session.pop("payment_data", None) or {}
             messages.info(request, "Payment cancelled.")
-            return redirect("members:add_payment")
+            return _back_from_payment(payment_data.get("member_uuid"))
 
     else:
         # Invalid step
-        return redirect("members:add_payment")
+        return redirect("members:search")
 
 
 @staff_member_required

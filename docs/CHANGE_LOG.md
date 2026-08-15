@@ -20,6 +20,65 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #032: Member-First Navigation (Nav, Back Links, Home Card)
+
+**Status:** Completed  
+**Priority:** Medium  
+**Estimated Effort:** ~1–2 hours  
+**Created:** August 15, 2026  
+**Completed:** August 15, 2026  
+
+#### Description
+
+Force a member-first workflow: find the member, then edit / add payment / edit payment from the member page. Remove standalone Add Payment and Edit Member entry points from the sidebar and home page. Back/cancel from those flows returns to the member being edited, not a search landing.
+
+**Out of scope (later):** Deleting the Add Payment / Edit Member search-landing templates and unused search-step code. Those pages will already be unreachable via redirect.
+
+#### Behavior
+
+- Sidebar: remove **Add Payment** and **Edit Member** (keep Home, Member Search, Add Member, Reports)
+- Home: replace **Add Payment** card with a **Reports** card linking to the reports page
+- Edit Member cancel: **Back to {name}** → member page
+- Add Payment cancel / back: member page (not payment search)
+- Bare `/edit/` (no UUID) and `/payments/add/` (no member) → **Member Search**
+- Inactive member opened in edit → that member’s page (not `/edit/` search)
+- Edit Payment already returns to the member — no change
+
+#### To Do
+
+- [x] Add this changelog entry
+- [x] Remove Add Payment and Edit Member from sidebar (`base.html`, mobile + desktop)
+- [x] Replace home Add Payment card with Reports card (`landing.html`)
+- [x] Edit Member back link → member detail
+- [x] Add Payment back / Life-member / cancel-error redirects → member (or search if no member)
+- [x] Redirect `/edit/` with no UUID to Member Search
+- [x] Redirect `/payments/add/` with no member to Member Search
+- [x] Inactive-edit redirect → member detail
+- [x] Update tests for redirects and back links
+
+#### Files
+
+| File | Action | ~Lines |
+|------|--------|--------|
+| `members/templates/members/base.html` | Remove 2 sidebar links × 2 | ~20 |
+| `members/templates/members/landing.html` | Replace Add Payment card with Reports | ~15 |
+| `members/templates/members/edit_member.html` | Back → member detail | ~2 |
+| `members/templates/members/add_payment.html` | Back / Life-member buttons → member | ~10 |
+| `members/views/members.py` | `/edit/` → search; inactive → member | ~8 |
+| `members/views/payments.py` | No-member → search; cancel/error → member | ~20 |
+| `tests/test_edit_member.py` | Expect redirects | ~20 |
+
+#### Testing Requirements
+
+- Sidebar has no Add Payment or Edit Member; Add Member and Search remain
+- Home page has Reports card, no Add Payment card
+- `/edit/` and `/payments/add/` redirect to `/search/`
+- Edit Member back goes to that member
+- Add Payment back/cancel goes to that member
+- Member page still links to edit, add payment, and edit payment
+
+---
+
 ### Change #031: Member Report One Line (Amount Due)
 
 **Status:** Completed  

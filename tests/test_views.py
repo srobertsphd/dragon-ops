@@ -72,6 +72,11 @@ class TestPaymentViewWithOverride:
         client.force_login(user)
         return client
 
+    def test_add_payment_without_member_redirects_to_search(self, client):
+        response = client.get("/payments/add/")
+        assert response.status_code == 302
+        assert response.url == "/search/"
+
     @pytest.fixture
     def member_type(self, db):
         """Create a test member type"""

@@ -74,24 +74,10 @@
                 </li>
                 {% if user.is_staff %}
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'add_payment' %}active{% endif %}" 
-                       href="{% url 'members:add_payment' %}">
-                        <i class="bi bi-cash-coin me-2"></i>
-                        Add Payment
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'add_member' %}active{% endif %}" 
                        href="{% url 'members:add_member' %}">
                         <i class="bi bi-person-plus me-2"></i>
                         Add Member
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'edit_member' %}active{% endif %}" 
-                       href="{% url 'members:edit_member' %}">
-                        <i class="bi bi-pencil-square me-2"></i>
-                        Edit Member
                     </a>
                 </li>
                 <li class="nav-item">
@@ -128,24 +114,10 @@
                         </li>
                         {% if user.is_staff %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'add_payment' %}active{% endif %}" 
-                               href="{% url 'members:add_payment' %}">
-                                <i class="bi bi-cash-coin me-2"></i>
-                                Add Payment
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'add_member' %}active{% endif %}" 
                                href="{% url 'members:add_member' %}">
                                 <i class="bi bi-person-plus me-2"></i>
                                 Add Member
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'edit_member' %}active{% endif %}" 
-                               href="{% url 'members:edit_member' %}">
-                                <i class="bi bi-pencil-square me-2"></i>
-                                Edit Member
                             </a>
                         </li>
                         <li class="nav-item">

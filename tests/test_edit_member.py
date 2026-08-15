@@ -100,52 +100,22 @@ class TestEditMemberView:
             date_joined=date(2020, 1, 1),
         )
 
-    # Search Mode Tests
-    def test_search_mode_get_displays_form(self, staff_client):
-        """Test that GET request to edit/ shows search form"""
+    # No standalone edit-member search: redirect to Member Search
+    def test_edit_without_uuid_redirects_to_search(self, staff_client):
         response = staff_client.get("/edit/")
-        assert response.status_code == 200
-        assert "Edit Member - Search" in response.content.decode()
-        assert "Enter member name or ID" in response.content.decode()
+        assert response.status_code == 302
+        assert response.url == "/search/"
+
+    def test_edit_search_query_redirects_to_search(self, staff_client):
+        response = staff_client.get("/edit/?q=John")
+        assert response.status_code == 302
+        assert response.url == "/search/"
 
     def test_search_mode_requires_staff(self, regular_client):
         """Test that non-staff users cannot access edit page"""
         response = regular_client.get("/edit/")
         assert response.status_code == 302  # Redirect to admin login
         assert "/admin/login/" in response.url
-
-    def test_search_by_member_id(self, staff_client, active_member):
-        """Test searching by member ID"""
-        response = staff_client.get("/edit/?q=100")
-        assert response.status_code == 200
-        assert "John Doe" in response.content.decode()
-        assert "#100" in response.content.decode()
-
-    def test_search_by_first_name(self, staff_client, active_member):
-        """Test searching by first name"""
-        response = staff_client.get("/edit/?q=John")
-        assert response.status_code == 200
-        assert "John Doe" in response.content.decode()
-
-    def test_search_by_last_name(self, staff_client, active_member):
-        """Test searching by last name"""
-        response = staff_client.get("/edit/?q=Doe")
-        assert response.status_code == 200
-        assert "John Doe" in response.content.decode()
-
-    def test_search_only_shows_active_members(
-        self, staff_client, active_member, inactive_member
-    ):
-        """Test that search only returns active members"""
-        response = staff_client.get("/edit/?q=Jane")
-        assert response.status_code == 200
-        assert "Jane Smith" not in response.content.decode()
-
-    def test_search_no_results(self, staff_client):
-        """Test search with no matching results"""
-        response = staff_client.get("/edit/?q=Nonexistent")
-        assert response.status_code == 200
-        assert "No active members found" in response.content.decode()
 
     # Edit Mode Tests
     def test_edit_mode_get_displays_form(self, staff_client, active_member):
@@ -156,6 +126,7 @@ class TestEditMemberView:
         assert "John" in response.content.decode()
         assert "Doe" in response.content.decode()
         assert "john@example.com" in response.content.decode()
+        assert f"Back to {active_member.full_name}" in response.content.decode()
 
     def test_edit_mode_requires_staff(self, regular_client, active_member):
         """Test that non-staff users cannot access edit form"""
@@ -167,7 +138,7 @@ class TestEditMemberView:
         """Test that inactive members cannot be edited"""
         response = staff_client.get(f"/edit/{inactive_member.member_uuid}/")
         assert response.status_code == 302  # Redirect
-        assert "/edit/" in response.url
+        assert str(inactive_member.member_uuid) in response.url
 
     def test_edit_mode_post_updates_member(
         self, staff_client, active_member, member_type
