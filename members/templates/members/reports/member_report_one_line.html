@@ -1,0 +1,166 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Member Report One Line - ALANO CLUB{% endblock %}
+
+{% block extra_css %}
+<style>
+@media print {
+    /* Hide navigation elements */
+    .navbar { display: none !important; }
+    .sidebar { display: none !important; }
+    .offcanvas { display: none !important; }
+    
+    /* Hide buttons */
+    .btn { display: none !important; }
+    
+    /* Make content full width */
+    .container-fluid { padding: 0 !important; }
+    main { 
+        width: 100% !important; 
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Remove card styling for cleaner print */
+    .card { border: none !important; box-shadow: none !important; }
+    .card-header { border-bottom: 2px solid #000 !important; }
+    
+    /* Ensure tables print properly */
+    .table-responsive { overflow: visible !important; }
+    
+    /* Fix summary cards to print full width */
+    .row.justify-content-center {
+        justify-content: flex-start !important;
+    }
+    
+    .row .col-md-4 {
+        width: 33.333% !important;
+        flex: 0 0 33.333% !important;
+        max-width: 33.333% !important;
+    }
+}
+
+/* Set Name column to 25% width */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 23% !important;
+    max-width: 23% !important;
+}
+
+/* Horizontal lines between rows */
+.table tbody tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Highlight expired rows in yellow (Regular Members only) */
+.table tbody tr.expired-row,
+.table tbody tr.expired-row td {
+    background-color: #ffff99 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h1 class="mb-0">
+                        <i class="bi bi-file-text me-2"></i>
+                        Member Report One Line
+                    </h1>
+                    <div>
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort: {% if current_sort == 'name' %}Name{% else %}ID{% endif %}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="?sort=name">Sort by Name</a></li>
+                                <li><a class="dropdown-item" href="?sort=id">Sort by ID</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-light me-2" onclick="window.print()">
+                            <i class="bi bi-printer me-1"></i>
+                            Print Report
+                        </button>
+                        <span class="badge bg-light text-dark">{{ report_date|date:"F j, Y" }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h3 class="text-primary">{{ total_regular }}</h3>
+                                    <p class="mb-0">Regular Members</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h3 class="text-success">{{ total_life }}</h3>
+                                    <p class="mb-0">Life Members</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center">
+                                    <h3>{{ total_members }}</h3>
+                                    <p class="mb-0">Total Active Members</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- All Members -->
+                    {% if members %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Expires</th>
+                                    <th>Amount Due</th>
+                                    <th>Recent Payment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member_data in members %}
+                                <tr {% if member_data.member.expiration_date < report_date and member_data.member.member_type.member_type|lower != "life" %}class="expired-row"{% endif %}>
+                                    <td><strong>{{ member_data.member.last_name }}, {{ member_data.member.first_name }}</strong></td>
+                                    <td>{{ member_data.member.member_id|default:"—" }}</td>
+                                    <td>{{ member_data.member.member_type.member_type|default:"—" }}</td>
+                                    <td>{{ member_data.member.expiration_date|date:"n/j/Y" }}</td>
+                                    <td>{% if member_data.amount_due %}${{ member_data.amount_due }}{% endif %}</td>
+                                    <td>
+                                        {% if member_data.payments %}
+                                            <small>
+                                                {% with payment=member_data.payments.0 %}
+                                                    <div><strong>Receipt:</strong> {{ payment.receipt_number|default:"—" }}</div>
+                                                    <div>{{ payment.date|date:"n/j/Y" }} - ${{ payment.amount }}</div>
+                                                {% endwith %}
+                                            </small>
+                                        {% else %}
+                                            <em class="text-muted">No payments</em>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

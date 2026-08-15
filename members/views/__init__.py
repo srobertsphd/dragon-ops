@@ -8,6 +8,7 @@ from .members import (
 from .payments import add_payment_view, edit_payment_view
 from .reports import (
     current_members_report_view,
+    member_report_one_line_view,
     csv_backup_export_view,
     reports_landing_view,
     recent_payments_report_view,
@@ -32,6 +33,7 @@ __all__ = [
     "add_payment_view",
     "edit_payment_view",
     "current_members_report_view",
+    "member_report_one_line_view",
     "csv_backup_export_view",
     "reports_landing_view",
     "recent_payments_report_view",

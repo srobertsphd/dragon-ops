@@ -11,6 +11,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from ..models import Member, Payment
 from ..reports.excel import generate_expires_two_months_excel
 from ..reports.csv_backup import get_export_schema, build_csv_backup_zip
+from ..services import PaymentService
 
 
 @staff_member_required
@@ -74,6 +75,59 @@ def current_members_report_view(request):
     }
 
     return render(request, "members/reports/current_members.html", context)
+
+
+@staff_member_required
+def member_report_one_line_view(request):
+    """One-line current members report with amount due and last payment."""
+    sort_by = request.GET.get("sort", "id")
+    report_date = date.today()
+
+    active_members = (
+        Member.objects.filter(status="active")
+        .select_related("member_type")
+        .prefetch_related(
+            Prefetch(
+                "payments",
+                queryset=Payment.objects.select_related("payment_method").order_by(
+                    "-date"
+                ),
+                to_attr="recent_payments",
+            )
+        )
+    )
+
+    if sort_by == "name":
+        active_members = active_members.order_by("last_name", "first_name")
+    else:
+        active_members = active_members.order_by("member_id")
+
+    members = []
+    total_life = 0
+
+    for member in active_members:
+        recent_payments = (
+            member.recent_payments[:1] if hasattr(member, "recent_payments") else []
+        )
+        members.append(
+            {
+                "member": member,
+                "payments": recent_payments,
+                "amount_due": PaymentService.amount_to_catch_up(member, report_date),
+            }
+        )
+        if member.member_type and member.member_type.member_type.lower() == "life":
+            total_life += 1
+
+    context = {
+        "members": members,
+        "report_date": report_date,
+        "total_regular": len(members) - total_life,
+        "total_life": total_life,
+        "total_members": len(members),
+        "current_sort": sort_by,
+    }
+    return render(request, "members/reports/member_report_one_line.html", context)
 
 
 @staff_member_required

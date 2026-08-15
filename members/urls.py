@@ -27,6 +27,11 @@ urlpatterns = [
         name="current_members_report",
     ),
     path(
+        "reports/member-report-one-line/",
+        views.member_report_one_line_view,
+        name="member_report_one_line",
+    ),
+    path(
         "reports/recent-payments/",
         views.recent_payments_report_view,
         name="recent_payments_report",

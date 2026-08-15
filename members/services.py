@@ -10,6 +10,8 @@ from datetime import datetime, date
 from .models import Member, MemberType, Payment, PaymentMethod
 from .utils import add_months_to_date, ensure_end_of_month
 
+_NO_AMOUNT_DUE_TYPES = frozenset({"life", "honorary", "500 club"})
+
 
 class PaymentService:
     """Service class for payment-related business logic"""
@@ -70,6 +72,36 @@ class PaymentService:
         else:
             # Default to 1 month payment if no dues specified
             return Decimal("0.00")
+
+    @staticmethod
+    def amount_to_catch_up(member, as_of=None):
+        """Return dues owed to reach the catch-up target, or None if none/N/A.
+
+        Target is end of the current month before the 15th, and end of the
+        next month from the 15th onward. Life, Honorary, and 500 Club are skipped.
+        """
+        if as_of is None:
+            as_of = date.today()
+
+        member_type = member.member_type
+        if not member_type or member_type.member_type.lower() in _NO_AMOUNT_DUE_TYPES:
+            return None
+
+        dues = member_type.member_dues
+        if not dues or dues <= 0:
+            return None
+
+        if as_of.day < 15:
+            target = ensure_end_of_month(as_of)
+        else:
+            target = add_months_to_date(as_of, 1)
+
+        months_owed = (target.year - member.expiration_date.year) * 12 + (
+            target.month - member.expiration_date.month
+        )
+        if months_owed <= 0:
+            return None
+        return dues * months_owed
 
     @staticmethod
     def calculate_expiration_for_new_member(

@@ -20,6 +20,63 @@ Each change entry includes:
 
 ## Change Log
 
+### Change #031: Member Report One Line (Amount Due)
+
+**Status:** Completed  
+**Priority:** Medium  
+**Estimated Effort:** ~1 hour  
+**Created:** August 15, 2026  
+**Completed:** August 15, 2026  
+
+#### Description
+
+Add a new printable report that mirrors the Current Members Report on one line per member. Do **not** modify the existing three-receipt Current Members Report.
+
+**Differences from Current Members Report:**
+- Columns: Name, ID, Type, Expires, **Amount Due**, **Recent Payment** (last receipt only)
+- Default sort is **ID** (Name/ID dropdown still available)
+- Print via the same browser Print Report button (`window.print()`)
+
+**Amount Due rules:**
+- Target paid-through date: **1st–14th** → end of current month; **15th–end of month** → end of next month
+- Amount = months from expiration month to target × `member_type.member_dues`
+- Already current / prepaid: leave **blank**
+- **Life, Honorary, and 500 Club**: skip (blank), same as Life on the existing report
+
+#### To Do
+
+- [x] Add `PaymentService.amount_to_catch_up(member, as_of)` helper
+- [x] Add `member_report_one_line_view` (clone current members view: 1 payment, default sort ID, attach amount due)
+- [x] Create template `members/templates/members/reports/member_report_one_line.html`
+- [x] Wire URL `reports/member-report-one-line/` and export the view
+- [x] Add reports landing card (blue View/Print section)
+- [x] Tests: catch-up math, skipped types, default ID sort, single payment
+- [x] Leave `current_members_report_view` and `current_members.html` unchanged
+
+#### Files
+
+| File | Action | ~Lines |
+|------|--------|--------|
+| `members/services.py` | Add `amount_to_catch_up` | ~25 |
+| `members/views/reports.py` | Add `member_report_one_line_view` | ~70 |
+| `members/templates/members/reports/member_report_one_line.html` | New — one-line report template | ~170 |
+| `members/urls.py` | Add URL pattern | ~4 |
+| `members/views/__init__.py` | Export new view | ~2 |
+| `members/templates/members/reports/landing.html` | Add report card | ~20 |
+| `tests/test_member_report_one_line.py` | New tests | ~80 |
+
+#### Testing Requirements
+
+- Report lists all active members, default sort by ID
+- Only the most recent payment appears
+- Amount Due matches 1st vs 15th target examples
+- Life / Honorary / 500 Club Amount Due is blank
+- Current / prepaid Amount Due is blank
+- Print Report opens browser print dialog with same print CSS as Current Members
+- Existing Current Members Report is unchanged
+
+---
+
 ### Change #030: Payment Screen Enhancements — Months Input, "Other" Option, Expiration Message
 
 **Status:** In Progress  

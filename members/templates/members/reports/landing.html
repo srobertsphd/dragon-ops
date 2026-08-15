@@ -35,6 +35,22 @@
                         <div class="col-md-6">
                             <div class="card h-100 border-primary">
                                 <div class="card-body text-center">
+                                    <i class="bi bi-list-ul text-primary" style="font-size: 3rem;"></i>
+                                    <h3 class="card-title mt-3">Member Report One Line</h3>
+                                    <p class="card-text text-muted">
+                                        View all active members on one line with amount due and last payment. Print to PDF.
+                                    </p>
+                                    <a href="{% url 'members:member_report_one_line' %}" class="btn btn-primary">
+                                        <i class="bi bi-file-text me-2"></i>
+                                        View Report
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card h-100 border-primary">
+                                <div class="card-body text-center">
                                     <i class="bi bi-printer text-primary" style="font-size: 3rem;"></i>
                                     <h3 class="card-title mt-3">Print Address Labels</h3>
                                     <p class="card-text text-muted">
