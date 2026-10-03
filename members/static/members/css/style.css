@@ -17,9 +17,50 @@
     background-color: var(--primary-blue) !important;
 }
 
+/* Fixed navbar is out of flow; put back the space it used to occupy */
+body.has-fixed-nav {
+    padding-top: 56px;
+}
+
+.navbar > .container-fluid {
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+}
+
 .navbar-brand {
     font-size: 1.1rem;
     letter-spacing: 0.5px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.brand-dragon {
+    color: #fff;
+    font-weight: 450;
+}
+
+.brand-short {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .brand-full {
+        display: none;
+    }
+
+    .brand-short {
+        display: inline;
+    }
+}
+
+.navbar-user {
+    flex-shrink: 0;
+}
+
+.navbar-user .nav-link {
+    white-space: nowrap;
 }
 
 /* Sidebar styling */

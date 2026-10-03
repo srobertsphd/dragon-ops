@@ -14,21 +14,22 @@
     
     {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="has-fixed-nav">
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container-fluid flex-nowrap">
             <!-- Mobile hamburger button -->
             <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <a class="navbar-brand fw-bold" href="{% url 'members:landing' %}">
-                ALANO CLUB — Member Management <span class="text-white-50 fw-normal" style="font-size: 0.85em;">| Powered by <span class="text-white" style="font-weight: 450;">DRAGON</span></span>
+                <span class="brand-full">ALANO CLUB — Member Management <span class="text-white-50 fw-normal" style="font-size: 0.85em;">| Powered by <span class="brand-dragon">DRAGON</span></span></span>
+                <span class="brand-short">Alano Club - <span class="brand-dragon">Dragon</span></span>
             </a>
             
             <!-- User info and logout -->
-            <div class="navbar-nav ms-auto">
+            <div class="navbar-nav navbar-user ms-auto">
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle me-1"></i>
