@@ -10,6 +10,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from ..models import Member, Payment
 from ..reports.badges import badge_content, generate_badges_pdf
+from ..reports.board_summary import board_summary_data, generate_board_summary_pdf
 from ..reports.excel import generate_expires_two_months_excel
 from ..reports.csv_backup import get_export_schema, build_csv_backup_zip
 from ..services import MemberService, PaymentService
@@ -567,8 +568,8 @@ MONTH_NAMES = [
 ]
 
 
-def _posted_badge_range(post, today):
-    """Return (start, end, error) for the badge report form."""
+def _posted_date_range(post, today):
+    """Return (start, end, error) for a report date form."""
     try:
         start = date.fromisoformat(post.get("start_date", ""))
         end = date.fromisoformat(post.get("end_date", ""))
@@ -610,7 +611,7 @@ def badges_view(request):
     badges = None
 
     if request.method == "GET" and request.GET.get("format") == "pdf":
-        start_date, end_date, error = _posted_badge_range(request.GET, today)
+        start_date, end_date, error = _posted_date_range(request.GET, today)
         if error:
             messages.error(request, error)
         else:
@@ -620,7 +621,7 @@ def badges_view(request):
             messages.warning(request, "No new members in that date range.")
 
     elif request.method == "POST":
-        start_date, end_date, error = _posted_badge_range(request.POST, today)
+        start_date, end_date, error = _posted_date_range(request.POST, today)
         if error:
             messages.error(request, error)
         else:
@@ -645,6 +646,54 @@ def badges_view(request):
             "start_date": start_date,
             "end_date": end_date,
             "badges": badges,
+        },
+    )
+
+
+def _board_summary_pdf_response(start, end, today, inline=False):
+    summary = board_summary_data(start, end, today)
+    pdf = generate_board_summary_pdf(summary)
+    filename = f"board_summary_{start.isoformat()}_{end.isoformat()}.pdf"
+    disposition = "inline" if inline else "attachment"
+    response = HttpResponse(pdf, content_type="application/pdf")
+    response["Content-Disposition"] = f'{disposition}; filename="{filename}"'
+    if inline:
+        response["X-Frame-Options"] = "SAMEORIGIN"
+    return response
+
+
+@staff_member_required
+def board_summary_view(request):
+    """Preview and download a one-page board summary for a date range."""
+    today = date.today()
+    start_date = today - timedelta(days=30)
+    end_date = today
+    summary = None
+
+    if request.method == "GET" and request.GET.get("format") == "pdf":
+        start_date, end_date, error = _posted_date_range(request.GET, today)
+        if error:
+            messages.error(request, error)
+        else:
+            return _board_summary_pdf_response(start_date, end_date, today, inline=True)
+
+    elif request.method == "POST":
+        start_date, end_date, error = _posted_date_range(request.POST, today)
+        if error:
+            messages.error(request, error)
+        else:
+            if request.POST.get("action") == "generate":
+                return _board_summary_pdf_response(start_date, end_date, today)
+            summary = board_summary_data(start_date, end_date, today)
+
+    return render(
+        request,
+        "members/reports/board_summary.html",
+        {
+            "today": today,
+            "start_date": start_date,
+            "end_date": end_date,
+            "summary": summary,
         },
     )
 
