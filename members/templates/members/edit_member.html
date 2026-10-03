@@ -262,9 +262,61 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function ensureYearOption(year) {
+        const exists = Array.from(yearSelect.options).some(o => o.value === String(year));
+        if (!exists) {
+            const opt = document.createElement('option');
+            opt.value = year;
+            opt.textContent = year;
+            yearSelect.appendChild(opt);
+        }
+    }
+
+    function selectedTypeName() {
+        const opt = typeSelect.options[typeSelect.selectedIndex];
+        return opt ? opt.textContent.trim().toLowerCase() : '';
+    }
+
+    let savedExpiration = null;
+
+    function applyLifeExpiration() {
+        if (!monthSelect.disabled) {
+            savedExpiration = { month: monthSelect.value, year: yearSelect.value };
+        }
+        ensureYearOption(2099);
+        monthSelect.value = 12;
+        yearSelect.value = 2099;
+        monthSelect.disabled = true;
+        yearSelect.disabled = true;
+        updateExpiration();
+    }
+
+    function clearLifeExpiration() {
+        monthSelect.disabled = false;
+        yearSelect.disabled = false;
+        if (savedExpiration) {
+            monthSelect.value = savedExpiration.month;
+            yearSelect.value = savedExpiration.year;
+        }
+        updateExpiration();
+    }
+
+    const typeSelect = document.getElementById('member_type');
+    typeSelect.addEventListener('change', function() {
+        if (selectedTypeName() === 'life') {
+            applyLifeExpiration();
+        } else if (monthSelect.disabled) {
+            clearLifeExpiration();
+        }
+    });
+
     monthSelect.addEventListener('change', updateExpiration);
     yearSelect.addEventListener('change', updateExpiration);
-    updateExpiration();
+    if (selectedTypeName() === 'life') {
+        applyLifeExpiration();
+    } else {
+        updateExpiration();
+    }
     
     document.getElementById('member_id_suggestions').addEventListener('change', function() {
         if (this.value) document.getElementById('member_id').value = this.value;

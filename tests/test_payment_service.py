@@ -490,3 +490,18 @@ class TestPaymentServiceNewMemberMethods:
 
         # Should be end of February 2024 (leap year)
         assert expiration == date(2024, 2, 29)  # Leap year February
+
+    def test_calculate_expiration_for_new_member_life(self, db):
+        """Life members expire on December 31, 2099 regardless of payment or override."""
+        life_type = MemberType.objects.create(
+            member_type="Life",
+            member_dues=Decimal("3000.00"),
+            num_months=300,
+        )
+        expiration = PaymentService.calculate_expiration_for_new_member(
+            life_type,
+            Decimal("3000.00"),
+            date(2026, 10, 3),
+            date(2027, 6, 30),
+        )
+        assert expiration == date(2099, 12, 31)

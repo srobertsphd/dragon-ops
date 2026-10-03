@@ -501,3 +501,44 @@ class TestMemberServiceCheckDuplicateMembers:
         assert isinstance(match["match_reason"], str)
         assert isinstance(match["match_text"], str)
         assert match["member"] == existing_member
+
+
+@pytest.mark.django_db
+@pytest.mark.unit
+class TestMemberServiceLifeExpiration:
+    def test_update_member_sets_life_expiration(self, db):
+        regular = MemberType.objects.create(
+            member_type="Regular", member_dues=30, num_months=1
+        )
+        life = MemberType.objects.create(
+            member_type="Life", member_dues=3000, num_months=300
+        )
+        member = Member.objects.create(
+            first_name="Ada",
+            last_name="Lovelace",
+            member_type=regular,
+            status="active",
+            member_id=10,
+            expiration_date=date(2026, 10, 31),
+            date_joined=date(2020, 1, 1),
+        )
+        MemberService.update_member(
+            member,
+            {
+                "first_name": "Ada",
+                "last_name": "Lovelace",
+                "email": "",
+                "member_type_id": life.pk,
+                "member_id": 10,
+                "milestone_date": "",
+                "date_joined": "2020-01-01",
+                "expiration_date": "2026-10-31",
+                "home_address": "",
+                "home_city": "",
+                "home_state": "",
+                "home_zip": "",
+                "home_phone": "",
+            },
+        )
+        member.refresh_from_db()
+        assert member.expiration_date == date(2099, 12, 31)

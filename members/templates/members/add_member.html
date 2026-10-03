@@ -428,8 +428,8 @@
                                 <div class="card bg-light">
                                     <div class="card-body">
                                         <h6 class="card-title">Membership Expiration</h6>
-                                        <p class="mb-0">New Expiration: <span class="text-success" id="new-expiration-preview">Calculating...</span></p>
-                                        <small class="text-muted">Based on payment amount</small>
+                                        <p class="mb-0">New Expiration: <span class="text-success" id="new-expiration-preview">{% if member_type.member_type|lower == "life" %}December 31, 2099{% else %}Calculating...{% endif %}</span></p>
+                                        <small class="text-muted">{% if member_type.member_type|lower == "life" %}Lifetime membership{% else %}Based on payment amount{% endif %}</small>
                                     </div>
                                 </div>
                             </div>
@@ -454,6 +454,7 @@
                                                    value="{{ suggested_amount }}" 
                                                    data-monthly-dues="{{ member_type.member_dues }}"
                                                    data-start-date="{{ today|date:'Y-m-d' }}"
+                                                   {% if member_type.member_type|lower == "life" %}data-lifetime="1"{% endif %}
                                                    required>
                                             <button class="btn btn-outline-secondary" type="button" id="amount-minus">
                                                 <i class="bi bi-dash"></i>
@@ -503,6 +504,7 @@
                             </div>
                             
                             <!-- Override Expiration Date -->
+                            {% if member_type.member_type|lower != "life" %}
                             <div class="card mt-3">
                                 <div class="card-header">
                                     <h6 class="mb-0">Override Expiration Date (Optional)</h6>
@@ -533,6 +535,7 @@
                                     <input type="hidden" id="override-expiration-hidden" name="override_expiration">
                                 </div>
                             </div>
+                            {% endif %}
                             
                             <!-- Form Buttons -->
                             <div class="d-flex justify-content-between mt-4">
@@ -778,6 +781,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Function to update expiration preview and override dropdowns
         function updateExpirationPreview() {
+            if (amountInput.dataset.lifetime === '1') {
+                newExpirationPreview.textContent = 'December 31, 2099';
+                return;
+            }
             const paymentAmount = parseFloat(amountInput.value) || 0;
             const calculatedExpiration = calculateNewMemberExpiration(paymentAmount, monthlyDues, startDateStr);
             newExpirationPreview.textContent = formatDate(calculatedExpiration);

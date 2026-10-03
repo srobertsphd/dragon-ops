@@ -11,6 +11,11 @@ from .models import Member, MemberType, Payment, PaymentMethod
 from .utils import add_months_to_date, ensure_end_of_month
 
 _NO_AMOUNT_DUE_TYPES = frozenset({"life", "honorary", "500 club"})
+LIFETIME_EXPIRATION = date(2099, 12, 31)
+
+
+def _is_life_type(member_type):
+    return bool(member_type and member_type.member_type.lower() == "life")
 
 
 class PaymentService:
@@ -125,6 +130,9 @@ class PaymentService:
         Returns:
             date: New expiration date (always end of month)
         """
+        if _is_life_type(member_type):
+            return LIFETIME_EXPIRATION
+
         if override_expiration:
             return ensure_end_of_month(override_expiration)
 
@@ -360,9 +368,12 @@ class MemberService:
         if date_joined_obj > date.today():
             raise ValueError("Date joined cannot be in the future")
 
-        expiration_date_obj = ensure_end_of_month(
-            datetime.fromisoformat(member_data["expiration_date"]).date()
-        )
+        if _is_life_type(member_type):
+            expiration_date_obj = LIFETIME_EXPIRATION
+        else:
+            expiration_date_obj = ensure_end_of_month(
+                datetime.fromisoformat(member_data["expiration_date"]).date()
+            )
 
         member.first_name = member_data["first_name"]
         member.last_name = member_data["last_name"]
