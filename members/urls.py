@@ -67,6 +67,11 @@ urlpatterns = [
         name="address_labels",
     ),
     path(
+        "reports/badges/",
+        views.badges_view,
+        name="badges",
+    ),
+    path(
         "reports/deactivate-expired/",
         views.deactivate_expired_members_report_view,
         name="deactivate_expired_members",

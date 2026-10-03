@@ -1,0 +1,102 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Print Badges - ALANO CLUB{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header text-center bg-info text-white">
+                    <h1 class="mb-0">
+                        <i class="bi bi-person-badge me-2"></i>
+                        Print Badges
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Name badges for active members who joined in the selected range.
+                        Formatted for Avery L4787 sheets (A4, 80 × 50 mm, 10 per sheet).
+                        Print the PDF at 100% scale. Test on plain paper first and hold it against a badge sheet.
+                    </p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="preview">
+                        <div class="row justify-content-center">
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label for="start_date" class="form-label">Start Date *</label>
+                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date|date:'Y-m-d' }}" max="{{ today|date:'Y-m-d' }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label for="end_date" class="form-label">End Date *</label>
+                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date|date:'Y-m-d' }}" max="{{ today|date:'Y-m-d' }}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 d-flex justify-content-between">
+                                <a href="{% url 'members:reports_landing' %}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1"></i>
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-info">
+                                    <i class="bi bi-search me-2"></i>
+                                    Preview
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if badges %}
+                    <hr class="my-4">
+                    <h5 class="mb-3">{{ badges|length }} badge{{ badges|length|pluralize }}</h5>
+                    <iframe
+                        class="badge-preview"
+                        title="Badge pages"
+                        src="{% url 'members:badges' %}?format=pdf&amp;start_date={{ start_date|date:'Y-m-d' }}&amp;end_date={{ end_date|date:'Y-m-d' }}#navpanes=0&amp;pagemode=none"
+                    ></iframe>
+
+                    <form method="post" class="mt-3">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="generate">
+                        <input type="hidden" name="start_date" value="{{ start_date|date:'Y-m-d' }}">
+                        <input type="hidden" name="end_date" value="{{ end_date|date:'Y-m-d' }}">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-pdf me-2"></i>
+                                Generate PDF ({{ badges|length }})
+                            </button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.badge-preview {
+    width: 100%;
+    height: 1280px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+}
+</style>
+{% endblock %}

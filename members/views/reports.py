@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 
 from ..models import Member, Payment
+from ..reports.badges import badge_content, generate_badges_pdf
 from ..reports.excel import generate_expires_two_months_excel
 from ..reports.csv_backup import get_export_schema, build_csv_backup_zip
 from ..services import MemberService, PaymentService
@@ -564,6 +565,88 @@ MONTH_NAMES = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
 ]
+
+
+def _posted_badge_range(post, today):
+    """Return (start, end, error) for the badge report form."""
+    try:
+        start = date.fromisoformat(post.get("start_date", ""))
+        end = date.fromisoformat(post.get("end_date", ""))
+    except ValueError:
+        return None, None, "Enter a valid start and end date."
+    if end < start:
+        return start, end, "End date must be on or after the start date."
+    if end > today:
+        return start, end, "End date cannot be after today."
+    return start, end, None
+
+
+def _members_for_badges(start, end):
+    return Member.objects.filter(
+        status="active",
+        member_id__isnull=False,
+        date_joined__gte=start,
+        date_joined__lte=end,
+    ).order_by("date_joined", "last_name", "first_name")
+
+
+def _badge_pdf_response(members, start, end, inline=False):
+    pdf = generate_badges_pdf(members)
+    filename = f"badges_{start.isoformat()}_{end.isoformat()}.pdf"
+    disposition = "inline" if inline else "attachment"
+    response = HttpResponse(pdf, content_type="application/pdf")
+    response["Content-Disposition"] = f'{disposition}; filename="{filename}"'
+    if inline:
+        response["X-Frame-Options"] = "SAMEORIGIN"
+    return response
+
+
+@staff_member_required
+def badges_view(request):
+    """Preview and print Avery L4787 badges for members who joined in a date range."""
+    today = date.today()
+    start_date = today - timedelta(days=30)
+    end_date = today
+    badges = None
+
+    if request.method == "GET" and request.GET.get("format") == "pdf":
+        start_date, end_date, error = _posted_badge_range(request.GET, today)
+        if error:
+            messages.error(request, error)
+        else:
+            members = _members_for_badges(start_date, end_date)
+            if members:
+                return _badge_pdf_response(members, start_date, end_date, inline=True)
+            messages.warning(request, "No new members in that date range.")
+
+    elif request.method == "POST":
+        start_date, end_date, error = _posted_badge_range(request.POST, today)
+        if error:
+            messages.error(request, error)
+        else:
+            members = _members_for_badges(start_date, end_date)
+            if not members:
+                messages.warning(request, "No new members in that date range.")
+            elif request.POST.get("action") == "generate":
+                return _badge_pdf_response(members, start_date, end_date)
+            else:
+                badges = [
+                    badge_content(
+                        m.first_name, m.last_name, m.member_id, m.date_joined
+                    )
+                    for m in members
+                ]
+
+    return render(
+        request,
+        "members/reports/badges.html",
+        {
+            "today": today,
+            "start_date": start_date,
+            "end_date": end_date,
+            "badges": badges,
+        },
+    )
 
 
 @staff_member_required

@@ -19,6 +19,7 @@ from .reports import (
     expires_two_months_export_view,
     deactivate_expired_members_report_view,
     address_labels_view,
+    badges_view,
 )
 from .backups import download_backup_view
 from .health import healthz
@@ -45,6 +46,7 @@ __all__ = [
     "expires_two_months_export_view",
     "deactivate_expired_members_report_view",
     "address_labels_view",
+    "badges_view",
     "download_backup_view",
     "login_view",
     "logout_view",
