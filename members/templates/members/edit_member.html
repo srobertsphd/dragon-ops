@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get expiration year and ensure it's included in dropdown range
     const expirationYear = currentDate.getFullYear();
     const minYear = Math.min(currentYear, expirationYear);
-    const maxYear = Math.max(currentYear + 4, expirationYear);
+    const maxYear = Math.max(currentYear + 10, expirationYear);
     
     for (let y = minYear; y <= maxYear; y++) {
         const opt = document.createElement('option');
